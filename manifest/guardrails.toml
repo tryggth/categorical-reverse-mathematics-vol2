@@ -1,0 +1,36 @@
+# Cross-Volume Precision Guardrails for Categorical Reverse Mathematics — Volume II
+
+[[guardrail]]
+id = "nom_not_iac"
+title = "Schanuel Nominal Topos Refutes Internal Choice"
+statement = "In Schanuel's nominal topos Nom = Cont(Sym(N)), LEM holds while IAC, AC_omega, and Proj_1 all fail: Nom |= LEM and Nom |/= IAC."
+latex = "\\mathbf{Nom} = \\mathbf{Cont}(\\mathrm{Sym}(\\mathbb{N})) \\models \\mathrm{LEM} \\wedge \\neg\\mathrm{IAC}"
+vol1_anchor = "rem:anchor-witnesses"
+
+[[guardrail]]
+id = "ordinal_rank_base"
+title = "Ordinal-Rank Zero Base Clause"
+statement = "The base clause of ordinal rank completeness is rank(D) = 0 iff D is equivalent to its maximal subgroupoid D^simeq."
+latex = "\\mathrm{rank}(D) = 0 \\iff D \\simeq D^{\\simeq}"
+vol1_anchor = "HomotopyCRM.OrdinalRankCompleteness"
+
+[[guardrail]]
+id = "ltt_eff_muchnik_meets"
+title = "Muchnik Meets in the Effective Topos Sublattice"
+statement = "In the Lawvere-Tierney topology lattice LTT(Eff), non-trivial Muchnik meets strictly dominate the identity topology: j_{O_1} /\\ j_{O_2} > id_Omega."
+latex = "\\mathrm{In}\\;\\mathrm{LTT}(\\mathcal{E}\\mathrm{ff}),\\; j_{\\mathcal{O}_1} \\wedge j_{\\mathcal{O}_2} > \\mathrm{id}_\\Omega"
+vol1_anchor = "def:doctrinal-philosophy"
+
+[[guardrail]]
+id = "global_section_dc"
+title = "Global-Section Dependent Choice via Epic First Projection"
+statement = "Global-section Dependent Choice (DC) is formulated via epic first projection pr_1 : R ->> X."
+latex = "\\mathrm{DC}\\;\\text{via epic}\\; \\mathrm{pr}_1 : R \\twoheadrightarrow X"
+vol1_anchor = "ch:choice-atlas"
+
+[[guardrail]]
+id = "cumulative_hierarchy_strict_inclusion"
+title = "Strict Inclusion Below V_{omega+omega}"
+statement = "The finite-iterated powerset of N is strictly contained in V_{omega+omega} = union_n P^n(V_omega), separating Zermelo boundedness from full replacement."
+latex = "\\bigcup_n \\mathcal{P}^n(\\mathbb{N}) \\subsetneq V_{\\omega+\\omega} = \\bigcup_n \\mathcal{P}^n(V_\\omega)"
+vol1_anchor = "ch:sets-residuum"

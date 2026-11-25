@@ -1,0 +1,37 @@
+id = "ch01:rem:trident-mode3-2ltt-bootstrap"
+kind = "remark"
+title = "Mode (iii) Obstruction Trident Preview: Zero-Mathlib 2LTT Bootstrap"
+chapter = "ch01"
+section = "1.1"
+axis = "2ltt_tcb"
+grounding_tier = "kernel_arena"
+formal_pkg = "kernel_arena"
+stratum = "emerald"
+cite_keys = ["HoTT13"]
+
+[spec]
+cert_path = "certs/ch01_bool_id_bootstrap.2ltt.json"
+statement = "The bootstrap fibrant identity TwoLTT.Bootstrap.id_boolF : Pi^f (b : 2^f), 2^f typechecks inside the zero-Mathlib 2LTT KernelArena at universe_depth_k = 1 with all strata_flags = false and reduces via rfl in CertChecks."
+
+[spec.kernel_arena]
+decl_names = [
+  "HomotopyCRM.Vol2.cert_ch01_rem_trident_mode3_2ltt_bootstrap",
+  "HomotopyCRM.Vol2.check_ch01_rem_trident_mode3_2ltt_bootstrap"
+]
+cert_const_short = "cert_ch01_rem_trident_mode3_2ltt_bootstrap"
+check_thm_short = "check_ch01_rem_trident_mode3_2ltt_bootstrap"
+expected_axioms = []
+
+[body]
+tex = """
+\\begin{remark}[Mode~(iii) Obstruction Trident Preview: 2LTT Kernel Bootstrap]\\label{ch01:rem:trident-mode3-2ltt-bootstrap}%
+\\uses{vol1:def:doctrinal-philosophy}%
+To prepare the Mode~(iii) vertical Obstruction Trident analyzed across Volume~II (homotopy-fiber lifts, $\\Pi_1$ strictification, and univalence boundaries~\\cite{HoTT13}), the standalone zero-\\texttt{Mathlib} two-level type theory checker \\texttt{KernelArena} separates inner fibrant types ($\\mathcal{U}^f$) from outer strict types ($\\mathcal{U}^s$), allowing only the one-way lift $\\mathcal{U}^f \\to \\mathcal{U}^s$. As an axiom-free Phase~0 bootstrap witness grounded solely in Volume~I ({{ref:vol1:def:doctrinal-philosophy}}), the certificate \\texttt{TwoLTT.Bootstrap.id\\_boolF} checks the fibrant identity term $\\lambda^f (b : 2^f).\\, b : \\Pi^f (b : 2^f).\\, 2^f$ at depth $k=1$ with all stratification flags off, verified both by \\texttt{kernel-arena verify} and by kernel reduction (\\texttt{rfl}) inside \\texttt{HomotopyCRM.Vol2.CertChecks}.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = ["vol1:def:doctrinal-philosophy"]
+lean_dep = []
+curriculum = ["vol1:def:doctrinal-philosophy"]
+prose_paraphrase = []

@@ -1,0 +1,113 @@
+id = "ch01:thm:scotoma-pareto-trichotomy"
+kind = "theorem"
+title = "Epistemic Trichotomy: Scotoma, Unique Residuum, or Pareto Schism"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "mathlib_vol2"
+stratum = "crimson"
+cite_keys = []
+
+[spec]
+statement = "For any calibrated probe suite S over Phi whose deductive-weakening relation StrictWeaker S on admissible extents is well-founded, Adm_P partitions exhaustively and disjointly into (1) Provable Scotoma (Adm_P = empty), (2) Unique Conceptual Residuum (|Res_P^min| = 1 up to extent equivalence), or (3) Multi-Dimensional Pareto Schism (|Res_P^min| >= 2)."
+hypotheses = [
+  "WellFounded (StrictWeaker S) on { E // IsAdmissible S E }"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ProbeSuite"
+imports = ["Mathlib.Order.WellFounded"]
+decl_names = [
+  "HomotopyCRM.Vol2.StrictWeaker",
+  "HomotopyCRM.Vol2.ExtentEquiv",
+  "HomotopyCRM.Vol2.EpistemicTrichotomy",
+  "HomotopyCRM.Vol2.scotoma_pareto_trichotomy",
+  "HomotopyCRM.Vol2.epistemicTrichotomy_disjoint"
+]
+expected_axioms = ["Classical.choice", "Quot.sound", "propext"]
+lean_signature = """
+/-- Strict deductive weakening on admissible extents: `a` covers strictly more models than `b`. -/
+def StrictWeaker {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (a b : { E : D → Prop // IsAdmissible S E }) : Prop :=
+  ExtentSub b.1 a.1 ∧ ¬ ExtentSub a.1 b.1
+
+/-- Mutual extent equivalence `E₁ ≡ E₂`. -/
+def ExtentEquiv {D : Type} (E₁ E₂ : D → Prop) : Prop :=
+  ExtentSub E₁ E₂ ∧ ExtentSub E₂ E₁
+
+/-- Exhaustive partition of an admissible poset into Scotoma, Unique Residuum, or Pareto Schism. -/
+inductive EpistemicTrichotomy {D P : Type} {Φ : DoctrinalProblem D}
+    (S : ProbeSuite Φ P) : Prop where
+  /-- Case 1: No admissible `𝒫`-closed extent exists (`Adm_𝒫 = ∅`). -/
+  | scotoma : IsScotoma S → EpistemicTrichotomy S
+  /-- Case 2: Exactly one maximal admissible extent exists up to mutual inclusion (`|Res| = 1`). -/
+  | uniqueResiduum : (∃ E, InParetoFrontier S E ∧
+      ∀ E', InParetoFrontier S E' → ExtentEquiv E E') → EpistemicTrichotomy S
+  /-- Case 3: At least two non-equivalent Pareto-maximal extents coexist (`|Res| ≥ 2`). -/
+  | paretoSchism : (∃ E₁ E₂, InParetoFrontier S E₁ ∧ InParetoFrontier S E₂ ∧
+      ¬ ExtentEquiv E₁ E₂) → EpistemicTrichotomy S
+
+/-- Any well-founded admissible poset resolves into Scotoma, Unique Residuum, or Pareto Schism. -/
+theorem scotoma_pareto_trichotomy {D P : Type} {Φ : DoctrinalProblem D}
+    (S : ProbeSuite Φ P) (hwf : WellFounded (StrictWeaker S)) :
+    EpistemicTrichotomy S := by
+  {{LEAN_BODY}}
+
+/-- The three epistemic regimes are mutually exclusive. -/
+theorem epistemicTrichotomy_disjoint {D P : Type} {Φ : DoctrinalProblem D}
+    (S : ProbeSuite Φ P) :
+    (¬ (IsScotoma S ∧ ∃ E, InParetoFrontier S E)) ∧
+    (¬ ((∃ E, InParetoFrontier S E ∧ ∀ E', InParetoFrontier S E' → ExtentEquiv E E') ∧
+        (∃ E₁ E₂, InParetoFrontier S E₁ ∧ InParetoFrontier S E₂ ∧ ¬ ExtentEquiv E₁ E₂))) := by
+  refine ⟨?_, ?_⟩
+  · rintro ⟨hEmpty, ⟨E, hEP⟩⟩
+    exact hEmpty.false ⟨E, hEP.1⟩
+  · rintro ⟨⟨E, _, hUniq⟩, ⟨E₁, E₂, hE₁, hE₂, hNeq⟩⟩
+    have h1 := hUniq E₁ hE₁
+    have h2 := hUniq E₂ hE₂
+    exact hNeq ⟨fun d hd ↦ h2.1 d (h1.2 d hd), fun d hd ↦ h1.1 d (h2.2 d hd)⟩
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.scotoma_pareto_trichotomy' depends on axioms: [propext, Classical.choice, Quot.sound] -/\n#guard_msgs in\n#print axioms scotoma_pareto_trichotomy"
+]
+
+[body]
+lean_body = """
+  by_cases hEmpty : IsEmpty { E : D → Prop // IsAdmissible S E }
+  · exact EpistemicTrichotomy.scotoma hEmpty
+  · have hNe : (Set.univ : Set { E : D → Prop // IsAdmissible S E }).Nonempty := by
+      rcases not_isEmpty_iff.mp hEmpty with ⟨x⟩
+      exact ⟨x, Set.mem_univ x⟩
+    let m := hwf.min Set.univ hNe
+    have hmPareto : InParetoFrontier S m.1 := by
+      refine ⟨m.2, fun E' hE' hSub ↦ ?_⟩
+      by_contra hNotSub
+      exact hwf.not_lt_min Set.univ hNe (Set.mem_univ ⟨E', hE'⟩) ⟨hSub, hNotSub⟩
+    by_cases hSchism : ∃ E', InParetoFrontier S E' ∧ ¬ ExtentEquiv m.1 E'
+    · rcases hSchism with ⟨E', hE'P, hNeq⟩
+      exact EpistemicTrichotomy.paretoSchism ⟨m.1, E', hmPareto, hE'P, hNeq⟩
+    · refine EpistemicTrichotomy.uniqueResiduum ⟨m.1, hmPareto, fun E' hE'P ↦ ?_⟩
+      by_contra hNeq
+      exact hSchism ⟨E', hE'P, hNeq⟩
+"""
+tex = """
+\\begin{theorem}[Scotoma--Residuum--Schism Trichotomy]\\label{ch01:thm:scotoma-pareto-trichotomy}%
+\\uses{ch01:def:adm-pareto-frontier}%
+Let {{sym:probe-suite}} be a calibrated probe suite over $\\Phi = (H, C, K)$ ({{ref:ch01:def:adm-pareto-frontier}}) whose deductive-weakening order on $\\mathrm{Adm}_{{{sym:probe-suite}}}$ is well-founded. Then $\\mathrm{Adm}_{{{sym:probe-suite}}}$ partitions exhaustively and disjointly into three epistemic regimes:
+\\begin{enumerate}[label=\\textup{(\\roman*)},leftmargin=2.0em]
+  \\item \\textbf{Provable Scotoma:} $\\mathrm{Adm}_{{{sym:probe-suite}}} = \\emptyset$;
+  \\item \\textbf{Unique Conceptual Residuum:} $|{{sym:pareto-res}}(H \\Rightarrow C)| = 1$ up to extent equivalence;
+  \\item \\textbf{Multi-Dimensional Pareto Schism:} $|{{sym:pareto-res}}(H \\Rightarrow C)| \\ge 2$ exhibits incomparable maximal residua.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+If $\\mathrm{Adm}_{{{sym:probe-suite}}} = \\emptyset$, regime~(i) holds. Otherwise classical choice produces an admissible extent and well-foundedness yields a minimal element $m$ under strict deductive weakening (\\texttt{WellFounded.min}), which is inclusion-maximal in $\\mathrm{Adm}_{{{sym:probe-suite}}}$. Excluded middle on the existence of a non-equivalent element in {{sym:pareto-res}} separates regime~(ii) from regime~(iii), and mutual exclusivity follows directly from uniqueness.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch01:def:adm-pareto-frontier"]
+lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
+curriculum = ["ch01:def:adm-pareto-frontier"]
+prose_paraphrase = []

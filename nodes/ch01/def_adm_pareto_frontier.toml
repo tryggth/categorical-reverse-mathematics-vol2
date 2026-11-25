@@ -1,0 +1,110 @@
+id = "ch01:def:adm-pareto-frontier"
+kind = "definition"
+title = "Admissible Extents, Scotoma, Aperture, and Pareto Residuum Frontier"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "Given a calibrated probe suite S over Phi, define Th_P(U), Ext_P(Q), Moore closure Cl_P(U), extent inclusion and refinement E2 <= E1, admissible extents Adm_P = {E | Cl_P(E) <= E and K <= E <= T}, Scotoma (Adm_P = empty), Aperture (Adm_P nonempty), Dogma (Cl_P(T) <= T), and the inclusion-maximal Pareto frontier Res_P^min."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ProbeSuite"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.probeTheory",
+  "HomotopyCRM.Vol2.probeExtent",
+  "HomotopyCRM.Vol2.mooreClosure",
+  "HomotopyCRM.Vol2.ExtentSub",
+  "HomotopyCRM.Vol2.Refines",
+  "HomotopyCRM.Vol2.IsClosedExtent",
+  "HomotopyCRM.Vol2.IsAdmissible",
+  "HomotopyCRM.Vol2.IsScotoma",
+  "HomotopyCRM.Vol2.HasAperture",
+  "HomotopyCRM.Vol2.InParetoFrontier",
+  "HomotopyCRM.Vol2.IsDogma"
+]
+expected_axioms = []
+lean_signature = """
+/-- Probe theory `Th_𝒫(U) = { p | ∀ d, U d → d ⊨ p }`. -/
+def probeTheory {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (U : D → Prop) : P → Prop :=
+  fun p ↦ ∀ d, U d → S.sat d p
+
+/-- Definable extent `Ext_𝒫(Q) = { d | ∀ p, Q p → d ⊨ p }`. -/
+def probeExtent {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (Q : P → Prop) : D → Prop :=
+  fun d ↦ ∀ p, Q p → S.sat d p
+
+/-- Galois/Moore closure `Cl_𝒫(U) = Ext_𝒫(Th_𝒫(U))`. -/
+def mooreClosure {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (U : D → Prop) : D → Prop :=
+  probeExtent S (probeTheory S U)
+
+/-- Predicate inclusion `E₁ ⊆ E₂`. -/
+def ExtentSub {D : Type} (E₁ E₂ : D → Prop) : Prop :=
+  ∀ d, E₁ d → E₂ d
+
+/-- Deductive refinement `E₁ ≼ E₂` (`E₁` is deductively stronger: `E₁ ⊆ E₂`). -/
+def Refines {D : Type} (E₁ E₂ : D → Prop) : Prop :=
+  ExtentSub E₁ E₂
+
+/-- `E` is Moore-closed when `Cl_𝒫(E) ⊆ E`. -/
+def IsClosedExtent {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (E : D → Prop) : Prop :=
+  ExtentSub (mooreClosure S E) E
+
+/-- Admissible residuum extent: `𝒫`-closed with `K ⊆ E ⊆ T`. -/
+def IsAdmissible {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (E : D → Prop) : Prop :=
+  {{LEAN_BODY}}
+
+/-- Epistemic Scotoma: no admissible `𝒫`-closed extent exists (`Adm_𝒫 = ∅`). -/
+def IsScotoma {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P) : Prop :=
+  IsEmpty { E : D → Prop // IsAdmissible S E }
+
+/-- Epistemic Aperture: at least one admissible `𝒫`-closed extent exists (`Adm_𝒫 ≠ ∅`). -/
+def HasAperture {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P) : Prop :=
+  Nonempty { E : D → Prop // IsAdmissible S E }
+
+/-- Inclusion-maximal (deductively weakest) admissible extents forming `Res_𝒫^min`. -/
+def InParetoFrontier {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (E : D → Prop) : Prop :=
+  IsAdmissible S E ∧ ∀ E', IsAdmissible S E' → ExtentSub E E' → ExtentSub E' E
+
+/-- Dogma regime: Assertoric Closure `T` itself is `𝒫`-closed. -/
+def IsDogma {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P) : Prop :=
+  IsClosedExtent S Φ.T
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.IsAdmissible' does not depend on any axioms -/\n#guard_msgs in\n#print axioms IsAdmissible",
+  "/-- info: 'HomotopyCRM.Vol2.InParetoFrontier' does not depend on any axioms -/\n#guard_msgs in\n#print axioms InParetoFrontier",
+  "/-- info: 'HomotopyCRM.Vol2.IsDogma' does not depend on any axioms -/\n#guard_msgs in\n#print axioms IsDogma"
+]
+
+[body]
+lean_body = """
+  IsClosedExtent S E ∧ ExtentSub Φ.K E ∧ ExtentSub E Φ.T
+"""
+tex = """
+\\begin{definition}[Admissible Transversals, Scotoma, Aperture, and Pareto Frontier]\\label{ch01:def:adm-pareto-frontier}%
+\\uses{ch01:def:probe-suite}%
+For a probe suite {{sym:probe-suite}} over $\\Phi = (H, C, K)$ ({{ref:ch01:def:probe-suite}}), let $\\mathrm{Th}_{{{sym:probe-suite}}}(U) := \\{p \\mid \\forall d \\in U,\\; d \\models p\\}$, $\\mathrm{Ext}_{{{sym:probe-suite}}}(Q) := \\{d \\mid \\forall p \\in Q,\\; d \\models p\\}$, and $\\mathrm{Cl}_{{{sym:probe-suite}}}(U) := \\mathrm{Ext}_{{{sym:probe-suite}}}(\\mathrm{Th}_{{{sym:probe-suite}}}(U))$.
+\\begin{itemize}[leftmargin=1.5em]
+  \\item An extent $E \\subseteq \\mathbb{D}$ is \\textbf{admissible}\\index{Admissible extent} ($E \\in \\mathrm{Adm}_{{{sym:probe-suite}}}$) if $\\mathrm{Cl}_{{{sym:probe-suite}}}(E) \\subseteq E$ and $K \\subseteq E \\subseteq T$, ordered by deductive refinement $E_1 \\preccurlyeq E_2 \\iff E_1 \\subseteq E_2$.
+  \\item A \\textbf{Scotoma}\\index{Scotoma} occurs when $\\mathrm{Adm}_{{{sym:probe-suite}}} = \\emptyset$, and an \\textbf{Aperture}\\index{Aperture} when $\\mathrm{Adm}_{{{sym:probe-suite}}} \\neq \\emptyset$.
+  \\item The \\textbf{minimal Pareto frontier}\\index{Pareto residuum frontier} {{sym:pareto-res}} consists of all inclusion-maximal (deductively weakest) extents in $\\mathrm{Adm}_{{{sym:probe-suite}}}$.
+  \\item \\textbf{Dogma}\\index{Dogma} occurs when $T$ itself is ${{sym:probe-suite}}$-closed ($\\mathrm{Cl}_{{{sym:probe-suite}}}(T) \\subseteq T$).
+\\end{itemize}
+\\end{definition}
+"""
+
+[edges]
+logical_dep = ["ch01:def:probe-suite"]
+lean_dep = ["ch01:def:probe-suite"]
+curriculum = ["ch01:def:probe-suite"]
+prose_paraphrase = []

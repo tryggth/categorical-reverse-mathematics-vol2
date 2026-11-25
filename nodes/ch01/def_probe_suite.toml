@@ -1,0 +1,107 @@
+id = "ch01:def:probe-suite"
+kind = "definition"
+title = "Doctrinal Problem and Calibrated Probe Suite (Clauses 1–3)"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "A doctrinal implication problem Phi = (H, C, K) over D induces Assertoric Closure T := (D \\ H) cup C and hard defects W := H \\ C. A calibrated probe suite P over Phi provides a decidable pairing I : D -> P -> Bool satisfying Clauses (1) Pre-Definition, (2) Strict Non-Conservativity, and (3) Levy-Bounded Size Discipline, together with Touchstone incidence hyperedges H_K(w) = {p | I w p = false}."
+hypotheses = [
+  "H1 (Pre-Definition): The probe predicate P is specified independently before inspecting T.",
+  "H2 (Strict Non-Conservativity): For every probe p : P, there exists d : D separating (I d p = true) from (Phi.T d).",
+  "H3 (Levy-Bounded Size Discipline): Every probe p : P carries a bounded Sigma_1 / small-site Levy complexity witness preventing Vopenka reflection leaks."
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ProbeSuite"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.DoctrinalProblem",
+  "HomotopyCRM.Vol2.DoctrinalProblem.T",
+  "HomotopyCRM.Vol2.DoctrinalProblem.W",
+  "HomotopyCRM.Vol2.ProbeSuite",
+  "HomotopyCRM.Vol2.ProbeSuite.sat",
+  "HomotopyCRM.Vol2.ProbeSuite.touchstoneHyperedge"
+]
+expected_axioms = []
+lean_signature = """
+/-- A doctrinal implication problem `(H, C, K)` over a universe `D` of doctrines. -/
+structure DoctrinalProblem (D : Type) where
+  /-- Hypothesis class `H ⊆ D`. -/
+  H : D → Prop
+  /-- Conclusion class `C ⊆ D`. -/
+  C : D → Prop
+  /-- Non-vacuity core `K ⊆ H ∩ C`. -/
+  K : D → Prop
+  /-- Core lies inside hypothesis. -/
+  core_sub_hyp : ∀ d, K d → H d
+  /-- Core lies inside conclusion. -/
+  core_sub_concl : ∀ d, K d → C d
+
+/-- Assertoric Closure `T := (D \\ H) ∪ C`, encoded constructively as `H d → C d`. -/
+def DoctrinalProblem.T {D : Type} (Φ : DoctrinalProblem D) (d : D) : Prop :=
+  Φ.H d → Φ.C d
+
+/-- Hard defect / obstruction set `W := H \\ C`. -/
+def DoctrinalProblem.W {D : Type} (Φ : DoctrinalProblem D) (d : D) : Prop :=
+  Φ.H d ∧ ¬ Φ.C d
+
+/-- A calibrated probe suite `𝒫` over `Φ` satisfying Clauses (1)–(3):
+    Pre-Definition, Strict Non-Conservativity, and Lévy-Bounded Size Discipline. -/
+structure ProbeSuite {D : Type} (Φ : DoctrinalProblem D) (P : Type) where
+  /-- Decidable probe pairing `I d p = true` (`d ⊨ p`). -/
+  I : D → P → Bool
+  /-- Clause (1): Pre-definition predicate fixing `P` before `T` is inspected. -/
+  predefined : P → Prop
+  /-- Clause (1) witness for every probe. -/
+  isPredefined : ∀ p, predefined p
+  /-- Clause (2): Strict non-conservativity — no single probe is extensionally identical to `T`. -/
+  strictNonConservative : ∀ p, ∃ d, ¬ (I d p = true ↔ Φ.T d)
+  /-- Clause (3): Lévy-bounded small-site complexity preventing Vopěnka reflection leaks. -/
+  hasBoundedLevyComplexity : P → Prop
+  /-- Clause (3) witness for every probe. -/
+  isLevyBounded : ∀ p, hasBoundedLevyComplexity p
+
+/-- Satisfaction relation `d ⊨ p`. -/
+def ProbeSuite.sat {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (d : D) (p : P) : Prop :=
+  {{LEAN_BODY}}
+
+/-- Touchstone incidence hyperedge `H_K(w) = { p | I w p = false }`. -/
+def ProbeSuite.touchstoneHyperedge {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (w : D) : P → Prop :=
+  fun p ↦ S.I w p = false
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.DoctrinalProblem.T' does not depend on any axioms -/\n#guard_msgs in\n#print axioms DoctrinalProblem.T",
+  "/-- info: 'HomotopyCRM.Vol2.ProbeSuite.sat' does not depend on any axioms -/\n#guard_msgs in\n#print axioms ProbeSuite.sat",
+  "/-- info: 'HomotopyCRM.Vol2.ProbeSuite.touchstoneHyperedge' does not depend on any axioms -/\n#guard_msgs in\n#print axioms ProbeSuite.touchstoneHyperedge"
+]
+
+[body]
+lean_body = """
+  S.I d p = true
+"""
+tex = """
+\\begin{definition}[Calibrated Probe Suite and Touchstone Hyperedges]\\label{ch01:def:probe-suite}%
+\\uses{vol1:def:doctrinal-philosophy}%
+Over a doctrinal problem $\\Phi = (H, C, K)$ on $\\mathbb{D}$ in the sense of {{ref:vol1:def:doctrinal-philosophy}}, with Assertoric Closure $T(d) := (H(d) \\to C(d))$ and hard obstruction set $W := H \\setminus C$, a \\textbf{calibrated probe suite}\\index{Calibrated probe suite} {{sym:probe-suite}} is a decidable pairing $I : \\mathbb{D} \\times {{sym:probe-suite}} \\to \\mathbf{Bool}$ ($d \\models p \\iff I(d,p) = \\mathrm{true}$) satisfying:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Pre-Definition:} Each probe $p \\in {{sym:probe-suite}}$ carries a pre-definition certificate fixed prior to inspecting $T$.
+  \\item \\textbf{Strict Non-Conservativity:} No single probe $p \\in {{sym:probe-suite}}$ is extensionally coextensive with $T$ ($\\forall p,\\; \\exists d,\\; \\neg(d \\models p \\leftrightarrow T(d))$).
+  \\item \\textbf{L\\'evy-Bounded Size Discipline:} Each probe $p \\in {{sym:probe-suite}}$ obeys a bounded $\\Sigma_1$ / small-site L\\'evy complexity witness preventing Vop\\v{e}nka reflection leaks.
+\\end{enumerate}
+For any obstruction $w \\in W$, its \\textbf{Touchstone incidence hyperedge}\\index{Touchstone hyperedge} is $H_K(w) := \\{p \\in {{sym:probe-suite}} \\mid I(w, p) = \\mathrm{false}\\}$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = ["vol1:def:doctrinal-philosophy"]
+lean_dep = []
+curriculum = ["vol1:def:doctrinal-philosophy"]
+prose_paraphrase = []

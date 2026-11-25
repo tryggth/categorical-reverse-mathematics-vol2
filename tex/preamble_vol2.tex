@@ -1,0 +1,203 @@
+% Royal Octavo Preamble for Categorical Reverse Mathematics — Volume II
+% Mirrored read-only from Volume I typography settings with Four-Color Stratum support.
+
+\input{glyphtounicode}
+\pdfgentounicode=1
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{2081}{\textsubscript{1}}
+\DeclareUnicodeCharacter{2082}{\textsubscript{2}}
+\DeclareUnicodeCharacter{03B9}{\ensuremath{\iota}}
+\usepackage[T1]{fontenc}
+\usepackage{emptypage}
+\usepackage[
+  paperwidth=6.14in,
+  paperheight=9.21in,
+  textwidth=4.55in,
+  top=0.82in,
+  bottom=0.92in,
+  inner=0.85in,
+  headheight=14pt,
+  headsep=0.22in,
+  footskip=0.36in
+]{geometry}
+
+\usepackage{amsmath,amsthm,mathtools}
+\providecommand{\llbracket}{\mathopen{[\![}}
+\providecommand{\rrbracket}{\mathclose{]\!]}}
+\IfFileExists{newpxtext.sty}{%
+  \usepackage{newpxtext}%
+  \usepackage{newpxmath}%
+}{%
+  \usepackage{amssymb}%
+  \usepackage[sc]{mathpazo}%
+  \usepackage{tgpagella}%
+}
+\IfFileExists{zi4.sty}{%
+  \usepackage[scaled=0.90]{zi4}%
+}{%
+  \usepackage[scale=0.84]{tgcursor}%
+}
+\linespread{1.07}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx,xltabular,array}
+\newcolumntype{Y}{>{\raggedright\arraybackslash\hspace{0pt}}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash\hspace{0pt}}p{#1}}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\definecolor{CRMBlue}{HTML}{1B365D}
+\definecolor{CRMEmerald}{HTML}{166534}
+\definecolor{CRMSapphire}{HTML}{1D4ED8}
+\definecolor{CRMAmber}{HTML}{B45309}
+\definecolor{CRMCrimson}{HTML}{991B1B}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric}
+\usepackage[font=footnotesize,labelfont={bf,color=CRMBlue},labelsep=period]{caption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{mdframed}
+\usepackage[noautomatic]{imakeidx}
+\makeindex[columns=2,title=Subject Index,intoc]
+\usepackage[colorlinks=true,linkcolor=CRMBlue,citecolor=CRMBlue,urlcolor=CRMBlue]{hyperref}
+\usepackage{bookmark}
+\pdfstringdefDisableCommands{\def\delta{delta}\def\infty{infinity}\def\mathbb#1{#1}\def\mathcal#1{#1}\def\mathbf#1{#1}\def\mathsf#1{#1}\def\mathrm#1{#1}\def\text#1{#1}\def\textsubscript#1{_#1}\def\Eff{Eff}\def\Prism{Prism}}
+
+\setlength{\parskip}{0.42em}
+\setlength{\parindent}{1.35em}
+\emergencystretch=2.5em
+\hbadness=10000
+\vbadness=10000
+
+% Part, Chapter, and Section Typography
+\titleformat{\part}[display]
+  {\thispagestyle{empty}\centering\normalfont\bfseries\color{CRMBlue}}
+  {\MakeUppercase{\textls[140]{\small Part \thepart}}}
+  {0.9em}
+  {\LARGE\color{black}}
+
+\titleformat{\chapter}[display]
+  {\normalfont\raggedright}
+  {\footnotesize\bfseries\color{CRMBlue}\MakeUppercase{\textls[120]{\chaptername\ \thechapter}}\\[-0.2em]\color{CRMBlue}\rule{\textwidth}{0.8pt}}
+  {0.65em}
+  {\LARGE\bfseries\color{black}}
+\titlespacing*{\chapter}{0pt}{-10pt}{18pt}
+
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\raggedright}
+  {\color{CRMBlue}\rule{\textwidth}{0.8pt}}
+  {0.55em}
+  {\LARGE\bfseries\color{black}}
+\titlespacing*{name=\chapter,numberless}{0pt}{-10pt}{18pt}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\raggedright\color{black}}
+  {\color{CRMBlue}\thesection\hspace{0.65em}}{0pt}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\raggedright\color{black}}
+  {\color{CRMBlue}\thesubsection\hspace{0.65em}}{0pt}{}
+
+% Running Headers and Footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\footnotesize\scshape\textls[40]{\color{CRMBlue}Categorical Reverse Mathematics --- Volume~II}}
+\fancyhead[RO]{\footnotesize\scshape\textls[40]{\color{black}\nouppercase{\leftmark}}}
+\fancyfoot[LE,RO]{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\makeatletter
+\renewcommand{\headrule}{{\color{CRMBlue!45}\hrule\@height\headrulewidth\@width\headwidth\vskip-\headrulewidth}}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\footnotesize\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\headrule}{}%
+}
+\renewcommand{\chaptermark}[1]{\markboth{\if@mainmatter Chapter\ \thechapter:\ #1\else #1\fi}{}}
+\makeatother
+
+% Chapter & Section Epigraph Macros
+\newcommand{\chapterepigraph}[2]{%
+  \vspace{-0.4em}\begin{flushright}\begin{minipage}{0.84\textwidth}%
+    \raggedleft\small\itshape #1\par\vspace{0.3em}%
+    \normalfont\footnotesize\upshape\color{CRMBlue}---\,#2%
+  \end{minipage}\end{flushright}\vspace{1.05em}%
+}
+\newcommand{\sectionepigraph}[2]{%
+  \nopagebreak\vspace{-0.15em}\begin{flushright}\begin{minipage}{0.82\textwidth}%
+    \raggedleft\footnotesize\itshape #1\par\vspace{0.2em}%
+    \normalfont\scriptsize\upshape\color{CRMBlue}---\,#2%
+  \end{minipage}\end{flushright}\vspace{0.55em}%
+}
+
+% Left-Ruled Theorems/Definitions/Counterexamples & Diamond Remarks
+\newtheoremstyle{crmplain}{0pt}{0pt}{\itshape}{}{\bfseries\color{CRMBlue}}{.}{0.5em}{}
+\newtheoremstyle{crmdef}{0pt}{0pt}{\normalfont}{}{\bfseries\color{CRMBlue}}{.}{0.5em}{}
+\newtheoremstyle{crmremark}{0.55\baselineskip}{0.55\baselineskip}{\normalfont}{}{\bfseries\color{CRMBlue}}{.}{0.5em}{}
+
+\mdfdefinestyle{crmleftbar}{%
+  leftline=true,rightline=false,topline=false,bottomline=false,%
+  linecolor=CRMBlue,linewidth=1.5pt,%
+  innerleftmargin=8.5pt,innerrightmargin=0pt,%
+  innertopmargin=1.5pt,innerbottommargin=1.5pt,%
+  skipabove=0.55\baselineskip,skipbelow=0.55\baselineskip,%
+  nobreak=false%
+}
+
+\theoremstyle{crmplain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{principle}[theorem]{Principle}
+\newtheorem{problem}{Problem}[chapter]
+
+\theoremstyle{crmdef}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{counterexample}[theorem]{Counterexample}
+
+\surroundwithmdframed[style=crmleftbar]{theorem}
+\surroundwithmdframed[style=crmleftbar]{proposition}
+\surroundwithmdframed[style=crmleftbar]{lemma}
+\surroundwithmdframed[style=crmleftbar]{conjecture}
+\surroundwithmdframed[style=crmleftbar]{principle}
+\surroundwithmdframed[style=crmleftbar]{problem}
+\surroundwithmdframed[style=crmleftbar]{definition}
+\surroundwithmdframed[style=crmleftbar]{counterexample}
+
+\theoremstyle{crmremark}
+\newtheorem{remarkx}[theorem]{Remark}
+\newenvironment{remark}[1][]{%
+  \ifstrempty{#1}{\begin{remarkx}}{\begin{remarkx}[#1]}%
+  \pushQED{\qed}\renewcommand{\qedsymbol}{\textcolor{CRMBlue}{$\diamond$}}%
+}{%
+  \popQED\end{remarkx}%
+}
+
+\renewcommand{\qedsymbol}{\textcolor{CRMBlue}{\rule{0.52em}{0.52em}}}
+\newcommand{\Eff}{\mathcal{E}\mathrm{ff}}
+\newcommand{\Prism}{\mathbf{\Delta}}
+\newcommand{\CohesiveQuad}{\Pi \dashv \mathrm{Disc} \dashv \Gamma \dashv \mathrm{Codisc}}
+\providecommand{\sslash}{\mathbin{/\mkern-5mu/}}
+
+% Formal verification metadata & Four-Color Stratum badges
+\newcommand{\lean}[1]{\ignorespaces}
+\newcommand{\leanok}{\ignorespaces}
+\newcommand{\twoltt}[1]{\ignorespaces}
+\newcommand{\twolttok}{\ignorespaces}
+\newcommand{\discussion}[1]{\ignorespaces}
+\newcommand{\mathlibok}{\ignorespaces}
+\newcommand{\notready}{\ignorespaces}
+
+\newcommand{\stratumbadge}[2]{%
+  \noindent\begingroup\scriptsize\ttfamily\textcolor{#1}{[Stratum: #2]}\endgroup\par\vspace{0.18em}%
+}
+\newcommand{\formalrefline}[2]{%
+  \par\noindent\begingroup\scriptsize\textcolor{CRMBlue}{\textbf{#1:}} \texttt{#2}\endgroup\par\vspace{0.15em}%
+}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\uses}{m}
+ {\clist_map_inline:nn{#1}{\vphantom{\ref{##1}}}\ignorespaces}
+\NewDocumentCommand{\proves}{m}
+ {\clist_map_inline:nn{#1}{\vphantom{\ref{##1}}}\ignorespaces}
+\ExplSyntaxOff

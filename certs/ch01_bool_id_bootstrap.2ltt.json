@@ -1,0 +1,45 @@
+{
+  "schema": "kernel-arena.2ltt.v1",
+  "decl_name": "TwoLTT.Bootstrap.id_boolF",
+  "universe_depth_k": 1,
+  "fuel_hint": 64,
+  "strata_flags": {
+    "inner_univalence_V": false,
+    "inner_coalgebra_nu": false,
+    "outer_strict_eq": false,
+    "smallness_replacement": false
+  },
+  "dim_contexts": [],
+  "nodes": [
+    {
+      "id": 0,
+      "op": "BoolF"
+    },
+    {
+      "id": 1,
+      "op": "Var",
+      "args": [
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "op": "PiF",
+      "args": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": 3,
+      "op": "LamF",
+      "args": [
+        0,
+        1
+      ]
+    }
+  ],
+  "goal_type_node": 2,
+  "proof_term_node": 3,
+  "sha256_arena": "8b67ff241b25764b1640553b174a523816a2c221d4a14ddf115c9a87f3eb0c0c"
+}

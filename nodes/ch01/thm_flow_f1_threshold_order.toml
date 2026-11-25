@@ -1,0 +1,150 @@
+id = "ch01:thm:flow-f1-threshold-order"
+kind = "theorem"
+title = "Flow F1 Threshold Ordering (t_wake <= t_dogma)"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "For any finite-horizon decidable monotone probe filtration F over S, define tWake F, tDogma F : WithTop Nat as the first stage attaining an Aperture or Dogma respectively (top when unattained). Constructively and without axioms, tWake F <= tDogma F."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ProbeSuite"
+imports = ["Mathlib.Order.WithBot"]
+decl_names = [
+  "HomotopyCRM.Vol2.WithTopNatLE",
+  "HomotopyCRM.Vol2.instLEWithTopNat",
+  "HomotopyCRM.Vol2.MonotoneFiltration",
+  "HomotopyCRM.Vol2.firstHitAux",
+  "HomotopyCRM.Vol2.tWake",
+  "HomotopyCRM.Vol2.tDogma",
+  "HomotopyCRM.Vol2.dogma_implies_aperture",
+  "HomotopyCRM.Vol2.le_firstHitAux",
+  "HomotopyCRM.Vol2.firstHitAux_mono",
+  "HomotopyCRM.Vol2.flow_f1_threshold_order"
+]
+expected_axioms = []
+lean_signature = """
+/-- Axiom-free order relation on `WithTop Nat`. -/
+inductive WithTopNatLE : WithTop Nat → WithTop Nat → Prop where
+  /-- Every element is `≤ ⊤`. -/
+  | le_top (x : WithTop Nat) : WithTopNatLE x ⊤
+  /-- Order on finite natural numbers lifts into `WithTop Nat`. -/
+  | coe_le {a b : Nat} : a ≤ b →
+      WithTopNatLE ((a : Nat) : WithTop Nat) ((b : Nat) : WithTop Nat)
+
+/-- Priority axiom-free `LE (WithTop Nat)` instance for constructive Flow F1 ordering. -/
+instance (priority := 1000) instLEWithTopNat : LE (WithTop Nat) where
+  le := WithTopNatLE
+
+/-- Finite-horizon monotone probe filtration `P_t` over a calibrated probe suite `S`. -/
+structure MonotoneFiltration {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P) where
+  /-- Finite horizon `T_max`: stages are `0 ≤ t < horizon`. -/
+  horizon : Nat
+  /-- Active probes at stage `t`. -/
+  active : Nat → P → Bool
+  /-- Filtration monotonicity: active probes stay active at later stages. -/
+  monotone : ∀ {t t' : Nat} {p : P}, t ≤ t' → active t p = true → active t' p = true
+  /-- Decidable Aperture indicator at stage `t`. -/
+  hasApertureAt : Nat → Bool
+  /-- Soundness of the Aperture indicator at stage `t`. -/
+  hasApertureAt_spec : ∀ t, hasApertureAt t = true ↔
+    ∃ E : D → Prop,
+      (∀ d, (∀ p, active t p = true → (∀ d', E d' → S.sat d' p) → S.sat d p) → E d) ∧
+      ExtentSub Φ.K E ∧ ExtentSub E Φ.T
+  /-- Decidable Dogma indicator at stage `t`. -/
+  isDogmaAt : Nat → Bool
+  /-- Soundness of the Dogma indicator at stage `t`. -/
+  isDogmaAt_spec : ∀ t, isDogmaAt t = true ↔
+    ∀ d, (∀ p, active t p = true → (∀ d', Φ.T d' → S.sat d' p) → S.sat d p) → Φ.T d
+
+/-- First index in `[idx, idx + rem)` where `f t = true`, returning `⊤` if unattained. -/
+def firstHitAux (f : Nat → Bool) (idx : Nat) : Nat → WithTop Nat
+  | 0 => ⊤
+  | rem + 1 =>
+    match f idx with
+    | true => ((idx : Nat) : WithTop Nat)
+    | false => firstHitAux f (idx + 1) rem
+
+/-- Awakening threshold `t_wake : WithTop Nat` of a monotone filtration `F`. -/
+def tWake {D P : Type} {Φ : DoctrinalProblem D} {S : ProbeSuite Φ P}
+    (F : MonotoneFiltration S) : WithTop Nat :=
+  firstHitAux F.hasApertureAt 0 F.horizon
+
+/-- Dogma threshold `t_dogma : WithTop Nat` of a monotone filtration `F`. -/
+def tDogma {D P : Type} {Φ : DoctrinalProblem D} {S : ProbeSuite Φ P}
+    (F : MonotoneFiltration S) : WithTop Nat :=
+  firstHitAux F.isDogmaAt 0 F.horizon
+
+/-- Every Dogma stage automatically yields an Aperture witnessed by `Φ.T`. -/
+theorem dogma_implies_aperture {D P : Type} {Φ : DoctrinalProblem D} {S : ProbeSuite Φ P}
+    (F : MonotoneFiltration S) (t : Nat) (h : F.isDogmaAt t = true) :
+    F.hasApertureAt t = true := by
+  exact (F.hasApertureAt_spec t).mpr
+    ⟨Φ.T, (F.isDogmaAt_spec t).mp h, fun d hk _ ↦ Φ.core_sub_concl d hk, fun _ hd ↦ hd⟩
+
+private theorem withTopNat_coe_le_of_succ {a : Nat} :
+    ∀ {x : WithTop Nat}, ((a + 1 : Nat) : WithTop Nat) ≤ x → ((a : Nat) : WithTop Nat) ≤ x
+  | none, _ => WithTopNatLE.le_top _
+  | some _, WithTopNatLE.coe_le h => WithTopNatLE.coe_le (Nat.le_trans (Nat.le_succ a) h)
+
+/-- Lower bound: any hit produced by `firstHitAux g idx rem` is at least `idx`. -/
+theorem le_firstHitAux (g : Nat → Bool) :
+    ∀ (idx rem : Nat), ((idx : Nat) : WithTop Nat) ≤ firstHitAux g idx rem
+  | idx, 0 => WithTopNatLE.le_top _
+  | idx, rem + 1 => by
+    dsimp only [firstHitAux]
+    cases g idx
+    · exact withTopNat_coe_le_of_succ (le_firstHitAux g (idx + 1) rem)
+    · exact WithTopNatLE.coe_le (Nat.le_refl idx)
+
+/-- Pointwise dominance of predicates reverses first-hit thresholds in `WithTop Nat`. -/
+theorem firstHitAux_mono (f g : Nat → Bool) (hfg : ∀ t, g t = true → f t = true) :
+    ∀ (idx rem : Nat), firstHitAux f idx rem ≤ firstHitAux g idx rem
+  | _, 0 => WithTopNatLE.le_top _
+  | idx, rem + 1 => by
+    dsimp only [firstHitAux]
+    cases hft : f idx <;> cases hgt : g idx
+    · exact firstHitAux_mono f g hfg (idx + 1) rem
+    · exact False.elim (Bool.noConfusion (Eq.trans hft.symm (hfg idx hgt)))
+    · exact withTopNat_coe_le_of_succ (le_firstHitAux g (idx + 1) rem)
+    · exact WithTopNatLE.coe_le (Nat.le_refl idx)
+
+/-- **Flow F1 Threshold Ordering:** `t_wake ≤ t_dogma` unconditionally and axiom-free. -/
+theorem flow_f1_threshold_order {D P : Type} {Φ : DoctrinalProblem D} {S : ProbeSuite Φ P}
+    (F : MonotoneFiltration S) :
+    tWake F ≤ tDogma F := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.flow_f1_threshold_order' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f1_threshold_order",
+  "/-- info: 'HomotopyCRM.Vol2.dogma_implies_aperture' does not depend on any axioms -/\n#guard_msgs in\n#print axioms dogma_implies_aperture"
+]
+
+[body]
+lean_body = """
+  -- Verified monotone filtration step
+  exact firstHitAux_mono F.hasApertureAt F.isDogmaAt (dogma_implies_aperture F) 0 F.horizon
+"""
+tex = """
+\\begin{theorem}[Flow F1 Threshold Ordering]\\label{ch01:thm:flow-f1-threshold-order}%
+\\uses{ch01:def:adm-pareto-frontier}%
+For any finite-horizon decidable monotone probe filtration $\\mathcal{P}_t$ over a calibrated probe suite {{sym:probe-suite}} ({{ref:ch01:def:adm-pareto-frontier}}), define {{sym:twake}}, {{sym:tdogma}} $\\in \\mathbb{N} \\cup \\{\\infty\\}$ as the first stage admitting an Aperture or collapsing $T$ to Dogma respectively ($\\infty$ when unattained). Then constructively and unconditionally,
+\\[
+  {{sym:twake}} \\le {{sym:tdogma}}.
+\\]
+\\end{theorem}
+\\begin{proof}
+At every stage $t$ where Dogma holds, $T$ itself is closed under the active probes and satisfies $K \\subseteq T \\subseteq T$, witnessing an Aperture at stage $t$. Pointwise implication between the finite-horizon Boolean indicators directly yields ${{sym:twake}} \\le {{sym:tdogma}}$ in $\\mathbb{N} \\cup \\{\\infty\\}$ without classical choice or propositional extensionality.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch01:def:adm-pareto-frontier"]
+lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
+curriculum = ["ch01:def:adm-pareto-frontier"]
+prose_paraphrase = []

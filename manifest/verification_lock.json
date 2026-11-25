@@ -1,0 +1,100 @@
+{
+  "schema": "vol2.verification_lock.v1",
+  "updated_at_utc": "2026-11-25T22:08:47.333621+00:00",
+  "nodes": {
+    "ch01:cex:flow-f1-frontier-nonmonotone": {
+      "spec_hash": "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21",
+      "body_hash": "1672d2ba58b8150daf1c4e8365c492949e61960cab43ed6957d99b6659cb48a1",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:def:adm-pareto-frontier": {
+      "spec_hash": "c4f63751392bc419219648b7581d835b066eda107c1e29119a8094a78b886dfa",
+      "body_hash": "034d11d72a0054b56fa9bd497d39808fbb40b3255e44e3479e728fd50fa4fc18",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:def:probe-suite": {
+      "spec_hash": "069b4c14ccf72941ebf4d343136bb113105d4d8540ed0b9dab8dfa777efb5769",
+      "body_hash": "83a39fa9a9a74ab498e6157060c7543486aabd4f6066d5e53781cd99f1c4e328",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:prose:meta-crm-roadmap": {
+      "spec_hash": "fb0698d74023061d1e0a1db475d93a7f125160c317426b0914f5522964fc69d2",
+      "body_hash": "7ed68e03747aa9c78ffc49a250e94a40d2759bcb002b148a4d9115c813e10844",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:rem:trident-mode3-2ltt-bootstrap": {
+      "spec_hash": "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369",
+      "body_hash": "01b987f24d637b6cb7111c3465b401be264dcdec18b419dadf88c435a0214b73",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": "8b67ff241b25764b1640553b174a523816a2c221d4a14ddf115c9a87f3eb0c0c",
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:tab:epistemic-probe-regimes": {
+      "spec_hash": "1ec9487c74270afe6f6188736def6b99e20da6329cf06d7d7e9539b452053b4b",
+      "body_hash": "acc5a793a5d32df2e2700a95a86e9d4c782e13b01f8816c72fdbbf4abaa733a4",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:thm:flow-f1-threshold-order": {
+      "spec_hash": "d8f9b2fdbc17447986fc1fe34718d6515fc3a43a2f54fad7248074defd0808b9",
+      "body_hash": "824ec50af90c9bbde13f6dc01a06c9bf9e977922c1fbb9f164f8107fb8cdde99",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "ch01:thm:scotoma-pareto-trichotomy": {
+      "spec_hash": "73d0580b8dfec86cca711b79a3255f80d4e086b2df7cdaad7274c0a873cff4ea",
+      "body_hash": "1836c35a3195888dd2650f9b1a3ada0394f4224df1c8599053868dd92f729c76",
+      "stratum": "crimson",
+      "actual_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "sym:probe-suite": {
+      "spec_hash": "fc35682a0b76a0aee7ff0432e30229c4f54c0bafbc4794d0b414600743d08b7f",
+      "body_hash": "4744e088b3e29f000d3d94cca2c9f1bb61adbb296263ff8fb51e19e0c374cce5",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    },
+    "vol1:def:doctrinal-philosophy": {
+      "spec_hash": "262565cd6aa5e2be3467bf68fb4f54b3dff521a4fd07a3e152ef209a05afcad7",
+      "body_hash": "77e83a26fda9d61aee3ae11882bda7921c0e034d68fff7351ef4e425f7bbf38a",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "passed": true
+    }
+  }
+}

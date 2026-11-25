@@ -1,0 +1,196 @@
+id = "ch01:cex:flow-f1-frontier-nonmonotone"
+kind = "counterexample"
+title = "Finite 5-Point Counterexample: Non-Monotone Pareto Cardinality (1 -> 2 -> 1)"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "On the 5-point carrier Fin 5 = {k0, h1, h2, h3, w0} with K = {k0}, W = {w0}, T = {k0, h1, h2, h3}, and the 3-stage filtration cutting out {k0, h1}, {k0, h2}, and {k0, h1, h2} subsetneq T, we have tWake = 0, tDogma = top, and Pareto frontier cardinalities 1 -> 2 -> 1 at t = 0, 1, 2 with zero axioms."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ProbeSuite"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.cexProblem",
+  "HomotopyCRM.Vol2.cexI",
+  "HomotopyCRM.Vol2.cexProbeSuite",
+  "HomotopyCRM.Vol2.cexFiltration",
+  "HomotopyCRM.Vol2.cexBit",
+  "HomotopyCRM.Vol2.cexSubsetMask",
+  "HomotopyCRM.Vol2.cexInClosureBit",
+  "HomotopyCRM.Vol2.cexIsAdmissibleMask",
+  "HomotopyCRM.Vol2.cexParetoCard",
+  "HomotopyCRM.Vol2.cex_tWake_eq_zero",
+  "HomotopyCRM.Vol2.cex_tDogma_eq_top",
+  "HomotopyCRM.Vol2.cex_frontier_card_0",
+  "HomotopyCRM.Vol2.cex_frontier_card_1",
+  "HomotopyCRM.Vol2.cex_frontier_card_2",
+  "HomotopyCRM.Vol2.cex_frontier_nonmonotone"
+]
+expected_axioms = []
+lean_signature = """
+/-- Five-point doctrinal carrier `Fin 5`: `0 = k0`, `1 = h1`, `2 = h2`, `3 = h3`, `4 = w0`. -/
+def cexProblem : DoctrinalProblem (Fin 5) where
+  H := fun _ ↦ True
+  C := fun d ↦ d.val < 4
+  K := fun d ↦ d.val = 0
+  core_sub_hyp := fun _ _ ↦ trivial
+  core_sub_concl := fun _ h ↦ h ▸ Nat.zero_lt_succ 3
+
+/-- Three-probe incidence matrix cutting `{0,1}`, `{0,2}`, `{0,1,2}` inside `T`. -/
+def cexI (d : Fin 5) (p : Fin 3) : Bool :=
+  match p.val with
+  | 0 => decide (d.val = 0 || d.val = 1)
+  | 1 => decide (d.val = 0 || d.val = 2)
+  | _ => decide (d.val < 3)
+
+private theorem cex_non_conservative (p : Fin 3) :
+    ∃ d : Fin 5, ¬ (cexI d p = true ↔ cexProblem.T d) := by
+  refine ⟨⟨3, by decide⟩, fun h ↦ ?_⟩
+  have hTrue : cexI ⟨3, by decide⟩ p = true :=
+    h.mpr (fun _ ↦ Nat.lt_succ_self 3)
+  rcases p with ⟨pv, hpv⟩
+  cases pv with
+  | zero => exact Bool.noConfusion hTrue
+  | succ pv1 =>
+    cases pv1 with
+    | zero => exact Bool.noConfusion hTrue
+    | succ pv2 =>
+      cases pv2 with
+      | zero => exact Bool.noConfusion hTrue
+      | succ pv3 => exact absurd hpv (Nat.not_lt_of_le (Nat.le_add_left 3 pv3))
+
+/-- Calibrated probe suite over `cexProblem` (Clauses 1–3 witness). -/
+def cexProbeSuite : ProbeSuite cexProblem (Fin 3) where
+  I := cexI
+  predefined := fun _ ↦ True
+  isPredefined := fun _ ↦ trivial
+  strictNonConservative := cex_non_conservative
+  hasBoundedLevyComplexity := fun p ↦ p.val < 3
+  isLevyBounded := fun p ↦ p.isLt
+
+private theorem cex_subK : ∀ d : Fin 5, cexProblem.K d → cexI d ⟨0, by decide⟩ = true
+  | ⟨0, _⟩, _ => rfl
+  | ⟨_ + 1, _⟩, h => Nat.noConfusion h
+
+private theorem cex_subT : ∀ d : Fin 5, cexI d ⟨0, by decide⟩ = true → cexProblem.T d
+  | ⟨0, _⟩, _, _ => Nat.zero_lt_succ 3
+  | ⟨1, _⟩, _, _ => Nat.succ_lt_succ (Nat.zero_lt_succ 2)
+  | ⟨_ + 2, _⟩, h, _ => False.elim (Bool.noConfusion h)
+
+/-- Three-stage monotone filtration activating `p = 0, 1, 2` at `t = 0, 1, 2`. -/
+def cexFiltration : MonotoneFiltration cexProbeSuite where
+  horizon := 3
+  active t p := decide (p.val ≤ t)
+  monotone := fun htt' h ↦ decide_eq_true (Nat.le_trans (of_decide_eq_true h) htt')
+  hasApertureAt := fun _ ↦ true
+  hasApertureAt_spec := fun t ↦
+    ⟨fun _ ↦ ⟨fun d ↦ cexI d ⟨0, by decide⟩ = true,
+      fun d hcl ↦ hcl ⟨0, by decide⟩ (decide_eq_true (Nat.zero_le t)) (fun _ hd ↦ hd),
+      cex_subK,
+      cex_subT⟩,
+     fun _ ↦ rfl⟩
+  isDogmaAt := fun _ ↦ false
+  isDogmaAt_spec := fun t ↦
+    ⟨fun h ↦ Bool.noConfusion h,
+     fun hCl ↦ by
+       have hT4 : cexProblem.T ⟨4, by decide⟩ := by
+         refine hCl ⟨4, by decide⟩ fun p hp hAllT ↦ ?_
+         have h3 : cexI ⟨3, by decide⟩ p = true :=
+           hAllT ⟨3, by decide⟩ (fun _ ↦ Nat.lt_succ_self 3)
+         rcases p with ⟨pv, hpv⟩
+         cases pv with
+         | zero => exact False.elim (Bool.noConfusion h3)
+         | succ pv1 =>
+           cases pv1 with
+           | zero => exact False.elim (Bool.noConfusion h3)
+           | succ pv2 =>
+             cases pv2 with
+             | zero => exact False.elim (Bool.noConfusion h3)
+             | succ pv3 => exact False.elim (Nat.not_lt_of_le (Nat.le_add_left 3 pv3) hpv)
+       exact absurd (hT4 trivial) (Nat.lt_irrefl 4)⟩
+
+/-- Bit `d` of a 5-bit subset mask `m : Fin 32`. -/
+def cexBit (d : Fin 5) (m : Fin 32) : Bool :=
+  ((m.val >>> d.val) % 2) == 1
+
+/-- Decidable subset check `m₁ ⊆ m₂` on `Fin 32` masks. -/
+def cexSubsetMask (m₁ m₂ : Fin 32) : Bool :=
+  (List.finRange 5).all fun d ↦ !cexBit d m₁ || cexBit d m₂
+
+/-- Decidable Moore closure membership `d ∈ Cl_t(m)` at filtration stage `t`. -/
+def cexInClosureBit (t : Nat) (m : Fin 32) (d : Fin 5) : Bool :=
+  (List.finRange 3).all fun p ↦
+    !(decide (p.val ≤ t) && (List.finRange 5).all fun d' ↦ !cexBit d' m || cexI d' p) ||
+      cexI d p
+
+/-- Decidable admissibility `m ∈ Adm_t` (`k0 ∈ m`, `w0 ∉ m`, and `Cl_t(m) ⊆ m`). -/
+def cexIsAdmissibleMask (t : Nat) (m : Fin 32) : Bool :=
+  cexBit ⟨0, by decide⟩ m &&
+    !cexBit ⟨4, by decide⟩ m &&
+    (List.finRange 5).all fun d ↦ !cexInClosureBit t m d || cexBit d m
+
+/-- Minimal Pareto frontier cardinality `|Res_{P_t}^min|` at filtration stage `t`. -/
+def cexParetoCard (t : Nat) : Nat :=
+  let adm := (List.finRange 32).filter (cexIsAdmissibleMask t)
+  let pareto := adm.filter fun m ↦
+    adm.all fun m' ↦ !cexSubsetMask m m' || cexSubsetMask m' m
+  pareto.length
+
+/-- Awakening threshold equals `0`. -/
+theorem cex_tWake_eq_zero : tWake cexFiltration = ((0 : Nat) : WithTop Nat) := by
+  {{LEAN_BODY}}
+
+/-- Dogma threshold remains unattained (`⊤`). -/
+theorem cex_tDogma_eq_top : tDogma cexFiltration = ⊤ :=
+  rfl
+
+/-- At `t = 0`, unique admissible extent `{k0, h1}` gives `|Res^min| = 1`. -/
+theorem cex_frontier_card_0 : cexParetoCard 0 = 1 :=
+  rfl
+
+/-- At `t = 1`, bifurcation into `{k0, h1}` and `{k0, h2}` gives `|Res^min| = 2`. -/
+theorem cex_frontier_card_1 : cexParetoCard 1 = 2 :=
+  rfl
+
+/-- At `t = 2`, unifying probe `{k0, h1, h2}` collapses `|Res^min|` back to `1`. -/
+theorem cex_frontier_card_2 : cexParetoCard 2 = 1 :=
+  rfl
+
+/-- Explicit non-monotonicity (`1 ↦ 2 ↦ 1`) inside `[t_wake, t_dogma)`. -/
+theorem cex_frontier_nonmonotone :
+    cexParetoCard 0 < cexParetoCard 1 ∧ cexParetoCard 2 < cexParetoCard 1 :=
+  ⟨Nat.lt_succ_self 1, Nat.lt_succ_self 1⟩
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.cex_tWake_eq_zero' does not depend on any axioms -/\n#guard_msgs in\n#print axioms cex_tWake_eq_zero",
+  "/-- info: 'HomotopyCRM.Vol2.cex_tDogma_eq_top' does not depend on any axioms -/\n#guard_msgs in\n#print axioms cex_tDogma_eq_top",
+  "/-- info: 'HomotopyCRM.Vol2.cex_frontier_nonmonotone' does not depend on any axioms -/\n#guard_msgs in\n#print axioms cex_frontier_nonmonotone"
+]
+
+[body]
+lean_body = """
+  rfl
+"""
+tex = """
+\\begin{counterexample}[Non-Monotone Pareto Frontier Inside {$[t_{\\mathrm{wake}}, t_{\\mathrm{dogma}})$}]\\label{ch01:cex:flow-f1-frontier-nonmonotone}%
+\\uses{ch01:thm:flow-f1-threshold-order}%
+Let $\\mathbb{D} = \\{k_0, h_1, h_2, h_3, w_0\\}$ with non-vacuity core $K = \\{k_0\\}$, obstruction $W = \\{w_0\\}$, and Assertoric Closure $T = \\{k_0, h_1, h_2, h_3\\}$. Consider the three-stage monotone filtration $\\mathcal{P}_t$ activating probes $p_0, p_1, p_2$ sequentially with definable extents $\\{k_0, h_1\\}$, $\\{k_0, h_2\\}$, and $\\{k_0, h_1, h_2\\} \\subsetneq T$. By {{ref:ch01:thm:flow-f1-threshold-order}}, ${{sym:twake}} \\le {{sym:tdogma}}$ holds unconditionally; here ${{sym:twake}} = 0$ and ${{sym:tdogma}} = \\infty$ (since $h_3 \\in T$ fails all three probes), while the minimal Pareto frontier cardinality oscillates $1 \\mapsto 2 \\mapsto 1$ across stages $t = 0, 1, 2$:
+\\[
+  |{{sym:pareto-res}}(\\mathcal{P}_0)| = 1 \\quad\\mapsto\\quad
+  |{{sym:pareto-res}}(\\mathcal{P}_1)| = 2 \\quad\\mapsto\\quad
+  |{{sym:pareto-res}}(\\mathcal{P}_2)| = 1.
+\\]
+\\end{counterexample}
+"""
+
+[edges]
+logical_dep = ["ch01:thm:flow-f1-threshold-order"]
+lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier", "ch01:thm:flow-f1-threshold-order"]
+curriculum = ["ch01:thm:flow-f1-threshold-order"]
+prose_paraphrase = []

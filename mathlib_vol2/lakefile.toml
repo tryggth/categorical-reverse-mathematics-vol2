@@ -1,0 +1,27 @@
+name = "HomotopyCRMVol2"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["HomotopyCRM"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.28.0"
+
+[[require]]
+name = "kernel_arena"
+path = "../kernel_arena"
+
+[[lean_lib]]
+name = "HomotopyCRM"
+
+[[lean_exe]]
+name = "audit_env"
+root = "AuditEnv"
+supportInterpreter = true

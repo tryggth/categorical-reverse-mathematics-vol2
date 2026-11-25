@@ -1,0 +1,44 @@
+id = "sym:probe-suite"
+kind = "symbol"
+title = "Epistemic Probe Calibration Notation Registry"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = []
+
+[spec]
+[[spec.exports]]
+key = "probe-suite"
+latex = "\\ensuremath{\\mathcal{P}}"
+description = "Calibrated epistemic probe suite"
+
+[[spec.exports]]
+key = "pareto-res"
+latex = "\\ensuremath{\\mathrm{Res}_{\\mathcal{P}}^{\\min}}"
+description = "Minimal Pareto residuum frontier"
+
+[[spec.exports]]
+key = "twake"
+latex = "\\ensuremath{t_{\\mathrm{wake}}}"
+description = "First filtration index establishing an Aperture"
+
+[[spec.exports]]
+key = "tdogma"
+latex = "\\ensuremath{t_{\\mathrm{dogma}}}"
+description = "First filtration index where Assertoric Closure becomes probe-closed (Dogma)"
+
+[body]
+tex = """
+\\begin{remark}[Notation Registry: Epistemic Probe Suite]\\label{sym:probe-suite}%
+This node registers the canonical Volume~II notation for a calibrated probe suite {{sym:probe-suite}}, its minimal Pareto residuum frontier {{sym:pareto-res}}, the awakening threshold {{sym:twake}}, and the dogma threshold {{sym:tdogma}}.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

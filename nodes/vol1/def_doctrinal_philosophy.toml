@@ -1,0 +1,42 @@
+id = "vol1:def:doctrinal-philosophy"
+kind = "vol1_external"
+title = "Doctrinal Philosophy, Pareto Frontier, and Epistemic Regimes (Volume I)"
+chapter = "ch01"
+section = "1.1"
+axis = "meta_crm"
+grounding_tier = "vol1_external"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["Shulman08", "Shulman20", "HHLN23"]
+
+[spec]
+vol1_root = "/home/tryggth2009/categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/categorical_reverse_mathematics.tex:790"
+vol1_label = "def:doctrinal-philosophy"
+vol1_lean_symbol = "HomotopyCRM.DoctrinalPhilosophy"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+A doctrinal philosophy is a triple P = (D, P, <-, ->) with hypothesis class H,
+conclusion class C (H not subset C), non-vacuity core K subset H cap C,
+Assertoric Closure T := (D \\ H) cup C, Apodictic Closure Box_Sigma(T),
+and hard obstructions W := H \\ C.
+"""
+
+[body]
+tex = """
+\\begin{definition}[Volume~I Grounding Contract: Doctrinal Philosophy]\\label{vol1:def:doctrinal-philosophy}%
+\\lean{HomotopyCRM.DoctrinalPhilosophy}\\leanok%
+Pinned read-only to Volume~I (\\texttt{def:doctrinal-philosophy}, \\texttt{docs/categorical\\_reverse\\_mathematics.tex:790}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{Shulman08,Shulman20,HHLN23}. A \\textbf{doctrinal philosophy}\\index{Doctrinal philosophy} is a pairing $\\mathfrak{P} = (\\mathbb{D}, \\mathcal{P}, \\langle -, - \\rangle)$ together with a transition polarity $(H, C, T, K)$ on $\\mathbb{D}$ where $K \\subseteq H \\cap C$ is the non-vacuity core,
+\\[
+  T := (\\mathbb{D} \\setminus H) \\cup C \\quad (\\text{Assertoric Closure}), \\qquad
+  W := H \\setminus C \\quad (\\text{Hard Obstructions}),
+\\]
+and $\\Box_{\\Sigma}(T)$ denotes the modal $S4$ \\textbf{Apodictic Closure} under a stability monoid $\\Sigma$ of product-preserving doctrinal endomorphisms.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
