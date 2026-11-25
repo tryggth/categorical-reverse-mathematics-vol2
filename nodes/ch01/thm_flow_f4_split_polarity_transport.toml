@@ -1,0 +1,149 @@
+id = "ch01:thm:flow-f4-split-polarity-transport"
+kind = "theorem"
+title = "Flow F4 Split-Polarity Transport Law Along Mixed-Variance Conversions"
+chapter = "ch01"
+section = "1.3"
+seq_order = 68
+axis = "meta_crm"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["shulman2020"]
+
+[spec]
+statement = "Let (F : D1 -> D2, G : P2 -> P1) be a mixed-variance morphism between doctrinal philosophies preserving cores and obstructions (F[K1] <= K2, F[W1] <= W2). Under oplax core preservation I2(F k, p2) <= I1(k, G p2) on K1 and lax obstruction hitting I1(w, G p2) <= I2(F w, p2) on W1, every admissible transversal Theta2 on A2 pulls back to an admissible transversal G[Theta2] on A1. Under strict Chu adjunction I2(F d, p2) = I1(d, G p2), Touchstone hyperedges pull back exactly: H_{K2}(F(w)) = G^{-1}(H_{K1}(w))."
+hypotheses = [
+  "Mixed-variance pair F : D1 -> D2, G : P2 -> P1",
+  "Core preservation ∀ k, K1 k -> K2 (F k) and obstruction preservation ∀ w, W1 w -> W2 (F w)",
+  "Oplax core polarity on K1 and lax obstruction polarity on W1"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.DoctrinalFlows"
+imports = ["HomotopyCRM.Vol2.ProbeSuite"]
+decl_names = [
+  "HomotopyCRM.Vol2.BoolImp",
+  "HomotopyCRM.Vol2.IsAdmissibleTransversal",
+  "HomotopyCRM.Vol2.imageBundle",
+  "HomotopyCRM.Vol2.flow_f4_split_polarity_transport",
+  "HomotopyCRM.Vol2.flow_f4_strict_chu_hyperedge_pullback"
+]
+expected_axioms = []
+lean_signature = """
+/-- Constructive truth implication on `Bool`: `a = true → b = true`. -/
+def BoolImp (a b : Bool) : Prop :=
+  a = true → b = true
+
+/-- Admissible transversal bundle `Θ ⊆ P` separating core `K` (all satisfied) from obstructions `W` (each hit). -/
+def IsAdmissibleTransversal {D P : Type} (I : D → P → Bool)
+    (K W : D → Prop) (Θ : P → Prop) : Prop :=
+  (∀ k, K k → ∀ p, Θ p → I k p = true) ∧
+  (∀ w, W w → ∃ p, Θ p ∧ I w p = false)
+
+/-- Direct image probe bundle `G[Θ₂] = { G(p₂) | p₂ ∈ Θ₂ }`. -/
+def imageBundle {P₁ P₂ : Type} (G : P₂ → P₁) (Θ₂ : P₂ → Prop) : P₁ → Prop :=
+  fun p₁ ↦ ∃ p₂, Θ₂ p₂ ∧ G p₂ = p₁
+
+/-- **Flow F4 Split-Polarity Transport Law:** Oplax core preservation + lax obstruction hitting
+    transport every admissible transversal `Θ₂` on `𝔄₂` back to `G[Θ₂]` on `𝔄₁` (zero axioms). -/
+theorem flow_f4_split_polarity_transport {D₁ P₁ D₂ P₂ : Type}
+    (I₁ : D₁ → P₁ → Bool) (I₂ : D₂ → P₂ → Bool)
+    (K₁ W₁ : D₁ → Prop) (K₂ W₂ : D₂ → Prop)
+    (F : D₁ → D₂) (G : P₂ → P₁)
+    (hK : ∀ k, K₁ k → K₂ (F k))
+    (hW : ∀ w, W₁ w → W₂ (F w))
+    (hOplaxCore : ∀ k p₂, K₁ k → BoolImp (I₂ (F k) p₂) (I₁ k (G p₂)))
+    (hLaxObs : ∀ w p₂, W₁ w → BoolImp (I₁ w (G p₂)) (I₂ (F w) p₂))
+    {Θ₂ : P₂ → Prop}
+    (hΘ₂ : IsAdmissibleTransversal I₂ K₂ W₂ Θ₂) :
+    IsAdmissibleTransversal I₁ K₁ W₁ (imageBundle G Θ₂) := by
+  {{LEAN_BODY}}
+
+/-- Strict Chu specialization `I₂(F d, p₂) = I₁(d, G p₂)` induces exact Touchstone hyperedge pullback
+    `H_{K₂}(F(w)) = G⁻¹(H_{K₁}(w))` and transversal transport (zero axioms). -/
+theorem flow_f4_strict_chu_hyperedge_pullback {D₁ P₁ D₂ P₂ : Type}
+    {Φ₁ : DoctrinalProblem D₁} {Φ₂ : DoctrinalProblem D₂}
+    (S₁ : ProbeSuite Φ₁ P₁) (S₂ : ProbeSuite Φ₂ P₂)
+    (F : D₁ → D₂) (G : P₂ → P₁)
+    (hChu : ∀ d p₂, S₂.I (F d) p₂ = S₁.I d (G p₂)) :
+    (∀ w p₂, S₂.touchstoneHyperedge (F w) p₂ ↔ S₁.touchstoneHyperedge w (G p₂)) ∧
+    ((∀ k, Φ₁.K k → Φ₂.K (F k)) → (∀ w, Φ₁.W w → Φ₂.W (F w)) →
+      ∀ Θ₂, IsAdmissibleTransversal S₂.I Φ₂.K Φ₂.W Θ₂ →
+        IsAdmissibleTransversal S₁.I Φ₁.K Φ₁.W (imageBundle G Θ₂)) := by
+  refine ⟨fun w p₂ ↦ ?_, fun hK hW Θ₂ hΘ₂ ↦ ?_⟩
+  · dsimp only [ProbeSuite.touchstoneHyperedge]
+    rw [hChu w p₂]
+  · exact flow_f4_split_polarity_transport S₁.I S₂.I Φ₁.K Φ₁.W Φ₂.K Φ₂.W F G hK hW
+      (fun k p₂ _ h ↦ (hChu k p₂).symm.trans h)
+      (fun w p₂ _ h ↦ (hChu w p₂).trans h)
+      hΘ₂
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.flow_f4_split_polarity_transport' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f4_split_polarity_transport",
+  "/-- info: 'HomotopyCRM.Vol2.flow_f4_strict_chu_hyperedge_pullback' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f4_strict_chu_hyperedge_pullback"
+]
+
+[body]
+lean_body = """
+  refine ⟨?_, ?_⟩
+  · intro k hk p₁ ⟨p₂, hθ₂, hG⟩
+    cases hG
+    exact hOplaxCore k p₂ hk (hΘ₂.1 (F k) (hK k hk) p₂ hθ₂)
+  · intro w hw
+    rcases hΘ₂.2 (F w) (hW w hw) with ⟨p₂, hθ₂, hFalse⟩
+    refine ⟨G p₂, ⟨p₂, hθ₂, rfl⟩, ?_⟩
+    cases hVal : I₁ w (G p₂)
+    · rfl
+    · exact False.elim (Bool.noConfusion (Eq.trans hFalse.symm (hLaxObs w p₂ hw hVal)))
+"""
+tex = """
+\\begin{theorem}[Flow~F4 Split-Polarity Transport Law]\\label{ch01:thm:flow-f4-split-polarity-transport}%
+\\uses{vol1:def:doctrinal-philosophy,ch01:def:probe-suite,ch01:prop:extent-transversal-galois}%
+Let $(F : \\mathbb{D}_1 \\to \\mathbb{D}_2,\\; G : \\mathcal{P}_2 \\to \\mathcal{P}_1)$ be a mixed-variance conversion morphism in {{sym:phil-cat}}~\\cite{shulman2020} preserving cores and obstructions ($F[K_1] \\subseteq K_2$, $F[W_1] \\subseteq W_2$) relative to {{ref:ch01:def:probe-suite}} and {{ref:ch01:prop:extent-transversal-galois}}. Assume the \\textbf{Split-Polarity Law}:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Oplax Core Preservation:} $\\forall k \\in K_1,\\; \\forall p_2 \\in \\mathcal{P}_2,\\quad I_2(F(k), p_2) \\le I_1(k, G(p_2))$;
+  \\item \\textbf{Lax Obstruction Hitting:} $\\forall w \\in W_1,\\; \\forall p_2 \\in \\mathcal{P}_2,\\quad I_1(w, G(p_2)) \\le I_2(F(w), p_2)$.
+\\end{enumerate}
+Then for every admissible transversal $\\Theta_2 \\subseteq \\mathcal{P}_2$ on $\\mathfrak{A}_2$, its direct image $G[\\Theta_2] := \\{G(p_2) \\mid p_2 \\in \\Theta_2\\} \\subseteq \\mathcal{P}_1$ is an admissible transversal on $\\mathfrak{A}_1$. In particular, under a strict $2$-Chu adjunction $I_2(F(d), p_2) = I_1(d, G(p_2))$, Touchstone hyperedges pull back on the nose:
+\\[
+  H_{K_2}(F(w)) \\;=\\; G^{-1}\\bigl(H_{K_1}(w)\\bigr).
+\\]
+\\end{theorem}
+\\begin{proof}
+Constructively without axioms: for any $k \\in K_1$ and $G(p_2) \\in G[\\Theta_2]$ ($p_2 \\in \\Theta_2$), $F(k) \\in K_2$ gives $I_2(F(k), p_2) = \\mathrm{true}$, whence oplax core preservation yields $I_1(k, G(p_2)) = \\mathrm{true}$. Dually, for any $w \\in W_1$, $F(w) \\in W_2$ produces $p_2 \\in \\Theta_2$ with $I_2(F(w), p_2) = \\mathrm{false}$; if $I_1(w, G(p_2)) = \\mathrm{true}$, lax obstruction hitting would force $I_2(F(w), p_2) = \\mathrm{true}$, contradiction, so $I_1(w, G(p_2)) = \\mathrm{false}$. Under $I_2(F(d), p_2) = I_1(d, G(p_2))$, both polarity inequalities hold identically and $p_2 \\in H_{K_2}(F(w)) \\iff I_2(F(w), p_2) = \\mathrm{false} \\iff I_1(w, G(p_2)) = \\mathrm{false} \\iff G(p_2) \\in H_{K_1}(w)$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = [
+  "vol1:def:doctrinal-philosophy",
+  "ch01:def:probe-suite",
+  "ch01:prop:extent-transversal-galois"
+]
+lean_dep = [
+  "ch01:def:probe-suite",
+  "ch01:prop:extent-transversal-galois"
+]
+curriculum = [
+  "vol1:def:doctrinal-philosophy",
+  "ch01:def:probe-suite",
+  "ch01:prop:extent-transversal-galois"
+]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Duality", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.flow_f4_split_polarity_transport"
+purpose = "Full axiom-free Lean 4 proof of Flow F4 Split-Polarity Transport and strict Chu hyperedge pullback"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "shulman2020"
+locator = "TAC 35 (2020), §§2–4, pp. 89–136"
+purpose = "2-Chu mixed-variance morphisms"

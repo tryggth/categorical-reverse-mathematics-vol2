@@ -1,0 +1,383 @@
+id = "ch01:thm:mode3-orbit-stabilizer-exactness"
+kind = "theorem"
+title = "Mode (iii) Orbit-Stabilizer Exactness and (R_{2,2}, phi_aug) Decomposition"
+chapter = "ch01"
+section = "1.1"
+seq_order = 15
+axis = "meta_crm"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "amber"
+cite_keys = []
+
+[spec]
+statement = "Without Classical.choice (stratum Amber: axioms [propext, Quot.sound] only): (1) for any [Group G] [MulAction G F] and x0 : F, the quotient-stabilizer map orbitMap : G / Stab_G(x0) -> F defined via Quotient.lift is injective with image MulAction.orbit G x0, while speciesQuot : F -> F / G satisfies speciesQuot x = speciesQuot y iff exists g, g . x = y; (2) on the (R_{2,2}, phi_aug) Touchstone M_2(F_2) under GL_2(F_2) conjugation, Fintype.card M2F2 = 16 Framed Lifts, Fintype.card GL2F2 = 6, and M2F2 decomposes constructively into 6 conjugacy Species of sizes 1 + 1 + 3 + 3 + 6 + 2 = 16."
+hypotheses = [
+  "[Group G] [MulAction G F]",
+  "x0 : F"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ObstructionTrident"
+imports = [
+  "Mathlib.GroupTheory.GroupAction.Defs",
+  "Mathlib.Data.Fintype.Card"
+]
+decl_names = [
+  "HomotopyCRM.Vol2.stabilizerLeftSetoid",
+  "HomotopyCRM.Vol2.speciesOrbitSetoid",
+  "HomotopyCRM.Vol2.orbitMap",
+  "HomotopyCRM.Vol2.speciesQuot",
+  "HomotopyCRM.Vol2.orbitMap_injective_and_range",
+  "HomotopyCRM.Vol2.speciesQuot_eq_iff",
+  "HomotopyCRM.Vol2.M2F2",
+  "HomotopyCRM.Vol2.instDecidableEqM2F2",
+  "HomotopyCRM.Vol2.GL2F2",
+  "HomotopyCRM.Vol2.instGroupGL2F2",
+  "HomotopyCRM.Vol2.instMulActionGL2F2M2F2",
+  "HomotopyCRM.Vol2.gl2f2List",
+  "HomotopyCRM.Vol2.instFintypeGL2F2",
+  "HomotopyCRM.Vol2.m2f2SpeciesIdx",
+  "HomotopyCRM.Vol2.m2f2SpeciesRep",
+  "HomotopyCRM.Vol2.m2f2_card",
+  "HomotopyCRM.Vol2.gl2f2_card",
+  "HomotopyCRM.Vol2.m2f2SpeciesIdx_conj",
+  "HomotopyCRM.Vol2.m2f2Species_same_iff",
+  "HomotopyCRM.Vol2.m2f2SpeciesQuotEquivFin6",
+  "HomotopyCRM.Vol2.m2f2OrbitSizes",
+  "HomotopyCRM.Vol2.m2f2_orbit_decomposition",
+  "HomotopyCRM.Vol2.mode3_orbit_stabilizer_exactness"
+]
+expected_axioms = ["Quot.sound", "propext"]
+lean_signature = """
+/-- Constructive left-coset setoid for `MulAction.stabilizer G x0` (zero `Classical.choice`). -/
+def stabilizerLeftSetoid {G F : Type} [Group G] [MulAction G F] (x0 : F) : Setoid G where
+  r g₁ g₂ := g₁⁻¹ * g₂ ∈ MulAction.stabilizer G x0
+  iseqv :=
+    { refl := fun g ↦ by
+        change (g⁻¹ * g) • x0 = x0
+        rw [inv_mul_cancel, one_smul]
+      symm := fun {g₁ g₂} h ↦ by
+        change (g₁⁻¹ * g₂) • x0 = x0 at h
+        change (g₂⁻¹ * g₁) • x0 = x0
+        have h1 : (g₁⁻¹ * g₂)⁻¹ • x0 = x0 := by rw [inv_smul_eq_iff, h]
+        rw [mul_inv_rev, inv_inv] at h1
+        exact h1
+      trans := fun {g₁ g₂ g₃} h12 h23 ↦ by
+        change (g₁⁻¹ * g₂) • x0 = x0 at h12
+        change (g₂⁻¹ * g₃) • x0 = x0 at h23
+        change (g₁⁻¹ * g₃) • x0 = x0
+        have hmul : g₁⁻¹ * g₃ = (g₁⁻¹ * g₂) * (g₂⁻¹ * g₃) := by
+          rw [mul_assoc, ← mul_assoc g₂, mul_inv_cancel, one_mul]
+        rw [hmul, mul_smul, h23, h12] }
+
+/-- Constructive `G`-orbit setoid on `F` (`x ~ y ↔ ∃ g, g • x = y`, zero `Classical.choice`). -/
+def speciesOrbitSetoid (G F : Type) [Group G] [MulAction G F] : Setoid F where
+  r x y := ∃ g : G, g • x = y
+  iseqv :=
+    { refl := fun x ↦ ⟨1, one_smul G x⟩
+      symm := fun ⟨g, hg⟩ ↦ ⟨g⁻¹, by rw [← hg, inv_smul_smul]⟩
+      trans := fun ⟨g₁, h1⟩ ⟨g₂, h2⟩ ↦ ⟨g₂ * g₁, by rw [mul_smul, h1, h2]⟩ }
+
+/-- Quotient-stabilizer orbit injection `G / Stab_G(x₀) → F` defined via `Quotient.lift`. -/
+def orbitMap {G F : Type} [Group G] [MulAction G F] (x0 : F) :
+    Quotient (stabilizerLeftSetoid (G := G) x0) → F :=
+  Quotient.lift (fun g : G ↦ g • x0) (by
+    intro g₁ g₂ h
+    change (g₁⁻¹ * g₂) • x0 = x0 at h
+    calc
+      g₁ • x0 = g₁ • ((g₁⁻¹ * g₂) • x0) := by rw [h]
+      _ = (g₁ * (g₁⁻¹ * g₂)) • x0 := by rw [← mul_smul]
+      _ = g₂ • x0 := by rw [mul_inv_cancel_left])
+
+/-- Canonical Species (`Quiddity`) quotient projection `F → F / G`. -/
+def speciesQuot {G F : Type} [Group G] [MulAction G F] :
+    F → Quotient (speciesOrbitSetoid G F) :=
+  Quotient.mk (speciesOrbitSetoid G F)
+
+/-- Orbit-stabilizer injectivity and exact range `MulAction.orbit G x0` (Amber: zero `Classical.choice`). -/
+theorem orbitMap_injective_and_range {G F : Type} [Group G] [MulAction G F] (x0 : F) :
+    Function.Injective (orbitMap (G := G) x0) ∧
+    Set.range (orbitMap (G := G) x0) = MulAction.orbit G x0 := by
+  {{LEAN_BODY}}
+
+/-- Exact Species equality criterion `speciesQuot x = speciesQuot y ↔ ∃ g, g • x = y`. -/
+theorem speciesQuot_eq_iff {G F : Type} [Group G] [MulAction G F] (x y : F) :
+    speciesQuot (G := G) x = speciesQuot (G := G) y ↔ ∃ g : G, g • x = y :=
+  ⟨fun h ↦ Quotient.exact h, fun h ↦ Quotient.sound h⟩
+
+/-- Concrete `2 × 2` matrices over `𝔽₂` modeling the `16` Framed Lifts of `(R_{2,2}, φ_aug)`. -/
+structure M2F2 : Type where
+  /-- `(0,0)` entry. -/
+  a : Bool
+  /-- `(0,1)` entry. -/
+  b : Bool
+  /-- `(1,0)` entry. -/
+  c : Bool
+  /-- `(1,1)` entry. -/
+  d : Bool
+  deriving DecidableEq
+
+namespace M2F2
+
+/-- `2 × 2` identity matrix over `𝔽₂`. -/
+def one : M2F2 := ⟨true, false, false, true⟩
+
+/-- Matrix multiplication over `𝔽₂`. -/
+def mul (x y : M2F2) : M2F2 :=
+  ⟨xor (x.a && y.a) (x.b && y.c),
+   xor (x.a && y.b) (x.b && y.d),
+   xor (x.c && y.a) (x.d && y.c),
+   xor (x.c && y.b) (x.d && y.d)⟩
+
+/-- Determinant over `𝔽₂`. -/
+def det (x : M2F2) : Bool := xor (x.a && x.d) (x.b && x.c)
+
+/-- Adjugate (= inverse when `det = true`) over `𝔽₂`. -/
+def adj (x : M2F2) : M2F2 := ⟨x.d, x.b, x.c, x.a⟩
+
+/-- Exhaustive list of all `16` elements of `M₂(𝔽₂)`. -/
+def allList : List M2F2 :=
+  [false, true].flatMap fun a ↦
+  [false, true].flatMap fun b ↦
+  [false, true].flatMap fun c ↦
+  [false, true].map fun d ↦ ⟨a, b, c, d⟩
+
+instance : Fintype M2F2 where
+  elems := ⟨Multiset.ofList allList, by decide⟩
+  complete m := by rcases m with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> decide
+
+end M2F2
+
+/-- Concrete general linear group `GL₂(𝔽₂) ≅ Aut(R_{2,2})` of invertible `2 × 2` matrices over `𝔽₂`. -/
+abbrev GL2F2 : Type := { m : M2F2 // m.det = true }
+
+private lemma bool_mat_assoc_entry (p q r s t u v w : Bool) :
+    xor (xor (p && q) (r && s) && t) (xor (p && u) (r && v) && w) =
+    xor (p && xor (q && t) (u && w)) (r && xor (s && t) (v && w)) := by
+  cases p <;> cases q <;> cases r <;> cases s <;>
+  cases t <;> cases u <;> cases v <;> cases w <;> rfl
+
+private lemma m2f2_mul_assoc (x y z : M2F2) : (x.mul y).mul z = x.mul (y.mul z) := by
+  cases x; cases y; cases z
+  dsimp only [M2F2.mul]
+  rw [bool_mat_assoc_entry, bool_mat_assoc_entry, bool_mat_assoc_entry, bool_mat_assoc_entry]
+
+private lemma m2f2_one_mul (x : M2F2) : M2F2.one.mul x = x := by
+  rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl
+
+private lemma m2f2_mul_one (x : M2F2) : x.mul M2F2.one = x := by
+  rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl
+
+private lemma m2f2_det_mul (x y : M2F2) : (x.mul y).det = (x.det && y.det) := by
+  rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;>
+  rcases y with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl
+
+private lemma m2f2_det_adj (x : M2F2) : x.adj.det = x.det := by
+  rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl
+
+private lemma m2f2_adj_mul (x : M2F2) (hx : x.det = true) : x.adj.mul x = M2F2.one := by
+  rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> first | rfl | cases hx
+
+private lemma m2f2_adj_mul_rev (x y : M2F2) : (x.mul y).adj = y.adj.mul x.adj := by
+  rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;>
+  rcases y with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl
+
+/-- Constructive `Group` instance on `GL₂(𝔽₂)`. -/
+instance instGroupGL2F2 : Group GL2F2 where
+  one := ⟨M2F2.one, rfl⟩
+  mul g h := ⟨g.1.mul h.1, by rw [m2f2_det_mul, g.2, h.2]; rfl⟩
+  inv g := ⟨g.1.adj, by rw [m2f2_det_adj, g.2]⟩
+  mul_assoc a b c := Subtype.ext (m2f2_mul_assoc a.1 b.1 c.1)
+  one_mul a := Subtype.ext (m2f2_one_mul a.1)
+  mul_one a := Subtype.ext (m2f2_mul_one a.1)
+  inv_mul_cancel a := Subtype.ext (m2f2_adj_mul a.1 a.2)
+
+/-- Conjugation action `g • m = g m g⁻¹` of `GL₂(𝔽₂)` on `M₂(𝔽₂)`. -/
+instance instMulActionGL2F2M2F2 : MulAction GL2F2 M2F2 where
+  smul g m := (g.1.mul m).mul g.1.adj
+  one_smul m := by
+    change (M2F2.one.mul m).mul M2F2.one.adj = m
+    rw [m2f2_one_mul]
+    exact m2f2_mul_one m
+  mul_smul g h m := by
+    change ((g.1.mul h.1).mul m).mul (g.1.mul h.1).adj =
+      (g.1.mul ((h.1.mul m).mul h.1.adj)).mul g.1.adj
+    rw [m2f2_adj_mul_rev, m2f2_mul_assoc g.1 h.1 m,
+      ← m2f2_mul_assoc (g.1.mul (h.1.mul m)) h.1.adj g.1.adj,
+      m2f2_mul_assoc g.1 (h.1.mul m) h.1.adj]
+
+/-- Explicit 6-element list of all invertible matrices in `GL₂(𝔽₂)`. -/
+def gl2f2List : List GL2F2 :=
+  [ ⟨⟨true, false, false, true⟩, rfl⟩,
+    ⟨⟨false, true, true, false⟩, rfl⟩,
+    ⟨⟨true, true, false, true⟩, rfl⟩,
+    ⟨⟨true, false, true, true⟩, rfl⟩,
+    ⟨⟨false, true, true, true⟩, rfl⟩,
+    ⟨⟨true, true, true, false⟩, rfl⟩ ]
+
+private lemma gl2f2_mem_of_det_eq : ∀ (a b c d : Bool) (hg : (M2F2.mk a b c d).det = true)
+    (x : GL2F2), x ∈ gl2f2List → x.1 = ⟨a, b, c, d⟩ →
+    (⟨⟨a, b, c, d⟩, hg⟩ : GL2F2) ∈ (⟨Multiset.ofList gl2f2List, by decide⟩ : Finset GL2F2) := by
+  intro a b c d hg x hx hEq
+  have hSub : x = ⟨⟨a, b, c, d⟩, hg⟩ := Subtype.ext hEq
+  subst hSub
+  exact hx
+
+/-- Constructive `Fintype GL2F2` instance (`card = 6`). -/
+instance instFintypeGL2F2 : Fintype GL2F2 where
+  elems := ⟨Multiset.ofList gl2f2List, by decide⟩
+  complete g := by
+    rcases g with ⟨⟨a, b, c, d⟩, hg⟩
+    cases a <;> cases b <;> cases c <;> cases d <;>
+    first
+    | exact False.elim (Bool.noConfusion hg)
+    | exact gl2f2_mem_of_det_eq _ _ _ _ hg ⟨⟨_, _, _, _⟩, rfl⟩ (by decide) rfl
+
+/-- Conjugacy Species classifier `M₂(𝔽₂) → Fin 6` (exact sizes `1, 1, 3, 3, 6, 2`). -/
+def m2f2SpeciesIdx (m : M2F2) : Fin 6 :=
+  if m = ⟨false, false, false, false⟩ then 0
+  else if m = M2F2.one then 1
+  else if m.det = false then (if xor m.a m.d = false then 2 else 4)
+  else if xor m.a m.d = false then 3
+  else 5
+
+/-- Canonical representatives of the `6` `GL₂(𝔽₂)`-conjugacy Species in `M₂(𝔽₂)`. -/
+def m2f2SpeciesRep : Fin 6 → M2F2
+  | ⟨0, _⟩ => ⟨false, false, false, false⟩
+  | ⟨1, _⟩ => M2F2.one
+  | ⟨2, _⟩ => ⟨false, true, false, false⟩
+  | ⟨3, _⟩ => ⟨true, true, false, true⟩
+  | ⟨4, _⟩ => ⟨true, false, false, false⟩
+  | ⟨5, _⟩ => ⟨false, true, true, true⟩
+
+/-- Exact cardinality `|M₂(𝔽₂)| = 16` Framed Lifts. -/
+theorem m2f2_card : Fintype.card M2F2 = 16 := by decide
+
+/-- Exact cardinality `|GL₂(𝔽₂)| = 6` automorphism group. -/
+theorem gl2f2_card : Fintype.card GL2F2 = 6 := by decide
+
+/-- Conjugation preserves `m2f2SpeciesIdx`. -/
+theorem m2f2SpeciesIdx_conj (g : GL2F2) (m : M2F2) :
+    m2f2SpeciesIdx (g • m) = m2f2SpeciesIdx m := by
+  rcases g with ⟨⟨_ | _, _ | _, _ | _, _ | _⟩, hg⟩ <;>
+  first
+  | exact False.elim (Bool.noConfusion hg)
+  | (rcases m with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl)
+
+/-- Two lifts share a Species index iff they are `GL₂(𝔽₂)`-conjugate. -/
+theorem m2f2Species_same_iff (x y : M2F2) :
+    m2f2SpeciesIdx x = m2f2SpeciesIdx y ↔ ∃ g : GL2F2, g • x = y := by
+  constructor
+  · intro h
+    have hex : gl2f2List.any (fun g ↦ decide (g • x = y)) = true := by
+      revert h
+      rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;>
+      rcases y with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> decide
+    rcases List.any_eq_true.mp hex with ⟨g, _, hg⟩
+    exact ⟨g, of_decide_eq_true hg⟩
+  · rintro ⟨g, rfl⟩
+    exact (m2f2SpeciesIdx_conj g x).symm
+
+/-- Constructive bijection identifying the Species quotient `M₂(𝔽₂) / GL₂(𝔽₂)` with `Fin 6`. -/
+def m2f2SpeciesQuotEquivFin6 : Quotient (speciesOrbitSetoid GL2F2 M2F2) ≃ Fin 6 where
+  toFun := Quotient.lift m2f2SpeciesIdx (fun _ _ ⟨g, hg⟩ ↦ by
+    rw [← hg]; exact (m2f2SpeciesIdx_conj g _).symm)
+  invFun i := speciesQuot (G := GL2F2) (m2f2SpeciesRep i)
+  left_inv q := Quotient.inductionOn q fun x ↦ by
+    apply Quotient.sound
+    have hidx : m2f2SpeciesIdx (m2f2SpeciesRep (m2f2SpeciesIdx x)) = m2f2SpeciesIdx x := by
+      rcases x with ⟨_ | _, _ | _, _ | _, _ | _⟩ <;> rfl
+    exact (m2f2Species_same_iff _ _).mp hidx
+  right_inv i := by
+    rcases i with ⟨_ | _ | _ | _ | _ | _ | n, hn⟩
+    · rfl
+    · rfl
+    · rfl
+    · rfl
+    · rfl
+    · rfl
+    · exact False.elim (Nat.not_lt_zero n
+        (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ
+          (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ hn)))))))
+
+/-- Exact orbit cardinalities across the `6` Species. -/
+def m2f2OrbitSizes : List Nat :=
+  (List.finRange 6).map fun i ↦ (M2F2.allList.filter fun m ↦ decide (m2f2SpeciesIdx m = i)).length
+
+/-- Exact decomposition `1 + 1 + 3 + 3 + 6 + 2 = 16`. -/
+theorem m2f2_orbit_decomposition :
+    m2f2OrbitSizes = [1, 1, 3, 3, 6, 2] ∧ m2f2OrbitSizes.sum = 16 :=
+  ⟨rfl, rfl⟩
+
+/-- Bundled Mode (iii) Orbit-Stabilizer Exactness & `(R_{2,2}, φ_aug)` Decomposition (Amber: zero `Classical.choice`). -/
+theorem mode3_orbit_stabilizer_exactness :
+    (∀ (G F : Type) [Group G] [MulAction G F] (x0 : F),
+      Function.Injective (orbitMap (G := G) x0) ∧
+      Set.range (orbitMap (G := G) x0) = MulAction.orbit G x0) ∧
+    (∀ (G F : Type) [Group G] [MulAction G F] (x y : F),
+      speciesQuot (G := G) x = speciesQuot (G := G) y ↔ ∃ g : G, g • x = y) ∧
+    Fintype.card M2F2 = 16 ∧ Fintype.card GL2F2 = 6 ∧
+    m2f2OrbitSizes = [1, 1, 3, 3, 6, 2] ∧ m2f2OrbitSizes.sum = 16 :=
+  ⟨fun _ _ _ _ x0 ↦ orbitMap_injective_and_range x0,
+   fun _ _ _ _ x y ↦ speciesQuot_eq_iff x y,
+   m2f2_card, gl2f2_card, rfl, rfl⟩
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.orbitMap_injective_and_range' depends on axioms: [propext, Quot.sound] -/\n#guard_msgs in\n#print axioms orbitMap_injective_and_range",
+  "/-- info: 'HomotopyCRM.Vol2.speciesQuot_eq_iff' depends on axioms: [propext, Quot.sound] -/\n#guard_msgs in\n#print axioms speciesQuot_eq_iff",
+  "/-- info: 'HomotopyCRM.Vol2.m2f2SpeciesQuotEquivFin6' depends on axioms: [propext, Quot.sound] -/\n#guard_msgs in\n#print axioms m2f2SpeciesQuotEquivFin6",
+  "/-- info: 'HomotopyCRM.Vol2.mode3_orbit_stabilizer_exactness' depends on axioms: [propext, Quot.sound] -/\n#guard_msgs in\n#print axioms mode3_orbit_stabilizer_exactness"
+]
+
+[body]
+lean_body = """
+  refine ⟨?_, ?_⟩
+  · intro q₁ q₂ h
+    refine Quotient.inductionOn₂ q₁ q₂ (fun g₁ g₂ hEq ↦ ?_) h
+    apply Quotient.sound
+    change (g₁⁻¹ * g₂) • x0 = x0
+    have hEq' : g₁ • x0 = g₂ • x0 := hEq
+    rw [mul_smul]
+    change g₁⁻¹ • g₂ • x0 = x0
+    rw [← hEq', inv_smul_smul]
+  · ext y
+    constructor
+    · rintro ⟨q, rfl⟩
+      exact Quotient.inductionOn q (fun g ↦ ⟨g, rfl⟩)
+    · rintro ⟨g, rfl⟩
+      exact ⟨Quotient.mk _ g, rfl⟩
+"""
+tex = """
+\\begin{theorem}[Mode~(iii) Orbit--Stabilizer Exactness and $(R_{2,2}, \\phi_{\\mathrm{aug}})$ Decomposition]\\label{ch01:thm:mode3-orbit-stabilizer-exactness}%
+\\uses{ch01:def:essential-fiber-trident}%
+Constructively without invoking \\texttt{Classical.choice} (stratum \\textbf{Amber}: using only \\texttt{propext} and \\texttt{Quot.sound}):
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item For any group $G$ acting on a lift fiber $F$ and any basepoint $x_0 \\in F$, the quotient-stabilizer map $\\mathrm{orbitMap}_{x_0} : G / \\mathrm{Stab}_G(x_0) \\to F$ is injective with image $\\mathrm{Orbit}_G(x_0)$, while the Species projection $F \\to F / G$ identifies two Framed Lifts if and only if $\\exists g \\in G,\\; g \\cdot x = y$.
+  \\item On the $(R_{2,2}, \\phi_{\\mathrm{aug}})$ linear-endomorphism Touchstone $M_2(\\mathbb{F}_2)$ under conjugation by $\\mathrm{GL}_2(\\mathbb{F}_2) \\cong \\mathrm{Aut}(R_{2,2})$ ($|\\mathrm{GL}_2(\\mathbb{F}_2)| = 6$), the $16$ Framed Lifts (Haecceities) partition constructively into $6$ conjugacy Species (Quiddities) of cardinalities
+  \\[
+    1 + 1 + 3 + 3 + 6 + 2 = 16.
+  \\]
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+For~(1), avoiding Mathlib's \\texttt{Quotient.out} and \\texttt{MulAction.orbitRel} (which invoke classical choice internally), we form the left-coset setoid $g_1^{-1} g_2 \\in \\mathrm{Stab}_G(x_0)$ and orbit setoid $\\exists g \\in G,\\; g \\cdot x = y$ constructively; \\texttt{Quotient.lift}, \\texttt{Quotient.inductionOn}, and \\texttt{Quotient.sound} verify injectivity onto $\\mathrm{Orbit}_G(x_0)$ and the exact Species criterion using only \\texttt{propext} and \\texttt{Quot.sound}. For~(2), enumerating $M_2(\\mathbb{F}_2)$ ($16$ matrices) and $\\mathrm{GL}_2(\\mathbb{F}_2)$ ($6$ invertible matrices) via explicit \\texttt{Fintype} lists and classifying by zero/identity/determinant/trace invariants yields a constructive equivalence $M_2(\\mathbb{F}_2)/\\mathrm{GL}_2(\\mathbb{F}_2) \\simeq \\mathbf{Fin}\\,6$ with orbit sizes $[1, 1, 3, 3, 6, 2]$ ($0$, $I$, $3$ rank-$1$ nilpotents, $3$ involutions in $\\mathrm{GL}_2(\\mathbb{F}_2)$, $6$ rank-$1$ projections, and $2$ order-$3$ rotations).
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch01:def:essential-fiber-trident"]
+lean_dep = ["ch01:def:essential-fiber-trident"]
+curriculum = ["ch01:def:essential-fiber-trident"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Categorical Equivalence", "Torsion Obstruction", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.mode3_orbit_stabilizer_exactness"
+purpose = "Choice-free Amber Lean 4 theorem certifying orbit-stabilizer bijection and 1+1+3+3+6+2=16 M2(F2)/GL2(F2) decomposition"

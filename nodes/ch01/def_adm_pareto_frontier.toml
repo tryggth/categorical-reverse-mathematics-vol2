@@ -108,3 +108,14 @@ logical_dep = ["ch01:def:probe-suite"]
 lean_dep = ["ch01:def:probe-suite"]
 curriculum = ["ch01:def:probe-suite"]
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Authorial framework definition"
+blueprint_tier = "lean_ok"
+characterization_types = ["Framework Definition", "Duality"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.InParetoFrontier"
+purpose = "Axiom-free Lean 4 definition of Moore closure, IsAdmissible, IsScotoma, HasAperture, IsDogma, and InParetoFrontier"

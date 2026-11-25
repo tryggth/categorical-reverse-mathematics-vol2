@@ -1,73 +1,174 @@
 {
   "schema": "vol2.verification_lock.v1",
-  "updated_at_utc": "2026-11-25T22:08:47.333621+00:00",
+  "updated_at_utc": "2026-11-25T23:58:17.267620+00:00",
   "nodes": {
     "ch01:cex:flow-f1-frontier-nonmonotone": {
       "spec_hash": "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21",
       "body_hash": "1672d2ba58b8150daf1c4e8365c492949e61960cab43ed6957d99b6659cb48a1",
+      "grounding_hash": "18d5e8f6f3779e19748b39dce25ea128e2ebaf085e5a4bbfb05a36238ebc73b2",
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:claim:kihara-ew-weihrauch-ltt-duality": {
+      "spec_hash": "7d8f3b09d9eb173b9e8d91399177ecdaece4b080208dab85c32a30fd5faa32d3",
+      "body_hash": "fc7d8ff10d8a23dd5a970bb36f1a82bc6a7df22db4d8f90d032c458b8ce310df",
+      "grounding_hash": "d8e5d0940821b2611e6df1db19cdd6af0edb71284f4bbad33d23bf143c808084",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:def:adm-pareto-frontier": {
       "spec_hash": "c4f63751392bc419219648b7581d835b066eda107c1e29119a8094a78b886dfa",
       "body_hash": "034d11d72a0054b56fa9bd497d39808fbb40b3255e44e3479e728fd50fa4fc18",
+      "grounding_hash": "fbfd6e7ff30f793c61513df412731290445b8c8402d28e87a17f0207fa7ef2a0",
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:def:essential-fiber-trident": {
+      "spec_hash": "fc557e8aa356c416f152ee890928ce785545f35e469a8941f28ffa38786c9390",
+      "body_hash": "3b22c32f4d7cd7d4186f8701b0ca5c91a2cd0f3f42eb0cd22a6950df6e8e441b",
+      "grounding_hash": "685af69e27e7c873db2f81a95de21c21d88b1dad7e2b47a6d4dee1059582ec1d",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:def:probe-suite": {
       "spec_hash": "069b4c14ccf72941ebf4d343136bb113105d4d8540ed0b9dab8dfa777efb5769",
       "body_hash": "83a39fa9a9a74ab498e6157060c7543486aabd4f6066d5e53781cd99f1c4e328",
+      "grounding_hash": "2383988ba37eaad9a49e674c995024e95c9d8abce849c097e2a4c467578cbeeb",
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:def:touchstone-specific-gravity": {
+      "spec_hash": "910761a9cf0c7ba5b1407f774c0b601ceec98daa88a7e9fb05aea5c9f34be81b",
+      "body_hash": "b60de2ccf7cb1f40d73af70f5ab43d92d475d615be0b0efccaedd700697f5cae",
+      "grounding_hash": "85ef9aa436b907c0c70a254eb57fca4c32f14bb84011ab939203b49769a1563a",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:prop:extent-transversal-galois": {
+      "spec_hash": "8e07cdaa128d354efde82f032d98e1c351630facbb1b3929d21c3a9b582e4e80",
+      "body_hash": "93327c447354898e7b16cd95737346dc9cd9c5ce8122659709e647bebc365322",
+      "grounding_hash": "90906f2bf549f50dc190ee48807c1a5863b1f6723418630fd6740f1af9cb3a0e",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:prop:flow-f3-lt-partition-and-schism": {
+      "spec_hash": "20719a8594b088431c3018c217e6a7a13ff3d7eb5a2853b8ad73b024a0f2d188",
+      "body_hash": "e9f1db3db3dd1b98db4c220db8a10f13c3d625dc2a8cac9252c93c2757a34689",
+      "grounding_hash": "f851818569847fa4cb9e644745973b2ec1689fe0a7600230412e21dbe97cbdc6",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:prop:lt-stability-projsub": {
+      "spec_hash": "4b3414ced6ff8d14405e4be7e912c6d58eeda1af627f76ba6e1d454d3449d3fb",
+      "body_hash": "f1108022ece939d02a3fdf99d301de5fe814205a0c9d904d4f0f1e7007488598",
+      "grounding_hash": "2204773812644aad8e91ec5c22c4cac8a9f6de5b9a5e99eeac5ab021d418cc62",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:prose:meta-crm-roadmap": {
       "spec_hash": "fb0698d74023061d1e0a1db475d93a7f125160c317426b0914f5522964fc69d2",
       "body_hash": "7ed68e03747aa9c78ffc49a250e94a40d2759bcb002b148a4d9115c813e10844",
+      "grounding_hash": "89900586ad529db5f91c5951824c721a6059c25d210634f4b1192aa348a97cf9",
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:rem:trident-mode3-2ltt-bootstrap": {
       "spec_hash": "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369",
       "body_hash": "01b987f24d637b6cb7111c3465b401be264dcdec18b419dadf88c435a0214b73",
+      "grounding_hash": "11ffe4a8751ea49f3c4d8156c3585d3278c25dbe23cc576601183488f5431980",
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": "8b67ff241b25764b1640553b174a523816a2c221d4a14ddf115c9a87f3eb0c0c",
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:tab:epistemic-probe-regimes": {
       "spec_hash": "1ec9487c74270afe6f6188736def6b99e20da6329cf06d7d7e9539b452053b4b",
       "body_hash": "acc5a793a5d32df2e2700a95a86e9d4c782e13b01f8816c72fdbbf4abaa733a4",
+      "grounding_hash": "ed935fc3c7a32c9e7e971b84ad4922e3b5e789942e69875c280e1b997317e214",
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:thm:flow-f1-threshold-order": {
       "spec_hash": "d8f9b2fdbc17447986fc1fe34718d6515fc3a43a2f54fad7248074defd0808b9",
       "body_hash": "824ec50af90c9bbde13f6dc01a06c9bf9e977922c1fbb9f164f8107fb8cdde99",
+      "grounding_hash": "00f451d548218a0fd92a429619117e819f489962b116f576981be0b697841cdf",
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:thm:flow-f2-four-rung-escalation": {
+      "spec_hash": "ad78ce8e47623580b2b8401129aed14d7d113c7bbb151b30d4ca7453c08d2f56",
+      "body_hash": "cfb6d2f051c5d8fd5bc3806698d3532045b75620ca665db2dc3a2b4fd487fe0b",
+      "grounding_hash": "1ae7f19fb3f9182882688a75e47bf9ba59dfb1b0d2db4698685e3e7999e0da9d",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:thm:flow-f4-split-polarity-transport": {
+      "spec_hash": "8127e3cb8d1697e98da7c7c7bc999abfb4ebb554c3893c62b3b3d2ed9e8fac5f",
+      "body_hash": "f25961e4e0e5b2a4a88ec1c7565775059499af5d95d9b70293907d34b333fdcc",
+      "grounding_hash": "c6d8ed91533a5af4da6a080834cb042b8ddc10350960abc326c8ab94ce9e930c",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "ch01:thm:mode3-orbit-stabilizer-exactness": {
+      "spec_hash": "8dbdf07012c533f003e59016c17f2721ef72022eb23334cbb58ee76b1682dd39",
+      "body_hash": "086fe2f83bdea12e14dcef330988c111f121ee7ab7e9a0761ca59427031ccacc",
+      "grounding_hash": "9e24b8d2c0afc055be32e96dfd9106ab62a7a970d650d1fa6e8f595de2b79cb1",
+      "stratum": "amber",
+      "actual_axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "ch01:thm:scotoma-pareto-trichotomy": {
       "spec_hash": "73d0580b8dfec86cca711b79a3255f80d4e086b2df7cdaad7274c0a873cff4ea",
       "body_hash": "1836c35a3195888dd2650f9b1a3ada0394f4224df1c8599053868dd92f729c76",
+      "grounding_hash": "d538863f3cd18515c67225fcdb2c987c680c8d85518676c8013bcde65ea6c0dd",
       "stratum": "crimson",
       "actual_axioms": [
         "Classical.choice",
@@ -75,25 +176,57 @@
         "propext"
       ],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "sym:probe-suite": {
       "spec_hash": "fc35682a0b76a0aee7ff0432e30229c4f54c0bafbc4794d0b414600743d08b7f",
       "body_hash": "4744e088b3e29f000d3d94cca2c9f1bb61adbb296263ff8fb51e19e0c374cce5",
+      "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "sym:trident-flows": {
+      "spec_hash": "b84ffd78c1fbe763829bd7e6718fd3cfa912306b11982e4372698e429dd63f49",
+      "body_hash": "7f4facec629d58b957bf701e7259a26c79d27b0c109b19b73be01a8a6952cda2",
+      "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "vol1:def:comparison-triple": {
+      "spec_hash": "9ff295bdb5acb85cafe47dd55e997635827a14ff3a2b04b12a6ba1bc03f9d9f7",
+      "body_hash": "38e0ec8ca4ffa865c49cef682ef92343e7111c2194e9417e54465db6a65fe2b4",
+      "grounding_hash": "97f7f3d03d611e436b6ddb01757c90720b00b20dc2dc2bd52cbc8c7ba3465ff9",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     },
     "vol1:def:doctrinal-philosophy": {
       "spec_hash": "262565cd6aa5e2be3467bf68fb4f54b3dff521a4fd07a3e152ef209a05afcad7",
       "body_hash": "77e83a26fda9d61aee3ae11882bda7921c0e034d68fff7351ef4e425f7bbf38a",
+      "grounding_hash": "c5b1e6d62146eb83d43977a2c2ffd1a20beac8dec59cce7d2b0fc4ac21b61811",
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-25T22:08:47.333621+00:00",
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "passed": true
+    },
+    "vol1:def:residuum": {
+      "spec_hash": "09d24ff7151fdf8dcf72d650fe8de2d4772cd0be225308d8b05c656fa3021b1c",
+      "body_hash": "c42951e28ab2735b023390a88155bf68dc13e1e5501edda99c88ed291fd65b28",
+      "grounding_hash": "036c238644f1be2d67be9a2a3cc0f625a5d33050ec5636fe5ebce38ee23fe3cc",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
       "passed": true
     }
   }

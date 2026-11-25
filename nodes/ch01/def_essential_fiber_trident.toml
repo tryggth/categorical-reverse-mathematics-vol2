@@ -1,0 +1,166 @@
+id = "ch01:def:essential-fiber-trident"
+kind = "definition"
+title = "Vertical Unification of the Obstruction Trident via Essential Fibers"
+chapter = "ch01"
+section = "1.1"
+seq_order = 12
+axis = "meta_crm"
+grounding_tier = "framework_def"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "Over a constructive groupoid structure G on B and comparison map Phi : A -> B, the essential fiber F_b(Phi) := sum_{a : A} Equiv_B(Phi(a), b) unifies Mode (i) section inhabitation (Nonempty without Subsingleton, polarized into Immanent vs. Transcendent splitting), Mode (ii) monic-completion phantom emptiness (Subsingleton automatic, defect in IsEmpty), and Mode (iii) Framed Lifts (Haecceity) vs. Species (Quiddity, Aut_B(b)-orbits) above higher Isotropy."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ObstructionTrident"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.GroupoidStructure",
+  "HomotopyCRM.Vol2.EssentialFiber",
+  "HomotopyCRM.Vol2.Mode1SectionInhabited",
+  "HomotopyCRM.Vol2.Mode1NonContractibleSplit",
+  "HomotopyCRM.Vol2.SplittingPolarity",
+  "HomotopyCRM.Vol2.Mode2PhantomDefect",
+  "HomotopyCRM.Vol2.BaseAut",
+  "HomotopyCRM.Vol2.frameAct",
+  "HomotopyCRM.Vol2.SameSpecies",
+  "HomotopyCRM.Vol2.LiftIsotropy",
+  "HomotopyCRM.Vol2.discreteGroupoid",
+  "HomotopyCRM.Vol2.mode2_phantom_of_injective_not_mem"
+]
+expected_axioms = []
+lean_signature = """
+/-- Constructive groupoid equivalence structure on a base carrier `B` (zero axioms). -/
+structure GroupoidStructure (B : Type) where
+  /-- Equivalences `b₁ ≃ b₂` in the base groupoid. -/
+  Hom : B → B → Type
+  /-- Identity equivalence. -/
+  id : ∀ b : B, Hom b b
+  /-- Composition of equivalences. -/
+  comp : ∀ {b₁ b₂ b₃ : B}, Hom b₁ b₂ → Hom b₂ b₃ → Hom b₁ b₃
+  /-- Inverse equivalence. -/
+  inv : ∀ {b₁ b₂ : B}, Hom b₁ b₂ → Hom b₂ b₁
+  /-- Left identity law. -/
+  id_comp : ∀ {b₁ b₂ : B} (f : Hom b₁ b₂), comp (id b₁) f = f
+  /-- Right identity law. -/
+  comp_id : ∀ {b₁ b₂ : B} (f : Hom b₁ b₂), comp f (id b₂) = f
+  /-- Associativity of composition. -/
+  assoc : ∀ {b₁ b₂ b₃ b₄ : B} (f : Hom b₁ b₂) (g : Hom b₂ b₃) (h : Hom b₃ b₄),
+    comp (comp f g) h = comp f (comp g h)
+  /-- Left inverse law. -/
+  inv_comp : ∀ {b₁ b₂ : B} (f : Hom b₁ b₂), comp (inv f) f = id b₂
+  /-- Right inverse law. -/
+  comp_inv : ∀ {b₁ b₂ : B} (f : Hom b₁ b₂), comp f (inv f) = id b₁
+
+/-- Essential fiber `ℱ_b(Φ) := ∑_{a : A} Equiv_B(Φ a, b)` unifying Obstruction Modes (i)–(iii). -/
+structure EssentialFiber {A B : Type} (G : GroupoidStructure B) (Φ : A → B) (b : B) : Type where
+  /-- Lifted object `a : A`. -/
+  obj : A
+  /-- Framing equivalence `θ : Φ(a) ≃_B b`. -/
+  framing : G.Hom (Φ obj) b
+
+/-- Mode (i) section inhabitation: `(-1)`-truncation `Nonempty (EssentialFiber G Φ b)`. -/
+def Mode1SectionInhabited {A B : Type} (G : GroupoidStructure B) (Φ : A → B) (b : B) : Prop :=
+  {{LEAN_BODY}}
+
+/-- Strict Mode (i) non-contractible splitting: inhabited without `Subsingleton`. -/
+def Mode1NonContractibleSplit {A B : Type} (G : GroupoidStructure B) (Φ : A → B) (b : B) : Prop :=
+  Mode1SectionInhabited G Φ b ∧ ¬ Subsingleton (EssentialFiber G Φ b)
+
+/-- Polarity separating Immanent (internal slice) from Transcendent (external global-section) splitting. -/
+inductive SplittingPolarity : Type
+  | immanent
+  | transcendent
+  deriving DecidableEq
+
+/-- Mode (ii) monic-completion phantom defect: automatic `Subsingleton` with empty essential fiber. -/
+def Mode2PhantomDefect {A B : Type} (G : GroupoidStructure B) (Φ : A → B) (b : B) : Prop :=
+  Subsingleton (EssentialFiber G Φ b) ∧ IsEmpty (EssentialFiber G Φ b)
+
+/-- Automorphism carrier `Aut_B(b) := Hom_B(b, b)`. -/
+def BaseAut {B : Type} (G : GroupoidStructure B) (b : B) : Type :=
+  G.Hom b b
+
+/-- Post-composition action of `Aut_B(b)` on Framed Lifts (`Haecceity`). -/
+def frameAct {A B : Type} (G : GroupoidStructure B) {Φ : A → B} {b : B}
+    (g : BaseAut G b) (x : EssentialFiber G Φ b) : EssentialFiber G Φ b :=
+  ⟨x.obj, G.comp x.framing g⟩
+
+/-- Species (`Quiddity`) orbit relation on Framed Lifts under `Aut_B(b)`. -/
+def SameSpecies {A B : Type} (G : GroupoidStructure B) {Φ : A → B} {b : B}
+    (x y : EssentialFiber G Φ b) : Prop :=
+  ∃ g : BaseAut G b, frameAct G g x = y
+
+/-- Higher Isotropy stabilizer of a Framed Lift inside `Aut_B(b)`. -/
+def LiftIsotropy {A B : Type} (G : GroupoidStructure B) {Φ : A → B} {b : B}
+    (x : EssentialFiber G Φ b) : Type :=
+  { g : BaseAut G b // frameAct G g x = x }
+
+/-- Discrete equality groupoid on a base type `B`. -/
+def discreteGroupoid (B : Type) : GroupoidStructure B where
+  Hom b₁ b₂ := PLift (b₁ = b₂)
+  id _ := ⟨rfl⟩
+  comp f g := ⟨f.down.trans g.down⟩
+  inv f := ⟨f.down.symm⟩
+  id_comp _ := rfl
+  comp_id _ := rfl
+  assoc _ _ _ := rfl
+  inv_comp _ := rfl
+  comp_inv _ := rfl
+
+/-- Injective completion maps yield automatic `Subsingleton` fibers, isolating Mode (ii) phantoms in `IsEmpty`. -/
+theorem mode2_phantom_of_injective_not_mem {A B : Type} {Φ : A → B}
+    (hInj : Function.Injective Φ) (b : B) (hNotMem : ∀ a : A, Φ a ≠ b) :
+    Mode2PhantomDefect (discreteGroupoid B) Φ b := by
+  refine ⟨⟨fun x y ↦ ?_⟩, ⟨fun x ↦ hNotMem x.obj x.framing.down⟩⟩
+  cases x with | mk a₁ f₁ =>
+  cases y with | mk a₂ f₂ =>
+  cases f₁ with | up h₁ =>
+  cases f₂ with | up h₂ =>
+  have ha : a₁ = a₂ := hInj (h₁.trans h₂.symm)
+  cases ha
+  rfl
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.EssentialFiber' does not depend on any axioms -/\n#guard_msgs in\n#print axioms EssentialFiber",
+  "/-- info: 'HomotopyCRM.Vol2.mode2_phantom_of_injective_not_mem' does not depend on any axioms -/\n#guard_msgs in\n#print axioms mode2_phantom_of_injective_not_mem"
+]
+
+[body]
+lean_body = """
+  Nonempty (EssentialFiber G Φ b)
+"""
+tex = """
+\\begin{definition}[Vertical Unification of the Obstruction Trident]\\label{ch01:def:essential-fiber-trident}%
+\\uses{vol1:def:comparison-triple,vol1:def:residuum}%
+Over a comparison functor $\\Phi : \\mathcal{A} \\to \\mathcal{B}$ and a groupoid structure $G$ on $\\mathcal{B}$ extending {{ref:vol1:def:comparison-triple}} and {{ref:vol1:def:residuum}}, the \\textbf{essential fiber}\\index{Essential fiber} at $b \\in \\mathcal{B}$ is
+\\[
+  \\mathcal{F}_b(\\Phi) \\;:=\\; {{sym:hofib}}_b(\\Phi) \\;:=\\; \\sum_{a : A} \\mathrm{Equiv}_{\\mathcal{B}}(\\Phi(a), b).
+\\]
+Evaluating $\\mathcal{F}_b(\\Phi)$ stratifies all three vertical obstruction modes into one invariant:
+\\begin{enumerate}[label=\\textbf{Mode~(\\roman*).},leftmargin=4.2em]
+  \\item \\textbf{Section Inhabitation (Immanent vs.\\ Transcendent Polarity):} $(-1)$-truncation $\\|\\mathcal{F}_b(\\Phi)\\|_{-1}$ (\\texttt{Nonempty}) tests splitting without forcing $(-2)$-contractibility (\\texttt{Subsingleton}), polarized between \\emph{Immanent} internal slice splitting and \\emph{Transcendent} global-section splitting.
+  \\item \\textbf{Monic-Completion Phantom Defect:} When $\\Phi$ is monic (injective on objects with trivial automorphisms), $\\mathcal{F}_b(\\Phi)$ is automatically a \\texttt{Subsingleton}, concentrating the phantom obstruction solely in emptiness (\\texttt{IsEmpty}).
+  \\item \\textbf{Framed Lifts (Haecceity) vs.\\ Species (Quiddity) and Isotropy:} Post-composition by $\\mathrm{Aut}_{\\mathcal{B}}(b)$ acts on rigidified pairs $(a, \\theta) \\in \\mathcal{F}_b(\\Phi)$ (\\textbf{Framed Lifts} / \\emph{Haecceity}), partitioning them into $\\mathrm{Aut}_{\\mathcal{B}}(b)$-orbits (\\textbf{Species} / \\emph{Quiddity}) governed by residual stabilizer \\textbf{Isotropy} $\\mathrm{Stab}_{\\mathrm{Aut}_{\\mathcal{B}}(b)}(a, \\theta)$.
+\\end{enumerate}
+\\end{definition}
+"""
+
+[edges]
+logical_dep = ["vol1:def:comparison-triple", "vol1:def:residuum"]
+lean_dep = []
+curriculum = ["vol1:def:comparison-triple", "vol1:def:residuum"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Authorial framework definition"
+blueprint_tier = "lean_ok"
+characterization_types = ["Framework Definition", "Homotopy Type / Classifying Space"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.EssentialFiber"
+purpose = "Axiom-free Lean 4 unification of Obstruction Modes (i)-(iii) via EssentialFiber and GroupoidStructure"

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Emit Royal Octavo LaTeX monograph, claims ledger, and TeX line sourcemaps."""
+"""Emit Royal Octavo LaTeX monograph, 4-Part claims ledger + census, and TeX line sourcemaps."""
 
 from __future__ import annotations
 
 import json
 import re
 import tomllib
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -28,9 +29,24 @@ STRATUM_STYLES = {
     "crimson": ("CRMCrimson", "Crimson (Classical.choice)"),
 }
 
+SECTION_TITLES = {
+    "1.1": (
+        "Doctrinal Foundations, the Obstruction Trident, and Flow F1",
+        "sec:trident-f1",
+    ),
+    "1.2": (
+        "2-Chu Duality, Touchstone Specific Gravity, and Hereditary Subterminal Projectivity",
+        "sec:chu-gravity-projsub",
+    ),
+    "1.3": (
+        "Doctrinal Stability Flows F2--F4 and Realizability Localizations",
+        "sec:flows-f2-f4",
+    ),
+}
+
 
 def tex_escape(s: str) -> str:
-    return (
+    out = (
         s.replace("\\", "\\textbackslash{}")
         .replace("_", "\\_")
         .replace("^", "\\^{}")
@@ -39,6 +55,56 @@ def tex_escape(s: str) -> str:
         .replace("#", "\\#")
         .replace("$", "\\$")
     )
+    unicode_map = {
+        "≤": r"$\le$",
+        "≥": r"$\ge$",
+        "≠": r"$\neq$",
+        "→": r"$\to$",
+        "↦": r"$\mapsto$",
+        "⇒": r"$\Rightarrow$",
+        "⇔": r"$\Leftrightarrow$",
+        "×": r"$\times$",
+        "∈": r"$\in$",
+        "∉": r"$\notin$",
+        "⊆": r"$\subseteq$",
+        "⊊": r"$\subsetneq$",
+        "∧": r"$\wedge$",
+        "∨": r"$\vee$",
+        "∅": r"$\emptyset$",
+        "≅": r"$\cong$",
+        "≃": r"$\simeq$",
+        "Ω": r"$\Omega$",
+        "Σ": r"$\Sigma$",
+        "Φ": r"$\Phi$",
+        "κ": r"$\kappa$",
+        "§": r"\S{}",
+        "–": "--",
+        "—": "---",
+    }
+    for u, rep in unicode_map.items():
+        out = out.replace(u, rep)
+    return out
+
+
+def tex_code_break(s: str) -> str:
+    """Escape identifier/code text and allow line breaks after ':', '_', and '.'."""
+    esc = tex_escape(s)
+    esc = esc.replace(":", r":\allowbreak{}")
+    esc = esc.replace(r"\_", r"\_\allowbreak{}")
+    esc = esc.replace(".", r".\allowbreak{}")
+    return esc
+
+
+def node_cohort(kind: str) -> str:
+    if kind in ("theorem", "proposition", "lemma", "corollary", "counterexample"):
+        return "Cohort I"
+    if kind in ("definition", "remark", "conjecture", "principle", "problem", "vol1_external", "symbol"):
+        return "Cohort II"
+    if kind == "inline_claim":
+        return "Cohort III"
+    if kind in ("prose_block", "summary_table"):
+        return "Cohort IV"
+    return "Course Pack"
 
 
 def expand_tex_macros(
@@ -82,16 +148,31 @@ def load_context() -> tuple[
     con = duckdb.connect(str(DB_PATH), read_only=True)
     node_rows = con.execute(
         """
-        SELECT id, kind, title, chapter, section, axis, grounding_tier,
+        SELECT id, kind, title, chapter, section, seq_order, axis, grounding_tier,
                formal_pkg, stratum, module, decl_names_json, expected_axioms_json,
-               cert_path, spec_hash, body_hash, taint_status, raw_json
+               cert_path, spec_hash, body_hash, grounding_hash, taint_status, raw_json
         FROM nodes
-        ORDER BY id
+        ORDER BY seq_order, id
         """
     ).fetchall()
     sym_rows = con.execute("SELECT macro_key, latex_macro FROM symbols").fetchall()
     rec_rows = con.execute(
         "SELECT node_id, stratum, actual_axioms_json, cert_sha256, verified_at_utc, passed FROM verification_receipts"
+    ).fetchall()
+    cg_rows = con.execute(
+        """
+        SELECT node_id, cohort, primary_category, blueprint_tier,
+               characterization_types_json, witness_scope, dual_pillars_json, grounding_hash
+        FROM claim_groundings
+        """
+    ).fetchall()
+    pp_rows = con.execute(
+        """
+        SELECT src_id, dst_id, metadata_json
+        FROM edges
+        WHERE fiber = 'prose_paraphrase'
+        ORDER BY dst_id, src_id
+        """
     ).fetchall()
     con.close()
 
@@ -106,6 +187,28 @@ def load_context() -> tuple[
         }
         for nid, st, ax, csha, ts, passed in rec_rows
     }
+    groundings = {
+        nid: {
+            "cohort": cohort,
+            "primary_category": pcat,
+            "blueprint_tier": btier,
+            "characterization_types": json.loads(ct_json),
+            "witness_scope": wscope,
+            "dual_pillars": json.loads(dp_json),
+            "grounding_hash": ghash,
+        }
+        for nid, cohort, pcat, btier, ct_json, wscope, dp_json, ghash in cg_rows
+    }
+    pp_by_consumer: dict[str, list[dict[str, Any]]] = {}
+    for src_id, dst_id, meta_raw in pp_rows:
+        meta = json.loads(meta_raw)
+        pp_by_consumer.setdefault(dst_id, []).append(
+            {
+                "target_id": src_id,
+                "locked_spec_hash": meta.get("locked_spec_hash", ""),
+                "scope_note": meta.get("scope_note", ""),
+            }
+        )
 
     nodes_meta: dict[str, dict[str, Any]] = {}
     for row in node_rows:
@@ -115,6 +218,7 @@ def load_context() -> tuple[
             title,
             chapter,
             section,
+            seq_order,
             axis,
             grounding_tier,
             formal_pkg,
@@ -125,15 +229,28 @@ def load_context() -> tuple[
             cert_path,
             spec_hash,
             body_hash,
+            grounding_hash,
             taint_status,
             raw_json,
         ) = row
+        raw_obj = json.loads(raw_json)
+        g_info = groundings.get(nid) or {
+            "cohort": node_cohort(kind),
+            "primary_category": raw_obj.get("grounding", {}).get("primary_category", "Standard definition"),
+            "blueprint_tier": raw_obj.get("grounding", {}).get("blueprint_tier", "none"),
+            "characterization_types": raw_obj.get("grounding", {}).get("characterization_types", []),
+            "witness_scope": raw_obj.get("grounding", {}).get("witness_scope", ""),
+            "dual_pillars": raw_obj.get("grounding", {}).get("dual_pillars", []),
+            "grounding_hash": grounding_hash,
+        }
         nodes_meta[nid] = {
             "id": nid,
             "kind": kind,
+            "cohort": g_info["cohort"],
             "title": title,
             "chapter": chapter,
             "section": section,
+            "seq_order": seq_order,
             "axis": axis,
             "grounding_tier": grounding_tier,
             "formal_pkg": formal_pkg,
@@ -144,8 +261,11 @@ def load_context() -> tuple[
             "cert_path": cert_path,
             "spec_hash": spec_hash,
             "body_hash": body_hash,
+            "grounding_hash": grounding_hash,
             "taint_status": taint_status,
-            "raw": json.loads(raw_json),
+            "grounding": g_info,
+            "prose_paraphrase_in": pp_by_consumer.get(nid, []),
+            "raw": raw_obj,
         }
 
     return manifest, guardrails, nodes_meta, symbols, receipts
@@ -157,34 +277,37 @@ def render_node_tex(
     nodes_meta: dict[str, dict[str, Any]],
     allowed_ids: set[str] | None = None,
 ) -> str:
-    nid = node["id"]
-    kind = node["kind"]
     raw = node["raw"]
     body = raw.get("body", {})
     raw_tex = body.get("tex", "").strip()
     expanded_tex = expand_tex_macros(raw_tex, symbols, nodes_meta, allowed_ids)
+    bp_tier = node.get("grounding", {}).get("blueprint_tier", "")
 
     lines: list[str] = []
-    # Inject formal metadata & Four-Color Stratum badge for formalized nodes
     if node["formal_pkg"] == "mathlib_vol2":
         decls = ", ".join(node["decl_names"])
         color_macro, label = STRATUM_STYLES[node["stratum"]]
-        lines.append(f"\\lean{{{decls}}}\\leanok")
-        lines.append(f"\\stratumbadge{{{color_macro}}}{{{label}}}")
-        lines.append(f"\\formalrefline{{Lean 4}}{{{tex_escape(decls)}}}")
+        if bp_tier == "lean_witness":
+            lines.append(f"\\lean{{{decls}}}\\leanwitness")
+            lines.append(f"\\stratumbadge{{{color_macro}}}{{{label} [Witness]}}")
+            lines.append(f"\\formalrefline{{Lean 4 Witness}}{{{tex_escape(decls)}}}")
+        else:
+            lines.append(f"\\lean{{{decls}}}\\leanok")
+            lines.append(f"\\stratumbadge{{{color_macro}}}{{{label}}}")
+            lines.append(f"\\formalrefline{{Lean 4}}{{{tex_escape(decls)}}}")
     elif node["formal_pkg"] == "kernel_arena":
         cert_rel = node.get("cert_path", "")
         decls = ", ".join(node["decl_names"])
-        lines.append(f"\\twoltt{{{decls}}}\\twolttok")
-        lines.append("\\stratumbadge{CRMEmerald}{Emerald (2LTT Kernel Arena)}")
-        lines.append(f"\\formalrefline{{2LTT Cert}}{{{tex_escape(cert_rel)}}}")
+        if bp_tier == "twoltt_witness":
+            lines.append(f"\\twoltt{{{decls}}}\\twolttwitness")
+            lines.append("\\stratumbadge{CRMEmerald}{Emerald (2LTT Witness)}")
+            lines.append(f"\\formalrefline{{2LTT Witness}}{{{tex_escape(cert_rel)}}}")
+        else:
+            lines.append(f"\\twoltt{{{decls}}}\\twolttok")
+            lines.append("\\stratumbadge{CRMEmerald}{Emerald (2LTT Kernel Arena)}")
+            lines.append(f"\\formalrefline{{2LTT Cert}}{{{tex_escape(cert_rel)}}}")
 
-    if kind == "symbol":
-        # Symbols render cleanly in the Symbol Registry / Notation summary
-        lines.append(expanded_tex)
-    else:
-        lines.append(expanded_tex)
-
+    lines.append(expanded_tex)
     return "\n".join(lines).strip()
 
 
@@ -208,23 +331,13 @@ def emit_monograph(
     BUILD_TEX_DIR.mkdir(parents=True, exist_ok=True)
     SOURCEMAPS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Canonical Chapter 1 vertical slice presentation order
-    preferred_order = [
-        "vol1:def:doctrinal-philosophy",
-        "sym:probe-suite",
-        "ch01:prose:meta-crm-roadmap",
-        "ch01:def:probe-suite",
-        "ch01:def:adm-pareto-frontier",
-        "ch01:thm:scotoma-pareto-trichotomy",
-        "ch01:thm:flow-f1-threshold-order",
-        "ch01:cex:flow-f1-frontier-nonmonotone",
-        "ch01:rem:trident-mode3-2ltt-bootstrap",
-        "ch01:tab:epistemic-probe-regimes",
+    ordered_ids = [
+        nid
+        for nid, _ in sorted(
+            nodes_meta.items(),
+            key=lambda kv: (kv[1].get("seq_order", 1000), kv[0]),
+        )
     ]
-    ordered_ids = [nid for nid in preferred_order if nid in nodes_meta]
-    for nid in sorted(nodes_meta.keys()):
-        if nid not in ordered_ids:
-            ordered_ids.append(nid)
 
     title = manifest["working_title"]
     subtitle = manifest["working_subtitle"]
@@ -267,7 +380,7 @@ def emit_monograph(
         r"  \vspace{0.35em}",
         f"  {{\\normalsize {location}\\par}}",
         r"  \vspace{0.6em}",
-        r"  {\large November 2026 (Phase 0 Vertical Slice)\par}",
+        f"  {{\\large {manifest['phase']} ({manifest['active_slice']})\\par}}",
         r"  \vspace*{0.05\textheight}\par}",
         r"\clearpage",
         "",
@@ -286,13 +399,19 @@ def emit_monograph(
         "",
         r"\chapter{Epistemic Probe Calibration and the Meta-CRM Residuum Calculus}\label{ch:probe-calibration}",
         r"\chapterepigraph{Measure what is measurable, and make measurable what is not so.}{Attributed to Galileo Galilei}",
-        r"\section{Doctrinal Philosophies, Probe Suites, and Flow F1}\label{sec:probe-suites}",
         "",
     ]
 
     intervals: list[dict[str, Any]] = []
+    current_section: str | None = None
     for nid in ordered_ids:
         node = nodes_meta[nid]
+        sec = node.get("section", "")
+        if sec and sec != current_section and sec in SECTION_TITLES:
+            sec_title, sec_label = SECTION_TITLES[sec]
+            lines.append(f"\\section{{{sec_title}}}\\label{{{sec_label}}}")
+            lines.append("")
+            current_section = sec
         rendered = render_node_tex(node, symbols, nodes_meta)
         start_line = len(lines) + 1
         lines.append(f"% BEGIN_NODE {nid} [spec:{node['spec_hash'][:8]} body:{node['body_hash'][:8]}]")
@@ -351,6 +470,17 @@ def emit_monograph(
     return out_tex
 
 
+def _load_decl_ownership() -> list[tuple[str, str, str]]:
+    if not DB_PATH.exists():
+        return []
+    con = duckdb.connect(str(DB_PATH), read_only=True)
+    rows = con.execute(
+        "SELECT decl_or_cert, node_id, ownership_kind FROM decl_ownership ORDER BY node_id, decl_or_cert"
+    ).fetchall()
+    con.close()
+    return [(r[0], r[1], r[2]) for r in rows]
+
+
 def emit_claims_ledger(
     manifest: dict[str, Any],
     guardrails: list[dict[str, Any]],
@@ -363,13 +493,39 @@ def emit_claims_ledger(
     if audit_report:
         audit_by_id = {n["id"]: n for n in audit_report.get("nodes", [])}
 
-    tier1 = [n for n in nodes_meta.values() if n["formal_pkg"] in ("mathlib_vol2", "kernel_arena")]
-    tier2 = [n for n in nodes_meta.values() if n["formal_pkg"] not in ("mathlib_vol2", "kernel_arena")]
+    decl_rows = _load_decl_ownership()
+    all_nodes = sorted(nodes_meta.values(), key=lambda x: (x.get("seq_order", 1000), x["id"]))
+
+    cohort_i = [n for n in all_nodes if n["cohort"] == "Cohort I"]
+    cohort_ii = [n for n in all_nodes if n["cohort"] == "Cohort II"]
+    cohort_iii = [n for n in all_nodes if n["cohort"] == "Cohort III"]
+    cohort_iv = [n for n in all_nodes if n["cohort"] == "Cohort IV"]
+
+    def _stratum_tex(st: str) -> str:
+        if st in STRATUM_STYLES:
+            cm, _ = STRATUM_STYLES[st]
+            return f"\\textcolor{{{cm}}}{{\\textbf{{{st}}}}}"
+        return r"\texttt{none}"
+
+    def _pillars_summary(n: dict[str, Any]) -> str:
+        pillars = n["grounding"].get("dual_pillars", [])
+        if not pillars:
+            return r"\emph{none}"
+        bits = []
+        for p in pillars:
+            pk = tex_escape(p.get("kind", ""))
+            pref = tex_code_break(p.get("ref", ""))
+            ploc = p.get("locator", "")
+            if ploc:
+                bits.append(f"\\textbf{{{pk}}}: \\texttt{{{pref}}} ({tex_escape(ploc)})")
+            else:
+                bits.append(f"\\textbf{{{pk}}}: \\texttt{{{pref}}}")
+        return "; ".join(bits)
 
     lines: list[str] = [
         r"\documentclass[10pt,twoside,openany]{book}",
         r"\input{preamble_vol2}",
-        r"\title{Categorical Reverse Mathematics --- Volume~II: Two-Tier Claims \& Audit Ledger}",
+        r"\title{Categorical Reverse Mathematics --- Volume~II: Master Claims \& Grounding Ledger}",
         f"\\author{{{manifest['author']}}}",
         r"\begin{document}",
         r"\frontmatter",
@@ -378,65 +534,205 @@ def emit_claims_ledger(
         r"\begin{center}",
         r"  {\LARGE\bfseries Categorical Reverse Mathematics --- Volume~II\par}",
         r"  \vspace{0.4em}",
-        r"  {\large\itshape\color{CRMBlue} Two-Tier Claims, Axiom, and Four-Color Stratum Audit Ledger\par}",
+        r"  {\large\itshape\color{CRMBlue} Four-Part Master Claims, Two-Tier Blueprint, and Four-Color Stratum Ledger\par}",
         r"  \vspace{0.8em}",
         f"  {{\\normalsize {manifest['author']} \\quad|\\quad {manifest['phase']}: {manifest['active_slice']}\\par}}",
         r"\end{center}",
         r"\clearpage",
         r"\mainmatter",
         r"\setcounter{secnumdepth}{2}",
-        r"\chapter{Two-Tier Verification Ledger}\label{ch:ledger}",
-        r"\section{Tier 1: Kernel-Checked and Lean 4 Formal Claims}",
-        r"Every formal node below is checked under the Two-Package TCB (\texttt{KernelArena} zero-Mathlib 2LTT checker + \texttt{HomotopyCRMVol2} Lean~4 environment audit \cite{abramsky2022,Shulman20}).",
+        r"\chapter{Master Claims and Grounding Ledger}\label{ch:ledger}",
+        (
+            r"This ledger catalogs every claim, contract, inline benchmark, and paraphrase container "
+            r"compiled from \texttt{build/vol2.duckdb} under the Two-Package TCB "
+            r"(\texttt{KernelArena} 2LTT + \texttt{HomotopyCRMVol2} Lean~4) and the Five Gatekeeper "
+            r"Honesty Invariants~\cite{abramsky2022,Shulman20,kihara2023,maschio_trotta2026}."
+        ),
         "",
-        r"\begin{table}[htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.15}",
-        r"\begin{tabularx}{\textwidth}{@{}P{0.28\textwidth}P{0.15\textwidth}P{0.14\textwidth}YP{0.14\textwidth}@{}}",
+        # PART I
+        r"\section{Part I: Cohort I Formal Results}\label{sec:ledger-part1}",
+        r"{\scriptsize\setlength{\tabcolsep}{2.3pt}\renewcommand{\arraystretch}{1.15}",
+        r"\begin{xltabular}{\textwidth}{@{}P{0.23\textwidth}P{0.18\textwidth}P{0.20\textwidth}YP{0.11\textwidth}@{}}",
+        r"\caption{Cohort I Formal Theorems, Propositions, and Counterexamples.}\label{tab:ledger-cohort1}\\",
         r"\toprule",
-        r"\textbf{Node ID} & \textbf{Package} & \textbf{Stratum} & \textbf{Verified Axioms / Spec8} & \textbf{Status} \\",
+        r"\textbf{Node ID} & \textbf{Category / Tier} & \textbf{Stratum \& Axioms} & \textbf{Characterizations \& Dual Pillars} & \textbf{Status} \\",
         r"\midrule",
+        r"\endfirsthead",
+        r"\toprule",
+        r"\textbf{Node ID} & \textbf{Category / Tier} & \textbf{Stratum \& Axioms} & \textbf{Characterizations \& Dual Pillars} & \textbf{Status} \\",
+        r"\midrule",
+        r"\endhead",
+        r"\bottomrule",
+        r"\endfoot",
     ]
-    for n in sorted(tier1, key=lambda x: x["id"]):
+    for n in cohort_i:
         nid = n["id"]
         arec = audit_by_id.get(nid) or receipts.get(nid)
         axs = arec.get("actual_axioms", n["expected_axioms"]) if arec else n["expected_axioms"]
-        ax_str = r"\texttt{[]}" if not axs else r"\texttt{" + tex_escape(", ".join(axs)) + "}"
-        color_macro, _ = STRATUM_STYLES.get(n["stratum"], ("CRMBlue", n["stratum"]))
-        stratum_tex = f"\\textcolor{{{color_macro}}}{{\\textbf{{{n['stratum']}}}}}"
-        pkg_tex = tex_escape(n["formal_pkg"])
+        ax_str = r"\texttt{[]}" if not axs else r"\texttt{" + tex_code_break(", ".join(axs)) + "}"
+        g = n["grounding"]
+        cat_tier = f"{tex_escape(g['primary_category'])} / \\texttt{{{tex_code_break(g['blueprint_tier'])}}}"
+        char_str = tex_escape(", ".join(g["characterization_types"]))
+        ws = f" \\emph{{Scope:}} {tex_escape(g['witness_scope'])}" if g["witness_scope"].strip() else ""
+        detail = f"{char_str}. {_pillars_summary(n)}.{ws}"
         lines.append(
-            f"\\texttt{{{tex_escape(nid)}}} & \\texttt{{{pkg_tex}}} & {stratum_tex} & "
-            f"{ax_str} (\\texttt{{{n['spec_hash'][:8]}}}) & \\texttt{{{tex_escape(n['taint_status'])}}} \\\\"
+            f"\\texttt{{{tex_code_break(nid)}}} & {cat_tier} & "
+            f"{_stratum_tex(n['stratum'])} ({ax_str}; \\texttt{{{n['spec_hash'][:8]}}}) & "
+            f"{detail} & \\texttt{{{tex_escape(n['taint_status'])}}} \\\\"
         )
+    lines.extend([r"\end{xltabular}}", ""])
+
+    # PART II
     lines.extend(
         [
-            r"\bottomrule",
-            r"\end{tabularx}",
-            r"\caption{Tier 1 Formalized Claims, Axioms, and Four-Color Stratum Classification.}",
-            r"\end{table}",
-            "",
-            r"\section{Tier 2: Grounding Contracts, Symbols, and Exposition Nodes}",
-            r"\begin{table}[htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.15}",
-            r"\begin{tabularx}{\textwidth}{@{}P{0.31\textwidth}P{0.16\textwidth}P{0.18\textwidth}YP{0.14\textwidth}@{}}",
+            r"\section{Part II: Cohort II Definitions, Remarks, Problems \& Volume~I Contracts}\label{sec:ledger-part2}",
+            r"{\scriptsize\setlength{\tabcolsep}{2.3pt}\renewcommand{\arraystretch}{1.15}",
+            r"\begin{xltabular}{\textwidth}{@{}P{0.23\textwidth}P{0.17\textwidth}P{0.16\textwidth}YP{0.11\textwidth}@{}}",
+            r"\caption{Cohort II Framework Definitions, Remarks, Symbols, and Pinned Volume~I Contracts.}\label{tab:ledger-cohort2}\\",
             r"\toprule",
-            r"\textbf{Node ID} & \textbf{Kind} & \textbf{Tier} & \textbf{Spec8 / Body8} & \textbf{Status} \\",
+            r"\textbf{Node ID} & \textbf{Kind \& Category} & \textbf{Blueprint / Stratum} & \textbf{Witness Scope / Pillars \& Spec8} & \textbf{Status} \\",
             r"\midrule",
+            r"\endfirsthead",
+            r"\toprule",
+            r"\textbf{Node ID} & \textbf{Kind \& Category} & \textbf{Blueprint / Stratum} & \textbf{Witness Scope / Pillars \& Spec8} & \textbf{Status} \\",
+            r"\midrule",
+            r"\endhead",
+            r"\bottomrule",
+            r"\endfoot",
         ]
     )
-    for n in sorted(tier2, key=lambda x: x["id"]):
+    for n in cohort_ii:
         nid = n["id"]
+        g = n["grounding"]
+        kind_cat = f"\\texttt{{{tex_escape(n['kind'])}}}; {tex_escape(g['primary_category'])}"
+        bp_st = f"\\texttt{{{tex_code_break(g['blueprint_tier'])}}} / {_stratum_tex(n['stratum'])}"
+        parts = [f"\\texttt{{{n['spec_hash'][:8]}}}/\\texttt{{{n['body_hash'][:8]}}}"]
+        if n["kind"] == "symbol":
+            exports = n["raw"].get("spec", {}).get("exports", [])
+            parts.append("Exports: " + ", ".join(f"\\texttt{{{tex_code_break(e['key'])}}}" for e in exports))
+        else:
+            parts.append(_pillars_summary(n))
+        if g["witness_scope"].strip():
+            parts.append(f"\\emph{{Scope:}} {tex_escape(g['witness_scope'])}")
+        detail = " --- ".join(parts)
         lines.append(
-            f"\\texttt{{{tex_escape(nid)}}} & \\texttt{{{tex_escape(n['kind'])}}} & "
-            f"\\texttt{{{tex_escape(n['grounding_tier'])}}} & "
-            f"\\texttt{{{n['spec_hash'][:8]}}} / \\texttt{{{n['body_hash'][:8]}}} & "
-            f"\\texttt{{{tex_escape(n['taint_status'])}}} \\\\"
+            f"\\texttt{{{tex_code_break(nid)}}} & {kind_cat} & {bp_st} & "
+            f"{detail} & \\texttt{{{tex_escape(n['taint_status'])}}} \\\\"
         )
+    lines.extend([r"\end{xltabular}}", ""])
+
+    # PART III
     lines.extend(
         [
+            r"\section{Part III: Cohort III Atomic Inline Claims}\label{sec:ledger-part3}",
+            r"{\scriptsize\setlength{\tabcolsep}{2.3pt}\renewcommand{\arraystretch}{1.15}",
+            r"\begin{xltabular}{\textwidth}{@{}P{0.23\textwidth}P{0.16\textwidth}P{0.20\textwidth}YP{0.11\textwidth}@{}}",
+            r"\caption{Cohort III Atomic Inline Technical Assertions and External Citations.}\label{tab:ledger-cohort3}\\",
+            r"\toprule",
+            r"\textbf{Node ID} & \textbf{Category} & \textbf{Characterizations} & \textbf{Verified Citations \& Locators} & \textbf{Status} \\",
+            r"\midrule",
+            r"\endfirsthead",
+            r"\toprule",
+            r"\textbf{Node ID} & \textbf{Category} & \textbf{Characterizations} & \textbf{Verified Citations \& Locators} & \textbf{Status} \\",
+            r"\midrule",
+            r"\endhead",
             r"\bottomrule",
-            r"\end{tabularx}",
-            r"\caption{Tier 2 Structural, Symbol, and Prose Nodes.}",
-            r"\end{table}",
-            "",
+            r"\endfoot",
+        ]
+    )
+    if cohort_iii:
+        for n in cohort_iii:
+            nid = n["id"]
+            g = n["grounding"]
+            lines.append(
+                f"\\texttt{{{tex_code_break(nid)}}} & {tex_escape(g['primary_category'])} & "
+                f"{tex_escape(', '.join(g['characterization_types']))} & {_pillars_summary(n)} & "
+                f"\\texttt{{{tex_escape(n['taint_status'])}}} \\\\"
+            )
+    else:
+        lines.append(r"\emph{No Cohort III nodes registered.} & --- & --- & --- & --- \\")
+    lines.extend([r"\end{xltabular}}", ""])
+
+    # PART IV
+    lines.extend(
+        [
+            r"\section{Part IV: Cohort IV Table and Roadmap Paraphrase Matrix}\label{sec:ledger-part4}",
+            r"{\scriptsize\setlength{\tabcolsep}{2.3pt}\renewcommand{\arraystretch}{1.15}",
+            r"\begin{xltabular}{\textwidth}{@{}P{0.21\textwidth}P{0.22\textwidth}P{0.17\textwidth}YP{0.10\textwidth}@{}}",
+            r"\caption{Cohort IV Paraphrase Lock Matrix Verifying Spec-Hash Synchronization.}\label{tab:ledger-cohort4}\\",
+            r"\toprule",
+            r"\textbf{Container} & \textbf{Target Claim} & \textbf{Locked / Actual Spec8} & \textbf{Scope Note} & \textbf{Match} \\",
+            r"\midrule",
+            r"\endfirsthead",
+            r"\toprule",
+            r"\textbf{Container} & \textbf{Target Claim} & \textbf{Locked / Actual Spec8} & \textbf{Scope Note} & \textbf{Match} \\",
+            r"\midrule",
+            r"\endhead",
+            r"\bottomrule",
+            r"\endfoot",
+        ]
+    )
+    for n in cohort_iv:
+        cid = n["id"]
+        for edge in n.get("prose_paraphrase_in", []):
+            tid = edge["target_id"]
+            locked_h = edge["locked_spec_hash"]
+            actual_h = nodes_meta[tid]["spec_hash"] if tid in nodes_meta else ""
+            match_str = "LOCKED" if locked_h == actual_h and locked_h else "MISMATCH"
+            lines.append(
+                f"\\texttt{{{tex_code_break(cid)}}} & \\texttt{{{tex_code_break(tid)}}} & "
+                f"\\texttt{{{locked_h[:8]}}} / \\texttt{{{actual_h[:8]}}} & "
+                f"{tex_escape(edge.get('scope_note', ''))} & \\texttt{{{match_str}}} \\\\"
+            )
+    lines.extend([r"\end{xltabular}}", ""])
+
+    # PART V: Census & Disjoint Declaration Summary Table
+    cohort_counts = Counter(n["cohort"] for n in all_nodes)
+    cat_counts = Counter(n["grounding"]["primary_category"] for n in all_nodes)
+    stratum_counts = Counter(n["stratum"] for n in all_nodes)
+    lean_decl_count = sum(1 for _, _, okind in decl_rows if okind == "lean_decl")
+    cert_decl_count = sum(1 for _, _, okind in decl_rows if okind == "twoltt_cert")
+
+    lines.extend(
+        [
+            r"\section{Part V: Census \& Disjoint Declaration Summary}\label{sec:ledger-part5}",
+            r"{\scriptsize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.15}",
+            r"\begin{xltabular}{\textwidth}{@{}P{0.26\textwidth}P{0.44\textwidth}P{0.14\textwidth}Y@{}}",
+            r"\caption{Census by Cohort, Grounding Category, Four-Color Stratum, and Disjoint Declaration Ownership.}\label{tab:ledger-census}\\",
+            r"\toprule",
+            r"\textbf{Dimension} & \textbf{Bucket} & \textbf{Count} & \textbf{Notes} \\",
+            r"\midrule",
+            r"\endfirsthead",
+            r"\toprule",
+            r"\textbf{Dimension} & \textbf{Bucket} & \textbf{Count} & \textbf{Notes} \\",
+            r"\midrule",
+            r"\endhead",
+            r"\bottomrule",
+            r"\endfoot",
+        ]
+    )
+    for cname in ("Cohort I", "Cohort II", "Cohort III", "Cohort IV"):
+        lines.append(f"Cohort & {tex_escape(cname)} & {cohort_counts.get(cname, 0)} & --- \\\\")
+    lines.append(f"\\textbf{{Total Nodes}} & \\textbf{{All Cohorts}} & \\textbf{{{len(all_nodes)}}} & CLEAN={sum(1 for n in all_nodes if n['taint_status'] == 'CLEAN')} \\\\")
+    lines.append(r"\midrule")
+    for cat, cnt in sorted(cat_counts.items()):
+        lines.append(f"Grounding Category & {tex_escape(cat)} & {cnt} & --- \\\\")
+    lines.append(r"\midrule")
+    for st in ("emerald", "sapphire", "amber", "crimson", "none"):
+        lines.append(
+            f"Four-Color Stratum & {_stratum_tex(st)} & {stratum_counts.get(st, 0)} & --- \\\\"
+        )
+    lines.append(r"\midrule")
+    lines.append(
+        f"Declaration Ownership & Unique Lean Declarations & {lean_decl_count} & 1-to-1 disjoint across \\texttt{{decl\\_ownership}} \\\\"
+    )
+    lines.append(
+        f"Declaration Ownership & Unique 2LTT Certificates & {cert_decl_count} & 0 shared certs; 0 TCB crossings \\\\"
+    )
+    lines.extend([r"\end{xltabular}}", ""])
+
+    lines.extend(
+        [
             r"\section{Cross-Volume Guardrail Register}",
             r"\begin{itemize}[leftmargin=1.5em]",
         ]

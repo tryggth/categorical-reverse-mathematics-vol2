@@ -194,3 +194,14 @@ logical_dep = ["ch01:thm:flow-f1-threshold-order"]
 lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier", "ch01:thm:flow-f1-threshold-order"]
 curriculum = ["ch01:thm:flow-f1-threshold-order"]
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Counterexample / Disproof", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.cex_frontier_nonmonotone"
+purpose = "Axiom-free 5-point 3-stage Lean 4 counterexample certifying non-monotone 1 -> 2 -> 1 Pareto cardinality"

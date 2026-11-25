@@ -1,0 +1,53 @@
+id = "vol1:def:comparison-triple"
+kind = "vol1_external"
+title = "Doctrinal Comparisons, Adjoint Mate Squares, and Dom(Res) (Volume I)"
+chapter = "ch01"
+section = "1.1"
+seq_order = 2
+axis = "meta_crm"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["Shulman08", "HHLN23", "Lawvere69", "Johnstone02"]
+
+[spec]
+vol1_root = "/home/tryggth2009/categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/categorical_reverse_mathematics.tex:624"
+vol1_label = "def:comparison-triple"
+vol1_lean_symbol = "HomotopyCRM.DoctrinalFibration"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+A doctrinal comparison triple T = (D0 >= D1, kappa : Phi => Psi) packages a Grothendieck doctrinal fibration p : E -> B (DoctrinalFibration, wrapping Functor.IsFibered, with canonical bare-doctrine terminal projection DoctrinalFibration.toTerminal) or an adjoint mate square (MateDoubleSquare with Beck-Chevalley mate involution mateDoubleSquare_mate_involutive) whose fiber defects vanish precisely along D1. Dom(Res) is the domain of all such comparison triples.
+"""
+
+[body]
+tex = """
+\\begin{definition}[Volume~I Grounding Contract: Doctrinal Comparisons and Adjoint Mate Squares]\\label{vol1:def:comparison-triple}%
+\\lean{HomotopyCRM.DoctrinalFibration, HomotopyCRM.MateDoubleSquare, HomotopyCRM.mateDoubleSquare_mate_involutive}\\leanwitness%
+Pinned read-only to Volume~I (\\texttt{def:comparison-triple}, \\texttt{docs/categorical\\_reverse\\_mathematics.tex:624}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{Shulman08,HHLN23,Lawvere69,Johnstone02}. A \\textbf{doctrinal fibration} $p : \\mathcal{E} \\to \\mathcal{B}$ (\\texttt{DoctrinalFibration}, specializing via the terminal projection $\\mathcal{D} \\to \\mathbf{1}$, \\texttt{DoctrinalFibration.toTerminal}) carries doctrinal structure preserved by Cartesian reindexing; when horizontal adjunctions $L \\dashv R$ and $L' \\dashv R'$ sit in a \\texttt{MateDoubleSquare}, any $2$-cell $\\alpha : L' \\circ u \\Rightarrow F \\circ L$ transposes via the involutive mate equivalence (\\texttt{mateDoubleSquare\\_mate\\_involutive}) to $\\mu_\\alpha : u \\circ R \\Rightarrow R' \\circ F$. Packaging $\\mathcal{D}_0 \\supseteq \\mathcal{D}_1$ with $\\kappa : \\Phi \\Rightarrow \\Psi$ yields a \\textbf{doctrinal comparison triple} $\\mathfrak{T} = (\\mathcal{D}_0 \\supseteq \\mathcal{D}_1, \\kappa) \\in \\mathrm{Dom}(\\mathrm{Res})$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:comparison-triple"
+locator = "docs/categorical_reverse_mathematics.tex:624"
+purpose = "Pinned read-only Volume I contract for DoctrinalFibration, MateDoubleSquare, and Dom(Res)"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "HHLN23"
+locator = "Proc. LMS 127 (2023), §3, pp. 889–957"
+purpose = "Two-variable fibrations and Beck-Chevalley calculus of mates"

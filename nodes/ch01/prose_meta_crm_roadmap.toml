@@ -50,3 +50,19 @@ scope_note = "5-point 3-stage filtration with Clauses (1)-(3) witness, t_wake=0,
 target_id = "ch01:rem:trident-mode3-2ltt-bootstrap"
 locked_spec_hash = "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369"
 scope_note = "Mode (iii) Obstruction Trident 2LTT bootstrap preview (excluded from Course Pack slice)"
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Metamathematical Principle"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch01:def:probe-suite"
+purpose = "Opening roadmap prose summary locked to Phase 0 spec_hash"
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch01:thm:scotoma-pareto-trichotomy"
+purpose = "Opening roadmap summary of trichotomy locked to Phase 0 spec_hash"

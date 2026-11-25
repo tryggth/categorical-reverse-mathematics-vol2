@@ -1,0 +1,237 @@
+id = "ch01:prop:lt-stability-projsub"
+kind = "proposition"
+title = "Lawvere-Tierney Sheaf Stability of Hereditary Subterminal Projectivity"
+chapter = "ch01"
+section = "1.2"
+seq_order = 38
+axis = "meta_crm"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["johnstone2002", "FreydScedrov90"]
+
+[spec]
+statement = "For every elementary topos E and every Lawvere-Tierney topology j on E, if E satisfies hereditary subterminal projectivity (Proj_sub = SS), then its sheaf subtopos Sh_j(E) also satisfies Proj_sub: every epimorphism p : X ->> V onto a subterminal V >-> 1 in Sh_j(E) admits a section sigma : V -> X."
+hypotheses = [
+  "Elementary topos E satisfying Proj_sub",
+  "Lawvere-Tierney topology j : Omega_E -> Omega_E"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.DoctrinalFlows"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.ReflectiveSubterminalSystem",
+  "HomotopyCRM.Vol2.HasProjSubE",
+  "HomotopyCRM.Vol2.HasProjSubS",
+  "HomotopyCRM.Vol2.unitReflectiveSystem",
+  "HomotopyCRM.Vol2.reflective_preserves_projSub"
+]
+expected_axioms = []
+lean_signature = """
+/-- Reflective exact subterminal epi-mono transport system modeling `a_j ⊣ i : Sh_j(E) ↪ E`. -/
+structure ReflectiveSubterminalSystem : Type 1 where
+  /-- Objects of ambient topos `E`. -/
+  ObjE : Type
+  /-- Morphisms of `E`. -/
+  HomE : ObjE → ObjE → Type
+  /-- Identity in `E`. -/
+  idE : ∀ X : ObjE, HomE X X
+  /-- Composition in `E`. -/
+  compE : ∀ {X Y Z : ObjE}, HomE Y Z → HomE X Y → HomE X Z
+  /-- Subterminal predicate in `E`. -/
+  IsSubterminalE : ObjE → Prop
+  /-- Epimorphism predicate in `E`. -/
+  IsEpiE : ∀ {X Y : ObjE}, HomE X Y → Prop
+  /-- Monomorphism predicate in `E`. -/
+  IsMonoE : ∀ {X Y : ObjE}, HomE X Y → Prop
+  /-- Objects of sheaf subtopos `Sh_j(E)`. -/
+  ObjS : Type
+  /-- Morphisms of `Sh_j(E)`. -/
+  HomS : ObjS → ObjS → Type
+  /-- Identity in `Sh_j(E)`. -/
+  idS : ∀ X : ObjS, HomS X X
+  /-- Composition in `Sh_j(E)`. -/
+  compS : ∀ {X Y Z : ObjS}, HomS Y Z → HomS X Y → HomS X Z
+  /-- Associativity in `Sh_j(E)`. -/
+  assocS : ∀ {W X Y Z : ObjS} (h : HomS Y Z) (g : HomS X Y) (f : HomS W X),
+    compS (compS h g) f = compS h (compS g f)
+  /-- Left identity in `Sh_j(E)`. -/
+  id_compS : ∀ {X Y : ObjS} (f : HomS X Y), compS (idS Y) f = f
+  /-- Right identity in `Sh_j(E)`. -/
+  comp_idS : ∀ {X Y : ObjS} (f : HomS X Y), compS f (idS X) = f
+  /-- Subterminal predicate in `Sh_j(E)`. -/
+  IsSubterminalS : ObjS → Prop
+  /-- Epimorphism predicate in `Sh_j(E)`. -/
+  IsEpiS : ∀ {X Y : ObjS}, HomS X Y → Prop
+  /-- Inclusion functor `i : Sh_j(E) ↪ E`. -/
+  iObj : ObjS → ObjE
+  /-- Action of `i` on morphisms. -/
+  iMap : ∀ {X Y : ObjS}, HomS X Y → HomE (iObj X) (iObj Y)
+  /-- Sheafification reflector `a_j : E → Sh_j(E)`. -/
+  aObj : ObjE → ObjS
+  /-- Action of `a_j` on morphisms. -/
+  aMap : ∀ {X Y : ObjE}, HomE X Y → HomS (aObj X) (aObj Y)
+  /-- Functoriality on identities. -/
+  a_id : ∀ X : ObjE, aMap (idE X) = idS (aObj X)
+  /-- Functoriality on composition. -/
+  a_comp : ∀ {X Y Z : ObjE} (g : HomE Y Z) (f : HomE X Y),
+    aMap (compE g f) = compS (aMap g) (aMap f)
+  /-- Reflection isomorphism counit `ε_X : a_j(i X) ≅ X`. -/
+  eps : ∀ X : ObjS, HomS (aObj (iObj X)) X
+  /-- Inverse counit `ε_X⁻¹ : X ≅ a_j(i X)`. -/
+  epsInv : ∀ X : ObjS, HomS X (aObj (iObj X))
+  /-- Right inverse law `ε ∘ ε⁻¹ = id`. -/
+  eps_inv_right : ∀ X : ObjS, compS (eps X) (epsInv X) = idS X
+  /-- Naturality of `ε`. -/
+  eps_nat : ∀ {X Y : ObjS} (f : HomS X Y),
+    compS f (eps X) = compS (eps Y) (aMap (iMap f))
+  /-- Right adjoint `i` preserves subterminals. -/
+  i_preserves_subterminal : ∀ V : ObjS, IsSubterminalS V → IsSubterminalE (iObj V)
+  /-- Epi-mono factorization in `E` with subterminal image `W ≤ i(V) ≤ 1_E`. -/
+  epiMonoFactor : ∀ {X Y : ObjE} (f : HomE X Y),
+    IsSubterminalE Y →
+    ∃ (W : ObjE) (q : HomE X W) (m : HomE W Y),
+      IsSubterminalE W ∧ IsEpiE q ∧ IsMonoE m ∧ compE m q = f
+  /-- Exactness of `a_j` turns `m` into an epi+mono hence isomorphism in the balanced topos `Sh_j(E)`. -/
+  a_mono_of_sheafEpi_iso : ∀ {X V : ObjS} (p : HomS X V) {W : ObjE}
+    (q : HomE (iObj X) W) (m : HomE W (iObj V)),
+    IsEpiS p → IsEpiE q → IsMonoE m → compE m q = iMap p →
+    ∃ mInv : HomS (aObj (iObj V)) (aObj W),
+      compS (aMap m) mInv = idS (aObj (iObj V))
+
+/-- Ambient `Proj_sub`: every epimorphism onto a subterminal splits in `E`. -/
+def HasProjSubE (R : ReflectiveSubterminalSystem) : Prop :=
+  ∀ {X W : R.ObjE} (q : R.HomE X W), R.IsSubterminalE W → R.IsEpiE q →
+    ∃ s : R.HomE W X, R.compE q s = R.idE W
+
+/-- Subtopos `Proj_sub`: every epimorphism onto a subterminal splits in `Sh_j(E)`. -/
+def HasProjSubS (R : ReflectiveSubterminalSystem) : Prop :=
+  ∀ {X V : R.ObjS} (p : R.HomS X V), R.IsSubterminalS V → R.IsEpiS p →
+    ∃ σ : R.HomS V X, R.compS p σ = R.idS V
+
+/-- Concrete inhabited witness of `ReflectiveSubterminalSystem`. -/
+def unitReflectiveSystem : ReflectiveSubterminalSystem where
+  ObjE := PUnit
+  HomE _ _ := PUnit
+  idE _ := ()
+  compE _ _ := ()
+  IsSubterminalE _ := True
+  IsEpiE _ := True
+  IsMonoE _ := True
+  ObjS := PUnit
+  HomS _ _ := PUnit
+  idS _ := ()
+  compS _ _ := ()
+  assocS _ _ _ := rfl
+  id_compS _ := rfl
+  comp_idS _ := rfl
+  IsSubterminalS _ := True
+  IsEpiS _ := True
+  iObj x := x
+  iMap f := f
+  aObj x := x
+  aMap f := f
+  a_id _ := rfl
+  a_comp _ _ := rfl
+  eps _ := ()
+  epsInv _ := ()
+  eps_inv_right _ := rfl
+  eps_nat _ := rfl
+  i_preserves_subterminal _ _ := trivial
+  epiMonoFactor _ _ := ⟨(), (), (), trivial, trivial, trivial, rfl⟩
+  a_mono_of_sheafEpi_iso := by intros; exact ⟨(), rfl⟩
+
+/-- **Witness Core (`reflective_preserves_projSub`):** Diagram-chase transport of `Proj_sub` from
+    `E` to `Sh_j(E)` via epi-mono factorization and sheafification reflection (zero axioms). -/
+theorem reflective_preserves_projSub (R : ReflectiveSubterminalSystem)
+    (hE : HasProjSubE R) : HasProjSubS R := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.reflective_preserves_projSub' does not depend on any axioms -/\n#guard_msgs in\n#print axioms reflective_preserves_projSub"
+]
+
+[body]
+lean_body = """
+  intro X V p hV hp
+  have hiV : R.IsSubterminalE (R.iObj V) := R.i_preserves_subterminal V hV
+  rcases R.epiMonoFactor (R.iMap p) hiV with ⟨W, q, m, hW, hq, hm, hfac⟩
+  rcases hE q hW hq with ⟨s, hs⟩
+  rcases R.a_mono_of_sheafEpi_iso p q m hp hq hm hfac with ⟨mInv, hmInv⟩
+  refine ⟨R.compS (R.eps X) (R.compS (R.aMap s) (R.compS mInv (R.epsInv V))), ?_⟩
+  calc
+    R.compS p (R.compS (R.eps X) (R.compS (R.aMap s) (R.compS mInv (R.epsInv V))))
+      = R.compS (R.compS p (R.eps X)) (R.compS (R.aMap s) (R.compS mInv (R.epsInv V))) := by
+          rw [← R.assocS]
+    _ = R.compS (R.compS (R.eps V) (R.aMap (R.iMap p)))
+          (R.compS (R.aMap s) (R.compS mInv (R.epsInv V))) := by
+          rw [R.eps_nat p]
+    _ = R.compS (R.eps V) (R.compS (R.aMap (R.compE m q))
+          (R.compS (R.aMap s) (R.compS mInv (R.epsInv V)))) := by
+          rw [← hfac, R.assocS]
+    _ = R.compS (R.eps V) (R.compS (R.compS (R.aMap m) (R.aMap q))
+          (R.compS (R.aMap s) (R.compS mInv (R.epsInv V)))) := by
+          rw [R.a_comp m q]
+    _ = R.compS (R.eps V) (R.compS (R.aMap m)
+          (R.compS (R.compS (R.aMap q) (R.aMap s)) (R.compS mInv (R.epsInv V)))) := by
+          rw [R.assocS, ← R.assocS (R.aMap q)]
+    _ = R.compS (R.eps V) (R.compS (R.aMap m)
+          (R.compS (R.aMap (R.compE q s)) (R.compS mInv (R.epsInv V)))) := by
+          rw [← R.a_comp q s]
+    _ = R.compS (R.eps V) (R.compS (R.aMap m) (R.compS mInv (R.epsInv V))) := by
+          rw [hs, R.a_id W, R.id_compS]
+    _ = R.compS (R.eps V) (R.compS (R.compS (R.aMap m) mInv) (R.epsInv V)) := by
+          rw [← R.assocS (R.aMap m)]
+    _ = R.compS (R.eps V) (R.epsInv V) := by
+          rw [hmInv, R.id_compS]
+    _ = R.idS V := R.eps_inv_right V
+"""
+tex = """
+\\begin{proposition}[Lawvere--Tierney Sheaf Stability of {{sym:proj-sub}}]\\label{ch01:prop:lt-stability-projsub}%
+\\uses{vol1:def:doctrinal-philosophy,ch01:def:probe-suite}%
+For every elementary topos $\\mathcal{E}$ and every Lawvere--Tierney topology $j : \\Omega_{\\mathcal{E}} \\to \\Omega_{\\mathcal{E}}$,
+\\[
+  \\mathcal{E} \\in {{sym:proj-sub}} \\quad\\Longrightarrow\\quad \\mathbf{Sh}_j(\\mathcal{E}) \\in {{sym:proj-sub}}.
+\\]
+\\end{proposition}
+\\begin{proof}
+Let $a_j \\dashv i : \\mathbf{Sh}_j(\\mathcal{E}) \\hookrightarrow \\mathcal{E}$ be the left-exact sheafification reflection~\\cite[\\S\\S A4.4--A4.5]{johnstone2002}, with reflection isomorphism $\\varepsilon_Z : a_j(i(Z)) \\xrightarrow{\\sim} Z$ for every sheaf $Z$. Suppose $p : X \\twoheadrightarrow V$ is an epimorphism onto a subterminal $V \\rightarrowtail 1_{\\mathbf{Sh}_j(\\mathcal{E})}$ in $\\mathbf{Sh}_j(\\mathcal{E})$. Because the right adjoint $i$ preserves limits, $i(V) \\rightarrowtail 1_{\\mathcal{E}}$ is subterminal in $\\mathcal{E}$. Factor $i(p) : i(X) \\to i(V)$ in the elementary topos $\\mathcal{E}$ via its epi--mono factorization
+\\[
+  i(X) \\xrightarrow{\\;q\\;} W \\xrightarrow{\\;m\\;} i(V) \\rightarrowtail 1_{\\mathcal{E}},
+\\]
+so that $W$ is subterminal in $\\mathcal{E}$ (as a subobject of $i(V) \\rightarrowtail 1_{\\mathcal{E}}$), $q$ is epic, and $m$ is monic. Since $\\mathcal{E} \\in {{sym:proj-sub}}$ (Freyd--{\\v{S}}{\\v{c}}edrov's Supports Split~\\cite{FreydScedrov90}), $q$ admits a section $s : W \\to i(X)$ in $\\mathcal{E}$ satisfying $q \\circ s = \\mathrm{id}_W$. Applying the left-exact functor $a_j$ preserves both finite limits (hence monomorphisms) and colimits (hence epimorphisms): thus $a_j(m) : a_j(W) \\to a_j(i(V))$ is monic, while $a_j(m) \\circ a_j(q) = a_j(i(p)) \\cong p$ being epic forces $a_j(m)$ to be epic as well. Because every elementary topos is balanced, $a_j(m)$ is an isomorphism in $\\mathbf{Sh}_j(\\mathcal{E})$. Setting
+\\[
+  \\sigma \\;:=\\; \\varepsilon_X \\circ a_j(s) \\circ a_j(m)^{-1} \\circ \\varepsilon_V^{-1} \\;:\\; V \\longrightarrow X
+\\]
+and chasing naturality of $\\varepsilon$ gives $p \\circ \\sigma = \\varepsilon_V \\circ a_j(i(p)) \\circ a_j(s) \\circ a_j(m)^{-1} \\circ \\varepsilon_V^{-1} = \\varepsilon_V \\circ a_j(m) \\circ a_j(q \\circ s) \\circ a_j(m)^{-1} \\circ \\varepsilon_V^{-1} = \\mathrm{id}_V$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:def:doctrinal-philosophy", "ch01:def:probe-suite"]
+lean_dep = []
+curriculum = ["vol1:def:doctrinal-philosophy", "ch01:def:probe-suite"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Conservation / Solvency", "Choice Calibration"]
+witness_scope = "ReflectiveSubterminalSystem mechanizes the exactness-driven diagram chase HasProjSubE -> HasProjSubS via epiMonoFactor and a_mono_of_sheafEpi_iso (axiom-free Emerald); the elementary-topos construction of a_j -| i, subobject preservation of i, and balancedness of Sh_j(E) live in the monograph proof citing Johnstone (2002)."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch01:prop:lt-stability-projsub"
+purpose = "Full constructive elementary-topos proof via epi-mono factorization in E and exactness of a_j -| i"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.reflective_preserves_projSub"
+purpose = "Axiom-free Lean 4 diagram-chase witness over ReflectiveSubterminalSystem"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "johnstone2002"
+locator = "§§A4.4–A4.5 (Vol. 1, pp. 210–228)"
+purpose = "Lawvere-Tierney topologies, left-exact sheafification a_j -| i, and balancedness of elementary topoi"

@@ -105,3 +105,14 @@ logical_dep = ["vol1:def:doctrinal-philosophy"]
 lean_dep = []
 curriculum = ["vol1:def:doctrinal-philosophy"]
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Authorial framework definition"
+blueprint_tier = "lean_witness"
+characterization_types = ["Framework Definition", "Metamathematical Principle"]
+witness_scope = "Clauses (1)-(2) and Touchstone hyperedges are mechanized directly in ProbeSuite; Clause (3)'s syntactic Sigma_1 / small-site Levy complexity bound preventing Vopenka reflection leaks is abstracted as hasBoundedLevyComplexity : P -> Prop in Phase 0-1 pending the Ch. 2-6 GBC syntactic hierarchy formalization."
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.ProbeSuite"
+purpose = "Axiom-free Lean 4 definition of DoctrinalProblem, ProbeSuite (Clauses 1-3), and touchstoneHyperedge"

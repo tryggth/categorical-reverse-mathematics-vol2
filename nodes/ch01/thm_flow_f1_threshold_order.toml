@@ -148,3 +148,14 @@ logical_dep = ["ch01:def:adm-pareto-frontier"]
 lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
 curriculum = ["ch01:def:adm-pareto-frontier"]
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Conservation / Solvency", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.flow_f1_threshold_order"
+purpose = "Full axiom-free Lean 4 proof of tWake F <= tDogma F over finite-horizon monotone filtrations"

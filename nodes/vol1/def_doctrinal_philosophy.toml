@@ -40,3 +40,27 @@ logical_dep = []
 lean_dep = []
 curriculum = []
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition", "Duality"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:doctrinal-philosophy"
+locator = "docs/categorical_reverse_mathematics.tex:790"
+purpose = "Pinned read-only Volume I contract for DoctrinalPhilosophy, Assertoric Closure T, and Pareto frontier"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "Shulman20"
+locator = "TAC 35 (2020), §§2–4, pp. 89–136"
+purpose = "2-Chu-Dialectica pairing construction underlying doctrinal philosophies"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "HHLN23"
+locator = "Proc. LMS 127 (2023), §3, pp. 889–957"
+purpose = "Two-variable fibrations and Beck-Chevalley mate calculus for doctrinal equipments"

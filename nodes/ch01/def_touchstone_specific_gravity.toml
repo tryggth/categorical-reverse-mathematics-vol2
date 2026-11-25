@@ -1,0 +1,138 @@
+id = "ch01:def:touchstone-specific-gravity"
+kind = "definition"
+title = "Surgical Hypothesis Satisfaction and Touchstone Specific Gravity"
+chapter = "ch01"
+section = "1.2"
+seq_order = 35
+axis = "meta_crm"
+grounding_tier = "framework_def"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "Given a finite implication library I of schemas H_1,...,H_k => C over D, a carrier w surgically activates an implication (forms a minimal cut) when w satisfies every premise H_i while refuting C. Its Touchstone Specific Gravity is SG(w) := #{minimal cuts in I} / K_AST(w) (for K_AST(w) > 0), and any total-pathology carrier violating a premise in every implication in I achieves minimalCutCount = 0."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.DoctrinalFlows"
+imports = ["HomotopyCRM.Vol2.ProbeSuite"]
+decl_names = [
+  "HomotopyCRM.Vol2.ImplicationSchema",
+  "HomotopyCRM.Vol2.satisfiesAllPremises",
+  "HomotopyCRM.Vol2.isMinimalCut",
+  "HomotopyCRM.Vol2.minimalCutCount",
+  "HomotopyCRM.Vol2.SpecificGravity",
+  "HomotopyCRM.Vol2.SpecificGravity.le",
+  "HomotopyCRM.Vol2.touchstoneSpecificGravity",
+  "HomotopyCRM.Vol2.total_pathology_zero_cuts"
+]
+expected_axioms = []
+lean_signature = """
+/-- Implication schema `H₁ ∧ ... ∧ Hₖ ⇒ C` over doctrinal carriers `D`. -/
+structure ImplicationSchema (D : Type) : Type where
+  /-- List of decidable hypothesis predicates `Hᵢ`. -/
+  premises : List (D → Bool)
+  /-- Decidable conclusion predicate `C`. -/
+  conclusion : D → Bool
+
+/-- Duhem–Quine hypothesis filter: `w` satisfies all premises `H₁, ..., Hₖ`. -/
+def satisfiesAllPremises {D : Type} (imp : ImplicationSchema D) (w : D) : Bool :=
+  imp.premises.all (fun h ↦ h w)
+
+/-- `w` forms a surgical minimal cut on `imp` when all premises hold and `C` fails. -/
+def isMinimalCut {D : Type} (imp : ImplicationSchema D) (w : D) : Bool :=
+  {{LEAN_BODY}}
+
+/-- Number of minimal cuts activated by `w` across an implication library `lib`. -/
+def minimalCutCount {D : Type} (lib : List (ImplicationSchema D)) (w : D) : Nat :=
+  (lib.filter (fun imp ↦ isMinimalCut imp w)).length
+
+/-- Exact rational invariant `SG(w) = cuts / astComplexity` encoded pair-constructively. -/
+structure SpecificGravity : Type where
+  /-- Number of minimal cuts in the implication library `ℐ`. -/
+  cuts : Nat
+  /-- Positive AST presentation complexity `K_AST(w) > 0`. -/
+  astComplexity : Nat
+  /-- Positivity witness avoiding division by zero. -/
+  posComplexity : 0 < astComplexity
+
+/-- Cross-multiplied exact rational order `SG(w₁) ≤ SG(w₂)`. -/
+def SpecificGravity.le (a b : SpecificGravity) : Prop :=
+  a.cuts * b.astComplexity ≤ b.cuts * a.astComplexity
+
+/-- Touchstone Specific Gravity `SG(w)` attached to `(lib, kAST, w)`. -/
+def touchstoneSpecificGravity {D : Type} (lib : List (ImplicationSchema D))
+    (kAST : D → Nat) (hk : ∀ w, 0 < kAST w) (w : D) : SpecificGravity :=
+  ⟨minimalCutCount lib w, kAST w, hk w⟩
+
+private theorem list_all_eq_false_of_mem {α : Type} {f : α → Bool} {xs : List α}
+    (h : ∃ x ∈ xs, f x = false) : xs.all f = false := by
+  induction xs with
+  | nil =>
+    rcases h with ⟨_, hmem, _⟩
+    cases hmem
+  | cons a tl ih =>
+    rcases h with ⟨x, hmem, hfx⟩
+    cases hmem with
+    | head =>
+      change (f a && tl.all f) = false
+      rw [hfx]
+      rfl
+    | tail _ htl =>
+      change (f a && tl.all f) = false
+      rw [ih ⟨x, htl, hfx⟩]
+      cases f a <;> rfl
+
+/-- Any total-pathology carrier violating at least one premise in every implication achieves `0` minimal cuts. -/
+theorem total_pathology_zero_cuts {D : Type} (lib : List (ImplicationSchema D)) (w : D)
+    (hPath : ∀ imp ∈ lib, ∃ h ∈ imp.premises, h w = false) :
+    minimalCutCount lib w = 0 := by
+  induction lib with
+  | nil => rfl
+  | cons imp rest ih =>
+    have hPremFalse : satisfiesAllPremises imp w = false :=
+      list_all_eq_false_of_mem (hPath imp (List.Mem.head rest))
+    have hCutFalse : isMinimalCut imp w = false := by
+      change (satisfiesAllPremises imp w && !(imp.conclusion w)) = false
+      rw [hPremFalse]
+      rfl
+    dsimp only [minimalCutCount, List.filter]
+    rw [hCutFalse]
+    exact ih (fun imp' hmem ↦ hPath imp' (List.Mem.tail imp hmem))
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.touchstoneSpecificGravity' does not depend on any axioms -/\n#guard_msgs in\n#print axioms touchstoneSpecificGravity",
+  "/-- info: 'HomotopyCRM.Vol2.total_pathology_zero_cuts' does not depend on any axioms -/\n#guard_msgs in\n#print axioms total_pathology_zero_cuts"
+]
+
+[body]
+lean_body = """
+  satisfiesAllPremises imp w && !(imp.conclusion w)
+"""
+tex = """
+\\begin{definition}[Surgical Hypothesis Satisfaction and Touchstone Specific Gravity]\\label{ch01:def:touchstone-specific-gravity}%
+\\uses{ch01:def:probe-suite,ch01:prop:extent-transversal-galois}%
+Let $\\mathcal{I} = \\{(H_{i,1} \\wedge \\cdots \\wedge H_{i,k_i} \\Rightarrow C_i)\\}$ be a finite library of doctrinal implication schemas over $\\mathbb{D}$ ({{ref:ch01:def:probe-suite}}). A carrier $w \\in \\mathbb{D}$ is a \\textbf{surgical minimal cut} on schema $i$ (implementing the Duhem--Quine filter) if $w$ satisfies every premise $H_{i,1}, \\dots, H_{i,k_i}$ while refuting $C_i$. For any presentation AST complexity $K_{\\mathrm{AST}}(w) \\in \\mathbb{N}_{\\ge 1}$, the \\textbf{Touchstone Specific Gravity}\\index{Touchstone Specific Gravity} of $w$ is the exact rational invariant
+\\[
+  {{sym:spec-grav}}(w) \\;:=\\; \\frac{\\#\\{\\text{minimal cuts of } w \\text{ in } \\mathcal{I}\\}}{K_{\\mathrm{AST}}(w)}.
+\\]
+Any total-pathology carrier $w$ violating at least one premise in every implication of $\\mathcal{I}$ has $\\#\\{\\text{minimal cuts}\\} = 0$ and therefore ${{sym:spec-grav}}(w) = 0$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = ["ch01:def:probe-suite", "ch01:prop:extent-transversal-galois"]
+lean_dep = ["ch01:def:probe-suite"]
+curriculum = ["ch01:def:probe-suite"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Authorial framework definition"
+blueprint_tier = "lean_ok"
+characterization_types = ["Framework Definition", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.total_pathology_zero_cuts"
+purpose = "Axiom-free Lean 4 definition of Touchstone Specific Gravity and proof of total-pathology vanishing"

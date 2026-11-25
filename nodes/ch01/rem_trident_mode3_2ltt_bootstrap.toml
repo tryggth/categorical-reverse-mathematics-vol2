@@ -35,3 +35,14 @@ logical_dep = ["vol1:def:doctrinal-philosophy"]
 lean_dep = []
 curriculum = ["vol1:def:doctrinal-philosophy"]
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by 2LTT certificate"
+blueprint_tier = "twoltt_ok"
+characterization_types = ["Homotopy Type / Classifying Space", "Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "twoltt_cert"
+ref = "certs/ch01_bool_id_bootstrap.2ltt.json"
+purpose = "Zero-Mathlib KernelArena 2LTT bootstrap certificate verified at depth k=1 and bridged via rfl in CertChecks"

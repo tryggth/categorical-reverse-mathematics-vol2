@@ -1,0 +1,46 @@
+id = "vol1:def:residuum"
+kind = "vol1_external"
+title = "Truncated Homotopy-Fiber Defect and Categorical Residuum (Volume I)"
+chapter = "ch01"
+section = "1.1"
+seq_order = 3
+axis = "meta_crm"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["Shulman20", "Johnstone02"]
+
+[spec]
+vol1_root = "/home/tryggth2009/categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/categorical_reverse_mathematics.tex:643"
+vol1_label = "def:residuum"
+vol1_lean_symbol = "HomotopyCRM.SectionObstructionMode"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+For a comparison triple T = (D0 >= D1, kappa) induced by F_X : A(X) -> B(X), the mode-n core homotopy-fiber defect ||hofib_y(F_X^simeq)||_n (n in {-1, 0, infty}) and mapping-anima homotopy-fiber defect ||hofib_g(F_{X; a,a'})||_n characterize the vanishing locus D1. A categorical residuum R = Res(kappa) is an admissible structural invariant validating D0 + Res(kappa) <=> D1 (Fundamental Equivalence of CRM).
+"""
+
+[body]
+tex = """
+\\begin{definition}[Volume~I Grounding Contract: Homotopy-Fiber Defect and Categorical Residuum]\\label{vol1:def:residuum}%
+Pinned read-only to Volume~I (\\texttt{def:residuum}, \\texttt{docs/categorical\\_reverse\\_mathematics.tex:643}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{Shulman20,Johnstone02}. Evaluated at $X \\in \\mathcal{D}_0$, a comparison functor $F_X : \\mathcal{A}(X) \\to \\mathcal{B}(X)$ induces the \\textbf{mode-$n$ core homotopy-fiber defect} ($n \\in \\{-1, 0, \\infty\\}$) $\\|\\mathrm{hofib}_y(F_X^{\\simeq})\\|_n := \\|\\mathcal{A}(X)^{\\simeq} \\times^h_{\\mathcal{B}(X)^{\\simeq}} \\{y\\}\\|_n$ and the \\textbf{mapping-anima homotopy-fiber defect} $\\|\\mathrm{hofib}_g(F_{X; a,a'})\\|_n$. A \\textbf{categorical residuum} $\\mathcal{R} = \\mathrm{Res}(\\kappa)$ is an admissible invariant on $\\mathcal{D}_0$ characterizing the vanishing locus $\\mathcal{D}_1$ via the Fundamental Equivalence $\\mathcal{D}_0 + \\mathrm{Res}(\\kappa) \\iff \\mathcal{D}_1$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition", "Metamathematical Principle"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:residuum"
+locator = "docs/categorical_reverse_mathematics.tex:643"
+purpose = "Pinned read-only Volume I contract for mode-n homotopy-fiber defects and categorical residuum Res(kappa)"

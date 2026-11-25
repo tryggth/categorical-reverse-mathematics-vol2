@@ -1,0 +1,595 @@
+id = "ch01:prop:flow-f3-lt-partition-and-schism"
+kind = "proposition"
+title = "Flow F3 Reflective Localization Partition (3^k 2^m) and Realizability Pareto Schism"
+chapter = "ch01"
+section = "1.3"
+seq_order = 66
+axis = "meta_crm"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["johnstone2002", "kihara2023", "LeeVanOosten13"]
+
+[spec]
+statement = "Flow F3 (Reflective Localization Trajectories): (a) Over any finite idempotent M_1-set (X, rho) with k fixed points and m non-fixed points, LTT(Set^{M_1}/X) is in constructive bijection with (Fin 3)^k x (Fin 2)^m and partitions into 3^k * 2^m = 2^(k+m) + (3^k - 2^k) * 2^m localic vs. non-Boolean slice topologies; (b) upward-closed non-meet-closed validity loci in LTT(Eff) produce a 2-element localization Pareto Schism {j_1, j_2} strictly above a non-trivial Muchnik meet j_1 /\\ j_2 > id_Omega (Guardrail 3)."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.DoctrinalFlows"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.Tuple",
+  "HomotopyCRM.Vol2.OmegaM1V2",
+  "HomotopyCRM.Vol2.OmegaMap",
+  "HomotopyCRM.Vol2.FixedNucleus",
+  "HomotopyCRM.Vol2.fixedNucleusOfFin3",
+  "HomotopyCRM.Vol2.fin3OfFixedNucleus",
+  "HomotopyCRM.Vol2.fixedNucleus_left_inv",
+  "HomotopyCRM.Vol2.fixedNucleus_right_inv",
+  "HomotopyCRM.Vol2.NonFixedNucleus",
+  "HomotopyCRM.Vol2.nonFixedNucleusOfFin2",
+  "HomotopyCRM.Vol2.fin2OfNonFixedNucleus",
+  "HomotopyCRM.Vol2.nonFixedNucleus_left_inv",
+  "HomotopyCRM.Vol2.nonFixedNucleus_right_inv",
+  "HomotopyCRM.Vol2.NonFixedTuple",
+  "HomotopyCRM.Vol2.sliceNucleusToProd",
+  "HomotopyCRM.Vol2.sliceNucleusOfProd",
+  "HomotopyCRM.Vol2.sliceNucleus_left_inv",
+  "HomotopyCRM.Vol2.sliceNucleus_right_inv",
+  "HomotopyCRM.Vol2.flow_f3_card_partition",
+  "HomotopyCRM.Vol2.SchismLTT",
+  "HomotopyCRM.Vol2.flow_f3_schism_witness",
+  "HomotopyCRM.Vol2.flow_f3_partition_and_schism_witness"
+]
+expected_axioms = []
+lean_signature = """
+/-- Recursive constructive length-indexed tuple `Tuple α n` (zero `Classical.choice`, zero `propext`). -/
+def Tuple (α : Type) : Nat → Type
+  | 0 => PUnit
+  | n + 1 => α × Tuple α n
+
+/-- Three-element subobject classifier `Ω_{ℳ₁} = {bot < mid < top}` of `Set^{ℳ₁}`. -/
+inductive OmegaM1V2 : Type
+  | bot
+  | mid
+  | top
+
+/-- `e₁`-division action on `Ω_{ℳ₁}`. -/
+def OmegaM1V2.eAct : OmegaM1V2 → OmegaM1V2
+  | .bot => .bot
+  | .mid => .top
+  | .top => .top
+
+/-- Boolean order `≤` on `Ω_{ℳ₁}`. -/
+def OmegaM1V2.leBool : OmegaM1V2 → OmegaM1V2 → Bool
+  | .bot, .bot => true
+  | .bot, .mid => true
+  | .bot, .top => true
+  | .mid, .bot => false
+  | .mid, .mid => true
+  | .mid, .top => true
+  | .top, .bot => false
+  | .top, .mid => false
+  | .top, .top => true
+
+/-- Endomap of `Ω_{ℳ₁}` determined by its three images. -/
+structure OmegaMap : Type where
+  /-- Image of `bot`. -/
+  atBot : OmegaM1V2
+  /-- Image of `mid`. -/
+  atMid : OmegaM1V2
+  /-- Image of `top`. -/
+  atTop : OmegaM1V2
+
+/-- Pointwise evaluation of `OmegaMap`. -/
+def OmegaMap.eval (f : OmegaMap) : OmegaM1V2 → OmegaM1V2
+  | .bot => f.atBot
+  | .mid => f.atMid
+  | .top => f.atTop
+
+/-- Lawvere–Tierney nucleus laws on `Ω_{ℳ₁}` (preserves `⊤`, monotone, idempotent). -/
+def OmegaMap.IsNucleus (f : OmegaMap) : Prop :=
+  f.atTop = .top ∧
+  OmegaM1V2.leBool f.atBot f.atMid = true ∧
+  OmegaM1V2.leBool f.atMid f.atTop = true ∧
+  f.eval f.atBot = f.atBot ∧
+  f.eval f.atMid = f.atMid
+
+/-- `ℳ₁`-equivariance `j_{ρ(x)}(e₁ · ω) = e₁ · j_x(ω)`. -/
+def OmegaMap.IsEquivOver (base f : OmegaMap) : Prop :=
+  base.atBot = f.atBot.eAct ∧
+  base.atTop = f.atMid.eAct ∧
+  base.atTop = f.atTop.eAct
+
+/-- Equivariant nuclei on a fixed point `ρ(a) = a` (`3` choices). -/
+def FixedNucleus : Type :=
+  { f : OmegaMap // f.IsNucleus ∧ f.IsEquivOver f }
+
+/-- Map `Fin 3 → FixedNucleus` (`0 = id`, `1 = j_loc`, `2 = ⊤`, zero axioms). -/
+def fixedNucleusOfFin3 : Fin 3 → FixedNucleus
+  | ⟨0, _⟩ => ⟨⟨.bot, .mid, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩
+  | ⟨1, _⟩ => ⟨⟨.bot, .top, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩
+  | ⟨2, _⟩ => ⟨⟨.top, .top, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩
+  | ⟨n + 3, hn⟩ =>
+    False.elim (Nat.not_lt_zero n
+      (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ hn))))
+
+/-- Map `FixedNucleus → Fin 3` without wildcards or `by decide` (zero axioms). -/
+def fin3OfFixedNucleus (x : FixedNucleus) : Fin 3 :=
+  match x.1.atBot, x.1.atMid with
+  | .bot, .mid => ⟨0, Nat.zero_lt_succ 2⟩
+  | .bot, .top => ⟨1, Nat.succ_lt_succ (Nat.zero_lt_succ 1)⟩
+  | .bot, .bot => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+  | .mid, .bot => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+  | .mid, .mid => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+  | .mid, .top => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+  | .top, .bot => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+  | .top, .mid => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+  | .top, .top => ⟨2, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))⟩
+
+/-- Left inverse `fixedNucleusOfFin3 ∘ fin3OfFixedNucleus = id` (zero axioms). -/
+theorem fixedNucleus_left_inv (x : FixedNucleus) :
+    fixedNucleusOfFin3 (fin3OfFixedNucleus x) = x := by
+  rcases x with ⟨⟨a, b, c⟩, ⟨hc, hbm, hmt, hbb, hmm⟩, ⟨heb, hem, het⟩⟩
+  cases a <;> cases b <;> cases c
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hem)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · rfl
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · rfl
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion heb)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion heb)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion heb)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (Bool.noConfusion hbm)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (Bool.noConfusion hbm)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · exact False.elim (OmegaM1V2.noConfusion hc)
+  · rfl
+
+/-- Right inverse `fin3OfFixedNucleus ∘ fixedNucleusOfFin3 = id` (zero axioms). -/
+theorem fixedNucleus_right_inv : ∀ i : Fin 3,
+    fin3OfFixedNucleus (fixedNucleusOfFin3 i) = i
+  | ⟨0, _⟩ => rfl
+  | ⟨1, _⟩ => rfl
+  | ⟨2, _⟩ => rfl
+  | ⟨n + 3, hn⟩ =>
+    False.elim (Nat.not_lt_zero n (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ hn))))
+
+/-- Equivariant nuclei on a non-fixed point `x ≠ ρ(x)` above `base = j_{ρ(x)}` (`2` choices). -/
+def NonFixedNucleus (base : FixedNucleus) : Type :=
+  { f : OmegaMap // f.IsNucleus ∧ base.1.IsEquivOver f }
+
+/-- Map `Fin 2 → NonFixedNucleus base` (zero axioms). -/
+def nonFixedNucleusOfFin2 (base : FixedNucleus) : Fin 2 → NonFixedNucleus base
+  | ⟨0, _⟩ =>
+    match h : base.1.atBot with
+    | .bot => ⟨⟨.bot, .mid, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨h, base.2.1.1, base.2.1.1⟩⟩
+    | .mid => False.elim (by
+        have he := base.2.2.1
+        rw [h] at he
+        exact OmegaM1V2.noConfusion he)
+    | .top => ⟨⟨.mid, .mid, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨h, base.2.1.1, base.2.1.1⟩⟩
+  | ⟨1, _⟩ =>
+    match h : base.1.atBot with
+    | .bot => ⟨⟨.bot, .top, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨h, base.2.1.1, base.2.1.1⟩⟩
+    | .mid => False.elim (by
+        have he := base.2.2.1
+        rw [h] at he
+        exact OmegaM1V2.noConfusion he)
+    | .top => ⟨⟨.top, .top, .top⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨h, base.2.1.1, base.2.1.1⟩⟩
+  | ⟨n + 2, hn⟩ =>
+    False.elim (Nat.not_lt_zero n (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ hn)))
+
+/-- Map `NonFixedNucleus base → Fin 2` without wildcards (zero axioms). -/
+def fin2OfNonFixedNucleus {base : FixedNucleus} (x : NonFixedNucleus base) : Fin 2 :=
+  match x.1.atMid with
+  | .bot => ⟨0, Nat.zero_lt_succ 1⟩
+  | .mid => ⟨0, Nat.zero_lt_succ 1⟩
+  | .top => ⟨1, Nat.succ_lt_succ (Nat.zero_lt_succ 0)⟩
+
+/-- Left inverse `nonFixedNucleusOfFin2 base ∘ fin2OfNonFixedNucleus = id` (zero axioms). -/
+theorem nonFixedNucleus_left_inv (base : FixedNucleus) (x : NonFixedNucleus base) :
+    nonFixedNucleusOfFin2 base (fin2OfNonFixedNucleus x) = x := by
+  rcases base with ⟨⟨ba, bb, bc⟩, ⟨bhc, _, _, _, _⟩, ⟨bheb, _, _⟩⟩
+  rcases x with ⟨⟨a, b, c⟩, ⟨hc, hbm, hmt, hbb, hmm⟩, ⟨heb, hem, het⟩⟩
+  cases ba
+  · cases a <;> cases b <;> cases c
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion (bhc.symm.trans hem))
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · rfl
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · rfl
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+  · exact False.elim (OmegaM1V2.noConfusion bheb)
+  · cases a <;> cases b <;> cases c
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion heb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (Bool.noConfusion hbm)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · rfl
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hbb)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (Bool.noConfusion hbm)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (Bool.noConfusion hbm)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · exact False.elim (OmegaM1V2.noConfusion hc)
+    · rfl
+
+/-- Right inverse `fin2OfNonFixedNucleus ∘ nonFixedNucleusOfFin2 base = id` (zero axioms). -/
+theorem nonFixedNucleus_right_inv (base : FixedNucleus) (j : Fin 2) :
+    fin2OfNonFixedNucleus (nonFixedNucleusOfFin2 base j) = j := by
+  rcases base with ⟨⟨ba, bb, bc⟩, _, ⟨bheb, _, _⟩⟩
+  rcases j with ⟨_ | _ | n, hn⟩
+  · cases ba
+    · rfl
+    · exact False.elim (OmegaM1V2.noConfusion bheb)
+    · rfl
+  · cases ba
+    · rfl
+    · exact False.elim (OmegaM1V2.noConfusion bheb)
+    · rfl
+  · exact False.elim (Nat.not_lt_zero n (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ hn)))
+
+/-- Recursive constructive fiber tuple of `NonFixedNucleus` assignments over attached fixed-point targets. -/
+def NonFixedTuple : ∀ {m : Nat}, Tuple FixedNucleus m → Type
+  | 0, _ => PUnit
+  | _ + 1, (b, bs) => NonFixedNucleus b × NonFixedTuple bs
+
+private def fixedTupleToFin3 : ∀ {k : Nat}, Tuple FixedNucleus k → Tuple (Fin 3) k
+  | 0, _ => ()
+  | _ + 1, (x, tl) => (fin3OfFixedNucleus x, fixedTupleToFin3 tl)
+
+private def fin3TupleToFixed : ∀ {k : Nat}, Tuple (Fin 3) k → Tuple FixedNucleus k
+  | 0, _ => ()
+  | _ + 1, (i, tl) => (fixedNucleusOfFin3 i, fin3TupleToFixed tl)
+
+private theorem fixedTuple_left_inv : ∀ {k : Nat} (xs : Tuple FixedNucleus k),
+    fin3TupleToFixed (fixedTupleToFin3 xs) = xs
+  | 0, _ => rfl
+  | _ + 1, (x, tl) => by
+    change (fixedNucleusOfFin3 (fin3OfFixedNucleus x), fin3TupleToFixed (fixedTupleToFin3 tl)) = (x, tl)
+    rw [fixedNucleus_left_inv x, fixedTuple_left_inv tl]
+
+private theorem fixedTuple_right_inv : ∀ {k : Nat} (is : Tuple (Fin 3) k),
+    fixedTupleToFin3 (fin3TupleToFixed is) = is
+  | 0, _ => rfl
+  | _ + 1, (i, tl) => by
+    change (fin3OfFixedNucleus (fixedNucleusOfFin3 i), fixedTupleToFin3 (fin3TupleToFixed tl)) = (i, tl)
+    rw [fixedNucleus_right_inv i, fixedTuple_right_inv tl]
+
+private def nonFixedTupleToFin2 : ∀ {m : Nat} {bases : Tuple FixedNucleus m},
+    NonFixedTuple bases → Tuple (Fin 2) m
+  | 0, _, _ => ()
+  | _ + 1, (_, _), (x, tl) => (fin2OfNonFixedNucleus x, nonFixedTupleToFin2 tl)
+
+private def fin2TupleToNonFixed : ∀ {m : Nat} (bases : Tuple FixedNucleus m),
+    Tuple (Fin 2) m → NonFixedTuple bases
+  | 0, _, _ => ()
+  | _ + 1, (b, bs), (j, tl) => (nonFixedNucleusOfFin2 b j, fin2TupleToNonFixed bs tl)
+
+private theorem nonFixedTuple_left_inv : ∀ {m : Nat} {bases : Tuple FixedNucleus m}
+    (xs : NonFixedTuple bases), fin2TupleToNonFixed bases (nonFixedTupleToFin2 xs) = xs
+  | 0, _, _ => rfl
+  | _ + 1, (b, bs), (x, tl) => by
+    change (nonFixedNucleusOfFin2 b (fin2OfNonFixedNucleus x), fin2TupleToNonFixed bs (nonFixedTupleToFin2 tl)) = (x, tl)
+    rw [nonFixedNucleus_left_inv b x, nonFixedTuple_left_inv tl]
+
+private theorem nonFixedTuple_right_inv : ∀ {m : Nat} (bases : Tuple FixedNucleus m)
+    (js : Tuple (Fin 2) m), nonFixedTupleToFin2 (fin2TupleToNonFixed bases js) = js
+  | 0, _, _ => rfl
+  | _ + 1, (b, bs), (j, tl) => by
+    change (fin2OfNonFixedNucleus (nonFixedNucleusOfFin2 b j), nonFixedTupleToFin2 (fin2TupleToNonFixed bs tl)) = (j, tl)
+    rw [nonFixedNucleus_right_inv b j, nonFixedTuple_right_inv bs tl]
+
+/-- Constructive projection of `(k, m)` slice nuclei onto `Tuple (Fin 3) k × Tuple (Fin 2) m`. -/
+def sliceNucleusToProd {k m : Nat} {bases : Tuple FixedNucleus m}
+    (p : Tuple FixedNucleus k × NonFixedTuple bases) : Tuple (Fin 3) k × Tuple (Fin 2) m :=
+  (fixedTupleToFin3 p.1, nonFixedTupleToFin2 p.2)
+
+/-- Constructive reconstruction of `(k, m)` slice nuclei from `Tuple (Fin 3) k × Tuple (Fin 2) m`. -/
+def sliceNucleusOfProd {k m : Nat} (bases : Tuple FixedNucleus m)
+    (q : Tuple (Fin 3) k × Tuple (Fin 2) m) : Tuple FixedNucleus k × NonFixedTuple bases :=
+  (fin3TupleToFixed q.1, fin2TupleToNonFixed bases q.2)
+
+/-- Left inverse certifying `(k, m)` nucleus bijection onto `(Fin 3)^k × (Fin 2)^m` (zero axioms). -/
+theorem sliceNucleus_left_inv {k m : Nat} (bases : Tuple FixedNucleus m)
+    (p : Tuple FixedNucleus k × NonFixedTuple bases) :
+    sliceNucleusOfProd bases (sliceNucleusToProd p) = p := by
+  cases p with | mk pf pn =>
+  dsimp only [sliceNucleusToProd, sliceNucleusOfProd]
+  rw [fixedTuple_left_inv pf, nonFixedTuple_left_inv pn]
+
+/-- Right inverse certifying `(k, m)` nucleus bijection onto `(Fin 3)^k × (Fin 2)^m` (zero axioms). -/
+theorem sliceNucleus_right_inv {k m : Nat} (bases : Tuple FixedNucleus m)
+    (q : Tuple (Fin 3) k × Tuple (Fin 2) m) :
+    sliceNucleusToProd (sliceNucleusOfProd bases q) = q := by
+  cases q with | mk qf qn =>
+  dsimp only [sliceNucleusToProd, sliceNucleusOfProd]
+  rw [fixedTuple_right_inv qf, nonFixedTuple_right_inv bases qn]
+
+private theorem nat_mul_assoc_zero (a b c : Nat) : (a * b) * c = a * (b * c) := by
+  induction c with
+  | zero => rfl
+  | succ k ih =>
+    change (a * b) * k + a * b = a * (b * k + b)
+    rw [ih, Nat.left_distrib]
+
+private theorem nat_add_mul_zero (a b c : Nat) : (a + b) * c = a * c + b * c := by
+  induction c with
+  | zero => rfl
+  | succ k ih =>
+    change (a + b) * k + (a + b) = (a * k + a) + (b * k + b)
+    rw [ih, Nat.add_assoc, ← Nat.add_assoc (b * k) a b, Nat.add_comm (b * k) a,
+        Nat.add_assoc a (b * k) b, ← Nat.add_assoc]
+
+private theorem nat_pow_add_zero (a k m : Nat) : a ^ (k + m) = a ^ k * a ^ m := by
+  induction m with
+  | zero => exact (Nat.mul_one _).symm
+  | succ n ih =>
+    change a ^ (k + n) * a = a ^ k * (a ^ n * a)
+    rw [ih, nat_mul_assoc_zero]
+
+private theorem nat_succ_sub_succ_zero (m k : Nat) : (m + 1) - (k + 1) = m - k := by
+  induction k with
+  | zero => rfl
+  | succ k ih => exact congrArg Nat.pred ih
+
+private theorem nat_add_sub_of_le_zero {a b : Nat} : a ≤ b → a + (b - a) = b := by
+  intro h
+  induction h with
+  | refl =>
+    have hs : ∀ n : Nat, n - n = 0 := fun n ↦ by
+      induction n with
+      | zero => rfl
+      | succ k ihk => rw [nat_succ_sub_succ_zero k k, ihk]
+    rw [hs a, Nat.add_zero]
+  | @step m hm ih =>
+    have hsucc : ∀ x y : Nat, x ≤ y → (y + 1) - x = (y - x) + 1 := by
+      intro x y hxy
+      induction y generalizing x with
+      | zero =>
+        cases x with
+        | zero => rfl
+        | succ z => exact False.elim (Nat.not_succ_le_zero z hxy)
+      | succ u ihu =>
+        cases x with
+        | zero => rfl
+        | succ z =>
+          rw [nat_succ_sub_succ_zero (u + 1) z, nat_succ_sub_succ_zero u z]
+          exact ihu z (Nat.le_of_succ_le_succ hxy)
+    rw [hsucc a m hm, Nat.add_succ, ih]
+
+private theorem pow2_le_pow3_zero : ∀ k : Nat, 2 ^ k ≤ 3 ^ k
+  | 0 => Nat.le_refl 1
+  | k + 1 =>
+    Nat.le_trans
+      (Nat.mul_le_mul_right 2 (pow2_le_pow3_zero k))
+      (Nat.mul_le_mul_left (3 ^ k) (Nat.le_succ 2))
+
+/-- Flow F3 arithmetic partition `3^k * 2^m = 2^(k + m) + (3^k - 2^k) * 2^m` (zero axioms). -/
+theorem flow_f3_card_partition (k m : Nat) :
+    3 ^ k * 2 ^ m = 2 ^ (k + m) + (3 ^ k - 2 ^ k) * 2 ^ m := by
+  rw [nat_pow_add_zero, ← nat_add_mul_zero, nat_add_sub_of_le_zero (pow2_le_pow3_zero k)]
+
+/-- Finite 5-element Lawvere–Tierney lattice modeling a Guardrail-3 Muchnik Pareto Schism `{j1, j2}`. -/
+inductive SchismLTT : Type
+  | idBot   -- id_Ω
+  | meetMid -- j_{O1} ∧ j_{O2} > id_Ω
+  | j1      -- j_{O1}
+  | j2      -- j_{O2}
+  | topDeg  -- degenerate ⊤
+  deriving DecidableEq
+
+/-- Exact Boolean equality on `SchismLTT` without wildcards (zero axioms). -/
+def SchismLTT.eqBool : SchismLTT → SchismLTT → Bool
+  | .idBot, .idBot => true | .idBot, .meetMid => false | .idBot, .j1 => false | .idBot, .j2 => false | .idBot, .topDeg => false
+  | .meetMid, .idBot => false | .meetMid, .meetMid => true | .meetMid, .j1 => false | .meetMid, .j2 => false | .meetMid, .topDeg => false
+  | .j1, .idBot => false | .j1, .meetMid => false | .j1, .j1 => true | .j1, .j2 => false | .j1, .topDeg => false
+  | .j2, .idBot => false | .j2, .meetMid => false | .j2, .j1 => false | .j2, .j2 => true | .j2, .topDeg => false
+  | .topDeg, .idBot => false | .topDeg, .meetMid => false | .topDeg, .j1 => false | .topDeg, .j2 => false | .topDeg, .topDeg => true
+
+private theorem schism_eqBool_self : ∀ x : SchismLTT, SchismLTT.eqBool x x = true
+  | .idBot => rfl | .meetMid => rfl | .j1 => rfl | .j2 => rfl | .topDeg => rfl
+
+private theorem schism_absurd {a b : SchismLTT} (hf : SchismLTT.eqBool a b = false) (h : a = b) : False := by
+  cases h
+  exact Bool.noConfusion ((schism_eqBool_self a).symm.trans hf)
+
+/-- Pointwise order `≤` on `SchismLTT` without wildcards (zero axioms). -/
+def SchismLTT.le : SchismLTT → SchismLTT → Bool
+  | .idBot, .idBot => true | .idBot, .meetMid => true | .idBot, .j1 => true | .idBot, .j2 => true | .idBot, .topDeg => true
+  | .meetMid, .idBot => false | .meetMid, .meetMid => true | .meetMid, .j1 => true | .meetMid, .j2 => true | .meetMid, .topDeg => true
+  | .j1, .idBot => false | .j1, .meetMid => false | .j1, .j1 => true | .j1, .j2 => false | .j1, .topDeg => true
+  | .j2, .idBot => false | .j2, .meetMid => false | .j2, .j1 => false | .j2, .j2 => true | .j2, .topDeg => true
+  | .topDeg, .idBot => false | .topDeg, .meetMid => false | .topDeg, .j1 => false | .topDeg, .j2 => false | .topDeg, .topDeg => true
+
+/-- Lattice meet `∧` on `SchismLTT` without wildcards (zero axioms). -/
+def SchismLTT.inf : SchismLTT → SchismLTT → SchismLTT
+  | .idBot, .idBot => .idBot | .idBot, .meetMid => .idBot | .idBot, .j1 => .idBot | .idBot, .j2 => .idBot | .idBot, .topDeg => .idBot
+  | .meetMid, .idBot => .idBot | .meetMid, .meetMid => .meetMid | .meetMid, .j1 => .meetMid | .meetMid, .j2 => .meetMid | .meetMid, .topDeg => .meetMid
+  | .j1, .idBot => .idBot | .j1, .meetMid => .meetMid | .j1, .j1 => .j1 | .j1, .j2 => .meetMid | .j1, .topDeg => .j1
+  | .j2, .idBot => .idBot | .j2, .meetMid => .meetMid | .j2, .j1 => .meetMid | .j2, .j2 => .j2 | .j2, .topDeg => .j2
+  | .topDeg, .idBot => .idBot | .topDeg, .meetMid => .meetMid | .topDeg, .j1 => .j1 | .topDeg, .j2 => .j2 | .topDeg, .topDeg => .topDeg
+
+/-- Upward-closed non-meet-closed validity locus `V(B) = ↑j1 ∪ ↑j2`. -/
+def SchismLTT.valLocus : SchismLTT → Bool
+  | .j1 => true
+  | .j2 => true
+  | .topDeg => true
+  | .idBot => false
+  | .meetMid => false
+
+/-- Constructive Guardrail-3 Pareto Schism witness over `SchismLTT` (zero axioms). -/
+theorem flow_f3_schism_witness :
+    (∀ x y, SchismLTT.valLocus x = true → SchismLTT.le x y = true →
+      SchismLTT.valLocus y = true) ∧
+    (SchismLTT.le .j1 .j2 = false ∧ SchismLTT.le .j2 .j1 = false) ∧
+    (SchismLTT.inf .j1 .j2 = .meetMid ∧ SchismLTT.le .idBot .meetMid = true ∧
+      SchismLTT.meetMid ≠ .idBot) ∧
+    (SchismLTT.valLocus .j1 = true ∧ SchismLTT.valLocus .j2 = true ∧
+      SchismLTT.valLocus (SchismLTT.inf .j1 .j2) = false) ∧
+    (∀ x, (SchismLTT.valLocus x = true ∧
+      ∀ y, SchismLTT.valLocus y = true → SchismLTT.le y x = true → x = y) ↔
+      (x = .j1 ∨ x = .j2)) := by
+  refine ⟨?_, ⟨rfl, rfl⟩, ⟨rfl, rfl, fun h ↦ schism_absurd rfl h⟩, ⟨rfl, rfl, rfl⟩, ?_⟩
+  · intro x y hx hxy
+    cases x <;> cases y <;>
+    first
+    | rfl
+    | exact False.elim (Bool.noConfusion hx)
+    | exact False.elim (Bool.noConfusion hxy)
+  · intro x
+    cases x
+    · exact ⟨fun h ↦ False.elim (Bool.noConfusion h.1),
+        fun h ↦ by rcases h with h | h <;> exact False.elim (schism_absurd rfl h)⟩
+    · exact ⟨fun h ↦ False.elim (Bool.noConfusion h.1),
+        fun h ↦ by rcases h with h | h <;> exact False.elim (schism_absurd rfl h)⟩
+    · refine ⟨fun _ ↦ Or.inl rfl, fun _ ↦ ⟨rfl, fun y hy hyx ↦ ?_⟩⟩
+      cases y
+      · exact False.elim (Bool.noConfusion hy)
+      · exact False.elim (Bool.noConfusion hy)
+      · rfl
+      · exact False.elim (Bool.noConfusion hyx)
+      · exact False.elim (Bool.noConfusion hyx)
+    · refine ⟨fun _ ↦ Or.inr rfl, fun _ ↦ ⟨rfl, fun y hy hyx ↦ ?_⟩⟩
+      cases y
+      · exact False.elim (Bool.noConfusion hy)
+      · exact False.elim (Bool.noConfusion hy)
+      · exact False.elim (Bool.noConfusion hyx)
+      · rfl
+      · exact False.elim (Bool.noConfusion hyx)
+    · refine ⟨fun h ↦ False.elim (schism_absurd rfl (h.2 .j1 rfl rfl)),
+        fun h ↦ by rcases h with h | h <;> exact False.elim (schism_absurd rfl h)⟩
+
+/-- Bundled Flow F3 partition bijection, `3^k 2^m` arithmetic split, and Guardrail-3 Schism (zero axioms). -/
+theorem flow_f3_partition_and_schism_witness (k m : Nat) (bases : Tuple FixedNucleus m) :
+    (∀ p : Tuple FixedNucleus k × NonFixedTuple bases,
+      sliceNucleusOfProd bases (sliceNucleusToProd p) = p) ∧
+    (∀ q : Tuple (Fin 3) k × Tuple (Fin 2) m,
+      sliceNucleusToProd (sliceNucleusOfProd bases q) = q) ∧
+    (3 ^ k * 2 ^ m = 2 ^ (k + m) + (3 ^ k - 2 ^ k) * 2 ^ m) ∧
+    (SchismLTT.inf .j1 .j2 = .meetMid ∧ SchismLTT.meetMid ≠ .idBot ∧
+      SchismLTT.valLocus (SchismLTT.inf .j1 .j2) = false) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.sliceNucleus_left_inv' does not depend on any axioms -/\n#guard_msgs in\n#print axioms sliceNucleus_left_inv",
+  "/-- info: 'HomotopyCRM.Vol2.flow_f3_card_partition' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f3_card_partition",
+  "/-- info: 'HomotopyCRM.Vol2.flow_f3_schism_witness' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f3_schism_witness",
+  "/-- info: 'HomotopyCRM.Vol2.flow_f3_partition_and_schism_witness' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f3_partition_and_schism_witness"
+]
+
+[body]
+lean_body = """
+  exact ⟨sliceNucleus_left_inv bases, sliceNucleus_right_inv bases,
+    flow_f3_card_partition k m,
+    rfl, fun h ↦ schism_absurd rfl h, rfl⟩
+"""
+tex = """
+\\begin{proposition}[Flow~F3 Reflective Localization Partition and Pareto Schism]\\label{ch01:prop:flow-f3-lt-partition-and-schism}%
+\\uses{vol1:def:doctrinal-philosophy,ch01:prop:lt-stability-projsub,ch01:thm:flow-f2-four-rung-escalation,ch01:claim:kihara-ew-weihrauch-ltt-duality}%
+Calibrating reflective localization trajectories along $\\mathbf{Sh}_j(\\mathcal{E}) \\hookrightarrow \\mathcal{E}$ yields:
+\\begin{enumerate}[label=\\textup{(\\alph*)},leftmargin=2.0em]
+  \\item \\textbf{$3^k 2^m$ Localic vs.\\ Non-Boolean Slice Partition:} Over any finite idempotent $\\mathcal{M}_1$-set $(X, \\rho)$ with $k$ fixed points ($\\rho(a) = a$) and $m$ non-fixed points ($\\rho(x) \\neq x$), the Lawvere--Tierney topology lattice $\\mathbf{LTT}(\\mathbf{Set}^{\\mathcal{M}_1}/(X, \\rho))$ stands in constructive bijection with $(\\mathbf{Fin}\\,3)^k \\times (\\mathbf{Fin}\\,2)^m$ and partitions cleanly into
+  \\[
+    3^k 2^m \\;=\\; 2^{k+m} \\;+\\; (3^k - 2^k)\\,2^m
+  \\]
+  topologies: $2^{k+m}$ localic slices (forcing $j_a(\\{e_1\\}) = \\top$ at every fixed point) and $(3^k - 2^k)2^m$ non-localic, non-Boolean slices.
+  \\item \\textbf{Realizability Localization Pareto Schism:} Inside $\\mathbf{LTT}(\\Eff)$~\\cite{kihara2023,LeeVanOosten13}, any pair of Turing-incomparable non-computable oracles $\\mathcal{O}_1 \\perp_T \\mathcal{O}_2$ induces an upward-closed non-$\\wedge$-closed validity locus $\\mathcal{V}(B) = {\\uparrow}j_{\\mathcal{O}_1} \\cup {\\uparrow}j_{\\mathcal{O}_2}$ ({{ref:ch01:claim:kihara-ew-weihrauch-ltt-duality}}) whose meet obeys Guardrail~3 ($j_{\\mathcal{O}_1} \\wedge j_{\\mathcal{O}_2} > \\mathrm{id}_\\Omega$, $j_{\\mathcal{O}_1} \\wedge j_{\\mathcal{O}_2} \\notin \\mathcal{V}(B)$), producing the two-element localization Pareto Schism $\\{j_{\\mathcal{O}_1}, j_{\\mathcal{O}_2}\\}$.
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+For~(a), under the slice equivalence $\\mathbf{Set}^{\\mathcal{M}_1}/(X, \\rho) \\simeq \\mathbf{Set}^{\\int_{\\mathcal{M}_1} X}$, an internal Lawvere--Tierney topology corresponds bijectively~\\cite[\\S A4.5]{johnstone2002} to a family of nuclei $j_x : \\Omega_{\\mathcal{M}_1} \\to \\Omega_{\\mathcal{M}_1}$ ($\\Omega_{\\mathcal{M}_1} = \\{\\bot < \\{e_1\\} < \\top\\}$) satisfying equivariance $j_{\\rho(x)}(e_1 \\cdot \\omega) = e_1 \\cdot j_x(\\omega)$. At each fixed point $a = \\rho(a)$, equivariance allows exactly $3$ nuclei ($\\mathrm{id}$, $j_{\\mathrm{loc}}$, $\\top$, of which $2$ are localic: $j_{\\mathrm{loc}}$ and $\\top$); above $j_{\\rho(x)}$, each non-fixed point $x$ has $2$ valid choices ($\\mathrm{id}/j_{\\mathrm{loc}}$ when $j_{\\rho(x)}(\\bot) = \\bot$, or $\\{e_1\\}$-constant/$\\top$ when $j_{\\rho(x)}(\\bot) = \\top$), giving $(\\mathbf{Fin}\\,3)^k \\times (\\mathbf{Fin}\\,2)^m$ and $3^k 2^m = 2^{k+m} + (3^k - 2^k)2^m$. For~(b), because every dense subtopos $\\mathbf{Sh}_j(\\Eff)$ ($j \\le j_{\\neg\\neg}$) satisfies the closed disjunction property, $B := (\\nabla(\\mathcal{O}_1) \\cap \\mathbb{N}\\text{ decidable}) \\lor (\\nabla(\\mathcal{O}_2) \\cap \\mathbb{N}\\text{ decidable})$ has $\\mathcal{V}(B) = {\\uparrow}j_{\\mathcal{O}_1} \\cup {\\uparrow}j_{\\mathcal{O}_2}$; incomparability forces $j_{\\mathcal{O}_1} \\wedge j_{\\mathcal{O}_2} < j_{\\mathcal{O}_i}$ (while non-computability keeps $j_{\\mathcal{O}_1} \\wedge j_{\\mathcal{O}_2} > \\mathrm{id}_\\Omega$ by Guardrail~3), excluding the meet from $\\mathcal{V}(B)$ and leaving $\\{j_{\\mathcal{O}_1}, j_{\\mathcal{O}_2}\\}$ minimal.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = [
+  "vol1:def:doctrinal-philosophy",
+  "ch01:prop:lt-stability-projsub",
+  "ch01:thm:flow-f2-four-rung-escalation",
+  "ch01:claim:kihara-ew-weihrauch-ltt-duality"
+]
+lean_dep = []
+curriculum = [
+  "vol1:def:doctrinal-philosophy",
+  "ch01:claim:kihara-ew-weihrauch-ltt-duality"
+]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Inhabitation & Finiteness", "Topological Separation", "Choice Calibration"]
+witness_scope = "sliceNucleusToProd/OfProd mechanize the finite nucleus bijection onto (Fin 3)^k x (Fin 2)^m, flow_f3_card_partition proves 3^k * 2^m = 2^(k+m) + (3^k - 2^k) * 2^m, and flow_f3_schism_witness mechanizes the Guardrail-3 Pareto Schism lattice (all axiom-free Emerald); the slice-topos equivalence and Eff disjunctive validity locus live in the monograph proof citing Johnstone (2002) and Kihara (2023)."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch01:prop:flow-f3-lt-partition-and-schism"
+purpose = "Full proof of Set^{M1}/X equivariant nucleus classification and Eff Muchnik Schism"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.flow_f3_partition_and_schism_witness"
+purpose = "Axiom-free Lean 4 witness for (Fin 3)^k x (Fin 2)^m bijection, 3^k 2^m partition, and SchismLTT"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "johnstone2002"
+locator = "§A4.5 (Vol. 1, pp. 217–228)"
+purpose = "Equivariant Lawvere-Tierney topologies on presheaf slices"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "kihara2023"
+locator = "§4 (pp. 73–78)"
+purpose = "Muchnik meets and upward-closed loci in LTT(Eff)"

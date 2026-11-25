@@ -39,7 +39,9 @@ TEX_BAD_PATTERNS = (
 )
 
 
-def run_logged(cmd: list[str], log_path: Path, cwd: Path | None = None, env: dict[str, str] | None = None) -> tuple[int, str]:
+def run_logged(
+    cmd: list[str], log_path: Path, cwd: Path | None = None, env: dict[str, str] | None = None
+) -> tuple[int, str]:
     log_path.parent.mkdir(parents=True, exist_ok=True)
     proc = subprocess.run(
         cmd,
@@ -166,7 +168,9 @@ def compile_pdf(stem: str, tex_map_name: str | None = None, run_index: bool = Fa
             ):
                 diagnostics.append({"file": f"{stem}.log", "line": 0, "message": line.strip(), "node_id": None})
 
-    bib_warnings = [ln for ln in bib_out.splitlines() if "Warning--" in ln or "I found no" in ln or "I couldn't" in ln]
+    bib_warnings = [
+        ln for ln in bib_out.splitlines() if "Warning--" in ln or "I found no" in ln or "I couldn't" in ln
+    ]
     has_undef_ref = ("There were undefined references" in log3) or ("There were undefined citations" in log3)
     passed = (
         rc1 == 0
@@ -193,6 +197,7 @@ def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any
         manifest = tomllib.load(fh)
     tainted = compile_report["tainted_nodes"]
     dirty = compile_report["body_dirty_nodes"]
+    grounding_dirty = compile_report["grounding_dirty_nodes"]
     clean = compile_report["clean_nodes"]
     ka_res = gate_report.get("kernel_arena", {}).get("certs", {})
     audit_nodes = {n["id"]: n for n in (gate_report.get("audit_env") or {}).get("nodes", [])}
@@ -204,13 +209,18 @@ def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any
         f"- **Updated:** {dt.datetime.now(dt.timezone.utc).isoformat()}",
         f"- **Working Title (Unlocked):** {manifest['working_title']} — *{manifest['working_subtitle']}*",
         f"- **Volume I Read-Only Fence:** `{'PASS' if gate_report.get('fence_ok') else 'FAIL'}` (`{manifest['vol1_root']}`)",
-        f"- **Network Graph (`build/vol2.duckdb`):** {compile_report['node_count']} nodes, {compile_report['edge_count']} edges across 5 fibers; cycles={compile_report['total_cycles']}; TCB violations={len(compile_report['tcb_violations'])}",
-        f"- **Taint Summary:** CLEAN={len(clean)}, BODY_DIRTY={len(dirty)}, TAINTED={len(tainted)}",
+        (
+            f"- **Network Graph (`build/vol2.duckdb`):** {compile_report['node_count']} nodes, "
+            f"{compile_report['edge_count']} edges across 5 fibers; cycles={compile_report['total_cycles']}; "
+            f"TCB violations={len(compile_report['tcb_violations'])}; "
+            f"honesty violations={len(compile_report['honesty_violations'])}; "
+            f"disjoint declarations={compile_report['decl_ownership_count']}"
+        ),
+        f"- **Taint Summary:** CLEAN={len(clean)}, BODY_DIRTY={len(dirty)}, GROUNDING_DIRTY={len(grounding_dirty)}, TAINTED={len(tainted)}",
         "",
         "## Node Verification Matrix",
     ]
     for nid, info in sorted(compile_report["nodes"].items()):
-        extra = ""
         if nid in audit_nodes:
             an = audit_nodes[nid]
             extra = f"stratum={an['computed_stratum']} axioms={an['actual_axioms']}"
@@ -219,27 +229,20 @@ def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any
         else:
             extra = f"stratum={info['stratum']}"
         lines.append(
-            f"- `{nid}` (`{info['kind']}`, `{info['taint_status']}`): spec=`{info['spec_hash'][:8]}` body=`{info['body_hash'][:8]}` {extra}"
+            f"- `{nid}` (`{info['kind']}`, `{info['cohort']}`, `{info['taint_status']}`): "
+            f"spec=`{info['spec_hash'][:8]}` body=`{info['body_hash'][:8]}` "
+            f"grounding=`{info['grounding_hash'][:8]}` {extra}"
         )
 
     lines.append("")
     lines.append("## Royal Octavo PDF Artifacts")
-    for stem, pinfo in pdfs.items():
+    for _, pinfo in pdfs.items():
         lines.append(
             f"- `{pinfo['pdf']}`: `{'PASS' if pinfo['passed'] else 'FAIL'}` (undef_refs={pinfo['has_undefined_refs']}, bib_warns={len(pinfo['bibtex_warnings'])})"
         )
 
-    drill_path = LOGS_DIR / "drill_report.json"
-    if drill_path.exists():
-        lines.append("")
-        lines.append("## Three-Pass Acceptance Drill Confirmation")
-        drill = json.loads(drill_path.read_text(encoding="utf-8"))
-        for key in ("pass_a", "pass_b", "pass_c"):
-            if key in drill:
-                lines.append(f"- `{key}`: {drill[key].get('summary', 'recorded')}")
-
     digest_path = BUILD_DIR / "VOL2_SYNC_DIGEST.md"
-    digest_path.write_text("\n".join(lines[:58]) + "\n", encoding="utf-8")
+    digest_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> int:
@@ -248,6 +251,10 @@ def main() -> int:
     args = parser.parse_args()
 
     compile_report = compile_network()
+    if not compile_report["structural_ok"]:
+        sys.stderr.write("GATEKEEPER_FAIL: compile_network reported structural or honesty violations.\n")
+        return 1
+
     emit_all()
     ka_ok, ka_res = run_kernel_arena_checks(compile_report)
     lean_ok, lean_diags, audit_json = run_mathlib_build_and_audit()
@@ -265,6 +272,7 @@ def main() -> int:
             "mode": "check_only",
             "timestamp_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
             "structural_ok": compile_report["structural_ok"],
+            "honesty_violations": compile_report["honesty_violations"],
             "fence_ok": fence_ok,
             "kernel_arena_ok": ka_ok,
             "kernel_arena": ka_res,
@@ -274,6 +282,7 @@ def main() -> int:
             "prose_lock_mismatches": compile_report["prose_lock_mismatches"],
             "tainted_nodes": compile_report["tainted_nodes"],
             "body_dirty_nodes": compile_report["body_dirty_nodes"],
+            "grounding_dirty_nodes": compile_report["grounding_dirty_nodes"],
             "clean_nodes": compile_report["clean_nodes"],
         }
         (LOGS_DIR / "gatekeeper_report.json").write_text(
@@ -281,14 +290,17 @@ def main() -> int:
         )
         overall_ok = (
             compile_report["structural_ok"]
+            and len(compile_report["honesty_violations"]) == 0
             and fence_ok
             and ka_ok
             and lean_ok
             and len(compile_report["tainted_nodes"]) == 0
+            and len(compile_report["grounding_dirty_nodes"]) == 0
             and len(compile_report["prose_lock_mismatches"]) == 0
         )
         print(
             f"GATEKEEPER_CHECK_ONLY ok={overall_ok} tainted={len(compile_report['tainted_nodes'])} "
+            f"grounding_dirty={len(compile_report['grounding_dirty_nodes'])} "
             f"clean={len(compile_report['clean_nodes'])} lean_ok={lean_ok} ka_ok={ka_ok}"
         )
         return 0 if overall_ok else 1
@@ -308,12 +320,8 @@ def main() -> int:
     }
     all_pdfs_ok = all(p["passed"] for p in pdfs.values())
 
-    # Update verification_lock.json ONLY for nodes passing every formal, TeX, and prose_paraphrase gate
+    # Update verification_lock.json ONLY for nodes passing every formal, TeX, honesty, and prose_paraphrase gate
     now_iso = dt.datetime.now(dt.timezone.utc).isoformat()
-    existing_lock: dict[str, Any] = {}
-    if LOCK_PATH.exists():
-        existing_lock = json.loads(LOCK_PATH.read_text(encoding="utf-8")).get("nodes", {})
-
     new_lock_nodes: dict[str, Any] = {}
     for nid, info in sorted(compile_report["nodes"].items()):
         if not compile_report["structural_ok"]:
@@ -332,6 +340,7 @@ def main() -> int:
             new_lock_nodes[nid] = {
                 "spec_hash": info["spec_hash"],
                 "body_hash": info["body_hash"],
+                "grounding_hash": info["grounding_hash"],
                 "stratum": arec["computed_stratum"],
                 "actual_axioms": arec["actual_axioms"],
                 "cert_sha256": ka_rec.get("sha256_arena"),
@@ -345,6 +354,7 @@ def main() -> int:
             new_lock_nodes[nid] = {
                 "spec_hash": info["spec_hash"],
                 "body_hash": info["body_hash"],
+                "grounding_hash": info["grounding_hash"],
                 "stratum": arec["computed_stratum"],
                 "actual_axioms": arec["actual_axioms"],
                 "cert_sha256": None,
@@ -355,6 +365,7 @@ def main() -> int:
             new_lock_nodes[nid] = {
                 "spec_hash": info["spec_hash"],
                 "body_hash": info["body_hash"],
+                "grounding_hash": info["grounding_hash"],
                 "stratum": info["stratum"],
                 "actual_axioms": [],
                 "cert_sha256": None,
@@ -362,8 +373,6 @@ def main() -> int:
                 "passed": True,
             }
 
-    # Preserve existing locks for unmodified passing nodes if partial failure happened?
-    # Spec says: "Updates manifest/verification_lock.json ONLY for nodes passing every formal, TeX, and prose_paraphrase gate"
     final_lock = {"schema": "vol2.verification_lock.v1", "updated_at_utc": now_iso, "nodes": new_lock_nodes}
     LOCK_PATH.write_text(json.dumps(final_lock, indent=2) + "\n", encoding="utf-8")
 
@@ -376,12 +385,14 @@ def main() -> int:
 
     overall_ok = (
         compile_report["structural_ok"]
+        and len(compile_report["honesty_violations"]) == 0
         and fence_ok
         and ka_ok
         and lean_ok
         and all_pdfs_ok
         and len(compile_report["tainted_nodes"]) == 0
         and len(compile_report["body_dirty_nodes"]) == 0
+        and len(compile_report["grounding_dirty_nodes"]) == 0
     )
 
     gate_report = {
@@ -389,6 +400,8 @@ def main() -> int:
         "timestamp_utc": now_iso,
         "overall_ok": overall_ok,
         "structural_ok": compile_report["structural_ok"],
+        "honesty_violations": compile_report["honesty_violations"],
+        "decl_ownership_count": compile_report["decl_ownership_count"],
         "fence_ok": fence_ok,
         "kernel_arena_ok": ka_ok,
         "kernel_arena": ka_res,
@@ -398,6 +411,7 @@ def main() -> int:
         "pdfs": pdfs,
         "tainted_nodes": compile_report["tainted_nodes"],
         "body_dirty_nodes": compile_report["body_dirty_nodes"],
+        "grounding_dirty_nodes": compile_report["grounding_dirty_nodes"],
         "clean_nodes": compile_report["clean_nodes"],
     }
     (LOGS_DIR / "gatekeeper_report.json").write_text(
@@ -406,6 +420,8 @@ def main() -> int:
     write_sync_digest(compile_report, gate_report)
     print(
         f"GATEKEEPER_FULL ok={overall_ok} tainted={len(compile_report['tainted_nodes'])} "
+        f"body_dirty={len(compile_report['body_dirty_nodes'])} "
+        f"grounding_dirty={len(compile_report['grounding_dirty_nodes'])} "
         f"clean={len(compile_report['clean_nodes'])} pdfs_ok={all_pdfs_ok}"
     )
     return 0 if overall_ok else 1

@@ -111,3 +111,14 @@ logical_dep = ["ch01:def:adm-pareto-frontier"]
 lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
 curriculum = ["ch01:def:adm-pareto-frontier"]
 prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Categorical Equivalence", "Choice Calibration"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.scotoma_pareto_trichotomy"
+purpose = "Full Lean 4 proof (Crimson stratum: Classical.choice + Quot.sound + propext) of exhaustive disjoint trichotomy"

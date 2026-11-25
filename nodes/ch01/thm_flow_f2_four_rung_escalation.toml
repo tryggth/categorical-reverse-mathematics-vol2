@@ -1,0 +1,229 @@
+id = "ch01:thm:flow-f2-four-rung-escalation"
+kind = "theorem"
+title = "Flow F2 Strict Four-Rung Stability Escalation and Etale Slice Collapse"
+chapter = "ch01"
+section = "1.3"
+seq_order = 62
+axis = "meta_crm"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["johnstone2002", "FreydScedrov90", "HemelaerRogers21"]
+
+[spec]
+statement = "For T = Mod(IAC -> AC) in Topos, closing under trivial, open-subtopos, Lawvere-Tierney sheaf, and slice+LT operations yields a strict four-rung escalation C_triv > C_open > C_LT > C_slice+LT, separated explicitly by Set^{(B(Z/2Z))_bot}, Set^{(B(Z/2Z))^top}, Set^{(Z/2Z)^0}, and Set^{M_1}/X. Moreover, etale slicing over a 3-point M_1-set X = {u1, u2, z} collapses Proj_sub inside Set^{M_1}/X."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.DoctrinalFlows"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.FlowF2Witness",
+  "HomotopyCRM.Vol2.flowF2InT",
+  "HomotopyCRM.Vol2.flowF2OpenTargets",
+  "HomotopyCRM.Vol2.flowF2LTTargets",
+  "HomotopyCRM.Vol2.flowF2SliceLTTargets",
+  "HomotopyCRM.Vol2.inCTriv",
+  "HomotopyCRM.Vol2.inCOpen",
+  "HomotopyCRM.Vol2.inCLT",
+  "HomotopyCRM.Vol2.inCSliceLT",
+  "HomotopyCRM.Vol2.M1VSliceObj",
+  "HomotopyCRM.Vol2.m1VSliceFiber",
+  "HomotopyCRM.Vol2.m1VSliceAct",
+  "HomotopyCRM.Vol2.m1_etale_slice_refutes_proj1",
+  "HomotopyCRM.Vol2.flow_f2_four_rung_strict_escalation"
+]
+expected_axioms = []
+lean_signature = """
+/-- Concrete 7-topos witness universe separating the four Flow F2 stability rungs. -/
+inductive FlowF2Witness : Type
+  | scone        -- Set^{(B(Z/2Z))_⊥}
+  | coscone      -- Set^{(B(Z/2Z))^⊤}
+  | monoidZ2Zero -- Set^{(Z/2Z)^0}
+  | m1Topos      -- Set^{ℳ₁}
+  | setZ2        -- Set^{Z/2Z} (in Mod(IAC) \\ Mod(AC), outside T)
+  | setTopos     -- Set (∈ T)
+  | termTopos    -- 1 (degenerate topos ∈ T)
+  deriving DecidableEq
+
+/-- Membership in Assertoric Closure `T = Mod(IAC → AC)` across the witness suite. -/
+def flowF2InT : FlowF2Witness → Bool
+  | .scone => true
+  | .coscone => true
+  | .monoidZ2Zero => true
+  | .m1Topos => true
+  | .setZ2 => false
+  | .setTopos => true
+  | .termTopos => true
+
+/-- Open-subtopos closure image of each witness topos. -/
+def flowF2OpenTargets : FlowF2Witness → List FlowF2Witness
+  | .scone => [.scone, .setZ2, .termTopos]
+  | .coscone => [.coscone, .setTopos, .termTopos]
+  | .monoidZ2Zero => [.monoidZ2Zero, .termTopos]
+  | .m1Topos => [.m1Topos, .termTopos]
+  | .setZ2 => [.setZ2, .termTopos]
+  | .setTopos => [.setTopos, .termTopos]
+  | .termTopos => [.termTopos]
+
+/-- Lawvere–Tierney sheaf closure image of each witness topos. -/
+def flowF2LTTargets : FlowF2Witness → List FlowF2Witness
+  | .scone => [.scone, .setZ2, .setTopos, .termTopos]
+  | .coscone => [.coscone, .setZ2, .setTopos, .termTopos]
+  | .monoidZ2Zero => [.monoidZ2Zero, .setTopos, .termTopos]
+  | .m1Topos => [.m1Topos, .setTopos, .termTopos]
+  | .setZ2 => [.setZ2, .termTopos]
+  | .setTopos => [.setTopos, .termTopos]
+  | .termTopos => [.termTopos]
+
+/-- Slice + Lawvere–Tierney closure image of each witness topos. -/
+def flowF2SliceLTTargets : FlowF2Witness → List FlowF2Witness
+  | .scone => [.scone, .setZ2, .setTopos, .termTopos]
+  | .coscone => [.coscone, .setZ2, .setTopos, .termTopos]
+  | .monoidZ2Zero => [.monoidZ2Zero, .setZ2, .setTopos, .termTopos]
+  | .m1Topos => [.m1Topos, .setTopos, .termTopos]
+  | .setZ2 => [.setZ2, .termTopos]
+  | .setTopos => [.setTopos, .termTopos]
+  | .termTopos => [.termTopos]
+
+/-- Trivial stability class `C_triv`. -/
+def inCTriv (w : FlowF2Witness) : Bool := flowF2InT w
+
+/-- Open-subtopos stability class `C_open`. -/
+def inCOpen (w : FlowF2Witness) : Bool := (flowF2OpenTargets w).all flowF2InT
+
+/-- Lawvere–Tierney stability class `C_LT`. -/
+def inCLT (w : FlowF2Witness) : Bool := (flowF2LTTargets w).all flowF2InT
+
+/-- Slice + Lawvere–Tierney stability class `C_slice+LT`. -/
+def inCSliceLT (w : FlowF2Witness) : Bool := (flowF2SliceLTTargets w).all flowF2InT
+
+/-- Three-point `ℳ₁`-set `X = {u₁, u₂, z}` with `e₁ • u₁ = e₁ • u₂ = e₁ • z = z`. -/
+inductive M1VSliceObj : Type
+  | u1
+  | u2
+  | z
+  deriving DecidableEq
+
+/-- Inhabited presheaf over `∫_{ℳ₁} X` with `F(u₁) = {false}`, `F(u₂) = {true}`, `F(z) = Bool`. -/
+def m1VSliceFiber : M1VSliceObj → Type
+  | .u1 => { b : Bool // b = false }
+  | .u2 => { b : Bool // b = true }
+  | .z => Bool
+
+/-- `e₁`-action transport inside the slice fiber `F`. -/
+def m1VSliceAct : ∀ x : M1VSliceObj, m1VSliceFiber x → m1VSliceFiber .z
+  | .u1, b => b.1
+  | .u2, b => b.1
+  | .z, b => b
+
+/-- Étale slice `(Set^{ℳ₁})/X` over `X = {u₁, u₂, z}` refutes `Proj₁` (hence `Proj_sub`). -/
+theorem m1_etale_slice_refutes_proj1 :
+    (∀ x : M1VSliceObj, Nonempty (m1VSliceFiber x)) ∧
+    ¬ ∃ s : (x : M1VSliceObj) → m1VSliceFiber x,
+        ∀ x : M1VSliceObj, m1VSliceAct x (s x) = s .z := by
+  refine ⟨fun x ↦ ?_, ?_⟩
+  · cases x
+    · exact ⟨⟨false, rfl⟩⟩
+    · exact ⟨⟨true, rfl⟩⟩
+    · exact ⟨false⟩
+  · rintro ⟨s, hs⟩
+    have h1 : (s .u1).1 = s .z := hs .u1
+    have h2 : (s .u2).1 = s .z := hs .u2
+    have hf : false = s .z := (s .u1).2.symm.trans h1
+    have ht : true = s .z := (s .u2).2.symm.trans h2
+    exact Bool.noConfusion (hf.trans ht.symm)
+
+/-- Strict four-rung Flow F2 escalation `C_triv ⊃neq C_open ⊃neq C_LT ⊃neq C_slice+LT` (zero axioms). -/
+theorem flow_f2_four_rung_strict_escalation :
+    (∀ w, inCSliceLT w = true → inCLT w = true) ∧
+    (∀ w, inCLT w = true → inCOpen w = true) ∧
+    (∀ w, inCOpen w = true → inCTriv w = true) ∧
+    (inCTriv .scone = true ∧ inCOpen .scone = false) ∧
+    (inCOpen .coscone = true ∧ inCLT .coscone = false) ∧
+    (inCLT .monoidZ2Zero = true ∧ inCSliceLT .monoidZ2Zero = false) ∧
+    (inCSliceLT .m1Topos = true) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.m1_etale_slice_refutes_proj1' does not depend on any axioms -/\n#guard_msgs in\n#print axioms m1_etale_slice_refutes_proj1",
+  "/-- info: 'HomotopyCRM.Vol2.flow_f2_four_rung_strict_escalation' does not depend on any axioms -/\n#guard_msgs in\n#print axioms flow_f2_four_rung_strict_escalation"
+]
+
+[body]
+lean_body = """
+  refine ⟨?_, ?_, ?_, ⟨rfl, rfl⟩, ⟨rfl, rfl⟩, ⟨rfl, rfl⟩, rfl⟩
+  · intro w hw
+    match w with
+    | .scone => exact False.elim (Bool.noConfusion hw)
+    | .coscone => exact False.elim (Bool.noConfusion hw)
+    | .monoidZ2Zero => exact False.elim (Bool.noConfusion hw)
+    | .m1Topos => rfl
+    | .setZ2 => exact False.elim (Bool.noConfusion hw)
+    | .setTopos => rfl
+    | .termTopos => rfl
+  · intro w hw
+    match w with
+    | .scone => exact False.elim (Bool.noConfusion hw)
+    | .coscone => exact False.elim (Bool.noConfusion hw)
+    | .monoidZ2Zero => rfl
+    | .m1Topos => rfl
+    | .setZ2 => exact False.elim (Bool.noConfusion hw)
+    | .setTopos => rfl
+    | .termTopos => rfl
+  · intro w hw
+    match w with
+    | .scone => rfl
+    | .coscone => rfl
+    | .monoidZ2Zero => rfl
+    | .m1Topos => rfl
+    | .setZ2 => exact False.elim (Bool.noConfusion hw)
+    | .setTopos => rfl
+    | .termTopos => rfl
+"""
+tex = """
+\\begin{theorem}[Flow~F2 Strict Four-Rung Stability Escalation and Étale Slice Collapse]\\label{ch01:thm:flow-f2-four-rung-escalation}%
+\\uses{vol1:def:doctrinal-philosophy,ch01:prop:lt-stability-projsub}%
+For the Assertoric Closure $T = \\mathbf{Mod}(\\mathrm{IAC} \\to \\mathrm{AC}) \\subset \\mathbf{Topos}$ ({{ref:vol1:def:doctrinal-philosophy}}), varying the stability monoid $\\Sigma$ in the Apodictic Closure {{sym:apodictic}}$(T)$ across trivial, open-subtopos, Lawvere--Tierney sheaf, and slice-plus-LT operations yields a strict four-rung escalation
+\\[
+  \\mathcal{C}_{\\mathrm{triv}} \\supsetneq \\mathcal{C}_{\\mathrm{open}} \\supsetneq \\mathcal{C}_{\\mathrm{LT}} \\supsetneq \\mathcal{C}_{\\mathrm{slice+LT}}
+\\]
+witnessed constructively by three canonical presheaf topoi:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Scone ($\\mathcal{C}_{\\mathrm{triv}} \\setminus \\mathcal{C}_{\\mathrm{open}}$):} $\\mathbf{Set}^{(\\mathbf{B}(\\mathbb{Z}/2\\mathbb{Z}))_\\bot}$ has initial object $\\bot$ ($\\mathrm{Proj}_1 \\implies \\neg\\mathrm{IAC}$), hence lies in $T = \\mathcal{C}_{\\mathrm{triv}}$, yet its open subtopos $/U_* \\simeq \\mathbf{Set}^{\\mathbb{Z}/2\\mathbb{Z}}$ satisfies $\\mathrm{IAC} \\wedge \\neg\\mathrm{AC} \\notin T$.
+  \\item \\textbf{Coscone ($\\mathcal{C}_{\\mathrm{open}} \\setminus \\mathcal{C}_{\\mathrm{LT}}$):} $\\mathbf{Set}^{(\\mathbf{B}(\\mathbb{Z}/2\\mathbb{Z}))^\\top}$ (initial vertex adjoined at the top) has subterminal lattice $\\{\\emptyset < U_{\\mathrm{all}\\neq \\top} < 1\\}$ whose open subtopoi are $\\mathbf{1}, \\mathbf{Set}, \\mathcal{E}_2 \\in T$, whereas the closed Lawvere--Tierney topology $c(U_\\top)$ extracts the closed subtopos $\\mathbf{Set}^{\\mathbb{Z}/2\\mathbb{Z}} \\notin T$.
+  \\item \\textbf{Sliced $3$-Element Monoid ($\\mathcal{C}_{\\mathrm{LT}} \\setminus \\mathcal{C}_{\\mathrm{slice+LT}}$):} $\\mathbf{Set}^{(\\mathbb{Z}/2\\mathbb{Z})^0}$ (adjoining a multiplicative zero $0$ to $\\mathbb{Z}/2\\mathbb{Z}$) has only three Lawvere--Tierney subtopoi (itself, $\\mathbf{Set}$, and $\\mathbf{1}$, all in $T$ by~\\cite{HemelaerRogers21}), yet slicing over the $2$-element set $X = \\{a, 0\\}$ ($g \\cdot a = a$, $0 \\cdot a = 0$) and applying the closed LT topology $c(U_0)$ yields $\\mathbf{Set}^{\\mathbb{Z}/2\\mathbb{Z}} \\notin T$.
+  \\item \\textbf{\\'Etale Slice Collapse on $\\mathbf{Set}^{\\mathcal{M}_1}$:} While $\\mathbf{Set}^{\\mathcal{M}_1} \\in \\mathcal{C}_{\\mathrm{slice+LT}} \\cap {{sym:proj-sub}}$ (via {{ref:ch01:prop:lt-stability-projsub}}), slicing over $X = \\{u_1, u_2, z\\}$ ($e_1 \\cdot u_1 = e_1 \\cdot u_2 = e_1 \\cdot z = z$) creates a $V$-shaped category of elements $\\int_{\\mathcal{M}_1} X$, refuting even $\\mathrm{Proj}_1$ (hence ${{sym:proj-sub}}$) on the presheaf $F(u_1) = \\{0\\}, F(u_2) = \\{1\\}, F(z) = \\{0, 1\\}$.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+In the scone $\\mathcal{C} = (\\mathbf{B}(\\mathbb{Z}/2\\mathbb{Z}))_\\bot$, $U_*$ ($\\bot \\mapsto \\emptyset$, $* \\mapsto 1$) is subterminal, giving $/U_* \\simeq \\mathbf{Set}^{\\mathbb{Z}/2\\mathbb{Z}} \\notin T$. In the dual coscone $\\mathcal{C}^{\\mathrm{op}} = (\\mathbf{B}(\\mathbb{Z}/2\\mathbb{Z}))^\\top$, the terminal object $\\top$ receives arrows from $*$ with $\\mathrm{Hom}(\\top, *) = \\emptyset$, so $\\Gamma(F) = F(\\top)$ makes $\\mathrm{Proj}_1$ fail only via $U_*$ while $\\mathbf{1}, \\mathbf{Set}$ are the only non-trivial open subtopoi (giving $\\in \\mathcal{C}_{\\mathrm{open}}$), yet the closed subtopos~\\cite[\\S A4.5]{johnstone2002} complementary to $U_{\\top}$ recovers $\\mathbf{Set}^{\\mathbb{Z}/2\\mathbb{Z}} \\notin T$. For $M = (\\mathbb{Z}/2\\mathbb{Z})^0$, left ideals are $\\{\\emptyset, \\{0\\}, M\\}$: $\\mathbf{Set}^M$ has right zero $0$ (refuting $\\mathrm{IAC}$) and exactly $3$ LT topologies, all landing in $T$; slicing over $X = \\{a, 0\\}$ splits the fiber over $a$ into a free $\\mathbb{Z}/2\\mathbb{Z}$-stabilizer, which $c(U_0)$ isolates as $\\mathbf{Set}^{\\mathbb{Z}/2\\mathbb{Z}} \\notin T$. Finally, on $\\mathbf{Set}^{\\mathcal{M}_1}/X$ with $X = \\{u_1, u_2, z\\}$, any global section $s$ of $F$ would require $s(z) = e_1 \\cdot s(u_1) = 0$ and $s(z) = e_1 \\cdot s(u_2) = 1$, impossible; and $\\mathbf{Set}^{\\mathcal{M}_1}$ itself stays in $\\mathcal{C}_{\\mathrm{slice+LT}}$ because $\\mathcal{M}_1$ has trivial group of units and $\\mathrm{IAC}$ holds in a slice iff all stabilizers act trivially on fibers~\\cite{FreydScedrov90}.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:def:doctrinal-philosophy", "ch01:prop:lt-stability-projsub"]
+lean_dep = []
+curriculum = ["vol1:def:doctrinal-philosophy", "ch01:prop:lt-stability-projsub"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Choice Calibration", "Topological Separation", "Counterexample / Disproof"]
+witness_scope = "FlowF2Witness encodes the decidable 7-topos stability matrix certifying strict escalation C_triv > C_open > C_LT > C_slice+LT, and m1_etale_slice_refutes_proj1 mechanizes the exact 3-point M1-set etale slice counterexample (axiom-free Emerald); the sheaf-theoretic open/closed LT subtopos identifications live in the monograph proof."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch01:thm:flow-f2-four-rung-escalation"
+purpose = "Full topos-theoretic proof of scone/coscone/(Z/2Z)^0 strict escalation and M1 slice collapse"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.flow_f2_four_rung_strict_escalation"
+purpose = "Axiom-free Lean 4 witness verifying strict 4-rung escalation and M1VSliceObj etale collapse"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "johnstone2002"
+locator = "§A4.5 (Vol. 1, pp. 217–228)"
+purpose = "Closed and open Lawvere-Tierney subtopoi and slice localization"

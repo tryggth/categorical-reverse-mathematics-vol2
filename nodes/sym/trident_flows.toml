@@ -1,0 +1,50 @@
+id = "sym:trident-flows"
+kind = "symbol"
+title = "Obstruction Trident and Doctrinal Flows Notation Registry"
+chapter = "ch01"
+section = "1.1"
+seq_order = 6
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = []
+
+[spec]
+[[spec.exports]]
+key = "hofib"
+latex = "\\ensuremath{\\mathrm{hofib}}"
+description = "Homotopy fiber / essential fiber functor"
+
+[[spec.exports]]
+key = "phil-cat"
+latex = "\\ensuremath{\\mathbf{Phil}}"
+description = "Category of doctrinal philosophies and 2-Chu morphisms"
+
+[[spec.exports]]
+key = "apodictic"
+latex = "\\ensuremath{\\Box_\\Sigma}"
+description = "Modal S4 Apodictic Closure interior under stability monoid Sigma"
+
+[[spec.exports]]
+key = "spec-grav"
+latex = "\\ensuremath{\\mathrm{SG}}"
+description = "Touchstone Specific Gravity ratio invariant"
+
+[[spec.exports]]
+key = "proj-sub"
+latex = "\\ensuremath{\\mathrm{Proj}_{\\mathrm{sub}}}"
+description = "Hereditary subterminal projectivity (Supports Split SS)"
+
+[body]
+tex = """
+\\begin{remark}[Notation Registry: Obstruction Trident and Doctrinal Flows]\\label{sym:trident-flows}%
+This node registers the canonical Volume~II notation for homotopy fibers {{sym:hofib}}, the category of doctrinal philosophies {{sym:phil-cat}}, the modal $S4$ Apodictic Closure {{sym:apodictic}}, Touchstone Specific Gravity {{sym:spec-grav}}, and hereditary subterminal projectivity {{sym:proj-sub}}.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

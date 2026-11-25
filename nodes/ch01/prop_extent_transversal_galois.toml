@@ -1,0 +1,215 @@
+id = "ch01:prop:extent-transversal-galois"
+kind = "proposition"
+title = "2-Chu Extent-Transversal Galois Duality and Maximal-vs.-Minimal Reconciliation"
+chapter = "ch01"
+section = "1.2"
+seq_order = 32
+axis = "meta_crm"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["shulman2020"]
+
+[spec]
+statement = "Over any 2-Chu pairing I : D -> P -> Bool over a DoctrinalProblem Phi = (H, C, K), extentOf I : Set P -> Set D and theoryOf I : Set D -> Set P form an antitone GaloisConnection (zero axioms). It restricts to an order-reversing bijection between closed extents E in M_[K,T] and extent-equivalence classes of admissible probe bundles, proving that inclusion-maximal closed extents E in Res_P^min correspond bijectively to refinement-minimal Prime Transversals."
+hypotheses = [
+  "DoctrinalProblem Phi over D",
+  "ProbeSuite S over Phi and P"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.DoctrinalFlows"
+imports = [
+  "Mathlib.Order.GaloisConnection.Defs",
+  "HomotopyCRM.Vol2.ProbeSuite"
+]
+decl_names = [
+  "HomotopyCRM.Vol2.DualSet",
+  "HomotopyCRM.Vol2.chuSetPreorder",
+  "HomotopyCRM.Vol2.dualSetPreorder",
+  "HomotopyCRM.Vol2.extentOf",
+  "HomotopyCRM.Vol2.theoryOf",
+  "HomotopyCRM.Vol2.extentOf_iff_probeExtent",
+  "HomotopyCRM.Vol2.theoryOf_iff_probeTheory",
+  "HomotopyCRM.Vol2.chu_galois_connection",
+  "HomotopyCRM.Vol2.IsClosedChuExtent",
+  "HomotopyCRM.Vol2.IsAdmissibleChuExtent",
+  "HomotopyCRM.Vol2.IsAdmissibleBundle",
+  "HomotopyCRM.Vol2.BundleEquiv",
+  "HomotopyCRM.Vol2.IsMaximalAdmissibleExtent",
+  "HomotopyCRM.Vol2.IsMinimalPrimeTransversal",
+  "HomotopyCRM.Vol2.extentOf_isAdmissible",
+  "HomotopyCRM.Vol2.theoryOf_isAdmissible",
+  "HomotopyCRM.Vol2.extentOf_theoryOf_iff",
+  "HomotopyCRM.Vol2.theoryOf_extentOf_bundleEquiv",
+  "HomotopyCRM.Vol2.extent_max_iff_transversal_min"
+]
+expected_axioms = []
+lean_signature = """
+/-- Constructive order-dual wrapper for `Set α` (avoiding `Classical.choice` and `Quot.sound`). -/
+structure DualSet (α : Type) : Type where
+  /-- Underlying subset of `α`. -/
+  val : Set α
+
+/-- Constructive inclusion preorder on `Set α`. -/
+def chuSetPreorder {α : Type} : Preorder (Set α) where
+  le U V := ∀ x, U x → V x
+  lt U V := (∀ x, U x → V x) ∧ ¬ (∀ x, V x → U x)
+  le_refl _ _ hx := hx
+  le_trans _ _ _ h1 h2 _ hx := h2 _ (h1 _ hx)
+  lt_iff_le_not_ge _ _ := Iff.rfl
+
+/-- Constructive reversed inclusion preorder on `DualSet α`. -/
+def dualSetPreorder {α : Type} : Preorder (DualSet α) where
+  le Q₁ Q₂ := ∀ p, Q₂.val p → Q₁.val p
+  lt Q₁ Q₂ := (∀ p, Q₂.val p → Q₁.val p) ∧ ¬ (∀ p, Q₁.val p → Q₂.val p)
+  le_refl _ _ hp := hp
+  le_trans _ _ _ h1 h2 _ hp := h1 _ (h2 _ hp)
+  lt_iff_le_not_ge _ _ := Iff.rfl
+
+/-- Definable extent `Ext_I(Q) = { d | ∀ p, Q p → I d p = true }`. -/
+def extentOf {D P : Type} (I : D → P → Bool) (Q : Set P) : Set D :=
+  fun d ↦ ∀ p, Q p → I d p = true
+
+/-- Probe theory `Th_I(U) = { p | ∀ d, U d → I d p = true }`. -/
+def theoryOf {D P : Type} (I : D → P → Bool) (U : Set D) : Set P :=
+  fun p ↦ ∀ d, U d → I d p = true
+
+/-- Pointwise agreement between `extentOf S.I` and `probeExtent S`. -/
+theorem extentOf_iff_probeExtent {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (Q : Set P) (d : D) : extentOf S.I Q d ↔ probeExtent S Q d :=
+  Iff.rfl
+
+/-- Pointwise agreement between `theoryOf S.I` and `probeTheory S`. -/
+theorem theoryOf_iff_probeTheory {D P : Type} {Φ : DoctrinalProblem D} (S : ProbeSuite Φ P)
+    (U : Set D) (p : P) : theoryOf S.I U p ↔ probeTheory S U p :=
+  Iff.rfl
+
+/-- Antitone Galois connection between subsets of `D` and dualized probe bundles in `DualSet P`. -/
+theorem chu_galois_connection {D P : Type} (I : D → P → Bool) :
+    @GaloisConnection (Set D) (DualSet P) chuSetPreorder dualSetPreorder
+      (fun U : Set D ↦ ⟨theoryOf I U⟩)
+      (fun Q : DualSet P ↦ extentOf I Q.val) := by
+  {{LEAN_BODY}}
+
+/-- Closed extent `Ext_I(Th_I(E)) ⊆ E` (modulo `E ⊆ Ext_I(Th_I(E))`). -/
+def IsClosedChuExtent {D P : Type} (I : D → P → Bool) (E : Set D) : Prop :=
+  ∀ d, extentOf I (theoryOf I E) d → E d
+
+/-- Admissible closed extent inside the interval `[K, T]`. -/
+def IsAdmissibleChuExtent {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (E : Set D) : Prop :=
+  IsClosedChuExtent I E ∧ ExtentSub Φ.K E ∧ ExtentSub E Φ.T
+
+/-- Admissible probe bundle `Q ⊆ P`: all probes in `Q` hold on `K` and `Ext_I(Q) ⊆ T`. -/
+def IsAdmissibleBundle {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (Q : Set P) : Prop :=
+  (∀ k, Φ.K k → ∀ p, Q p → I k p = true) ∧ ExtentSub (extentOf I Q) Φ.T
+
+/-- Extent-equivalence of probe bundles `Ext_I(Q₁) ≡ Ext_I(Q₂)`. -/
+def BundleEquiv {D P : Type} (I : D → P → Bool) (Q₁ Q₂ : Set P) : Prop :=
+  ExtentSub (extentOf I Q₁) (extentOf I Q₂) ∧ ExtentSub (extentOf I Q₂) (extentOf I Q₁)
+
+/-- Inclusion-maximal admissible extent in `M_[K,T]`. -/
+def IsMaximalAdmissibleExtent {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (E : Set D) : Prop :=
+  IsAdmissibleChuExtent (Φ := Φ) I E ∧
+    ∀ E', IsAdmissibleChuExtent (Φ := Φ) I E' → ExtentSub E E' → ExtentSub E' E
+
+/-- Deductively minimal Prime Transversal bundle (least restrictive up to extent-equivalence). -/
+def IsMinimalPrimeTransversal {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (Q : Set P) : Prop :=
+  IsAdmissibleBundle (Φ := Φ) I Q ∧
+    ∀ Q', IsAdmissibleBundle (Φ := Φ) I Q' →
+      ExtentSub (extentOf I Q) (extentOf I Q') → BundleEquiv I Q Q'
+
+/-- `extentOf I Q` of an admissible bundle `Q` is an admissible closed extent. -/
+theorem extentOf_isAdmissible {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (Q : Set P) (hQ : IsAdmissibleBundle (Φ := Φ) I Q) :
+    IsAdmissibleChuExtent (Φ := Φ) I (extentOf I Q) := by
+  refine ⟨fun d hd p hp ↦ hd p (fun _ hx ↦ hx p hp), fun k hk p hp ↦ hQ.1 k hk p hp, hQ.2⟩
+
+/-- `theoryOf I E` of an admissible extent `E` is an admissible probe bundle. -/
+theorem theoryOf_isAdmissible {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (E : Set D) (hE : IsAdmissibleChuExtent (Φ := Φ) I E) :
+    IsAdmissibleBundle (Φ := Φ) I (theoryOf I E) :=
+  ⟨fun k hk _ hp ↦ hp k (hE.2.1 k hk), fun d hd ↦ hE.2.2 d (hE.1 d hd)⟩
+
+/-- Unit/counit extent identity for closed admissible extents: `Ext_I(Th_I(E)) ↔ E`. -/
+theorem extentOf_theoryOf_iff {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (E : Set D) (hE : IsAdmissibleChuExtent (Φ := Φ) I E) (d : D) :
+    extentOf I (theoryOf I E) d ↔ E d :=
+  ⟨fun hd ↦ hE.1 d hd, fun hd _ hp ↦ hp d hd⟩
+
+/-- Bundle equivalence `Th_I(Ext_I(Q)) ≡_ext Q` for every probe bundle `Q`. -/
+theorem theoryOf_extentOf_bundleEquiv {D P : Type} (I : D → P → Bool) (Q : Set P) :
+    BundleEquiv I (theoryOf I (extentOf I Q)) Q :=
+  ⟨fun _ hd p hp ↦ hd p (fun _ hy ↦ hy p hp), fun _ hd _ hp ↦ hp _ hd⟩
+
+/-- **Maximal-vs.-Minimal Reconciliation:** `E = Ext_I(Q)` is inclusion-maximal in `M_[K,T]`
+    if and only if `Q` is a refinement-minimal Prime Transversal. -/
+theorem extent_max_iff_transversal_min {D P : Type} {Φ : DoctrinalProblem D} (I : D → P → Bool)
+    (Q : Set P) :
+    IsMaximalAdmissibleExtent (Φ := Φ) I (extentOf I Q) ↔
+      IsMinimalPrimeTransversal (Φ := Φ) I Q := by
+  constructor
+  · rintro ⟨hAdmE, hMax⟩
+    refine ⟨⟨fun k hk p hp ↦ hAdmE.2.1 k hk p hp, hAdmE.2.2⟩, fun Q' hQ' hSub ↦ ?_⟩
+    exact ⟨hSub, hMax (extentOf I Q') (extentOf_isAdmissible I Q' hQ') hSub⟩
+  · rintro ⟨hAdmQ, hMin⟩
+    refine ⟨extentOf_isAdmissible I Q hAdmQ, fun E' hE' hSub ↦ ?_⟩
+    have hBundle := hMin (theoryOf I E') (theoryOf_isAdmissible I E' hE')
+      (fun d hd p hp ↦ hp d (hSub d hd))
+    exact fun d hd ↦ hBundle.2 d ((extentOf_theoryOf_iff I E' hE' d).mpr hd)
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.chu_galois_connection' does not depend on any axioms -/\n#guard_msgs in\n#print axioms chu_galois_connection",
+  "/-- info: 'HomotopyCRM.Vol2.extent_max_iff_transversal_min' does not depend on any axioms -/\n#guard_msgs in\n#print axioms extent_max_iff_transversal_min"
+]
+
+[body]
+lean_body = """
+  intro U Q
+  constructor
+  · intro h d hd p hp
+    exact h p hp d hd
+  · intro h p hp d hd
+    exact h d hd p hp
+"""
+tex = """
+\\begin{proposition}[2-Chu Extent--Transversal Galois Duality and Maximal-vs.-Minimal Reconciliation]\\label{ch01:prop:extent-transversal-galois}%
+\\uses{vol1:def:doctrinal-philosophy,ch01:def:probe-suite,ch01:def:adm-pareto-frontier}%
+Over any $2$-Chu pairing~\\cite{shulman2020} $I : \\mathbb{D} \\times \\mathcal{P} \\to \\mathbf{Bool}$ for $\\Phi = (H, C, K)$ ({{ref:ch01:def:probe-suite}}), the maps $\\mathrm{Th}_I : \\mathcal{P}(\\mathbb{D}) \\rightleftarrows \\mathcal{P}(\\mathcal{P})^{\\mathrm{op}} : \\mathrm{Ext}_I$ form an antitone Galois connection ($\\mathrm{Th}_I(U) \\supseteq Q \\iff U \\subseteq \\mathrm{Ext}_I(Q)$). Restricting to admissible closed extents $E \\in \\mathcal{M}_{[K,T]}$ ({{ref:ch01:def:adm-pareto-frontier}}) and admissible probe bundles $Q$ ($K \\subseteq \\mathrm{Ext}_I(Q) \\subseteq T$) yields an order-reversing bijection up to extent equivalence ($\\mathrm{Ext}_I(\\mathrm{Th}_I(E)) = E$, $\\mathrm{Ext}_I(\\mathrm{Th}_I(\\mathrm{Ext}_I(Q))) = \\mathrm{Ext}_I(Q)$), under which
+\\[
+  E = \\mathrm{Ext}_I(Q) \\in {{sym:pareto-res}}(H \\Rightarrow C)
+  \\quad\\Longleftrightarrow\\quad
+  Q \\text{ is a refinement-minimal Prime Transversal.}
+\\]
+\\end{proposition}
+\\begin{proof}
+Constructively without axioms, $\\forall p \\in Q,\\; \\forall d \\in U,\\; I(d, p) = \\mathrm{true}$ rearranges quantifier order directly to $\\forall d \\in U,\\; \\forall p \\in Q,\\; I(d, p) = \\mathrm{true}$, giving the Galois connection. Because $E$ is admissible iff $E = \\mathrm{Ext}_I(\\mathrm{Th}_I(E))$ and $K \\subseteq E \\subseteq T$, an admissible bundle $Q'$ has larger extent $\\mathrm{Ext}_I(Q) \\subseteq \\mathrm{Ext}_I(Q')$ iff $Q'$ is strictly weaker deductively; hence inclusion-maximality of $E = \\mathrm{Ext}_I(Q)$ in Volume~I's $\\mathcal{M}_{[K,T]}$ ({{ref:vol1:def:doctrinal-philosophy}}) coincides identically with refinement-minimality of Prime Transversals in Volume~II.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:def:doctrinal-philosophy", "ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
+lean_dep = ["ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
+curriculum = ["vol1:def:doctrinal-philosophy", "ch01:def:probe-suite", "ch01:def:adm-pareto-frontier"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Duality", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.extent_max_iff_transversal_min"
+purpose = "Axiom-free Lean 4 proof of 2-Chu Galois connection and maximal-extent vs. minimal-transversal equivalence"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "shulman2020"
+locator = "TAC 35 (2020), §§2–4, pp. 89–136"
+purpose = "2-Chu-Dialectica pairing construction"
