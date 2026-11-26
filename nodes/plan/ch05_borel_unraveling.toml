@@ -1,0 +1,32 @@
+id = "plan:ch05-borel-unraveling"
+kind = "work_item"
+title = "Ch. 5 (Part II): Arboreal Game Comonads & Martin's Borel Unraveling (Vol. I Prob. 15)"
+chapter = "ch05"
+section = "5.1"
+seq_order = 8
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 5: Arboreal Comonads & Borel Unraveling"
+milestone_num = 5
+slice_code = "Ch. 5"
+target_modules = [
+  "HomotopyCRM.Vol2.ArborealGameComonads",
+  "HomotopyCRM.Vol2.BorelUnraveling"
+]
+deliverable_nodes = [
+  "ch05:def:arboreal-comonads-ek-pk-mk",
+  "ch05:thm:martin-unraveling-coalgebra-cs",
+  "ch05:thm:vol1-problem15-borel-determinacy-residuum"
+]
+guardrails = []
+summary = "Develop Abramsky-Reggio arboreal game comonads E_k, P_k, M_k and Martin's proper-class unraveling coalgebras in C \\ S to price Borel determinacy and resolve Volume I Problem 15."
+
+[edges]
+logical_dep = ["plan:ch04-smallness-and-schemes"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

@@ -1,0 +1,30 @@
+id = "plan:tcb-rung3-presheaf-soundness"
+kind = "work_item"
+title = "TCB Rung 3: TwoLTTSoundness.lean Presheaf Semantics & Loop Non-Collapse"
+chapter = "ch00"
+section = "TCB.3"
+seq_order = 13
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "TCB: KernelArena 2LTT"
+milestone_num = 10
+slice_code = "TCB Rung 3"
+target_modules = [
+  "HomotopyCRM.Vol2.TwoLTTSoundness"
+]
+deliverable_nodes = [
+  "tcb:thm:psh-box-cart-soundness",
+  "tcb:thm:quine-loop-non-collapse"
+]
+guardrails = []
+summary = "Mechanize TwoLTTSoundness.lean proving semantic soundness of the KernelArena 2LTT calculus inside PSh(Box_cart) at Type (u + k + 1) and establishing non-collapse of the Quine double-loop invariant."
+
+[edges]
+logical_dep = ["plan:tcb-rung2-nu-anima"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

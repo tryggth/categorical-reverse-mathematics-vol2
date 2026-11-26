@@ -152,6 +152,7 @@ def load_context() -> tuple[
                formal_pkg, stratum, module, decl_names_json, expected_axioms_json,
                cert_path, spec_hash, body_hash, grounding_hash, taint_status, raw_json
         FROM nodes
+        WHERE kind NOT IN ('work_item', 'pub_target')
         ORDER BY seq_order, id
         """
     ).fetchall()
@@ -380,7 +381,7 @@ def emit_monograph(
         r"  \vspace{0.35em}",
         f"  {{\\normalsize {location}\\par}}",
         r"  \vspace{0.6em}",
-        f"  {{\\large {manifest['phase']} ({manifest['active_slice']})\\par}}",
+        f"  {{\\large {tex_escape(manifest['phase'])} ({tex_escape(manifest['active_slice'])})\\par}}",
         r"  \vspace*{0.05\textheight}\par}",
         r"\clearpage",
         "",
@@ -536,7 +537,7 @@ def emit_claims_ledger(
         r"  \vspace{0.4em}",
         r"  {\large\itshape\color{CRMBlue} Four-Part Master Claims, Two-Tier Blueprint, and Four-Color Stratum Ledger\par}",
         r"  \vspace{0.8em}",
-        f"  {{\\normalsize {manifest['author']} \\quad|\\quad {manifest['phase']}: {manifest['active_slice']}\\par}}",
+        f"  {{\\normalsize {tex_escape(manifest['author'])} \\quad|\\quad {tex_escape(manifest['phase'])}: {tex_escape(manifest['active_slice'])}\\par}}",
         r"\end{center}",
         r"\clearpage",
         r"\mainmatter",

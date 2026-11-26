@@ -1,0 +1,70 @@
+id = "pub:doc:repo-frontdoor"
+kind = "pub_target"
+title = "Publication Sink: Tracked Front-Door Docs (README, PROCESS, ROADMAP, CITATION)"
+chapter = "ch00"
+section = "PUB.1"
+seq_order = 901
+axis = "publication"
+grounding_tier = "publication"
+formal_pkg = "none"
+stratum = "none"
+
+[pub]
+channel = "main_docs"
+sensitivity = "spec_and_metrics"
+outputs = ["README.md", "PROCESS.md", "ROADMAP.md", "CITATION.cff"]
+
+[edges]
+logical_dep = ["plan:ch00-bootstrap", "plan:ch01-p1a", "plan:ch01-p1b"]
+lean_dep = []
+curriculum = []
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:def:probe-suite"
+locked_spec_hash = "069b4c14ccf72941ebf4d343136bb113105d4d8540ed0b9dab8dfa777efb5769"
+scope_note = "Front-door summary of Clauses (1)-(3) calibrated probe suite"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:scotoma-pareto-trichotomy"
+locked_spec_hash = "73d0580b8dfec86cca711b79a3255f80d4e086b2df7cdaad7274c0a873cff4ea"
+scope_note = "Front-door summary of the Crimson Epistemic Trichotomy"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:flow-f1-threshold-order"
+locked_spec_hash = "d8f9b2fdbc17447986fc1fe34718d6515fc3a43a2f54fad7248074defd0808b9"
+scope_note = "Front-door summary of Flow F1 threshold ordering t_wake <= t_dogma"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:flow-f1-frontier-nonmonotone"
+locked_spec_hash = "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21"
+scope_note = "Front-door summary of Flow F1 1 -> 2 -> 1 non-monotonicity witness"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:mode3-orbit-stabilizer-exactness"
+locked_spec_hash = "8dbdf07012c533f003e59016c17f2721ef72022eb23334cbb58ee76b1682dd39"
+scope_note = "Front-door summary of Amber Mode (iii) Orbit-Stabilizer exactness"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:prop:extent-transversal-galois"
+locked_spec_hash = "8e07cdaa128d354efde82f032d98e1c351630facbb1b3929d21c3a9b582e4e80"
+scope_note = "Front-door summary of 2-Chu extent-transversal Galois duality"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:flow-f2-four-rung-escalation"
+locked_spec_hash = "ad78ce8e47623580b2b8401129aed14d7d113c7bbb151b30d4ca7453c08d2f56"
+scope_note = "Front-door summary of Flow F2 4-rung stability escalation"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:prop:flow-f3-lt-partition-and-schism"
+locked_spec_hash = "20719a8594b088431c3018c217e6a7a13ff3d7eb5a2853b8ad73b024a0f2d188"
+scope_note = "Front-door summary of Flow F3 3^k 2^m partition and realizability schism"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:flow-f4-split-polarity-transport"
+locked_spec_hash = "8127e3cb8d1697e98da7c7c7bc999abfb4ebb554c3893c62b3b3d2ed9e8fac5f"
+scope_note = "Front-door summary of Flow F4 split-polarity transport law"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:rem:trident-mode3-2ltt-bootstrap"
+locked_spec_hash = "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369"
+scope_note = "Front-door summary of zero-Mathlib KernelArena 2LTT bootstrap"

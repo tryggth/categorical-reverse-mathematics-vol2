@@ -1,0 +1,109 @@
+name: Vol II Glass-Box Verification CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  fast-gate:
+    name: Fast Gate (DuckDB, Public Docs, Path Hygiene, KernelArena 2LTT)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python DuckDB dependency
+        run: python3 -m pip install --no-cache-dir duckdb
+
+      - name: Setup Lean v4.28.0 toolchain via elan
+        uses: leanprover/lean-action@v1
+        with:
+          use-github-cache: false
+          build: false
+
+      - name: Verify path hygiene (no hardcoded workstation paths)
+        run: |
+          if git grep -n '/[h]ome/' -- manifest.toml scripts/ README.md PROCESS.md ROADMAP.md CITATION.cff .github/; then
+            echo "ERROR: hardcoded workstation path detected"
+            exit 1
+          fi
+
+      - name: Check Volume I fence (remote CI skip when sibling absent)
+        run: python3 scripts/fence_check.py --verify
+
+      - name: Compile 5-fiber DuckDB network and run structural/honesty checks
+        run: python3 scripts/compile_db.py
+
+      - name: Verify tracked front-door docs freshness
+        run: python3 scripts/emit_public_docs.py --check
+
+      - name: Build and verify zero-Mathlib KernelArena 2LTT certificates
+        run: |
+          lake --dir kernel_arena build
+          lake --dir kernel_arena exe kernel-arena --self-test
+          for cert in certs/*.2ltt.json; do
+            lake --dir kernel_arena exe kernel-arena verify "$cert"
+          done
+
+  lean-mathlib-audit:
+    name: Mathlib Vol II Build & AuditEnv
+    needs: fast-gate
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect Lean / formal node changes
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+          fi
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            echo "run_lean=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only "$BASE_SHA" HEAD | grep -E '^(nodes/|certs/|kernel_arena/|mathlib_vol2/|scripts/|lean-toolchain)'; then
+            echo "run_lean=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_lean=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Python
+        if: steps.changed.outputs.run_lean == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python DuckDB dependency
+        if: steps.changed.outputs.run_lean == 'true'
+        run: python3 -m pip install --no-cache-dir duckdb
+
+      - name: Setup Lean v4.28.0 toolchain
+        if: steps.changed.outputs.run_lean == 'true'
+        uses: leanprover/lean-action@v1
+        with:
+          use-github-cache: false
+          build: false
+
+      - name: Compile DuckDB & emit Lean modules
+        if: steps.changed.outputs.run_lean == 'true'
+        run: |
+          python3 scripts/compile_db.py
+          python3 scripts/emit_lean.py
+
+      - name: Fetch mathlib cache, build HomotopyCRM + audit_env, and run AuditEnv
+        if: steps.changed.outputs.run_lean == 'true'
+        run: |
+          cd mathlib_vol2
+          lake exe cache get
+          lake build HomotopyCRM audit_env
+          lake exe audit_env ../build/audit_nodes_manifest.json

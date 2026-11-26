@@ -1,0 +1,40 @@
+id = "plan:ch00-bootstrap"
+kind = "work_item"
+title = "Phase 0 Bootstrap: 5-Fiber Network Compiler, Two-Package TCB, & Ch. 1 §1.1 Core"
+chapter = "ch01"
+section = "1.1"
+seq_order = 1
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum"
+milestone_num = 1
+slice_code = "Phase 0"
+target_modules = [
+  "HomotopyCRM.Vol2.ProbeSuite",
+  "HomotopyCRM.Vol2.CertChecks",
+  "KernelArena.Check"
+]
+deliverable_nodes = [
+  "vol1:def:doctrinal-philosophy",
+  "sym:probe-suite",
+  "ch01:def:probe-suite",
+  "ch01:def:adm-pareto-frontier",
+  "ch01:thm:scotoma-pareto-trichotomy",
+  "ch01:thm:flow-f1-threshold-order",
+  "ch01:cex:flow-f1-frontier-nonmonotone",
+  "ch01:rem:trident-mode3-2ltt-bootstrap",
+  "ch01:prose:meta-crm-roadmap",
+  "ch01:tab:epistemic-probe-regimes"
+]
+guardrails = ["ltt_eff_muchnik_meets"]
+summary = "Initialize DuckDB 5-fiber compiler, two-hash taint engine, zero-Mathlib KernelArena 2LTT checker, Royal Octavo LaTeX pipeline, and Ch. 1 §1.1 10-node vertical slice with Pass A/B/C taint drills."
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

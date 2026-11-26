@@ -1,0 +1,28 @@
+id = "pub:pdf:monograph"
+kind = "pub_target"
+title = "Publication Sink: Royal Octavo Volume II Monograph PDF"
+chapter = "ch00"
+section = "PUB.3"
+seq_order = 903
+axis = "publication"
+grounding_tier = "publication"
+formal_pkg = "none"
+stratum = "none"
+
+[pub]
+channel = "gh_pages"
+sensitivity = "spec_and_body"
+outputs = [
+  "build/tex/crm_vol2_monograph.pdf",
+  "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
+]
+
+[edges]
+logical_dep = [
+  "ch01:prose:meta-crm-roadmap",
+  "ch01:thm:flow-f4-split-polarity-transport",
+  "ch01:thm:mode3-orbit-stabilizer-exactness"
+]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

@@ -1,0 +1,37 @@
+id = "plan:ch09-cic-vs-2ltt-horizons"
+kind = "work_item"
+title = "Ch. 9 (Part IV): Four-Layer CIC vs. 2LTT Obstruction, Proof Tomography, & Horizons"
+chapter = "ch09"
+section = "9.1"
+seq_order = 14
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 9: CIC vs. 2LTT Obstructions & Volume II Horizons"
+milestone_num = 9
+slice_code = "Ch. 9"
+target_modules = [
+  "HomotopyCRM.Vol2.CICvsTwoLTTObstruction"
+]
+deliverable_nodes = [
+  "ch09:thm:four-layer-cic-vs-2ltt-obstruction",
+  "ch09:prose:proof-tomography-case-study",
+  "ch09:prob:volume2-open-horizons"
+]
+guardrails = [
+  "nom_not_iac",
+  "ordinal_rank_base",
+  "ltt_eff_muchnik_meets",
+  "global_section_dc",
+  "cumulative_hierarchy_strict_inclusion"
+]
+summary = "Establish the four-layer CICvsTwoLTTObstruction.lean separation, present the genre-signposted Proof Tomography case study, and synthesize Volume II Open Horizons under all five cross-volume precision guardrails."
+
+[edges]
+logical_dep = ["plan:ch08-boffa-nu-anima", "plan:tcb-rung3-presheaf-soundness"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

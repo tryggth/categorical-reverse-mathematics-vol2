@@ -1,0 +1,221 @@
+{
+  "schema": "vol2.publication_lock.v1",
+  "updated_at_utc": "2026-11-26T02:13:00.166734+00:00",
+  "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
+  "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
+  "lean_export_commit": "ab71b6e6c2b8ffb49e6d253d1d38b3540dd2f12f",
+  "pub_targets": {
+    "pub:branch:lean-export": {
+      "cone_hash": "51f3165c60a7c44f654038b919343a3c12633640fa8d2d43b41cc6b40a72b280",
+      "channel": "lean_export",
+      "sensitivity": "lean_only",
+      "outputs": [
+        "refs/heads/lean-export",
+        "build/lean_export_stage/EXPORT_MANIFEST.json"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    },
+    "pub:doc:repo-frontdoor": {
+      "cone_hash": "cf3d3c25333075d2b96e7415c2cc9eb63537499580b0eb0343e167aabc013508",
+      "channel": "main_docs",
+      "sensitivity": "spec_and_metrics",
+      "outputs": [
+        "README.md",
+        "PROCESS.md",
+        "ROADMAP.md",
+        "CITATION.cff"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    },
+    "pub:gh:issues-board": {
+      "cone_hash": "2552fffe83b6448843cbf4aa844ebc1ff16dc8f8a7ed01e4ca1ca505eabcd8ac",
+      "channel": "gh_issues",
+      "sensitivity": "plan_and_problems",
+      "outputs": [
+        "github:milestones",
+        "github:issues"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    },
+    "pub:pdf:claims-ledger": {
+      "cone_hash": "fba3f67fcd8318269747c7dea08be2548a1e6f31bbd8221639615f9fab2e8e92",
+      "channel": "gh_pages",
+      "sensitivity": "spec_body_and_grounding",
+      "outputs": [
+        "build/tex/crm_vol2_claims_ledger.pdf",
+        "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    },
+    "pub:pdf:course-packs": {
+      "cone_hash": "8fbf034e13deb784c4d32c72b2aed8fb754e34bb03b8ae8585543d89e7e1adf3",
+      "channel": "gh_pages",
+      "sensitivity": "spec_and_body",
+      "outputs": [
+        "build/tex/course_pack_ch01_probe_calibration.pdf",
+        "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    },
+    "pub:pdf:monograph": {
+      "cone_hash": "e7d0cc6a23cd597376dc5e7727280d2f845b4be8e0dc0999f280f3b7858e13f0",
+      "channel": "gh_pages",
+      "sensitivity": "spec_and_body",
+      "outputs": [
+        "build/tex/crm_vol2_monograph.pdf",
+        "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    },
+    "pub:web:observatory": {
+      "cone_hash": "db2796a5ca32f6d1cef5d72228a1ee9499252d0855536d297ce36218588e37e7",
+      "channel": "gh_pages",
+      "sensitivity": "spec_body_and_grounding",
+      "outputs": [
+        "build/gh_pages/index.html",
+        "build/gh_pages/styles.css",
+        "build/gh_pages/app.js",
+        "build/gh_pages/data/network.json",
+        "build/gh_pages/.nojekyll"
+      ],
+      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+    }
+  },
+  "milestones": {
+    "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum": 1,
+    "Chapter 2: Class-Set Adjunction & Mod(GB_0)": 2,
+    "Chapter 3: Leray Transgression Along pi_Set": 3,
+    "Chapter 4: Smallness Valves & Scheme Residuum": 4,
+    "Chapter 5: Arboreal Comonads & Borel Unraveling": 5,
+    "Chapter 6: Large Doctrines & Vopenka Localization Wall": 6,
+    "Chapter 7: Class-Theoretic Calibration of the (infty,infty)-Ladder": 7,
+    "Chapter 8: Aczel-Boffa Coalgebras & nuP_Anima": 8,
+    "Chapter 9: CIC vs. 2LTT Obstructions & Volume II Horizons": 9,
+    "TCB: KernelArena 2LTT": 10
+  },
+  "issues": {
+    "plan:ch01-p1b": {
+      "number": 1,
+      "title": "[Phase 1B] Phase 1B: Ch. 1 \u00a7\u00a71.4\u20131.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1",
+      "milestone": "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum",
+      "labels": [
+        "slice:active"
+      ]
+    },
+    "plan:ch02-class-set-adjunction": {
+      "number": 2,
+      "title": "[Ch. 2] Ch. 2 (Part I): Class-Set Adjunction, Mod(GB_0), & Williams Kaleidoscope",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2",
+      "milestone": "Chapter 2: Class-Set Adjunction & Mod(GB_0)",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:ch03-piset-transgression": {
+      "number": 3,
+      "title": "[Ch. 3] Ch. 3 (Part I): Leray Transgression Along pi_Set & Felgner vs. DC_Ord",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3",
+      "milestone": "Chapter 3: Leray Transgression Along pi_Set",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:tcb-rung1-cubical-kan": {
+      "number": 4,
+      "title": "[TCB Rung 1] TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not)",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4",
+      "milestone": "TCB: KernelArena 2LTT",
+      "labels": [
+        "slice:planned",
+        "tcb:kernel-arena"
+      ]
+    },
+    "plan:ch04-smallness-and-schemes": {
+      "number": 5,
+      "title": "[Ch. 4] Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5",
+      "milestone": "Chapter 4: Smallness Valves & Scheme Residuum",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:ch05-borel-unraveling": {
+      "number": 6,
+      "title": "[Ch. 5] Ch. 5 (Part II): Arboreal Game Comonads & Martin's Borel Unraveling (Vol. I Prob. 15)",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/6",
+      "milestone": "Chapter 5: Arboreal Comonads & Borel Unraveling",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:ch06-large-doctrines-vopenka": {
+      "number": 7,
+      "title": "[Ch. 6] Ch. 6 (Part III): GBC to KM Large Doctrines & Vopenka Sigma_2 Localization Wall",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/7",
+      "milestone": "Chapter 6: Large Doctrines & Vopenka Localization Wall",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:ch07-inf-inf-calibration": {
+      "number": 8,
+      "title": "[Ch. 7] Ch. 7 (Part III): Class Calibration of 4-Tier (infty,infty)-Ladder (Vol. I Prob. 16)",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/8",
+      "milestone": "Chapter 7: Class-Theoretic Calibration of the (infty,infty)-Ladder",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:tcb-rung2-nu-anima": {
+      "number": 9,
+      "title": "[TCB Rung 2] TCB Rung 2: Container Fixed Points WSup / NuCoalg & Quine Double-Loop Cert",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/9",
+      "milestone": "TCB: KernelArena 2LTT",
+      "labels": [
+        "slice:planned",
+        "tcb:kernel-arena"
+      ]
+    },
+    "plan:ch08-boffa-nu-anima": {
+      "number": 10,
+      "title": "[Ch. 8] Ch. 8 (Part IV): Aczel-Boffa Coalgebras, nuP_Anima Z/2Z Loops, & Nominal Decalage (Vol. I Prob. 17)",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/10",
+      "milestone": "Chapter 8: Aczel-Boffa Coalgebras & nuP_Anima",
+      "labels": [
+        "slice:planned"
+      ]
+    },
+    "plan:tcb-rung3-presheaf-soundness": {
+      "number": 11,
+      "title": "[TCB Rung 3] TCB Rung 3: TwoLTTSoundness.lean Presheaf Semantics & Loop Non-Collapse",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/11",
+      "milestone": "TCB: KernelArena 2LTT",
+      "labels": [
+        "slice:planned",
+        "tcb:kernel-arena"
+      ]
+    },
+    "plan:ch09-cic-vs-2ltt-horizons": {
+      "number": 12,
+      "title": "[Ch. 9] Ch. 9 (Part IV): Four-Layer CIC vs. 2LTT Obstruction, Proof Tomography, & Horizons",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/12",
+      "milestone": "Chapter 9: CIC vs. 2LTT Obstructions & Volume II Horizons",
+      "labels": [
+        "slice:planned"
+      ]
+    }
+  }
+}

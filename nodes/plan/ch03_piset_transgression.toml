@@ -1,0 +1,33 @@
+id = "plan:ch03-piset-transgression"
+kind = "work_item"
+title = "Ch. 3 (Part I): Leray Transgression Along pi_Set & Felgner vs. DC_Ord"
+chapter = "ch03"
+section = "3.1"
+seq_order = 5
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 3: Leray Transgression Along pi_Set"
+milestone_num = 3
+slice_code = "Ch. 3"
+target_modules = [
+  "HomotopyCRM.Vol2.PiSetTransgression",
+  "HomotopyCRM.Vol2.FelgnerMembrane"
+]
+deliverable_nodes = [
+  "ch03:thm:leray-transgression-pi-set",
+  "ch03:prop:card-to-set-splitting",
+  "ch03:thm:felgner-1971-membrane",
+  "ch03:cex:glazer-felgner-dc-ord-leak"
+]
+guardrails = ["global_section_dc"]
+summary = "Formulate Leray spectral transgression along pi_Set and the Card -> Set splitting, separating Felgner's 1971 global-choice conservation membrane from Glazer (2023) and Felgner (1976) DC_Ord leakage under Guardrail 4."
+
+[edges]
+logical_dep = ["plan:ch02-class-set-adjunction"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

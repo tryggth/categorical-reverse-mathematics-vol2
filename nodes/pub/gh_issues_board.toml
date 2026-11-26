@@ -1,0 +1,21 @@
+id = "pub:gh:issues-board"
+kind = "pub_target"
+title = "Publication Sink: GitHub Milestones & Issue Board"
+chapter = "ch00"
+section = "PUB.7"
+seq_order = 907
+axis = "publication"
+grounding_tier = "publication"
+formal_pkg = "none"
+stratum = "none"
+
+[pub]
+channel = "gh_issues"
+sensitivity = "plan_and_problems"
+outputs = ["github:milestones", "github:issues"]
+
+[edges]
+logical_dep = ["plan:ch09-cic-vs-2ltt-horizons"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

@@ -8,6 +8,7 @@ import datetime as dt
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -16,17 +17,33 @@ from typing import Any
 
 import duckdb
 
-from compile_db import LOCK_PATH, REPO_ROOT, compile_network
+from compile_db import LOCK_PATH, PUB_LOCK_PATH, REPO_ROOT, compile_network
 from emit_lean import emit_all, parse_and_map_lean_diagnostics
+from emit_public_docs import check_docs_fresh
 from emit_tex import BUILD_TEX_DIR, emit_claims_ledger, emit_monograph, load_context, resolve_tex_error
 from slice_course import emit_course_pack
 
 LOGS_DIR = REPO_ROOT / "logs"
 BUILD_DIR = REPO_ROOT / "build"
 MANIFEST_PATH = REPO_ROOT / "manifest.toml"
-LAKE_BIN = "/home/tryggth2009/.elan/bin/lake"
 KERNEL_ARENA_DIR = REPO_ROOT / "kernel_arena"
 MATHLIB_VOL2_DIR = REPO_ROOT / "mathlib_vol2"
+
+
+def resolve_lake_bin() -> str:
+    env_lake = os.environ.get("LAKE_BIN")
+    if env_lake:
+        return env_lake
+    which_lake = shutil.which("lake")
+    if which_lake:
+        return which_lake
+    elan_lake = Path.home() / ".elan" / "bin" / "lake"
+    if elan_lake.exists():
+        return str(elan_lake)
+    return "lake"
+
+
+LAKE_BIN = resolve_lake_bin()
 
 TEX_ERROR_RE = re.compile(r"^(.+\.tex):(\d+):\s*(.*)$")
 TEX_BAD_PATTERNS = (
@@ -195,6 +212,10 @@ def compile_pdf(stem: str, tex_map_name: str | None = None, run_index: bool = Fa
 def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any]) -> None:
     with MANIFEST_PATH.open("rb") as fh:
         manifest = tomllib.load(fh)
+    pub_lock: dict[str, Any] = {}
+    if PUB_LOCK_PATH.exists():
+        pub_lock = json.loads(PUB_LOCK_PATH.read_text(encoding="utf-8"))
+
     tainted = compile_report["tainted_nodes"]
     dirty = compile_report["body_dirty_nodes"]
     grounding_dirty = compile_report["grounding_dirty_nodes"]
@@ -203,24 +224,45 @@ def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any
     audit_nodes = {n["id"]: n for n in (gate_report.get("audit_env") or {}).get("nodes", [])}
     pdfs = gate_report.get("pdfs", {})
 
+    vol1_display = manifest.get("vol1_root_default", "../categorical-reverse-mathematics")
+    vol1_head = manifest.get("vol1_pinned_head", "b849be75")
+    gh_repo = pub_lock.get("github_repo") or manifest.get("github_repo", "")
+    pages_url = pub_lock.get("pages_url") or (
+        f"https://{gh_repo.split('/')[0]}.github.io/{gh_repo.split('/')[1]}/"
+        if "/" in gh_repo
+        else ""
+    )
+    lean_export_sha = pub_lock.get("lean_export_commit") or "pending"
+    wi_counts = compile_report.get("work_item_counts", {})
+
     lines = [
         f"[STATE: Vol II | {manifest['phase']} | Active slice: {manifest['active_slice']} | Tainted nodes: {len(tainted)}]",
         "",
         f"- **Updated:** {dt.datetime.now(dt.timezone.utc).isoformat()}",
         f"- **Working Title (Unlocked):** {manifest['working_title']} — *{manifest['working_subtitle']}*",
-        f"- **Volume I Read-Only Fence:** `{'PASS' if gate_report.get('fence_ok') else 'FAIL'}` (`{manifest['vol1_root']}`)",
+        f"- **Volume I Read-Only Fence:** `{'PASS' if gate_report.get('fence_ok') else 'FAIL'}` (`{vol1_display} (HEAD {vol1_head})`)",
         (
-            f"- **Network Graph (`build/vol2.duckdb`):** {compile_report['node_count']} nodes, "
+            f"- **Network Graph (`build/vol2.duckdb`):** {compile_report['node_count']} nodes "
+            f"({compile_report['core_node_count']} core, {compile_report['work_item_count']} work_item, "
+            f"{compile_report['pub_target_count']} pub_target), "
             f"{compile_report['edge_count']} edges across 5 fibers; cycles={compile_report['total_cycles']}; "
             f"TCB violations={len(compile_report['tcb_violations'])}; "
+            f"pub out-degree violations={len(compile_report['pub_outdegree_violations'])}; "
             f"honesty violations={len(compile_report['honesty_violations'])}; "
             f"disjoint declarations={compile_report['decl_ownership_count']}"
         ),
-        f"- **Taint Summary:** CLEAN={len(clean)}, BODY_DIRTY={len(dirty)}, GROUNDING_DIRTY={len(grounding_dirty)}, TAINTED={len(tainted)}",
+        f"- **Taint Summary (Core):** CLEAN={len(clean)}, BODY_DIRTY={len(dirty)}, GROUNDING_DIRTY={len(grounding_dirty)}, TAINTED={len(tainted)}",
+        f"- **Project Plan (14 Slices):** VERIFIED={wi_counts.get('VERIFIED', 0)}, ACTIVE={wi_counts.get('ACTIVE', 0)}, PLANNED={wi_counts.get('PLANNED', 0)}",
+        (
+            f"- **Publication Sinks (`pub_targets`):** CLEAN={len(compile_report['pub_clean_nodes'])}, "
+            f"ARTIFACT_DIRTY={len(compile_report['pub_dirty_nodes'])}, TAINTED={len(compile_report['pub_tainted_nodes'])}"
+        ),
         "",
         "## Node Verification Matrix",
     ]
     for nid, info in sorted(compile_report["nodes"].items()):
+        if info["kind"] in ("work_item", "pub_target"):
+            continue
         if nid in audit_nodes:
             an = audit_nodes[nid]
             extra = f"stratum={an['computed_stratum']} axioms={an['actual_axioms']}"
@@ -241,18 +283,68 @@ def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any
             f"- `{pinfo['pdf']}`: `{'PASS' if pinfo['passed'] else 'FAIL'}` (undef_refs={pinfo['has_undefined_refs']}, bib_warns={len(pinfo['bibtex_warnings'])})"
         )
 
+    lines.extend(
+        [
+            "",
+            "## Public Launch & Publication Sinks",
+            f"- **GitHub Repository:** https://github.com/{gh_repo}" if gh_repo else "- **GitHub Repository:** pending",
+            f"- **GitHub Pages Observatory:** {pages_url}" if pages_url else "- **GitHub Pages Observatory:** pending",
+            f"- **`lean-export` Commit SHA:** `{lean_export_sha}`",
+            f"- **Front-Door Docs Freshness (`emit_public_docs.py --check`):** `{'PASS' if gate_report.get('docs_fresh_ok') else 'FAIL'}`",
+        ]
+    )
+    for pid, pinfo in sorted(compile_report.get("pub_targets", {}).items()):
+        lines.append(
+            f"- `{pid}` (`{pinfo['channel']}`, `{pinfo['sensitivity']}`, `{pinfo['pub_status']}`): cone=`{pinfo['cone_hash'][:8]}`"
+        )
+    issues = pub_lock.get("issues", {})
+    if issues:
+        lines.append("")
+        lines.append("### Synced GitHub Issues")
+        for nid, irec in sorted(issues.items(), key=lambda kv: kv[1].get("number", 999999)):
+            lines.append(f"- Issue #{irec.get('number')}: `{nid}` ({irec.get('state', 'open')}) — {irec.get('url', '')}")
+
     digest_path = BUILD_DIR / "VOL2_SYNC_DIGEST.md"
     digest_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _core_locks_match(existing_nodes: dict[str, Any], new_nodes: dict[str, Any]) -> bool:
+    if set(existing_nodes.keys()) != set(new_nodes.keys()):
+        return False
+    for nid, nrec in new_nodes.items():
+        erec = existing_nodes[nid]
+        for k in ("spec_hash", "body_hash", "grounding_hash", "stratum", "actual_axioms", "cert_sha256", "passed"):
+            if erec.get(k) != nrec.get(k):
+                return False
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Volume II Verification Gatekeeper.")
-    parser.add_argument("--check-only", action="store_true", help="Run checks without updating verification_lock.json.")
+    parser.add_argument("--check-only", action="store_true", help="Run checks without updating lock files.")
+    parser.add_argument(
+        "--publish",
+        action="store_true",
+        help="Publish gate: hard-blocks on any mathematical or pub_target taint and locks publication_lock.json.",
+    )
     args = parser.parse_args()
 
     compile_report = compile_network()
     if not compile_report["structural_ok"]:
         sys.stderr.write("GATEKEEPER_FAIL: compile_network reported structural or honesty violations.\n")
+        return 1
+
+    if args.publish and (
+        compile_report["tainted_nodes"]
+        or compile_report["pub_tainted_nodes"]
+        or compile_report["prose_lock_mismatches"]
+    ):
+        sys.stderr.write(
+            "PUBLISH_BLOCKED: taint detected — "
+            f"tainted={compile_report['tainted_nodes']} "
+            f"pub_tainted={compile_report['pub_tainted_nodes']} "
+            f"prose_lock_mismatches={len(compile_report['prose_lock_mismatches'])}\n"
+        )
         return 1
 
     emit_all()
@@ -263,6 +355,7 @@ def main() -> int:
         LOGS_DIR / "gate_fence_verify.log",
     )
     fence_ok = fence_rc == 0
+    docs_fresh_ok, docs_stale = check_docs_fresh()
 
     audit_by_id = {n["id"]: n for n in (audit_json or {}).get("nodes", [])}
     prose_mismatch_consumers = {m["consumer_id"] for m in compile_report["prose_lock_mismatches"]}
@@ -273,17 +366,24 @@ def main() -> int:
             "timestamp_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
             "structural_ok": compile_report["structural_ok"],
             "honesty_violations": compile_report["honesty_violations"],
+            "pub_outdegree_violations": compile_report["pub_outdegree_violations"],
             "fence_ok": fence_ok,
             "kernel_arena_ok": ka_ok,
             "kernel_arena": ka_res,
             "lean_and_audit_ok": lean_ok,
             "lean_diagnostics": lean_diags,
             "audit_env": audit_json,
+            "docs_fresh_ok": docs_fresh_ok,
+            "docs_stale": docs_stale,
             "prose_lock_mismatches": compile_report["prose_lock_mismatches"],
             "tainted_nodes": compile_report["tainted_nodes"],
             "body_dirty_nodes": compile_report["body_dirty_nodes"],
             "grounding_dirty_nodes": compile_report["grounding_dirty_nodes"],
             "clean_nodes": compile_report["clean_nodes"],
+            "work_item_counts": compile_report["work_item_counts"],
+            "pub_tainted_nodes": compile_report["pub_tainted_nodes"],
+            "pub_dirty_nodes": compile_report["pub_dirty_nodes"],
+            "pub_clean_nodes": compile_report["pub_clean_nodes"],
         }
         (LOGS_DIR / "gatekeeper_report.json").write_text(
             json.dumps(gate_report, indent=2) + "\n", encoding="utf-8"
@@ -291,21 +391,25 @@ def main() -> int:
         overall_ok = (
             compile_report["structural_ok"]
             and len(compile_report["honesty_violations"]) == 0
+            and len(compile_report["pub_outdegree_violations"]) == 0
             and fence_ok
             and ka_ok
             and lean_ok
+            and docs_fresh_ok
             and len(compile_report["tainted_nodes"]) == 0
             and len(compile_report["grounding_dirty_nodes"]) == 0
             and len(compile_report["prose_lock_mismatches"]) == 0
+            and len(compile_report["pub_tainted_nodes"]) == 0
         )
         print(
             f"GATEKEEPER_CHECK_ONLY ok={overall_ok} tainted={len(compile_report['tainted_nodes'])} "
             f"grounding_dirty={len(compile_report['grounding_dirty_nodes'])} "
-            f"clean={len(compile_report['clean_nodes'])} lean_ok={lean_ok} ka_ok={ka_ok}"
+            f"clean={len(compile_report['clean_nodes'])} pub_tainted={len(compile_report['pub_tainted_nodes'])} "
+            f"docs_fresh={docs_fresh_ok} lean_ok={lean_ok} ka_ok={ka_ok}"
         )
         return 0 if overall_ok else 1
 
-    # Full mode: emit TeX + compile all 3 Royal Octavo PDFs
+    # Full / Publish mode: emit TeX + compile all 3 Royal Octavo PDFs
     manifest, guardrails, nodes_meta, symbols, receipts = load_context()
     emit_monograph(manifest, guardrails, nodes_meta, symbols)
     emit_claims_ledger(manifest, guardrails, nodes_meta, receipts, audit_json)
@@ -320,10 +424,12 @@ def main() -> int:
     }
     all_pdfs_ok = all(p["passed"] for p in pdfs.values())
 
-    # Update verification_lock.json ONLY for nodes passing every formal, TeX, honesty, and prose_paraphrase gate
+    # Update verification_lock.json ONLY for core nodes passing every formal, TeX, honesty, and prose_paraphrase gate
     now_iso = dt.datetime.now(dt.timezone.utc).isoformat()
     new_lock_nodes: dict[str, Any] = {}
     for nid, info in sorted(compile_report["nodes"].items()):
+        if info["kind"] in ("work_item", "pub_target"):
+            continue
         if not compile_report["structural_ok"]:
             continue
         if nid in prose_mismatch_consumers:
@@ -373,34 +479,82 @@ def main() -> int:
                 "passed": True,
             }
 
-    final_lock = {"schema": "vol2.verification_lock.v1", "updated_at_utc": now_iso, "nodes": new_lock_nodes}
-    LOCK_PATH.write_text(json.dumps(final_lock, indent=2) + "\n", encoding="utf-8")
+    existing_lock = json.loads(LOCK_PATH.read_text(encoding="utf-8")) if LOCK_PATH.exists() else {}
+    if (
+        compile_report["structural_ok"]
+        and fence_ok
+        and ka_ok
+        and lean_ok
+        and all_pdfs_ok
+        and new_lock_nodes
+        and not _core_locks_match(existing_lock.get("nodes", {}), new_lock_nodes)
+    ):
+        final_lock = {"schema": "vol2.verification_lock.v1", "updated_at_utc": now_iso, "nodes": new_lock_nodes}
+        LOCK_PATH.write_text(json.dumps(final_lock, indent=2) + "\n", encoding="utf-8")
 
-    # Recompile DuckDB and re-emit TeX ledger/digest cleanly with locked CLEAN state
+    # Recompile DuckDB and re-emit TeX ledger cleanly with locked core CLEAN state
     compile_report = compile_network()
     manifest, guardrails, nodes_meta, symbols, receipts = load_context()
     emit_claims_ledger(manifest, guardrails, nodes_meta, receipts, audit_json)
     pdfs["crm_vol2_claims_ledger"] = compile_pdf("crm_vol2_claims_ledger", None, run_index=False)
     all_pdfs_ok = all(p["passed"] for p in pdfs.values())
 
-    overall_ok = (
+    core_gates_ok = (
         compile_report["structural_ok"]
         and len(compile_report["honesty_violations"]) == 0
+        and len(compile_report["pub_outdegree_violations"]) == 0
         and fence_ok
         and ka_ok
         and lean_ok
         and all_pdfs_ok
+        and docs_fresh_ok
         and len(compile_report["tainted_nodes"]) == 0
         and len(compile_report["body_dirty_nodes"]) == 0
         and len(compile_report["grounding_dirty_nodes"]) == 0
+        and len(compile_report["pub_tainted_nodes"]) == 0
+        and len(compile_report["prose_lock_mismatches"]) == 0
+    )
+
+    if core_gates_ok:
+        pub_lock_full: dict[str, Any] = {}
+        if PUB_LOCK_PATH.exists():
+            pub_lock_full = json.loads(PUB_LOCK_PATH.read_text(encoding="utf-8"))
+        pub_lock_full.setdefault("schema", "vol2.publication_lock.v1")
+        pub_lock_full["updated_at_utc"] = now_iso
+        pub_lock_full.setdefault("github_repo", manifest.get("github_repo", ""))
+        gh_repo = pub_lock_full["github_repo"]
+        if gh_repo and "/" in gh_repo and not pub_lock_full.get("pages_url"):
+            owner, rname = gh_repo.split("/", 1)
+            pub_lock_full["pages_url"] = f"https://{owner}.github.io/{rname}/"
+        pub_lock_full.setdefault("lean_export_commit", "")
+        pub_lock_full.setdefault("milestones", {})
+        pub_lock_full.setdefault("issues", {})
+        pub_lock_full["pub_targets"] = {
+            pid: {
+                "cone_hash": pinfo["cone_hash"],
+                "channel": pinfo["channel"],
+                "sensitivity": pinfo["sensitivity"],
+                "outputs": pinfo["outputs"],
+                "locked_at_utc": now_iso,
+            }
+            for pid, pinfo in sorted(compile_report.get("pub_targets", {}).items())
+        }
+        PUB_LOCK_PATH.write_text(json.dumps(pub_lock_full, indent=2) + "\n", encoding="utf-8")
+        compile_report = compile_network()
+
+    overall_ok = (
+        core_gates_ok
+        and len(compile_report["pub_tainted_nodes"]) == 0
+        and len(compile_report["pub_dirty_nodes"]) == 0
     )
 
     gate_report = {
-        "mode": "full",
+        "mode": "publish" if args.publish else "full",
         "timestamp_utc": now_iso,
         "overall_ok": overall_ok,
         "structural_ok": compile_report["structural_ok"],
         "honesty_violations": compile_report["honesty_violations"],
+        "pub_outdegree_violations": compile_report["pub_outdegree_violations"],
         "decl_ownership_count": compile_report["decl_ownership_count"],
         "fence_ok": fence_ok,
         "kernel_arena_ok": ka_ok,
@@ -408,21 +562,34 @@ def main() -> int:
         "lean_and_audit_ok": lean_ok,
         "lean_diagnostics": lean_diags,
         "audit_env": audit_json,
+        "docs_fresh_ok": docs_fresh_ok,
+        "docs_stale": docs_stale,
         "pdfs": pdfs,
         "tainted_nodes": compile_report["tainted_nodes"],
         "body_dirty_nodes": compile_report["body_dirty_nodes"],
         "grounding_dirty_nodes": compile_report["grounding_dirty_nodes"],
         "clean_nodes": compile_report["clean_nodes"],
+        "work_items": compile_report["work_items"],
+        "work_item_counts": compile_report["work_item_counts"],
+        "pub_targets": compile_report["pub_targets"],
+        "pub_tainted_nodes": compile_report["pub_tainted_nodes"],
+        "pub_dirty_nodes": compile_report["pub_dirty_nodes"],
+        "pub_clean_nodes": compile_report["pub_clean_nodes"],
     }
     (LOGS_DIR / "gatekeeper_report.json").write_text(
         json.dumps(gate_report, indent=2) + "\n", encoding="utf-8"
     )
     write_sync_digest(compile_report, gate_report)
     print(
-        f"GATEKEEPER_FULL ok={overall_ok} tainted={len(compile_report['tainted_nodes'])} "
+        f"GATEKEEPER_{'PUBLISH' if args.publish else 'FULL'} ok={overall_ok} "
+        f"tainted={len(compile_report['tainted_nodes'])} "
         f"body_dirty={len(compile_report['body_dirty_nodes'])} "
         f"grounding_dirty={len(compile_report['grounding_dirty_nodes'])} "
-        f"clean={len(compile_report['clean_nodes'])} pdfs_ok={all_pdfs_ok}"
+        f"clean={len(compile_report['clean_nodes'])} "
+        f"pub_clean={len(compile_report['pub_clean_nodes'])} "
+        f"pub_dirty={len(compile_report['pub_dirty_nodes'])} "
+        f"pub_tainted={len(compile_report['pub_tainted_nodes'])} "
+        f"docs_fresh={docs_fresh_ok} pdfs_ok={all_pdfs_ok}"
     )
     return 0 if overall_ok else 1
 

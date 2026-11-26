@@ -1,0 +1,24 @@
+id = "pub:pdf:course-packs"
+kind = "pub_target"
+title = "Publication Sink: Standalone Ch. 1 Course Pack PDF"
+chapter = "ch00"
+section = "PUB.5"
+seq_order = 905
+axis = "publication"
+grounding_tier = "publication"
+formal_pkg = "none"
+stratum = "none"
+
+[pub]
+channel = "gh_pages"
+sensitivity = "spec_and_body"
+outputs = [
+  "build/tex/course_pack_ch01_probe_calibration.pdf",
+  "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf"
+]
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = ["ch01:tab:epistemic-probe-regimes"]
+prose_paraphrase = []

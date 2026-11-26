@@ -1,0 +1,32 @@
+id = "plan:ch08-boffa-nu-anima"
+kind = "work_item"
+title = "Ch. 8 (Part IV): Aczel-Boffa Coalgebras, nuP_Anima Z/2Z Loops, & Nominal Decalage (Vol. I Prob. 17)"
+chapter = "ch08"
+section = "8.1"
+seq_order = 12
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 8: Aczel-Boffa Coalgebras & nuP_Anima"
+milestone_num = 8
+slice_code = "Ch. 8"
+target_modules = [
+  "HomotopyCRM.Vol2.BoffaNuAnima",
+  "HomotopyCRM.Vol2.NominalDecalage"
+]
+deliverable_nodes = [
+  "ch08:thm:aczel-boffa-loop-zmod2",
+  "ch08:thm:decalage-q0-sym-cont",
+  "ch08:thm:vol1-problem17-boffa-resolution"
+]
+guardrails = ["nom_not_iac"]
+summary = "Connect Aczel-Boffa non-wellfounded coalgebras and Omega(nu P_Anima, [q,q]) ~= Z/2Z to decalage onto Q_0^{#(2)} ->> [Q_0]^2 and [T_odd(Q_0)] in Cont(Sym(Q_0)), enforcing Guardrail 1 and resolving Volume I Problem 17."
+
+[edges]
+logical_dep = ["plan:ch07-inf-inf-calibration", "plan:tcb-rung2-nu-anima"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

@@ -1,0 +1,33 @@
+id = "plan:tcb-rung2-nu-anima"
+kind = "work_item"
+title = "TCB Rung 2: Container Fixed Points WSup / NuCoalg & Quine Double-Loop Cert"
+chapter = "ch00"
+section = "TCB.2"
+seq_order = 11
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "TCB: KernelArena 2LTT"
+milestone_num = 10
+slice_code = "TCB Rung 2"
+target_modules = [
+  "KernelArena.AST",
+  "KernelArena.Check",
+  "HomotopyCRM.Vol2.CertChecks"
+]
+deliverable_nodes = [
+  "tcb:ast:wsup-mu-panima",
+  "tcb:ast:nucoalg-nu-panima",
+  "tcb:cert:quine-double-loop-zmod2"
+]
+guardrails = []
+summary = "Extend KernelArena with polynomial container fixed points WSup (mu P_Anima) and NuCoalg (nu P_Anima) and verify the coalgebraic bisimulation path certificate certs/quine_double_loop_zmod2.2ltt.json."
+
+[edges]
+logical_dep = ["plan:tcb-rung1-cubical-kan"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

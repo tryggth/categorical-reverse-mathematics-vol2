@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you cite this formalization or monograph draft, please note that the working title is unlocked (title_locked = false) and also cite Volume I."
+title: "Categorical Reverse Mathematics — Volume II: Universes, Classes, and Higher Fixed Points (Working Title, title_locked = false)"
+type: software
+authors:
+  - family-names: "Walters"
+    given-names: "James F."
+date-released: "2026-11-25"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/tryggth/categorical-reverse-mathematics-vol2"
+url: "https://tryggth.github.io/categorical-reverse-mathematics-vol2/"
+keywords:
+  - "categorical reverse mathematics"
+  - "lean4"
+  - "two-level type theory"
+  - "topos theory"
+  - "constructive mathematics"
+references:
+  - type: book
+    title: "Categorical Reverse Mathematics — Volume I"
+    authors:
+      - family-names: "Walters"
+        given-names: "James F."
+    doi: "10.5281/zenodo.24238086"
+    notes: "Pinned companion repository at ../categorical-reverse-mathematics (HEAD b849be75); Volume II working title_locked = false."

@@ -1,0 +1,29 @@
+id = "pub:branch:lean-export"
+kind = "pub_target"
+title = "Publication Sink: Standalone lean-export Branch"
+chapter = "ch00"
+section = "PUB.6"
+seq_order = 906
+axis = "publication"
+grounding_tier = "publication"
+formal_pkg = "none"
+stratum = "none"
+
+[pub]
+channel = "lean_export"
+sensitivity = "lean_only"
+outputs = [
+  "refs/heads/lean-export",
+  "build/lean_export_stage/EXPORT_MANIFEST.json"
+]
+
+[edges]
+logical_dep = []
+lean_dep = [
+  "ch01:rem:trident-mode3-2ltt-bootstrap",
+  "ch01:thm:flow-f4-split-polarity-transport",
+  "ch01:thm:scotoma-pareto-trichotomy",
+  "ch01:thm:mode3-orbit-stabilizer-exactness"
+]
+curriculum = []
+prose_paraphrase = []

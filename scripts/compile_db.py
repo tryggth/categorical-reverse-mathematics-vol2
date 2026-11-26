@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 import tomllib
@@ -17,12 +18,24 @@ import duckdb
 REPO_ROOT = Path(__file__).resolve().parent.parent
 NODES_DIR = REPO_ROOT / "nodes"
 SCHEMA_PATH = Path(__file__).resolve().parent / "schema.sql"
+MANIFEST_PATH = REPO_ROOT / "manifest.toml"
+GUARDRAILS_PATH = REPO_ROOT / "manifest" / "guardrails.toml"
 BIB_PATH = REPO_ROOT / "references_vol2.bib"
-VOL1_BIB_PATH = Path("/home/tryggth2009/categorical-reverse-mathematics/references.bib")
 LOCK_PATH = REPO_ROOT / "manifest" / "verification_lock.json"
+PUB_LOCK_PATH = REPO_ROOT / "manifest" / "publication_lock.json"
 DB_PATH = REPO_ROOT / "build" / "vol2.duckdb"
 REPORT_PATH = REPO_ROOT / "build" / "compile_report.json"
 AUDIT_MANIFEST_PATH = REPO_ROOT / "build" / "audit_nodes_manifest.json"
+
+
+def resolve_vol1_bib_path() -> Path:
+    manifest: dict[str, Any] = {}
+    if MANIFEST_PATH.exists():
+        manifest = tomllib.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    raw = os.environ.get("CRM_VOL1_ROOT", manifest.get("vol1_root_default", "../categorical-reverse-mathematics"))
+    p = Path(raw)
+    root = p if p.is_absolute() else (REPO_ROOT / p).resolve()
+    return root / "references.bib"
 
 SYM_RE = re.compile(r"\{\{sym:([A-Za-z0-9_.:-]+)\}\}")
 REF_RE = re.compile(r"\{\{ref:([A-Za-z0-9_.:-]+)\}\}")
@@ -53,7 +66,19 @@ VALID_KINDS = {
     "prose_block",
     "summary_table",
     "course_pack",
+    "work_item",
+    "pub_target",
 }
+
+VALID_PUB_CHANNELS = {"main_docs", "gh_pages", "lean_export", "gh_issues"}
+VALID_PUB_SENSITIVITIES = {
+    "spec_and_metrics",
+    "spec_and_body",
+    "spec_body_and_grounding",
+    "lean_only",
+    "plan_and_problems",
+}
+CORE_EXEMPT_GROUNDING_KINDS = ("symbol", "course_pack", "work_item", "pub_target")
 
 CANONICAL_PRIMARY_CATEGORIES = {
     "Proved by Lean code",
@@ -118,6 +143,10 @@ def node_cohort(kind: str) -> str:
         return "Cohort III"
     if kind in ("prose_block", "summary_table"):
         return "Cohort IV"
+    if kind == "work_item":
+        return "Project Plan"
+    if kind == "pub_target":
+        return "Publication Sink"
     return "Course Pack"
 
 
@@ -193,6 +222,22 @@ def compute_node_hashes(node: dict[str, Any]) -> tuple[str, str]:
             "fuel_hint": cert["fuel_hint"],
             "sha256_arena": cert["sha256_arena"],
         }
+    elif node["kind"] == "work_item":
+        spec_core = {
+            "id": node["id"],
+            "kind": node["kind"],
+            "axis": node["axis"],
+            "plan": node.get("plan", {}),
+        }
+        body_core = {"body": body_payload}
+    elif node["kind"] == "pub_target":
+        spec_core = {
+            "id": node["id"],
+            "kind": node["kind"],
+            "axis": node["axis"],
+            "pub": node.get("pub", {}),
+        }
+        body_core = {"body": body_payload}
     else:
         spec_core = {
             "id": node["id"],
@@ -247,13 +292,60 @@ def load_all_nodes() -> list[dict[str, Any]]:
     return nodes
 
 
+def compute_tracked_lean_hashes() -> list[list[str]]:
+    """Compute SHA-256 digests of tracked Lean sources and build configs for lean_only cone_hash."""
+    tracked_files: list[Path] = []
+    for rel in (
+        "lean-toolchain",
+        "kernel_arena/lakefile.toml",
+        "kernel_arena/lake-manifest.json",
+        "kernel_arena/lean-toolchain",
+        "kernel_arena/Main.lean",
+        "kernel_arena/KernelArena.lean",
+        "mathlib_vol2/lakefile.toml",
+        "mathlib_vol2/lake-manifest.json",
+        "mathlib_vol2/lean-toolchain",
+        "mathlib_vol2/AuditEnv.lean",
+        "mathlib_vol2/HomotopyCRM.lean",
+    ):
+        p = REPO_ROOT / rel
+        if p.exists():
+            tracked_files.append(p)
+    ka_src = REPO_ROOT / "kernel_arena" / "KernelArena"
+    if ka_src.exists():
+        for p in sorted(ka_src.rglob("*.lean")):
+            if "Generated" not in p.parts:
+                tracked_files.append(p)
+    certs_dir = REPO_ROOT / "certs"
+    if certs_dir.exists():
+        for p in sorted(certs_dir.rglob("*.2ltt.json")):
+            tracked_files.append(p)
+    out: list[list[str]] = []
+    for p in sorted(set(tracked_files), key=lambda x: str(x.relative_to(REPO_ROOT))):
+        h = hashlib.sha256(p.read_bytes()).hexdigest()
+        out.append([str(p.relative_to(REPO_ROOT)), h])
+    return out
+
+
 def compile_network() -> dict[str, Any]:
     raw_nodes = load_all_nodes()
     local_bib_keys = parse_bib_keys(BIB_PATH)
-    all_bib_keys = local_bib_keys | parse_bib_keys(VOL1_BIB_PATH)
+    all_bib_keys = local_bib_keys | parse_bib_keys(resolve_vol1_bib_path())
+    manifest: dict[str, Any] = {}
+    if MANIFEST_PATH.exists():
+        manifest = tomllib.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    guardrail_ids: set[str] = set()
+    if GUARDRAILS_PATH.exists():
+        guardrail_ids = {
+            g["id"] for g in tomllib.loads(GUARDRAILS_PATH.read_text(encoding="utf-8")).get("guardrail", [])
+        }
     lock_data: dict[str, Any] = {}
     if LOCK_PATH.exists():
         lock_data = json.loads(LOCK_PATH.read_text(encoding="utf-8")).get("nodes", {})
+    pub_lock_full: dict[str, Any] = {}
+    if PUB_LOCK_PATH.exists():
+        pub_lock_full = json.loads(PUB_LOCK_PATH.read_text(encoding="utf-8"))
+    pub_lock_targets: dict[str, Any] = pub_lock_full.get("pub_targets", {})
 
     # 1. Register symbols and compute hashes
     nodes_by_id: dict[str, dict[str, Any]] = {}
@@ -432,8 +524,56 @@ def compile_network() -> dict[str, Any]:
                         [cert_path, nid, "twoltt_cert"],
                     )
 
-        # Parse & validate [grounding] on non-symbol, non-course_pack nodes
-        if kind not in ("symbol", "course_pack"):
+        # Validate [plan] on work_item nodes
+        if kind == "work_item":
+            plan = node.get("plan")
+            if not isinstance(plan, dict):
+                unresolved_errors.append(f"MISSING_PLAN: {nid} lacks [plan] block")
+            else:
+                ms = plan.get("milestone")
+                mnum = plan.get("milestone_num")
+                scode = plan.get("slice_code")
+                tmods = plan.get("target_modules")
+                dnodes = plan.get("deliverable_nodes")
+                grs = plan.get("guardrails")
+                summ = plan.get("summary")
+                if not isinstance(ms, str) or not ms.strip():
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} missing non-empty plan.milestone")
+                if isinstance(mnum, bool) or not isinstance(mnum, int) or not (1 <= mnum <= 10):
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} plan.milestone_num must be int in 1..10")
+                if not isinstance(scode, str) or not scode.strip():
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} missing non-empty plan.slice_code")
+                if not isinstance(tmods, list) or not all(isinstance(x, str) for x in tmods):
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} plan.target_modules must be list of strings")
+                if not isinstance(dnodes, list) or not all(isinstance(x, str) for x in dnodes):
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} plan.deliverable_nodes must be list of strings")
+                if not isinstance(grs, list) or not all(isinstance(x, str) for x in grs):
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} plan.guardrails must be list of strings")
+                elif guardrail_ids:
+                    for gid in grs:
+                        if gid not in guardrail_ids:
+                            unresolved_errors.append(f"INVALID_PLAN_GUARDRAIL: {nid} unknown guardrail '{gid}'")
+                if not isinstance(summ, str) or not summ.strip():
+                    unresolved_errors.append(f"INVALID_PLAN: {nid} missing non-empty plan.summary")
+
+        # Validate [pub] on pub_target nodes
+        if kind == "pub_target":
+            pub = node.get("pub")
+            if not isinstance(pub, dict):
+                unresolved_errors.append(f"MISSING_PUB: {nid} lacks [pub] block")
+            else:
+                ch = pub.get("channel")
+                sens = pub.get("sensitivity")
+                outs = pub.get("outputs")
+                if ch not in VALID_PUB_CHANNELS:
+                    unresolved_errors.append(f"INVALID_PUB_CHANNEL: {nid} has '{ch}'")
+                if sens not in VALID_PUB_SENSITIVITIES:
+                    unresolved_errors.append(f"INVALID_PUB_SENSITIVITY: {nid} has '{sens}'")
+                if not isinstance(outs, list) or len(outs) == 0 or not all(isinstance(x, str) for x in outs):
+                    unresolved_errors.append(f"INVALID_PUB_OUTPUTS: {nid} pub.outputs must be non-empty string list")
+
+        # Parse & validate [grounding] on non-exempt nodes
+        if kind not in CORE_EXEMPT_GROUNDING_KINDS:
             g = node.get("grounding")
             if not isinstance(g, dict):
                 honesty_violations.append(f"MISSING_GROUNDING: {nid} lacks top-level [grounding] block")
@@ -638,6 +778,16 @@ def compile_network() -> dict[str, Any]:
         """
     ).fetchall()
 
+    # Gate (d): Publication sink out-degree == 0 across all fibers
+    pub_outdegree_violations = con.execute(
+        """
+        SELECT e.src_id, e.dst_id, e.fiber
+        FROM edges e
+        JOIN nodes n ON e.src_id = n.id
+        WHERE n.kind = 'pub_target'
+        """
+    ).fetchall()
+
     # Invariant 4: Conjecture Quarantine over logical_dep
     quarantine_rows = con.execute(
         """
@@ -700,10 +850,16 @@ def compile_network() -> dict[str, Any]:
         )
 
     # Gate (e): Multi-fiber forward transitive taint cone + prose_paraphrase lock check
+    core_nodes = [n for n in raw_nodes if n["kind"] not in ("work_item", "pub_target")]
+    core_ids = {n["id"] for n in core_nodes}
+    work_item_nodes = [n for n in raw_nodes if n["kind"] == "work_item"]
+    pub_target_nodes = [n for n in raw_nodes if n["kind"] == "pub_target"]
+
     direct_taint: dict[str, list[str]] = {}
+    pub_prose_mismatches: dict[str, list[str]] = {}
     prose_lock_mismatches: list[dict[str, str]] = []
 
-    for node in raw_nodes:
+    for node in core_nodes:
         nid = node["id"]
         reasons: list[str] = []
         lrec = lock_data.get(nid)
@@ -716,13 +872,14 @@ def compile_network() -> dict[str, Any]:
 
     pp_rows = con.execute(
         """
-        SELECT e.src_id, e.dst_id, e.metadata_json, src.spec_hash
+        SELECT e.src_id, e.dst_id, e.metadata_json, src.spec_hash, dst.kind
         FROM edges e
         JOIN nodes src ON e.src_id = src.id
+        JOIN nodes dst ON e.dst_id = dst.id
         WHERE e.fiber = 'prose_paraphrase'
         """
     ).fetchall()
-    for target_id, consumer_id, meta_raw, target_spec_hash in pp_rows:
+    for target_id, consumer_id, meta_raw, target_spec_hash, consumer_kind in pp_rows:
         meta = json.loads(meta_raw)
         locked_target_hash = meta.get("locked_spec_hash", "")
         if locked_target_hash != target_spec_hash:
@@ -735,9 +892,14 @@ def compile_network() -> dict[str, Any]:
                     "code": "PROSE_LOCK_MISMATCH",
                 }
             )
-            direct_taint.setdefault(consumer_id, []).append(
-                f"PROSE_LOCK_MISMATCH({target_id})"
-            )
+            if consumer_kind == "pub_target":
+                pub_prose_mismatches.setdefault(consumer_id, []).append(
+                    f"PROSE_LOCK_MISMATCH({target_id})"
+                )
+            else:
+                direct_taint.setdefault(consumer_id, []).append(
+                    f"PROSE_LOCK_MISMATCH({target_id})"
+                )
 
     tainted_nodes: set[str] = set(direct_taint.keys())
     if tainted_nodes:
@@ -756,14 +918,14 @@ def compile_network() -> dict[str, Any]:
             """,
             [*sorted(tainted_nodes), max_depth],
         ).fetchall()
-        tainted_nodes = {r[0] for r in cone_rows}
+        tainted_nodes = {r[0] for r in cone_rows if r[0] in core_ids}
 
     body_dirty_nodes: list[str] = []
     grounding_dirty_nodes: list[str] = []
     clean_nodes: list[str] = []
     node_statuses: dict[str, dict[str, Any]] = {}
 
-    for node in sorted(raw_nodes, key=lambda n: n["id"]):
+    for node in sorted(core_nodes, key=lambda n: n["id"]):
         nid = node["id"]
         if nid in tainted_nodes:
             reasons = direct_taint.get(nid, ["UPSTREAM_TAINTED"])
@@ -800,9 +962,357 @@ def compile_network() -> dict[str, Any]:
             "taint_reason": reason,
         }
 
+    # Evaluate work_item nodes mechanically from deliverable_nodes status in DuckDB
+    sorted_work_items = sorted(work_item_nodes, key=lambda n: (n["_seq_order"], n["id"]))
+    work_item_eval: list[dict[str, Any]] = []
+    lowest_unverified_id: str | None = None
+    for node in sorted_work_items:
+        nid = node["id"]
+        plan = node.get("plan", {})
+        delivs = plan.get("deliverable_nodes", [])
+        total = len(delivs)
+        if total > 0:
+            ph = ",".join("?" for _ in delivs)
+            rows = con.execute(
+                f"SELECT id, taint_status FROM nodes WHERE id IN ({ph}) AND kind NOT IN ('work_item', 'pub_target')",
+                delivs,
+            ).fetchall()
+            existing_count = len(rows)
+            verified_count = sum(1 for _, ts in rows if ts == "CLEAN")
+        else:
+            existing_count = 0
+            verified_count = 0
+        is_verified = total > 0 and verified_count == total
+        if not is_verified and lowest_unverified_id is None:
+            lowest_unverified_id = nid
+        work_item_eval.append(
+            {
+                "node": node,
+                "existing_count": existing_count,
+                "verified_count": verified_count,
+                "total": total,
+                "is_verified": is_verified,
+            }
+        )
+
+    work_items_report: dict[str, Any] = {}
+    work_item_counts = {"VERIFIED": 0, "ACTIVE": 0, "PLANNED": 0}
+    for rec in work_item_eval:
+        node = rec["node"]
+        nid = node["id"]
+        plan = node.get("plan", {})
+        if rec["is_verified"]:
+            wi_status = "VERIFIED"
+        elif nid == lowest_unverified_id or rec["existing_count"] > 0:
+            wi_status = "ACTIVE"
+        else:
+            wi_status = "PLANNED"
+        work_item_counts[wi_status] += 1
+        wi_reason = f"{rec['verified_count']}/{rec['total']} deliverables CLEAN"
+        con.execute(
+            "INSERT INTO work_items VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+                nid,
+                plan["milestone"],
+                int(plan["milestone_num"]),
+                plan["slice_code"],
+                json.dumps(plan["target_modules"]),
+                json.dumps(plan["deliverable_nodes"]),
+                json.dumps(plan["guardrails"]),
+                plan["summary"],
+                wi_status,
+                rec["verified_count"],
+                rec["total"],
+            ],
+        )
+        con.execute(
+            "UPDATE nodes SET taint_status = ?, taint_reason = ? WHERE id = ?",
+            [wi_status, wi_reason, nid],
+        )
+        work_items_report[nid] = {
+            "id": nid,
+            "seq_order": node["_seq_order"],
+            "milestone": plan["milestone"],
+            "milestone_num": int(plan["milestone_num"]),
+            "slice_code": plan["slice_code"],
+            "target_modules": plan["target_modules"],
+            "deliverable_nodes": plan["deliverable_nodes"],
+            "guardrails": plan["guardrails"],
+            "summary": plan["summary"],
+            "status": wi_status,
+            "verified_deliverables": rec["verified_count"],
+            "total_deliverables": rec["total"],
+            "spec_hash": node["_spec_hash"],
+        }
+        node_statuses[nid] = {
+            "id": nid,
+            "kind": node["kind"],
+            "cohort": node_cohort(node["kind"]),
+            "formal_pkg": node["formal_pkg"],
+            "stratum": node.get("stratum", "none"),
+            "spec_hash": node["_spec_hash"],
+            "body_hash": node["_body_hash"],
+            "grounding_hash": node["_grounding_hash"],
+            "taint_status": wi_status,
+            "taint_reason": wi_reason,
+        }
+
+    # Evaluate pub_target sinks and deterministic cone_hash in DuckDB
+    manifest_meta = {
+        k: manifest.get(k, "")
+        for k in (
+            "working_title",
+            "working_subtitle",
+            "title_locked",
+            "author",
+            "location",
+            "license",
+            "lean_toolchain",
+            "vol1_root_default",
+            "vol1_pinned_head",
+            "vol1_zenodo_doi",
+            "github_repo",
+            "citation_date",
+            "phase",
+            "active_slice",
+        )
+    }
+    issues_meta = pub_lock_full.get("issues", {})
+    lean_tool_hashes = compute_tracked_lean_hashes() if pub_target_nodes else []
+
+    pub_targets_report: dict[str, Any] = {}
+    pub_tainted_nodes: list[str] = []
+    pub_dirty_nodes: list[str] = []
+    pub_clean_nodes: list[str] = []
+
+    for node in sorted(pub_target_nodes, key=lambda n: (n["_seq_order"], n["id"])):
+        nid = node["id"]
+        pub = node.get("pub", {})
+        channel = pub.get("channel", "")
+        sensitivity = pub.get("sensitivity", "")
+        outputs = pub.get("outputs", [])
+
+        if nid == "pub:pdf:course-packs":
+            cone_sql = """
+                WITH RECURSIVE cone(id, depth) AS (
+                  SELECT ?, 0
+                  UNION ALL
+                  SELECT e.src_id, c.depth + 1
+                  FROM cone c
+                  JOIN edges e ON e.dst_id = c.id AND e.fiber IN ('curriculum', 'logical_dep', 'lean_dep')
+                  WHERE c.depth < ?
+                )
+                SELECT DISTINCT id FROM cone
+            """
+        else:
+            cone_sql = """
+                WITH RECURSIVE cone(id, depth) AS (
+                  SELECT ?, 0
+                  UNION ALL
+                  SELECT e.src_id, c.depth + 1
+                  FROM cone c
+                  JOIN edges e ON e.dst_id = c.id
+                  WHERE c.depth < ?
+                )
+                SELECT DISTINCT id FROM cone
+            """
+        cone_ids = {r[0] for r in con.execute(cone_sql, [nid, max_depth]).fetchall()}
+
+        if sensitivity == "spec_and_metrics":
+            cone_payload: dict[str, Any] = {
+                "pub_spec_hash": node["_spec_hash"],
+                "manifest": manifest_meta,
+                "issues": issues_meta,
+                "core_nodes": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT id, kind, stratum, spec_hash, taint_status FROM nodes "
+                        "WHERE kind NOT IN ('work_item', 'pub_target') ORDER BY id"
+                    ).fetchall()
+                ],
+                "work_items": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT node_id, status, verified_deliverables, total_deliverables FROM work_items ORDER BY node_id"
+                    ).fetchall()
+                ],
+            }
+        elif sensitivity == "spec_and_body":
+            if nid == "pub:pdf:course-packs":
+                core_in_cone = sorted(cid for cid in cone_ids if cid in core_ids)
+                if core_in_cone:
+                    ph = ",".join("?" for _ in core_in_cone)
+                    scoped_rows = [
+                        list(r)
+                        for r in con.execute(
+                            f"SELECT id, kind, stratum, spec_hash, body_hash, taint_status FROM nodes "
+                            f"WHERE id IN ({ph}) ORDER BY id",
+                            core_in_cone,
+                        ).fetchall()
+                    ]
+                else:
+                    scoped_rows = []
+                cone_payload = {
+                    "pub_spec_hash": node["_spec_hash"],
+                    "cone_nodes": scoped_rows,
+                }
+            else:
+                cone_payload = {
+                    "pub_spec_hash": node["_spec_hash"],
+                    "manifest": manifest_meta,
+                    "core_nodes": [
+                        list(r)
+                        for r in con.execute(
+                            "SELECT id, kind, stratum, spec_hash, body_hash, taint_status FROM nodes "
+                            "WHERE kind NOT IN ('work_item', 'pub_target') ORDER BY id"
+                        ).fetchall()
+                    ],
+                }
+        elif sensitivity == "spec_body_and_grounding":
+            cone_payload = {
+                "pub_spec_hash": node["_spec_hash"],
+                "manifest": manifest_meta,
+                "issues": issues_meta,
+                "core_nodes": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT id, kind, stratum, spec_hash, body_hash, grounding_hash, taint_status FROM nodes "
+                        "WHERE kind NOT IN ('work_item', 'pub_target') ORDER BY id"
+                    ).fetchall()
+                ],
+                "work_items": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT node_id, status, verified_deliverables, total_deliverables FROM work_items ORDER BY node_id"
+                    ).fetchall()
+                ],
+                "edges": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT src_id, dst_id, fiber, metadata_json FROM edges ORDER BY fiber, src_id, dst_id"
+                    ).fetchall()
+                ],
+                "decl_ownership": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT decl_or_cert, node_id, ownership_kind FROM decl_ownership ORDER BY decl_or_cert"
+                    ).fetchall()
+                ],
+            }
+        elif sensitivity == "lean_only":
+            cone_payload = {
+                "pub_spec_hash": node["_spec_hash"],
+                "formal_nodes": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT id, formal_pkg, module, spec_hash, body_hash, cert_path FROM nodes "
+                        "WHERE formal_pkg IN ('mathlib_vol2', 'kernel_arena') ORDER BY id"
+                    ).fetchall()
+                ],
+                "tracked_lean_hashes": lean_tool_hashes,
+            }
+        else:  # plan_and_problems
+            cone_payload = {
+                "pub_spec_hash": node["_spec_hash"],
+                "work_items": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT node_id, milestone, milestone_num, slice_code, status, "
+                        "verified_deliverables, total_deliverables, summary, deliverable_nodes_json "
+                        "FROM work_items ORDER BY node_id"
+                    ).fetchall()
+                ],
+                "problems_and_tainted": [
+                    list(r)
+                    for r in con.execute(
+                        "SELECT id, kind, title, spec_hash, taint_status FROM nodes "
+                        "WHERE kind IN ('problem', 'conjecture') "
+                        "OR (kind NOT IN ('work_item', 'pub_target') AND taint_status = 'TAINTED') "
+                        "ORDER BY id"
+                    ).fetchall()
+                ],
+            }
+
+        cone_hash = hashlib.sha256(
+            b"VOL2_PUB_CONE_V1\x00" + canonical_json(cone_payload).encode("utf-8")
+        ).hexdigest()
+        locked_cone_hash = pub_lock_targets.get(nid, {}).get("cone_hash")
+
+        in_cone_tainted = sorted(cid for cid in cone_ids if cid in tainted_nodes)
+        if sensitivity in ("spec_and_metrics", "spec_body_and_grounding") or (
+            sensitivity == "spec_and_body" and nid != "pub:pdf:course-packs"
+        ):
+            upstream_tainted = sorted(set(in_cone_tainted) | tainted_nodes)
+        elif sensitivity == "lean_only":
+            upstream_tainted = sorted(
+                set(in_cone_tainted)
+                | {tid for tid in tainted_nodes if nodes_by_id[tid]["formal_pkg"] in ("mathlib_vol2", "kernel_arena")}
+            )
+        else:
+            upstream_tainted = in_cone_tainted
+
+        if nid in pub_prose_mismatches:
+            pub_status = "TAINTED"
+            pub_reason = "; ".join(pub_prose_mismatches[nid])
+            pub_tainted_nodes.append(nid)
+        elif upstream_tainted:
+            pub_status = "TAINTED"
+            pub_reason = f"UPSTREAM_TAINTED({','.join(upstream_tainted[:3])})"
+            pub_tainted_nodes.append(nid)
+        elif locked_cone_hash != cone_hash:
+            pub_status = "ARTIFACT_DIRTY"
+            pub_reason = "CONE_HASH_CHANGED" if locked_cone_hash else "NO_PUBLICATION_LOCK"
+            pub_dirty_nodes.append(nid)
+        else:
+            pub_status = "CLEAN"
+            pub_reason = ""
+            pub_clean_nodes.append(nid)
+
+        con.execute(
+            "INSERT INTO pub_targets VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+                nid,
+                channel,
+                sensitivity,
+                json.dumps(outputs),
+                cone_hash,
+                locked_cone_hash,
+                pub_status,
+                pub_reason,
+            ],
+        )
+        con.execute(
+            "UPDATE nodes SET taint_status = ?, taint_reason = ? WHERE id = ?",
+            [pub_status, pub_reason, nid],
+        )
+        pub_targets_report[nid] = {
+            "id": nid,
+            "title": node["title"],
+            "channel": channel,
+            "sensitivity": sensitivity,
+            "outputs": outputs,
+            "cone_hash": cone_hash,
+            "locked_cone_hash": locked_cone_hash,
+            "pub_status": pub_status,
+            "pub_reason": pub_reason,
+            "spec_hash": node["_spec_hash"],
+        }
+        node_statuses[nid] = {
+            "id": nid,
+            "kind": node["kind"],
+            "cohort": node_cohort(node["kind"]),
+            "formal_pkg": node["formal_pkg"],
+            "stratum": node.get("stratum", "none"),
+            "spec_hash": node["_spec_hash"],
+            "body_hash": node["_body_hash"],
+            "grounding_hash": node["_grounding_hash"],
+            "taint_status": pub_status,
+            "taint_reason": pub_reason,
+        }
+
     # Generate audit_nodes_manifest.json with reflexive transitive backward lean_dep cones
     audit_nodes: list[dict[str, Any]] = []
-    for node in sorted(raw_nodes, key=lambda n: n["id"]):
+    for node in sorted(core_nodes, key=lambda n: n["id"]):
         if node["formal_pkg"] not in ("mathlib_vol2", "kernel_arena"):
             continue
         nid = node["id"]
@@ -849,6 +1359,7 @@ def compile_network() -> dict[str, Any]:
         total_cycles == 0
         and len(vol1_indegree_violations) == 0
         and len(tcb_violations) == 0
+        and len(pub_outdegree_violations) == 0
         and len(unresolved_errors) == 0
         and len(honesty_violations) == 0
     )
@@ -856,12 +1367,16 @@ def compile_network() -> dict[str, Any]:
     report = {
         "structural_ok": structural_ok,
         "node_count": len(raw_nodes),
+        "core_node_count": len(core_nodes),
+        "work_item_count": len(work_item_nodes),
+        "pub_target_count": len(pub_target_nodes),
         "edge_count": len(edges),
         "decl_ownership_count": len(decl_owner_map),
         "cycles_by_fiber": cycles_by_fiber,
         "total_cycles": total_cycles,
         "vol1_indegree_violations": [list(r) for r in vol1_indegree_violations],
         "tcb_violations": [list(r) for r in tcb_violations],
+        "pub_outdegree_violations": [list(r) for r in pub_outdegree_violations],
         "unresolved_errors": unresolved_errors,
         "honesty_violations": honesty_violations,
         "prose_lock_mismatches": prose_lock_mismatches,
@@ -869,6 +1384,12 @@ def compile_network() -> dict[str, Any]:
         "body_dirty_nodes": sorted(body_dirty_nodes),
         "grounding_dirty_nodes": sorted(grounding_dirty_nodes),
         "clean_nodes": sorted(clean_nodes),
+        "work_items": work_items_report,
+        "work_item_counts": work_item_counts,
+        "pub_targets": pub_targets_report,
+        "pub_tainted_nodes": sorted(pub_tainted_nodes),
+        "pub_dirty_nodes": sorted(pub_dirty_nodes),
+        "pub_clean_nodes": sorted(pub_clean_nodes),
         "nodes": node_statuses,
     }
     REPORT_PATH.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
@@ -889,11 +1410,16 @@ def main() -> int:
             )
     print(
         f"COMPILE_DB structural_ok={report['structural_ok']} nodes={report['node_count']} "
-        f"edges={report['edge_count']} decls={report['decl_ownership_count']} "
-        f"cycles={report['total_cycles']} tcb_violations={len(report['tcb_violations'])} "
+        f"core={report['core_node_count']} work_items={report['work_item_count']} "
+        f"pub_targets={report['pub_target_count']} edges={report['edge_count']} "
+        f"decls={report['decl_ownership_count']} cycles={report['total_cycles']} "
+        f"tcb_violations={len(report['tcb_violations'])} "
+        f"pub_out_violations={len(report['pub_outdegree_violations'])} "
         f"honesty_violations={len(report['honesty_violations'])} "
         f"tainted={len(report['tainted_nodes'])} body_dirty={len(report['body_dirty_nodes'])} "
-        f"grounding_dirty={len(report['grounding_dirty_nodes'])} clean={len(report['clean_nodes'])}"
+        f"grounding_dirty={len(report['grounding_dirty_nodes'])} clean={len(report['clean_nodes'])} "
+        f"pub_clean={len(report['pub_clean_nodes'])} pub_dirty={len(report['pub_dirty_nodes'])} "
+        f"pub_tainted={len(report['pub_tainted_nodes'])}"
     )
     if not report["structural_ok"]:
         sys.stderr.write(json.dumps(report, indent=2) + "\n")

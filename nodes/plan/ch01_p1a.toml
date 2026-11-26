@@ -1,0 +1,41 @@
+id = "plan:ch01-p1a"
+kind = "work_item"
+title = "Phase 1A: Ch. 1 §§1.1–1.3 Obstruction Trident, 2-Chu Duality, & Flows F2–F4"
+chapter = "ch01"
+section = "1.3"
+seq_order = 2
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum"
+milestone_num = 1
+slice_code = "Phase 1A"
+target_modules = [
+  "HomotopyCRM.Vol2.ObstructionTrident",
+  "HomotopyCRM.Vol2.DoctrinalFlows"
+]
+deliverable_nodes = [
+  "vol1:def:comparison-triple",
+  "vol1:def:residuum",
+  "sym:trident-flows",
+  "ch01:def:essential-fiber-trident",
+  "ch01:thm:mode3-orbit-stabilizer-exactness",
+  "ch01:prop:extent-transversal-galois",
+  "ch01:def:touchstone-specific-gravity",
+  "ch01:prop:lt-stability-projsub",
+  "ch01:thm:flow-f2-four-rung-escalation",
+  "ch01:claim:kihara-ew-weihrauch-ltt-duality",
+  "ch01:prop:flow-f3-lt-partition-and-schism",
+  "ch01:thm:flow-f4-split-polarity-transport"
+]
+guardrails = ["ltt_eff_muchnik_meets"]
+summary = "Upgrade 4-part claim grounding ledger with 5 honesty invariants and mechanize the Obstruction Trident, 2-Chu extent-transversal duality, Touchstone specific gravity, Flow F2 4-rung escalation, Flow F3 3^k 2^m partition, and Flow F4 transport."
+
+[edges]
+logical_dep = ["plan:ch00-bootstrap"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

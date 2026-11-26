@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS pub_targets;
+DROP TABLE IF EXISTS work_items;
 DROP TABLE IF EXISTS decl_ownership;
 DROP TABLE IF EXISTS claim_groundings;
 DROP TABLE IF EXISTS verification_receipts;
@@ -73,4 +75,29 @@ CREATE TABLE decl_ownership (
   decl_or_cert VARCHAR PRIMARY KEY,
   node_id VARCHAR NOT NULL REFERENCES nodes(id),
   ownership_kind VARCHAR NOT NULL
+);
+
+CREATE TABLE work_items (
+  node_id VARCHAR PRIMARY KEY REFERENCES nodes(id),
+  milestone VARCHAR NOT NULL,
+  milestone_num INTEGER NOT NULL,
+  slice_code VARCHAR NOT NULL,
+  target_modules_json VARCHAR NOT NULL,
+  deliverable_nodes_json VARCHAR NOT NULL,
+  guardrails_json VARCHAR NOT NULL,
+  summary VARCHAR NOT NULL,
+  status VARCHAR NOT NULL,
+  verified_deliverables INTEGER NOT NULL,
+  total_deliverables INTEGER NOT NULL
+);
+
+CREATE TABLE pub_targets (
+  node_id VARCHAR PRIMARY KEY REFERENCES nodes(id),
+  channel VARCHAR NOT NULL,
+  sensitivity VARCHAR NOT NULL,
+  outputs_json VARCHAR NOT NULL,
+  cone_hash VARCHAR NOT NULL,
+  locked_cone_hash VARCHAR,
+  pub_status VARCHAR NOT NULL,
+  pub_reason VARCHAR NOT NULL
 );

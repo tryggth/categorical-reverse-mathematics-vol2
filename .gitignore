@@ -1,0 +1,10 @@
+logs/
+build/
+.lake/
+kernel_arena/.lake/
+mathlib_vol2/.lake/
+kernel_arena/KernelArena/Generated/
+mathlib_vol2/HomotopyCRM/Vol2/
+__pycache__/
+scripts/__pycache__/
+*.pyc

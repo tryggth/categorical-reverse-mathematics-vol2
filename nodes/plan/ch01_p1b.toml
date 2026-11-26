@@ -1,0 +1,35 @@
+id = "plan:ch01-p1b"
+kind = "work_item"
+title = "Phase 1B: Ch. 1 §§1.4–1.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving"
+chapter = "ch01"
+section = "1.5"
+seq_order = 3
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum"
+milestone_num = 1
+slice_code = "Phase 1B"
+target_modules = [
+  "HomotopyCRM.Vol2.ZeroGiraud",
+  "HomotopyCRM.Vol2.MoritaInterleaving"
+]
+deliverable_nodes = [
+  "ch01:def:zero-giraud-axioms",
+  "ch01:cex:zero-giraud-p0-independence",
+  "ch01:prob:two-giraud-prototopos-nerve",
+  "ch01:def:operational-currencies",
+  "ch01:thm:morita-resource-interleaving",
+  "ch01:cex:russell-socks-finite"
+]
+guardrails = ["ltt_eff_muchnik_meets"]
+summary = "Formalize ZeroGiraud.lean (P0)-(P5) with a 4-element (P0) independence witness, register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, prove MoritaInterleaving.lean (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks counterexample, and refresh the Ch. 1 Roadmap & Table 1.1."
+
+[edges]
+logical_dep = ["plan:ch01-p1a"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

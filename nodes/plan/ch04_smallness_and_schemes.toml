@@ -1,0 +1,33 @@
+id = "plan:ch04-smallness-and-schemes"
+kind = "work_item"
+title = "Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum"
+chapter = "ch04"
+section = "4.1"
+seq_order = 7
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 4: Smallness Valves & Scheme Residuum"
+milestone_num = 4
+slice_code = "Ch. 4"
+target_modules = [
+  "HomotopyCRM.Vol2.SmallnessValves",
+  "HomotopyCRM.Vol2.SchemeResiduum"
+]
+deliverable_nodes = [
+  "ch04:def:joyal-moerdijk-cs-valve",
+  "ch04:prop:h-aleph1-czf-subobject-stratification",
+  "ch04:thm:mathias-mac-strict-zc",
+  "ch04:thm:waterhouse-fpqc-smallness-escape"
+]
+guardrails = ["cumulative_hierarchy_strict_inclusion"]
+summary = "Calibrate Joyal-Moerdijk (C, S) Stratum II smallness valves across H(aleph_1), CZF Omega^X / 2^X, and Mathias's Mac subsetneq ZC separation (Guardrail 5), culminating in SchemeResiduum.lean up to Waterhouse's fpqc smallness escape."
+
+[edges]
+logical_dep = ["plan:ch03-piset-transgression"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

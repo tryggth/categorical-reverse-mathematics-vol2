@@ -1,0 +1,32 @@
+id = "plan:ch06-large-doctrines-vopenka"
+kind = "work_item"
+title = "Ch. 6 (Part III): GBC to KM Large Doctrines & Vopenka Sigma_2 Localization Wall"
+chapter = "ch06"
+section = "6.1"
+seq_order = 9
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 6: Large Doctrines & Vopenka Localization Wall"
+milestone_num = 6
+slice_code = "Ch. 6"
+target_modules = [
+  "HomotopyCRM.Vol2.LargeDoctrines",
+  "HomotopyCRM.Vol2.VopenkaLocalizationWall"
+]
+deliverable_nodes = [
+  "ch06:thm:gbc-nbg-etr-km-hierarchy",
+  "ch06:thm:cmr-vopenka-sigma2-wall",
+  "ch06:cor:large-2cat-localization-pricing"
+]
+guardrails = []
+summary = "Price large doctrines and 2-categories across the strict hierarchy GBC subsetneq NBG subsetneq ETR_Ord subsetneq KM up to the Casacuberta-Mathias-Rosicky / Vopenka Sigma_2 localization reflection wall."
+
+[edges]
+logical_dep = ["plan:ch05-borel-unraveling"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

@@ -1,0 +1,28 @@
+id = "pub:pdf:claims-ledger"
+kind = "pub_target"
+title = "Publication Sink: 4-Part Master Claims & Grounding Ledger PDF"
+chapter = "ch00"
+section = "PUB.4"
+seq_order = 904
+axis = "publication"
+grounding_tier = "publication"
+formal_pkg = "none"
+stratum = "none"
+
+[pub]
+channel = "gh_pages"
+sensitivity = "spec_body_and_grounding"
+outputs = [
+  "build/tex/crm_vol2_claims_ledger.pdf",
+  "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
+]
+
+[edges]
+logical_dep = [
+  "ch01:claim:kihara-ew-weihrauch-ltt-duality",
+  "ch01:thm:scotoma-pareto-trichotomy",
+  "ch01:rem:trident-mode3-2ltt-bootstrap"
+]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

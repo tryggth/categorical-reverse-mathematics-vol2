@@ -1,0 +1,33 @@
+id = "plan:ch02-class-set-adjunction"
+kind = "work_item"
+title = "Ch. 2 (Part I): Class-Set Adjunction, Mod(GB_0), & Williams Kaleidoscope"
+chapter = "ch02"
+section = "2.1"
+seq_order = 4
+axis = "project_plan"
+grounding_tier = "plan"
+formal_pkg = "none"
+stratum = "none"
+
+[plan]
+milestone = "Chapter 2: Class-Set Adjunction & Mod(GB_0)"
+milestone_num = 2
+slice_code = "Ch. 2"
+target_modules = [
+  "HomotopyCRM.Vol2.ClassSetAdjunction",
+  "HomotopyCRM.Vol2.WilliamsKaleidoscope"
+]
+deliverable_nodes = [
+  "ch02:def:mod-gb0-equipment",
+  "ch02:cex:naive-pullback-threeway-failure",
+  "ch02:thm:def-left-adjoint-pi-set",
+  "ch02:thm:williams-fixed-set-kaleidoscope"
+]
+guardrails = []
+summary = "Construct the Mod(GB_0) doctrinal setting, prove the 3-way naive model-space pullback failure counterexample, establish the Def -| pi_Set class-set adjunction, and formalize Williams' fixed-set kaleidoscope of class theories over a fixed set universe."
+
+[edges]
+logical_dep = ["plan:ch01-p1b"]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
