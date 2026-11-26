@@ -1,0 +1,50 @@
+id = "vol1:prop:los-smuggles-gc"
+kind = "vol1_external"
+title = "Unbundling Limitation of Size Over GB_0 (Volume I)"
+chapter = "ch02"
+section = "2.1"
+seq_order = 202
+axis = "class_set"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["godel1940"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:135"
+vol1_label = "prop:los-smuggles-gc"
+vol1_lean_symbol = ""
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Over Replacement-free, Choice-free GB_0, von Neumann's Limitation of Size (LoS: C is not small iff C surjects onto V) is equivalent to Rep /\\ GC. Hence GB_0 + LoS = NBG, smuggling Global Choice across Choice-free bases, whereas GB_0 + GC does not prove LoS (witnessed by (L_{omega_omega^L}, Def(L_{omega_omega^L}))).
+"""
+
+[body]
+tex = """
+\\begin{proposition}[Volume~I Grounding Contract: Unbundling Limitation of Size Over $\\mathsf{GB}_0$]\\label{vol1:prop:los-smuggles-gc}%
+Pinned read-only to Volume~I (\\texttt{prop:los-smuggles-gc}, \\texttt{docs/ch07\\_sets\\_residuum.tex:135}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{godel1940}. Over Replacement-free, Choice-free class theory $\\mathsf{GB}_0$, von Neumann's Limitation of Size ($\\mathsf{LoS}$: $C \\notin \\mathcal{S} \\iff C \\twoheadrightarrow V$) satisfies
+\\[
+  \\mathsf{GB}_0 \\;\\vdash\\; \\mathsf{LoS} \\;\\Longleftrightarrow\\; (\\mathrm{Rep} \\wedge \\mathsf{GC}).
+\\]
+In particular, $\\mathsf{GB}_0 + \\mathsf{LoS}$ coincides with full $\\mathsf{NBG}$, smuggling Global Choice across Choice-free bases, while $\\mathsf{GB}_0 + \\mathsf{GC} \\not\\vdash \\mathsf{LoS}$ as witnessed by G\\\"odel's $(L_{\\omega_\\omega^L}, \\mathrm{Def}(L_{\\omega_\\omega^L}))$.
+\\end{proposition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Choice Calibration", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:los-smuggles-gc"
+locator = "docs/ch07_sets_residuum.tex:135"
+purpose = "Pinned read-only Volume I contract unbundling LoS <=> Rep /\\ GC over GB_0"

@@ -1,0 +1,46 @@
+id = "ch02:claim:kelley-morse-freyd-kan-barrier"
+kind = "inline_claim"
+title = "Kelley-Morse Impredicative Comprehension and Freyd's Large-Limit / Kan Barrier"
+chapter = "ch02"
+section = "2.4"
+seq_order = 275
+axis = "class_set"
+grounding_tier = "folklore"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["maclane1998", "simpson2009", "gitman2020"]
+
+[spec]
+statement = "Impredicative Kelley-Morse class theory (KM, modeled by (V_kappa, V_{kappa+1}) for an inaccessible cardinal kappa, proving Con(NBG + ETR) and hence Con(NBG + ETR_Ord), and paralleling the classical second-order arithmetic climb ACA_0 < ATR_0 < Pi^1_1-CA_0 < Z_2 of Simpson 2009) calibrates full Pi^1_infty class comprehension over V. Nevertheless, by Freyd's product-collapse theorem (Mac Lane 1998, Ch. V, §2, Prop. 3, p. 114), even KM cannot endow Set with arbitrary proper-class-indexed limits, colimits, or unrestricted internal large Kan extensions without passing to a strictly larger Grothendieck universe V_lambda ni V_kappa."
+
+[body]
+tex = """
+\\begin{inlineclaim}[Kelley--Morse {{sym:km}} Comprehension and Freyd's Large-Limit Barrier]\\label{ch02:claim:kelley-morse-freyd-kan-barrier}%
+\\uses{ch02:claim:gitman-etr-ord-fujimoto-contrast}%
+Mirroring Simpson's second-order arithmetic ladder $\\mathrm{ACA}_0 \\subsetneq \\mathrm{ATR}_0 \\subsetneq \\Pi^1_1\\text{-}\\mathrm{CA}_0 \\subsetneq \\mathsf{Z}_2$~\\cite[Chs.~I \\&~VII]{simpson2009}, climbing to impredicative Kelley--Morse class theory ({{sym:km}})---modeled by $(V_\\kappa, V_{\\kappa+1})$ for an inaccessible cardinal $\\kappa$, and proving $\\mathrm{Con}({{sym:nbg}} + \\mathsf{ETR})$ alongside $\\mathrm{Con}({{sym:nbg}} + {{sym:etr-ord}})$~\\cite{gitman2020}---supplies full $\\Pi^1_\\infty$ class comprehension over $V$. Yet by Freyd's product-collapse theorem~\\cite[Ch.~V, \\S 2, Prop.~3]{maclane1998}, no small category admitting products indexed by its own morphism size avoids collapsing to a preorder; hence even {{sym:km}} cannot endow $\\mathbf{Set}$ with arbitrary proper-class-indexed limits or unrestricted internal large Kan extensions without stepping up to a larger Grothendieck universe $V_\\lambda \\ni V_\\kappa$.
+\\end{inlineclaim}
+"""
+
+[edges]
+logical_dep = ["ch02:claim:gitman-etr-ord-fujimoto-contrast"]
+lean_dep = []
+curriculum = ["ch02:claim:gitman-etr-ord-fujimoto-contrast"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Folklore"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Cohomological / Spectral Obstruction"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "maclane1998"
+locator = "Ch. V, §2, Prop. 3, p. 114"
+purpose = "Freyd's theorem blocking proper-class-indexed limits and internal large Kan extensions in Set"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "simpson2009"
+locator = "Chs. I & VII, pp. 1–60, 243–305"
+purpose = "Second-order arithmetic comprehension ladder ACA_0 < ATR_0 < Pi^1_1-CA_0 < Z_2"

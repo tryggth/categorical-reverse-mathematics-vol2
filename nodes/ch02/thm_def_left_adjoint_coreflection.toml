@@ -1,0 +1,240 @@
+id = "ch02:thm:def-left-adjoint-coreflection"
+kind = "theorem"
+title = "Minimal Definability Adjunction Def -| pi_Set and Coreflective Fiber Initiality"
+chapter = "ch02"
+section = "2.2"
+seq_order = 230
+axis = "class_set"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["godel1940", "maclane1998"]
+
+[spec]
+statement = "Over set universes M equipped with first-order definable Subclass Separation (DefAlgebra), minimal Godel-expression expansion Def(M) forms a functor Def : DefAlgebra -> GB0Model left adjoint to pi_Set (Def -| pi_Set) via a natural hom-bijection Hom_{GB0}(Def(M), Y) ~= Hom_Set(M, pi_Set(Y)) with identity unit eta_M : M ~= pi_Set(Def(M)) and vertical inclusion counit eps_{(M,C)} : Def(M) >-> (M, C). In particular, Def embeds DefAlgebra as a full coreflective subcategory of Mod(GB_0) with coreflector pi_Set, and Def(M) is initial in every vertical fiber pi_Set^{-1}(M)."
+hypotheses = [
+  "M : DefAlgebra (SetBase satisfying Subclass Separation on Godel-definable classes)",
+  "Y : GB0Model"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ClassSetAdjunction"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.DefIsClass",
+  "HomotopyCRM.Vol2.DefAlgebra",
+  "HomotopyCRM.Vol2.piSetDef",
+  "HomotopyCRM.Vol2.defModel",
+  "HomotopyCRM.Vol2.transportDefClass",
+  "HomotopyCRM.Vol2.transportDefClass_isClass",
+  "HomotopyCRM.Vol2.liftFromDef",
+  "HomotopyCRM.Vol2.liftFromDef_unique",
+  "HomotopyCRM.Vol2.defMap",
+  "HomotopyCRM.Vol2.defMap_id",
+  "HomotopyCRM.Vol2.defMap_comp",
+  "HomotopyCRM.Vol2.defUnit",
+  "HomotopyCRM.Vol2.defCounit",
+  "HomotopyCRM.Vol2.defCounit_vertical_inclusion",
+  "HomotopyCRM.Vol2.def_left_adjoint_coreflection"
+]
+expected_axioms = []
+lean_signature = """
+/-- Predicate characterizing minimal parameter-definable Gödel classes `Def(M)`. -/
+@[reducible] def DefIsClass (M : SetBase) (S : Set M.Carrier) : Prop :=
+  ∃ e : GodelExpr M.Carrier, ∀ x, S x ↔ evalGodelExpr M e x
+
+/-- Set base satisfying first-order Subclass Separation for Gödel-definable classes. -/
+structure DefAlgebra : Type 1 extends SetBase where
+  /-- First-order Separation schema over `Def(M)`. -/
+  def_sep : SatisfiesSubclassSep toSetBase (DefIsClass toSetBase)
+
+/-- Coreflector extraction `DefAlgebra` underlying any `GB0Model`. -/
+@[reducible] def piSetDef (X : GB0Model) : DefAlgebra where
+  toSetBase := X.base
+  def_sep C hC hB := let ⟨e, he⟩ := hC
+    X.subclass_sep C (X.ext_mem (fun x ↦ (he x).symm) (evalGodelExpr_isClass X e)) hB
+
+/-- Minimal Gödel class expansion `Def(M) ∈ Mod(GB₀)`. -/
+@[reducible] def defModel (M : DefAlgebra) : GB0Model where
+  base := M.toSetBase; IsClass := DefIsClass M.toSetBase
+  ext_mem h hC := let ⟨e, he⟩ := hC; ⟨e, fun x ↦ (h x).symm.trans (he x)⟩
+  singleton_mem p := ⟨.singleton p, fun _ ↦ Iff.rfl⟩
+  set_mem p := ⟨.setElts p, fun _ ↦ Iff.rfl⟩
+  g1_memRel := ⟨.memRel, fun _ ↦ Iff.rfl⟩
+  g2_inter h₁ h₂ := let ⟨e₁, f₁⟩ := h₁; let ⟨e₂, f₂⟩ := h₂
+    ⟨.inter e₁ e₂, fun x ↦ and_congr (f₁ x) (f₂ x)⟩
+  g3_compl hC := let ⟨e, he⟩ := hC; ⟨.compl e, fun x ↦ not_congr (he x)⟩
+  g4_dom hC := let ⟨e, he⟩ := hC
+    ⟨.dom e, fun _ ↦ ⟨fun ⟨y, hy⟩ ↦ ⟨y, (he _).mp hy⟩, fun ⟨y, hy⟩ ↦ ⟨y, (he _).mpr hy⟩⟩⟩
+  g5_prodV hC := let ⟨e, he⟩ := hC; ⟨.prodV e, fun _ ↦
+    ⟨fun ⟨x, y, hz, hx⟩ ↦ ⟨x, y, hz, (he x).mp hx⟩, fun ⟨x, y, hz, hx⟩ ↦ ⟨x, y, hz, (he x).mpr hx⟩⟩⟩
+  g6_converse hC := let ⟨e, he⟩ := hC; ⟨.converse e, fun _ ↦
+    ⟨fun ⟨x, y, hz, h⟩ ↦ ⟨x, y, hz, (he _).mp h⟩, fun ⟨x, y, hz, h⟩ ↦ ⟨x, y, hz, (he _).mpr h⟩⟩⟩
+  g7_cycleRight hC := let ⟨e, he⟩ := hC; ⟨.cycleRight e, fun _ ↦
+    ⟨fun ⟨x, y, z, hw, h⟩ ↦ ⟨x, y, z, hw, (he _).mp h⟩,
+     fun ⟨x, y, z, hw, h⟩ ↦ ⟨x, y, z, hw, (he _).mpr h⟩⟩⟩
+  g8_swapInner hC := let ⟨e, he⟩ := hC; ⟨.swapInner e, fun _ ↦
+    ⟨fun ⟨x, y, z, hw, h⟩ ↦ ⟨x, y, z, hw, (he _).mp h⟩,
+     fun ⟨x, y, z, hw, h⟩ ↦ ⟨x, y, z, hw, (he _).mpr h⟩⟩⟩
+  subclass_sep := M.def_sep
+
+/-- Axiom-free class transport `⟦e⟧_M ↦ ⟦f(e)⟧_N` without `Classical.choose`. -/
+def transportDefClass {M : SetBase} {Y : GB0Model} (f : SetBaseHom M Y.base)
+    (S : Set M.Carrier) : Set Y.base.Carrier :=
+  fun y ↦ ∃ e : GodelExpr M.Carrier,
+    (∀ x, S x ↔ evalGodelExpr M e x) ∧ evalGodelExpr Y.base (e.map f.toFun) y
+
+/-- Transported definable class lies in `Y.IsClass` (axiom-free). -/
+theorem transportDefClass_isClass {M : SetBase} {Y : GB0Model} (f : SetBaseHom M Y.base)
+    {S : Set M.Carrier} (hS : DefIsClass M S) : Y.IsClass (transportDefClass f S) := by
+  rcases hS with ⟨e₀, he₀⟩
+  exact Y.ext_mem (fun y ↦ Iff.intro (fun hy ↦ ⟨e₀, he₀, hy⟩)
+    (fun ⟨e, he, hy⟩ ↦ (f.elem_ext e e₀ (fun x ↦ (he x).symm.trans (he₀ x)) y).mp hy))
+    (evalGodelExpr_isClass Y (e₀.map f.toFun))
+
+/-- Canonical adjunction transpose `liftFromDef f : Def(M) → Y` of `f : M → π_Set(Y)`. -/
+def liftFromDef {M : DefAlgebra} {Y : GB0Model} (f : SetBaseHom M.toSetBase (piSet Y)) :
+    GB0Hom (defModel M) Y where
+  baseHom := f
+  classMap C := ⟨transportDefClass f C.1, transportDefClass_isClass f C.2⟩
+  classMap_ext C₁ C₂ hEq y :=
+    ⟨fun ⟨e, he, hy⟩ ↦ ⟨e, fun x ↦ (hEq x).symm.trans (he x), hy⟩,
+     fun ⟨e, he, hy⟩ ↦ ⟨e, fun x ↦ (hEq x).trans (he x), hy⟩⟩
+  mem_preserve C x := by
+    rcases C.2 with ⟨e, he⟩
+    refine ⟨fun hx ↦ ⟨e, he, (f.elem_iff e x).mp ((he x).mp hx)⟩, fun ⟨e', he', hy⟩ ↦ ?_⟩
+    exact (he x).mpr ((f.elem_iff e x).mpr
+      ((f.elem_ext e' e (fun z ↦ (he' z).symm.trans (he z)) (f.toFun x)).mp hy))
+  map_godel e y :=
+    ⟨fun ⟨e', he', hy⟩ ↦ (f.elem_ext e' e (fun x ↦ (he' x).symm) y).mp hy,
+     fun hy ↦ ⟨e, fun _ ↦ Iff.rfl, hy⟩⟩
+
+/-- Uniqueness of `liftFromDef φ.baseHom` up to `GB0Hom.Eq`. -/
+theorem liftFromDef_unique {M : DefAlgebra} {Y : GB0Model} (φ : GB0Hom (defModel M) Y) :
+    GB0Hom.Eq (liftFromDef (piSetMap φ)) φ := by
+  refine ⟨fun _ ↦ rfl, fun C y ↦ ?_⟩
+  rcases C.2 with ⟨e, he⟩
+  have h1 := (liftFromDef (piSetMap φ)).classMap_ext C ⟨_, ⟨e, fun _ ↦ Iff.rfl⟩⟩ he y
+  have h2 := φ.classMap_ext C ⟨_, ⟨e, fun _ ↦ Iff.rfl⟩⟩ he y
+  have h3 := (liftFromDef (piSetMap φ)).map_godel e y
+  exact h1.trans (h3.trans ((φ.map_godel e y).symm.trans h2.symm))
+
+/-- Action of `Def` on `SetBaseHom` morphisms. -/
+def defMap {M N : DefAlgebra} (f : SetBaseHom M.toSetBase N.toSetBase) :
+    GB0Hom (defModel M) (defModel N) := liftFromDef f
+/-- Functorial identity law for `Def`. -/
+theorem defMap_id (M : DefAlgebra) :
+    GB0Hom.Eq (defMap (SetBaseHom.id M.toSetBase)) (GB0Hom.id (defModel M)) :=
+  liftFromDef_unique (GB0Hom.id (defModel M))
+/-- Functorial composition law for `Def`. -/
+theorem defMap_comp {L M N : DefAlgebra} (f : SetBaseHom L.toSetBase M.toSetBase)
+    (g : SetBaseHom M.toSetBase N.toSetBase) :
+    GB0Hom.Eq (defMap (SetBaseHom.comp f g)) (GB0Hom.comp (defMap f) (defMap g)) :=
+  liftFromDef_unique (GB0Hom.comp (defMap f) (defMap g))
+/-- Identity unit `η_M : M → π_Set(Def(M))`. -/
+def defUnit (M : DefAlgebra) : SetBaseHom M.toSetBase (piSet (defModel M)) :=
+  SetBaseHom.id M.toSetBase
+/-- Vertical inclusion counit `ε_X : Def(π_Set(X)) → X`. -/
+def defCounit (X : GB0Model) : GB0Hom (defModel (piSetDef X)) X :=
+  liftFromDef (SetBaseHom.id X.base)
+/-- Counit `ε_X` acts vertically as class inclusion `Def(M) ↪ C`. -/
+theorem defCounit_vertical_inclusion (X : GB0Model)
+    (C : {S : Set X.base.Carrier // (defModel (piSetDef X)).IsClass S}) (y : X.base.Carrier) :
+    ((defCounit X).classMap C).1 y ↔ C.1 y := by
+  rcases C.2 with ⟨e, he⟩
+  refine ⟨fun ⟨e', he', hy⟩ ↦ ?_, fun hy ↦ ⟨e, he, ?_⟩⟩
+  · change evalGodelExpr X.base (e'.map _root_.id) y at hy
+    rw [GodelExpr.map_id] at hy; exact (he' y).mpr hy
+  · change evalGodelExpr X.base (e.map _root_.id) y
+    rw [GodelExpr.map_id]; exact (he y).mp hy
+
+/-- **Minimal Definability Adjunction `Def ⊣ π_Set` (Emerald, Axiom-Free):**
+    Establishes the natural hom-bijection, triangle identities, identity unit, vertical
+    inclusion counit, full faithfulness of `Def` as a coreflective subcategory embedding,
+    and initiality of `Def(M)` inside every vertical fiber `π_Set⁻¹(M)`. -/
+theorem def_left_adjoint_coreflection :
+    (∀ {M : DefAlgebra} {Y : GB0Model} (φ : GB0Hom (defModel M) Y),
+      GB0Hom.Eq (liftFromDef (piSetMap φ)) φ) ∧
+    (∀ {M : DefAlgebra} {Y : GB0Model} (f : SetBaseHom M.toSetBase (piSet Y)),
+      SetBaseHom.Eq (piSetMap (liftFromDef f)) f) ∧
+    (∀ {M N : DefAlgebra} {Y : GB0Model} (h : SetBaseHom M.toSetBase N.toSetBase)
+      (f : SetBaseHom N.toSetBase (piSet Y)),
+      GB0Hom.Eq (liftFromDef (SetBaseHom.comp h f))
+        (GB0Hom.comp (defMap h) (liftFromDef f))) ∧
+    (∀ {M : DefAlgebra} {Y Z : GB0Model} (g : GB0Hom Y Z) (φ : GB0Hom (defModel M) Y),
+      SetBaseHom.Eq (piSetMap (GB0Hom.comp φ g))
+        (SetBaseHom.comp (piSetMap φ) (piSetMap g))) ∧
+    (∀ (M : DefAlgebra),
+      GB0Hom.Eq (GB0Hom.comp (defMap (defUnit M)) (defCounit (defModel M)))
+        (GB0Hom.id (defModel M))) ∧
+    (∀ (X : GB0Model),
+      SetBaseHom.Eq (SetBaseHom.comp (defUnit (piSetDef X)) (piSetMap (defCounit X)))
+        (SetBaseHom.id (piSet X))) ∧
+    (∀ (M : DefAlgebra), piSet (defModel M) = M.toSetBase) ∧
+    (∀ (X : GB0Model) (C : {S // (defModel (piSetDef X)).IsClass S})
+      (y : X.base.Carrier), ((defCounit X).classMap C).1 y ↔ C.1 y) ∧
+    (∀ {M N : DefAlgebra} (f g : SetBaseHom M.toSetBase N.toSetBase),
+      GB0Hom.Eq (defMap f) (defMap g) → SetBaseHom.Eq f g) ∧
+    (∀ {M N : DefAlgebra} (φ : GB0Hom (defModel M) (defModel N)),
+      GB0Hom.Eq (defMap (piSetMap φ)) φ) ∧
+    (∀ (X : GB0Model) (ψ : GB0Hom (defModel (piSetDef X)) X),
+      SetBaseHom.Eq ψ.baseHom (SetBaseHom.id X.base) → GB0Hom.Eq ψ (defCounit X)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.defMap_comp' does not depend on any axioms -/\n#guard_msgs in\n#print axioms defMap_comp",
+  "/-- info: 'HomotopyCRM.Vol2.def_left_adjoint_coreflection' does not depend on any axioms -/\n#guard_msgs in\n#print axioms def_left_adjoint_coreflection"
+]
+
+[body]
+lean_body = """
+  refine ⟨fun φ ↦ liftFromDef_unique φ, fun _ _ ↦ rfl, ?_, fun _ _ _ ↦ rfl, ?_,
+    fun _ _ ↦ rfl, fun _ ↦ rfl, defCounit_vertical_inclusion, fun _ _ h ↦ h.1,
+    fun φ ↦ liftFromDef_unique φ, fun X ψ hBase ↦ ?_⟩
+  · intro M N Y h f; exact liftFromDef_unique (GB0Hom.comp (defMap h) (liftFromDef f))
+  · intro M; refine ⟨fun _ ↦ rfl, fun C y ↦ ?_⟩
+    exact (defCounit_vertical_inclusion (defModel M) ((defMap (defUnit M)).classMap C) y).trans
+      ((defMap_id M).2 C y)
+  · have hU := liftFromDef_unique ψ
+    refine ⟨fun x ↦ hBase x, fun C y ↦ (hU.2 C y).symm.trans ?_⟩
+    refine ⟨fun ⟨e, he, hy⟩ ↦ ⟨e, he, ?_⟩, fun ⟨e, he, hy⟩ ↦ ⟨e, he, ?_⟩⟩
+    · change evalGodelExpr X.base (e.map (SetBaseHom.id X.base).toFun) y
+      rw [← GodelExpr.map_congr hBase e]; exact hy
+    · change evalGodelExpr X.base (e.map ψ.baseHom.toFun) y
+      rw [GodelExpr.map_congr hBase e]; exact hy
+"""
+tex = """
+\\begin{theorem}[Minimal Definability Adjunction {{sym:def-functor}} $\\dashv$ {{sym:piset}} and Coreflective Fiber Initiality]\\label{ch02:thm:def-left-adjoint-coreflection}%
+\\uses{ch02:def:gb0-model-category,ch02:thm:three-way-pullback-failure}%
+Let $\\mathbf{DefAlg}$ denote the category of set universes $M$ satisfying first-order G\\\"odel Subclass Separation (models of $\\mathsf{Z}$) with $\\mathcal{L}_\\in$-elementary embeddings~\\cite{godel1940}. Although {{sym:piset}} fails to be a Grothendieck fibration by Theorem~\\ref{ch02:thm:three-way-pullback-failure}, minimal parameter-definable expansion defines a functor ${{sym:def-functor}} : \\mathbf{DefAlg} \\to {{sym:mod-gb0}}$ left adjoint to {{sym:piset}}:
+\\[
+  {{sym:def-functor}} \\;\\dashv\\; {{sym:piset}} : {{sym:mod-gb0}} \\longrightarrow \\mathbf{DefAlg}.
+\\]
+Specifically:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item The natural hom-bijection $\\mathrm{Hom}_{{{sym:mod-gb0}}}({{sym:def-functor}}(M), (N, \\mathcal{D})) \\cong \\mathrm{Hom}_{\\mathbf{DefAlg}}(M, {{sym:piset}}(N, \\mathcal{D}))$ transports each G\\\"odel expression $\\llbracket e \\rrbracket_M \\in {{sym:def-functor}}(M)$ along $f : M \\hookrightarrow N$ to $\\llbracket f(e) \\rrbracket_N \\in {{sym:def-functor}}(N) \\subseteq \\mathcal{D}$.
+  \\item The unit $\\eta_M : M \\xrightarrow{\\sim} {{sym:piset}}({{sym:def-functor}}(M))$ is the identity, while the counit $\\varepsilon_{(M, \\mathcal{C})} : {{sym:def-functor}}(M) \\hookrightarrow (M, \\mathcal{C})$ is the vertical inclusion of definable classes into $\\mathcal{C}$.
+  \\item Consequently, ${{sym:def-functor}}$ embeds $\\mathbf{DefAlg}$ as a \\textbf{full coreflective subcategory} of ${{sym:mod-gb0}}$ with coreflector {{sym:piset}}~\\cite{maclane1998}, and ${{sym:def-functor}}(M)$ is the unique initial object inside every vertical fiber ${{sym:piset}}^{-1}(M)$.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+Constructively without choice, define the transported class $F_f(S) := \\{y \\in N \\mid \\exists e,\\; (S \\equiv \\llbracket e \\rrbracket_M) \\wedge y \\in \\llbracket f(e) \\rrbracket_N\\}$; extensional equivalence of expressions under $\\mathcal{L}_\\in$-elementarity of $f$ places $F_f(S)$ inside $\\mathcal{D}$ and forces uniqueness of any two-sorted morphism out of ${{sym:def-functor}}(M)$ agreeing with $f$ on the set base. Full faithfulness follows because $\\eta_M = \\mathrm{id}_M$ is an isomorphism; setting $f = \\mathrm{id}_M$ yields the vertical counit inclusion $\\varepsilon_{(M,\\mathcal{C})}$ and uniqueness of the vertical morphism ${{sym:def-functor}}(M) \\to (M,\\mathcal{C})$ over $\\mathrm{id}_M$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration", "ch02:def:gb0-model-category", "ch02:thm:three-way-pullback-failure"]
+lean_dep = ["ch02:def:gb0-model-category"]
+curriculum = ["ch02:def:gb0-model-category", "ch02:thm:three-way-pullback-failure"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Categorical Equivalence", "Duality"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.def_left_adjoint_coreflection"
+purpose = "Axiom-free Emerald Lean 4 proof of Def -| pi_Set, full faithfulness, and fiber initiality"

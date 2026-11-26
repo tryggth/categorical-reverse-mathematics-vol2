@@ -23,7 +23,12 @@ lean_dep = [
   "ch01:rem:trident-mode3-2ltt-bootstrap",
   "ch01:thm:flow-f4-split-polarity-transport",
   "ch01:thm:scotoma-pareto-trichotomy",
-  "ch01:thm:mode3-orbit-stabilizer-exactness"
+  "ch01:thm:mode3-orbit-stabilizer-exactness",
+  "ch02:thm:three-way-pullback-failure",
+  "ch02:thm:def-left-adjoint-coreflection",
+  "ch02:prop:syntactic-conservative-pullback",
+  "ch02:prop:los-unbundling-independence",
+  "ch02:thm:williams-fixed-set-kaleidoscope"
 ]
 curriculum = []
 prose_paraphrase = []

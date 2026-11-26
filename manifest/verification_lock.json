@@ -1,6 +1,6 @@
 {
   "schema": "vol2.verification_lock.v1",
-  "updated_at_utc": "2026-11-26T04:14:41.373792+00:00",
+  "updated_at_utc": "2026-11-26T20:36:13.259555+00:00",
   "nodes": {
     "ch01:cex:flow-f1-frontier-nonmonotone": {
       "spec_hash": "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21",
@@ -9,7 +9,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:cex:p0-independent-of-p1-p5": {
@@ -19,7 +19,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:cex:russells-socks-levelwise-morita-failure": {
@@ -29,7 +29,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:claim:abramsky-arboreal-coalgebra-numbers": {
@@ -39,7 +39,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:claim:kihara-ew-weihrauch-ltt-duality": {
@@ -49,7 +49,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:def:adm-pareto-frontier": {
@@ -59,7 +59,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:def:essential-fiber-trident": {
@@ -69,7 +69,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:def:operational-currencies": {
@@ -79,7 +79,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:def:probe-suite": {
@@ -89,7 +89,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:def:touchstone-specific-gravity": {
@@ -99,7 +99,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:prob:two-giraud-prototopos-nerve": {
@@ -109,7 +109,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:prop:extent-transversal-galois": {
@@ -119,7 +119,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:prop:flow-f3-lt-partition-and-schism": {
@@ -129,7 +129,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:prop:lt-stability-projsub": {
@@ -139,7 +139,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:prop:topological-no-schism": {
@@ -149,7 +149,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:prose:meta-crm-roadmap": {
@@ -159,7 +159,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:rem:trident-mode3-2ltt-bootstrap": {
@@ -169,7 +169,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": "8b67ff241b25764b1640553b174a523816a2c221d4a14ddf115c9a87f3eb0c0c",
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:tab:currencies-morita-ledger": {
@@ -179,7 +179,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:tab:epistemic-probe-regimes": {
@@ -189,7 +189,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:flow-f1-threshold-order": {
@@ -199,7 +199,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:flow-f2-four-rung-escalation": {
@@ -209,7 +209,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:flow-f4-split-polarity-transport": {
@@ -219,7 +219,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:mode3-orbit-stabilizer-exactness": {
@@ -232,7 +232,7 @@
         "propext"
       ],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:morita-resource-interleaving": {
@@ -242,7 +242,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:scotoma-pareto-trichotomy": {
@@ -256,7 +256,7 @@
         "propext"
       ],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:zero-giraud-living-zone-zorn": {
@@ -270,7 +270,7 @@
         "propext"
       ],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "ch01:thm:zero-giraud-representation": {
@@ -280,7 +280,127 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:claim:easton-hod-unsplit-card": {
+      "spec_hash": "618067851cfbe9070fd35b4c55f77e44db15434c81851c9a8a306c4a528662b3",
+      "body_hash": "4b064543ea6e79495d91cd41e9741eef561fd4876e1b315045b5df3b7e07fcef",
+      "grounding_hash": "ceb2001cb1214b5e4d4040730a073e7f8ac29d33188dbd02c07d9d6da0946119",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:claim:gitman-etr-ord-fujimoto-contrast": {
+      "spec_hash": "c5d45830c1ca53420d4f057a814d98c88d937c1626e3a473b3a5e4fdcf65e7e8",
+      "body_hash": "5e499090ad18d92846d737624b6db264edca24aee4ec82831b0af036bc061b59",
+      "grounding_hash": "95d0f61cdf85c689f0e762ff717c03dd3c4e8d34387417cd452a789c1464922c",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:claim:kelley-morse-freyd-kan-barrier": {
+      "spec_hash": "7bc4d67805db42b59d0a1a45e58bd9e7eed708380fc2e7be8cb1fc3b940b7e7c",
+      "body_hash": "0a9d49adb4f65456347ec43fe384848564092f2cf200cf3a36ab98bb28ad772a",
+      "grounding_hash": "4dfcab61748544a994097b9a0dfa36eacfeccd4ab27e167838a16518c162989f",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:def:gb0-model-category": {
+      "spec_hash": "865bbb4013d18cb87ccc3a4601ba6a010a677f45b67fe450e8dfedb023bbe9b8",
+      "body_hash": "d26462b11cc241d238ac250ba9b4943819f931dfdd91dc0659e5e3c82a376716",
+      "grounding_hash": "9ab3a3548c5533ceb44909325ecff064aa451ecde4ca1597dcba2d1697174d8c",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:prop:los-unbundling-independence": {
+      "spec_hash": "76e42f76458dfc406a5dc866fd88e9cdafa08510ae66a62419566b6a11229fc5",
+      "body_hash": "c9f7808b40d986ff83b16115eb1ec3d88738053dc678d8d1021f16cdb1aa51f7",
+      "grounding_hash": "2b5cfb3d34f87ab629a835867e21732d989b4ec4a6242e27f12aa09656e26fd2",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:prop:syntactic-conservative-pullback": {
+      "spec_hash": "d6d4d5347f5d2065b2cc170037e786422da3ec39b9b561576e33c6f991fc69ad",
+      "body_hash": "b0240b2d963747e0d6c2635e684ff243f7a45326aeaed3254244d661ef67ba19",
+      "grounding_hash": "68a3c3d90640c68660937f3b168ca1e481e2668cc53d4e3db1a676cbb39b04ce",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:prose:part1-ch02-roadmap": {
+      "spec_hash": "14a253b93ebabaf49dc36fa4376fd6854ec4cfc11d78326d3077ca4dfeefaf2e",
+      "body_hash": "1f932db3f8a63fd8cb0c23c2034e154cd1a3cb4737cbf46a72d70ffd9254155d",
+      "grounding_hash": "ed77bf87af491a831396028ea11806c1d0d448a5186e5f2cec4b439c5a2e9e99",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:tab:vertical-class-spectrum": {
+      "spec_hash": "7e799cb74763b9614cfda413bd7562f3305ea7e4d6b3d65e1c8a6dcdddd7f8dd",
+      "body_hash": "47f3e2d3dec911e8e4ca1692c72bfd49a99a0e019a0ea9c30cd02fc4441b9cfc",
+      "grounding_hash": "7e34e23d801ade70696a707928ac6db3772d65e432ffe2f7aabd00f75d9764ed",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:thm:def-left-adjoint-coreflection": {
+      "spec_hash": "57ef42522900fc9bce187a5f63f183d9df817281f98e9931bdff9a72a7edc833",
+      "body_hash": "8fec717983c48f7caee76d2c922f2d2670b9e820f7c7114754f1a8e4fd070afd",
+      "grounding_hash": "45810136c96a0752bb2102b4efb80c2dd631de175ee0208a12477e9d8e9d5ce1",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:thm:three-way-pullback-failure": {
+      "spec_hash": "afa92d116adde8db848a81dc4323e11d0fceb9afe6e26078e3530d2bac97ac2e",
+      "body_hash": "1f2d94c4deaa987b4244e6dc39af2839b017cbf0271767d43924f231d9d6b50d",
+      "grounding_hash": "c7d637c725fb8050e0d3499a5f6652d5ff9386c35622fe0cba6d7a83eb996855",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "ch02:thm:williams-fixed-set-kaleidoscope": {
+      "spec_hash": "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa",
+      "body_hash": "15c8c90873f825dd30baa06a0c012d548804e959043216e66dfdd9313f3d79ea",
+      "grounding_hash": "edc1db47779d2637cafb60735809b941b7d4abd48ffaf2af7cddbe7e1776f87d",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "sym:class-set": {
+      "spec_hash": "aded454773f3ae890522fcdd1eced0d18558d02fc5c121f3fd45c73000fd22f8",
+      "body_hash": "0f89092cf5812989d993dbf1c86fb714dc6f218500ba7ccadf0fe386c3f48247",
+      "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
+      "stratum": "none",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "sym:giraud-morita": {
@@ -290,7 +410,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "sym:probe-suite": {
@@ -300,7 +420,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "sym:trident-flows": {
@@ -310,7 +430,7 @@
       "stratum": "none",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "vol1:def:comparison-triple": {
@@ -320,7 +440,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "vol1:def:doctrinal-philosophy": {
@@ -330,7 +450,7 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     },
     "vol1:def:residuum": {
@@ -340,7 +460,27 @@
       "stratum": "emerald",
       "actual_axioms": [],
       "cert_sha256": null,
-      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "vol1:def:set-projection-fibration": {
+      "spec_hash": "4b661ec146eb241ffdebf6b68628ca37ee0db7278c8be0d5f9126e5c19182757",
+      "body_hash": "634861b976bdee4e151cadf93c5f47b6b146b908f85d868b3fef669e67b3ea80",
+      "grounding_hash": "b30f0fd650a4715ec4567618ac6c8b1d263b9f9d3b79702c8027081472761c82",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
+      "passed": true
+    },
+    "vol1:prop:los-smuggles-gc": {
+      "spec_hash": "b8ddc6f4859abd3cabadecbb8bc53a7baf6801a687b45880e8dc5855132d5402",
+      "body_hash": "7430677799f30afaf669b8da3afdb1107989f23954916b55edc61a65065d30c4",
+      "grounding_hash": "6d7d372436a26aa40f313f18a2e258f3947ed6799fe3791c7aa198566e8a7f80",
+      "stratum": "emerald",
+      "actual_axioms": [],
+      "cert_sha256": null,
+      "verified_at_utc": "2026-11-26T20:36:13.259555+00:00",
       "passed": true
     }
   }

@@ -1,0 +1,46 @@
+id = "vol1:def:set-projection-fibration"
+kind = "vol1_external"
+title = "Class-Set Model Spaces and Baseline Adjunction Def -| pi_Set (Volume I)"
+chapter = "ch02"
+section = "2.1"
+seq_order = 201
+axis = "class_set"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["godel1940", "joyal_moerdijk1995"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:18"
+vol1_label = "def:set-projection-fibration"
+vol1_lean_symbol = "HomotopyCRM.SetsResiduum.defSetProjAdjunction, HomotopyCRM.SetsResiduum.naive_pullback_breaks_subclass_separation"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Replacement-free Bernays-Godel class theory GB_0 over Zermelo set theory Z closes classes under Godel's eight operations G1-G8 and Subclass Separation (C subset A in S implies C in S). The forgetful projection pi_Set : Mod(GB_0) ->> Mod(Z) is surjective on objects with vertical fiber pi_Set^{-1}(M) of fixed-set class expansions; naive pullback f^*D = {f^{-1}[D] | D in D} breaks Subclass Separation and G4 domain projection, whereas minimal parameter-definable expansion Def : Mod(Z) -> Mod(GB_0) is left adjoint (Def -| pi_Set) as a full coreflective subcategory embedding.
+"""
+
+[body]
+tex = """
+\\begin{definition}[Volume~I Grounding Contract: Class--Set Model Spaces and $\\mathrm{Def} \\dashv \\pi_{\\mathrm{Set}}$]\\label{vol1:def:set-projection-fibration}%
+Pinned read-only to Volume~I (\\texttt{def:set-projection-fibration}, \\texttt{docs/ch07\\_sets\\_residuum.tex:18}, Lean witnesses \\texttt{HomotopyCRM.SetsResiduum.defSetProjAdjunction} and \\texttt{naive\\_pullback\\_breaks\\_subclass\\_separation}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{godel1940,joyal_moerdijk1995}. Let $\\mathsf{GB}_0$ denote Replacement-free Bernays--G\\\"odel class theory over Zermelo set theory $\\mathsf{Z}$ closed under G\\\"odel operations \\textbf{G1--G8} and Subclass Separation ($C \\subseteq A \\in \\mathcal{S} \\implies C \\in \\mathcal{S}$), with $\\mathsf{GB} := \\mathsf{GB}_0 + \\mathrm{Rep}$, $\\mathsf{GBC} := \\mathsf{GB} + \\mathrm{AC}$, and $\\mathsf{NBG} := \\mathsf{GBC} + \\mathrm{GC}$. The forgetful functor $\\pi_{\\mathrm{Set}} : \\mathbf{Mod}(\\mathsf{GB}_0) \\twoheadrightarrow \\mathbf{Mod}(\\mathsf{Z})$ fails to be a Grothendieck fibration under naive trace pullback $f^*\\mathcal{D} := \\{f^{-1}[D] \\mid D \\in \\mathcal{D}\\}$, whereas minimal parameter-definable expansion furnishes a full coreflective embedding $\\mathrm{Def} \\dashv \\pi_{\\mathrm{Set}}$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:set-projection-fibration"
+locator = "docs/ch07_sets_residuum.tex:18"
+purpose = "Pinned read-only Volume I contract for GB_0, naive pullback failure, and baseline adjunction Def -| pi_Set"

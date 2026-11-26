@@ -1,0 +1,428 @@
+id = "ch02:thm:three-way-pullback-failure"
+kind = "theorem"
+title = "Three-Way Failure of Naive Model-Space Pullback Along pi_Set"
+chapter = "ch02"
+section = "2.1"
+seq_order = 220
+axis = "class_set"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["godel1940"]
+
+[spec]
+statement = "Over Mod(GB_0), naive trace pullback f^*D := {f^{-1}[D] | D in D} along an in- and pair-preserving embedding f : M_fin -> M_full fails simultaneously along three independent obstructions, blocking Cartesian lifts for pi_Set: (1) Subclass Separation Leak: evenNat in Def(M_full) pulls back onto a bounded subset of omega in M_fin with no representing set in M_fin; (2) Godel G4 Domain-Projection Failure: for D = {(f(x_0), y_0)} with external witness y_0 not in range(f), dom^{M_fin}(f^{-1}[D]) = empty != {x_0} = f^{-1}[dom^{M_full}(D)]; (3) Preimage Collapse: distinct classes empty != {y_0} in D satisfy f^{-1}[empty] = empty = f^{-1}[{y_0}], blocking unique Cartesian mediating lifts."
+hypotheses = [
+  "finTailModel : GB0Model (finitely supported tail-constant subsets of Nat plus inductive pairs)",
+  "fullNatModel : GB0Model (all subsets of Nat via TailSet + Set Nat plus inductive pairs)",
+  "finToFull : FinTailCarrier -> FullNatCarrier injective, mem-preserving, and pair-preserving"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ClassSetAdjunction"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.TailSet",
+  "HomotopyCRM.Vol2.TailSet.mem",
+  "HomotopyCRM.Vol2.FinTailCarrier",
+  "HomotopyCRM.Vol2.finTailBase",
+  "HomotopyCRM.Vol2.HasFinSupport",
+  "HomotopyCRM.Vol2.finTailModel",
+  "HomotopyCRM.Vol2.FullNatCarrier",
+  "HomotopyCRM.Vol2.fullNatBase",
+  "HomotopyCRM.Vol2.fullNatModel",
+  "HomotopyCRM.Vol2.finToFull",
+  "HomotopyCRM.Vol2.finToFull_injective",
+  "HomotopyCRM.Vol2.finToFull_mem_iff",
+  "HomotopyCRM.Vol2.finToFull_pair_map",
+  "HomotopyCRM.Vol2.preimageClass",
+  "HomotopyCRM.Vol2.naiveTracePullback",
+  "HomotopyCRM.Vol2.evenNat",
+  "HomotopyCRM.Vol2.evenFullClass",
+  "HomotopyCRM.Vol2.omegaFinSet",
+  "HomotopyCRM.Vol2.externalWitness",
+  "HomotopyCRM.Vol2.g4PairClass",
+  "HomotopyCRM.Vol2.emptyFullClass",
+  "HomotopyCRM.Vol2.extWitnessClass",
+  "HomotopyCRM.Vol2.pullback_breaks_subclass_sep",
+  "HomotopyCRM.Vol2.pullback_breaks_g4_dom",
+  "HomotopyCRM.Vol2.pullback_collapses_distinct_classes",
+  "HomotopyCRM.Vol2.three_way_pullback_failure"
+]
+expected_axioms = []
+lean_signature = """
+private def listLookupProp (n : Nat) (d : Prop) : List (Nat × Prop) → Prop
+  | [] => d | (k, P) :: tl => if n = k then P else listLookupProp n d tl
+
+/-- Propositional finite-support subset of `ℕ` (tail-constant above finite override list). -/
+structure TailSet : Type where
+  /-- Default tail proposition and finite list of pointwise overrides. -/
+  tailProp : Prop
+  overrides : List (Nat × Prop)
+
+/-- Membership `n ∈ S` for a `TailSet`. -/
+@[reducible] def TailSet.mem (n : Nat) (S : TailSet) : Prop :=
+  listLookupProp n S.tailProp S.overrides
+
+private def swapNat (i j k : Nat) : Nat := if k = i then j else if k = j then i else k
+private theorem swapNat_invol (i j k : Nat) : swapNat i j (swapNat i j k) = k := by
+  dsimp only [swapNat]; by_cases h1 : k = i
+  · rw [if_pos h1]; by_cases h2 : j = i
+    · rw [if_pos h2, h1, h2]
+    · rw [if_neg h2, if_pos rfl, h1]
+  · rw [if_neg h1]; by_cases h2 : k = j
+    · rw [if_pos h2, if_pos rfl, h2]
+    · rw [if_neg h2, if_neg h1, if_neg h2]
+private theorem swapNat_inj (i j : Nat) {a b : Nat} (h : swapNat i j a = swapNat i j b) :
+    a = b := by
+  have h2 := congrArg (swapNat i j) h; rwa [swapNat_invol, swapNat_invol] at h2
+private def swapList (i j : Nat) : List (Nat × Prop) → List (Nat × Prop) :=
+  List.map (fun p ↦ (swapNat i j p.1, p.2))
+private theorem listLookup_swap (i j n : Nat) (d : Prop) (L : List (Nat × Prop)) :
+    listLookupProp (swapNat i j n) d (swapList i j L) ↔ listLookupProp n d L := by
+  induction L with
+  | nil => exact Iff.rfl
+  | cons p tl ih =>
+    rcases p with ⟨k, P⟩; dsimp only [swapList, List.map, listLookupProp]
+    by_cases hnk : n = k
+    · subst hnk; rw [if_pos rfl, if_pos rfl]
+    · rw [if_neg (fun heq ↦ hnk (swapNat_inj i j heq)), if_neg hnk]; exact ih
+private def listBound : List (Nat × Prop) → Nat
+  | [] => 0 | (k, _) :: tl => (k + 1) + listBound tl
+private theorem swapList_fix {i j : Nat} (L : List (Nat × Prop))
+    (hi : listBound L ≤ i) (hj : listBound L ≤ j) : swapList i j L = L := by
+  induction L with
+  | nil => rfl
+  | cons p tl ih =>
+    rcases p with ⟨k, P⟩; dsimp only [listBound] at hi hj
+    have hki : k ≠ i := Nat.ne_of_lt
+      (Nat.lt_of_lt_of_le (Nat.lt_succ_self k) (Nat.le_trans (Nat.le_add_right _ _) hi))
+    have hkj : k ≠ j := Nat.ne_of_lt
+      (Nat.lt_of_lt_of_le (Nat.lt_succ_self k) (Nat.le_trans (Nat.le_add_right _ _) hj))
+    have hs : swapNat i j k = k := by dsimp only [swapNat]; rw [if_neg hki, if_neg hkj]
+    change (swapNat i j k, P) :: swapList i j tl = (k, P) :: tl
+    rw [hs, ih (Nat.le_trans (Nat.le_add_left _ _) hi) (Nat.le_trans (Nat.le_add_left _ _) hj)]
+private theorem tailSet_mem_tail (S : TailSet) {n : Nat} (hn : listBound S.overrides ≤ n) :
+    TailSet.mem n S ↔ S.tailProp := by
+  rcases S with ⟨d, L⟩; change listLookupProp n d L ↔ d
+  induction L with
+  | nil => exact Iff.rfl
+  | cons p tl ih =>
+    rcases p with ⟨k, _⟩; dsimp only [listBound] at hn
+    have hnk : n ≠ k := Nat.ne_of_gt
+      (Nat.lt_of_lt_of_le (Nat.lt_succ_self k) (Nat.le_trans (Nat.le_add_right _ _) hn))
+    dsimp only [listLookupProp]; rw [if_neg hnk]; exact ih (Nat.le_trans (Nat.le_add_left _ _) hn)
+private def buildOverrides (f : Nat → Prop) : Nat → List (Nat × Prop)
+  | 0 => [] | N + 1 => (N, f N) :: buildOverrides f N
+private theorem listLookup_build (f : Nat → Prop) (d : Prop) :
+    ∀ (N n : Nat), n < N → (listLookupProp n d (buildOverrides f N) ↔ f n)
+  | 0, _, h => False.elim (Nat.not_lt_zero _ h)
+  | N + 1, n, h => by
+    dsimp only [buildOverrides, listLookupProp]; by_cases hn : n = N
+    · subst hn; rw [if_pos rfl]
+    · rw [if_neg hn]; exact listLookup_build f d N n (Nat.lt_of_le_of_ne (Nat.le_of_lt_succ h) hn)
+private theorem listLookup_build_ge (f : Nat → Prop) (d : Prop) :
+    ∀ (N n : Nat), N ≤ n → (listLookupProp n d (buildOverrides f N) ↔ d)
+  | 0, _, _ => Iff.rfl
+  | m + 1, n, h => by
+    dsimp only [buildOverrides, listLookupProp]
+    rw [if_neg (Nat.ne_of_gt h)]; exact listLookup_build_ge f d m n (Nat.le_of_succ_le h)
+
+/-- Carrier for the finitely supported `ℕ` set model `M_fin`. -/
+inductive FinTailCarrier : Type
+  | atom : Nat → FinTailCarrier | set : TailSet → FinTailCarrier
+  | pair : FinTailCarrier → FinTailCarrier → FinTailCarrier
+/-- Set base `M_fin` with `atom`, finitely-supported `TailSet`, and inductive `pair`. -/
+@[reducible] def finTailBase : SetBase where
+  Carrier := FinTailCarrier; pair := FinTailCarrier.pair
+  mem x y := match x, y with
+    | .atom n, .set S => TailSet.mem n S
+    | .atom _, .atom _ => False | .atom _, .pair _ _ => False
+    | .set _, .atom _ => False | .set _, .set _ => False | .set _, .pair _ _ => False
+    | .pair _ _, .atom _ => False | .pair _ _, .set _ => False | .pair _ _, .pair _ _ => False
+  pair_inj h := by injection h with h1 h2; exact ⟨h1, h2⟩
+
+private def actCarrier (i j : Nat) : FinTailCarrier → FinTailCarrier
+  | .atom n => .atom (swapNat i j n)
+  | .set S => .set ⟨S.tailProp, swapList i j S.overrides⟩
+  | .pair x y => .pair (actCarrier i j x) (actCarrier i j y)
+private theorem actCarrier_invol (i j : Nat) :
+    ∀ x : FinTailCarrier, actCarrier i j (actCarrier i j x) = x
+  | .atom n => congrArg FinTailCarrier.atom (swapNat_invol i j n)
+  | .set S => by
+    rcases S with ⟨d, L⟩; dsimp only [actCarrier]; congr 1; congr 1
+    induction L with
+    | nil => rfl
+    | cons p tl ih =>
+      rcases p with ⟨k, P⟩
+      change (swapNat i j (swapNat i j k), P) :: swapList i j (swapList i j tl) = (k, P) :: tl
+      rw [swapNat_invol, ih]
+  | .pair x y => by
+    dsimp only [actCarrier]; rw [actCarrier_invol i j x, actCarrier_invol i j y]
+private theorem actCarrier_mem_iff (i j : Nat) (x y : FinTailCarrier) :
+    finTailBase.mem (actCarrier i j x) (actCarrier i j y) ↔ finTailBase.mem x y := by
+  cases x <;> cases y <;> first | exact Iff.rfl | exact listLookup_swap i j _ _ _
+private def carrierBound : FinTailCarrier → Nat
+  | .atom n => n + 1 | .set S => listBound S.overrides
+  | .pair x y => carrierBound x + carrierBound y
+private theorem actCarrier_fix {i j : Nat} : ∀ x : FinTailCarrier,
+    carrierBound x ≤ i → carrierBound x ≤ j → actCarrier i j x = x
+  | .atom n, hi, hj => by
+    dsimp only [carrierBound] at hi hj; change FinTailCarrier.atom (swapNat i j n) = .atom n
+    dsimp only [swapNat]; rw [if_neg (Nat.ne_of_lt hi), if_neg (Nat.ne_of_lt hj)]
+  | .set S, hi, hj => by
+    change FinTailCarrier.set ⟨S.tailProp, swapList i j S.overrides⟩ = .set S
+    rw [swapList_fix S.overrides hi hj]
+  | .pair x y, hi, hj => by
+    dsimp only [carrierBound] at hi hj; dsimp only [actCarrier]
+    have hx := actCarrier_fix x
+      (Nat.le_trans (Nat.le_add_right _ _) hi) (Nat.le_trans (Nat.le_add_right _ _) hj)
+    have hy := actCarrier_fix y
+      (Nat.le_trans (Nat.le_add_left _ _) hi) (Nat.le_trans (Nat.le_add_left _ _) hj)
+    rw [hx, hy]
+
+/-- Finite support invariance under all atom permutations fixing an initial segment `[0, N)`. -/
+def HasFinSupport (C : Set FinTailCarrier) : Prop :=
+  ∃ N : Nat, ∀ i j, N ≤ i → N ≤ j → ∀ x, C (actCarrier i j x) ↔ C x
+
+/-- Concrete `GB0Model` over `finTailBase` whose classes are finitely supported predicates. -/
+@[reducible] def finTailModel : GB0Model where
+  base := finTailBase; IsClass := HasFinSupport
+  ext_mem h hN := let ⟨N, hN⟩ := hN
+    ⟨N, fun i j hi hj x ↦ (h _).symm.trans ((hN i j hi hj x).trans (h _))⟩
+  singleton_mem p := ⟨carrierBound p, fun i j hi hj x ↦ by
+    have hp := actCarrier_fix p hi hj
+    exact ⟨fun h ↦ by rw [← actCarrier_invol i j x, h, hp], fun h ↦ by rw [h, hp]⟩⟩
+  set_mem p := ⟨carrierBound p, fun i j hi hj x ↦ by
+    have hm := actCarrier_mem_iff i j x p; rw [actCarrier_fix p hi hj] at hm; exact hm⟩
+  g1_memRel := ⟨0, fun i j _ _ z ↦
+    ⟨fun ⟨x, y, hz, h⟩ ↦ ⟨actCarrier i j x, actCarrier i j y,
+      by rw [← actCarrier_invol i j z, hz]; rfl, (actCarrier_mem_iff i j x y).mpr h⟩,
+     fun ⟨x, y, hz, h⟩ ↦ ⟨actCarrier i j x, actCarrier i j y,
+       by rw [hz]; rfl, (actCarrier_mem_iff i j x y).mpr h⟩⟩⟩
+  g2_inter h₁ h₂ := let ⟨N₁, h₁⟩ := h₁; let ⟨N₂, h₂⟩ := h₂; ⟨N₁ + N₂, fun i j hi hj x ↦
+    and_congr (h₁ i j (Nat.le_trans (Nat.le_add_right _ _) hi)
+        (Nat.le_trans (Nat.le_add_right _ _) hj) x)
+      (h₂ i j (Nat.le_trans (Nat.le_add_left _ _) hi)
+        (Nat.le_trans (Nat.le_add_left _ _) hj) x)⟩
+  g3_compl hN := let ⟨N, hN⟩ := hN; ⟨N, fun i j hi hj x ↦ not_congr (hN i j hi hj x)⟩
+  g4_dom hN := let ⟨N, hN⟩ := hN; ⟨N, fun i j hi hj x ↦
+    ⟨fun ⟨y, hy⟩ ↦ ⟨actCarrier i j y,
+       (hN i j hi hj (.pair x (actCarrier i j y))).mp
+         (by dsimp only [actCarrier]; rw [actCarrier_invol]; exact hy)⟩,
+     fun ⟨y, hy⟩ ↦ ⟨actCarrier i j y, (hN i j hi hj (.pair x y)).mpr hy⟩⟩⟩
+  g5_prodV hN := let ⟨N, hN⟩ := hN; ⟨N, fun i j hi hj z ↦
+    ⟨fun ⟨x, y, hz, hx⟩ ↦ ⟨actCarrier i j x, actCarrier i j y,
+      by rw [← actCarrier_invol i j z, hz]; rfl, (hN i j hi hj x).mpr hx⟩,
+     fun ⟨x, y, hz, hx⟩ ↦ ⟨actCarrier i j x, actCarrier i j y,
+       by rw [hz]; rfl, (hN i j hi hj x).mpr hx⟩⟩⟩
+  g6_converse hN := let ⟨N, hN⟩ := hN; ⟨N, fun i j hi hj z ↦
+    ⟨fun ⟨x, y, hz, h⟩ ↦ ⟨actCarrier i j x, actCarrier i j y,
+      by rw [← actCarrier_invol i j z, hz]; rfl, (hN i j hi hj (.pair y x)).mpr h⟩,
+     fun ⟨x, y, hz, h⟩ ↦ ⟨actCarrier i j x, actCarrier i j y,
+       by rw [hz]; rfl, (hN i j hi hj (.pair y x)).mpr h⟩⟩⟩
+  g7_cycleRight hN := let ⟨N, hN⟩ := hN; ⟨N, fun i j hi hj w ↦
+    ⟨fun ⟨x, y, z, hw, hc⟩ ↦ ⟨actCarrier i j x, actCarrier i j y, actCarrier i j z,
+      by rw [← actCarrier_invol i j w, hw]; rfl, (hN i j hi hj (.pair y (.pair z x))).mpr hc⟩,
+     fun ⟨x, y, z, hw, hc⟩ ↦ ⟨actCarrier i j x, actCarrier i j y, actCarrier i j z,
+       by rw [hw]; rfl, (hN i j hi hj (.pair y (.pair z x))).mpr hc⟩⟩⟩
+  g8_swapInner hN := let ⟨N, hN⟩ := hN; ⟨N, fun i j hi hj w ↦
+    ⟨fun ⟨x, y, z, hw, hc⟩ ↦ ⟨actCarrier i j x, actCarrier i j y, actCarrier i j z,
+      by rw [← actCarrier_invol i j w, hw]; rfl, (hN i j hi hj (.pair x (.pair z y))).mpr hc⟩,
+     fun ⟨x, y, z, hw, hc⟩ ↦ ⟨actCarrier i j x, actCarrier i j y, actCarrier i j z,
+       by rw [hw]; rfl, (hN i j hi hj (.pair x (.pair z y))).mpr hc⟩⟩⟩
+  subclass_sep C hN hB := by
+    rcases hN with ⟨N, hN⟩; rcases hB with ⟨a, ha⟩
+    refine ⟨.set ⟨C (.atom N), buildOverrides (fun k ↦ C (.atom k)) N⟩, fun x ↦ ?_⟩
+    cases x with
+    | atom n =>
+      by_cases hn : n < N
+      · exact listLookup_build (fun k ↦ C (.atom k)) (C (.atom N)) N n hn
+      · have hNle : N ≤ n := Nat.le_of_not_lt hn
+        have hTail : TailSet.mem n ⟨C (.atom N), buildOverrides (fun k ↦ C (.atom k)) N⟩ ↔
+            C (.atom N) :=
+          listLookup_build_ge (fun k ↦ C (.atom k)) (C (.atom N)) N n hNle
+        have hSwap := hN N n (Nat.le_refl N) hNle (.atom N)
+        have hEq : actCarrier N n (.atom N) = .atom n := by
+          change FinTailCarrier.atom (swapNat N n N) = .atom n
+          dsimp only [swapNat]; rw [if_pos rfl]
+        rw [hEq] at hSwap; exact hTail.trans hSwap.symm
+    | set _ | pair _ _ =>
+      exact ⟨fun h ↦ False.elim h, fun h ↦ by have hm := ha _ h; cases a <;> cases hm⟩
+
+/-- Carrier for `M_full`, adjoining arbitrary `Set Nat` subsets alongside `TailSet`. -/
+inductive FullNatCarrier : Type
+  | atom : Nat → FullNatCarrier | set : (TailSet ⊕ Set Nat) → FullNatCarrier
+  | pair : FullNatCarrier → FullNatCarrier → FullNatCarrier
+/-- Set base `M_full` containing every subset of `ℕ`. -/
+@[reducible] def fullNatBase : SetBase where
+  Carrier := FullNatCarrier; pair := FullNatCarrier.pair
+  mem x y := match x, y with
+    | .atom n, .set (.inl S) => TailSet.mem n S | .atom n, .set (.inr A) => A n
+    | .atom _, .atom _ => False | .atom _, .pair _ _ => False
+    | .set _, .atom _ => False | .set _, .set _ => False | .set _, .pair _ _ => False
+    | .pair _ _, .atom _ => False | .pair _ _, .set _ => False | .pair _ _, .pair _ _ => False
+  pair_inj h := by injection h with h1 h2; exact ⟨h1, h2⟩
+/-- Full second-order `GB0Model` over `fullNatBase`. -/
+@[reducible] def fullNatModel : GB0Model where
+  base := fullNatBase; IsClass _ := True
+  ext_mem _ _ := trivial; singleton_mem _ := trivial; set_mem _ := trivial
+  g1_memRel := trivial; g2_inter _ _ := trivial; g3_compl _ := trivial
+  g4_dom _ := trivial; g5_prodV _ := trivial; g6_converse _ := trivial
+  g7_cycleRight _ := trivial; g8_swapInner _ := trivial
+  subclass_sep C _ hB := by
+    rcases hB with ⟨a, ha⟩; refine ⟨.set (.inr fun n ↦ C (.atom n)), fun x ↦ ?_⟩
+    cases x with
+    | atom _ => exact Iff.rfl
+    | set _ | pair _ _ =>
+      exact ⟨fun h ↦ False.elim h, fun h ↦ by have hm := ha _ h; cases a <;> cases hm⟩
+
+/-- Canonical embedding `f : M_fin ↪ M_full`. -/
+def finToFull : FinTailCarrier → FullNatCarrier
+  | .atom n => .atom n | .set S => .set (.inl S)
+  | .pair x y => .pair (finToFull x) (finToFull y)
+/-- Injectivity of `finToFull` (axiom-free). -/
+theorem finToFull_injective : Function.Injective finToFull := by
+  intro x y h; induction x generalizing y with
+  | atom m => cases y with | atom n => injection h with e; subst e; rfl | _ => cases h
+  | set S => cases y with | set T => injection h with e; cases e; rfl | _ => cases h
+  | pair _ _ ih₁ ih₂ => cases y with
+    | pair _ _ => injection h with h1 h2; rw [ih₁ h1, ih₂ h2]
+    | _ => cases h
+/-- Membership preservation and reflection along `finToFull`. -/
+theorem finToFull_mem_iff (x y : FinTailCarrier) :
+    finTailBase.mem x y ↔ fullNatBase.mem (finToFull x) (finToFull y) := by
+  cases x <;> cases y <;> exact Iff.rfl
+/-- Pair preservation along `finToFull`. -/
+theorem finToFull_pair_map (x y : FinTailCarrier) :
+    finToFull (finTailBase.pair x y) = fullNatBase.pair (finToFull x) (finToFull y) := rfl
+/-- Pointwise trace preimage `f⁻¹[D]`. -/
+def preimageClass {A B : Type} (f : A → B) (D : Set B) : Set A := fun x ↦ D (f x)
+/-- Naive trace pullback collection `f^*𝒟 = {C | ∃ D ∈ 𝒟, C ≡ f⁻¹[D]}`. -/
+def naiveTracePullback {A B : Type} (f : A → B) (IsD : Set B → Prop) (C : Set A) : Prop :=
+  ∃ D : Set B, IsD D ∧ ∀ x, C x ↔ D (f x)
+/-- Even natural numbers `{n ∈ ℕ | ∃ k, n = 2 * k}`. -/
+def evenNat : Set Nat := fun n ↦ ∃ k : Nat, n = 2 * k
+/-- Definable class of even naturals inside `Def(M_full)`. -/
+def evenFullClass : Set FullNatCarrier := evalGodelExpr fullNatBase (.setElts (.set (.inr evenNat)))
+/-- The infinite set `ω` inside `M_fin`. -/
+def omegaFinSet : FinTailCarrier := .set ⟨True, []⟩
+/-- External set witness `y₀ = evenNat ∈ M_full \\ range(finToFull)`. -/
+def externalWitness : FullNatCarrier := .set (.inr evenNat)
+/-- Concrete G4 counterexample class `D = {(f(x₀), y₀)} ∈ Def(M_full)`. -/
+def g4PairClass : Set FullNatCarrier :=
+  evalGodelExpr fullNatBase (.singleton (fullNatBase.pair (finToFull (.atom 0)) externalWitness))
+/-- Empty definable class `D₁ = ∅ ∈ Def(M_full)`. -/
+def emptyFullClass : Set FullNatCarrier :=
+  evalGodelExpr fullNatBase (.setElts (.set (.inr fun _ ↦ False)))
+/-- Singleton definable class `D₂ = {y₀} ∈ Def(M_full)`. -/
+def extWitnessClass : Set FullNatCarrier := evalGodelExpr fullNatBase (.singleton externalWitness)
+
+private theorem nat_two_mul_le (N : Nat) : N ≤ 2 * N := by
+  induction N with
+  | zero => exact Nat.le_refl 0
+  | succ k ih => exact Nat.le_trans (Nat.succ_le_succ ih) (Nat.le_succ _)
+private theorem two_mul_succ_ne_two_mul : ∀ a b : Nat, 2 * a + 1 ≠ 2 * b
+  | 0, 0, h => Nat.noConfusion h
+  | 0, b + 1, h => by change 1 = 2 * b + 2 at h; exact Nat.noConfusion (Nat.succ.inj h)
+  | _ + 1, 0, h => Nat.noConfusion h
+  | a + 1, b + 1, h => by
+    change 2 * a + 3 = 2 * b + 2 at h
+    exact two_mul_succ_ne_two_mul a b (Nat.succ.inj (Nat.succ.inj h))
+
+/-- Obstruction (1): `f⁻¹[evenFullClass]` is bounded by `ω` yet has no set in `M_fin`. -/
+theorem pullback_breaks_subclass_sep :
+    fullNatModel.IsClass evenFullClass ∧
+    (∀ x, preimageClass finToFull evenFullClass x → finTailBase.mem x omegaFinSet) ∧
+    (¬ ∃ b : FinTailCarrier,
+      ∀ x, finTailBase.mem x b ↔ preimageClass finToFull evenFullClass x) ∧
+    ¬ SatisfiesSubclassSep finTailBase (naiveTracePullback finToFull fullNatModel.IsClass) := by
+  have hBound : ∀ x, preimageClass finToFull evenFullClass x →
+      finTailBase.mem x omegaFinSet := by
+    intro x hx; cases x with | atom _ => trivial | _ => exact False.elim hx
+  have hNoSet : ¬ ∃ b : FinTailCarrier,
+      ∀ x, finTailBase.mem x b ↔ preimageClass finToFull evenFullClass x := by
+    rintro ⟨b, hb⟩; cases b with
+    | atom _ | pair _ _ => exact (hb (.atom 0)).mpr ⟨0, rfl⟩
+    | set S =>
+      let N := listBound S.overrides
+      have hE : S.tailProp := (tailSet_mem_tail S (nat_two_mul_le N)).mp
+        ((hb (.atom (2 * N))).mpr ⟨N, rfl⟩)
+      have hO : evenNat (2 * N + 1) := (hb (.atom (2 * N + 1))).mp
+        ((tailSet_mem_tail S (Nat.le_succ_of_le (nat_two_mul_le N))).mpr hE)
+      rcases hO with ⟨k, hk⟩; exact two_mul_succ_ne_two_mul N k hk
+  refine ⟨trivial, hBound, hNoSet, fun hSep ↦ hNoSet ?_⟩
+  exact hSep _ ⟨evenFullClass, trivial, fun _ ↦ Iff.rfl⟩ ⟨omegaFinSet, hBound⟩
+
+/-- Obstruction (2): `dom^{M_fin}(f⁻¹[D]) = ∅ ≠ {x₀} = f⁻¹[dom^{M_full}(D)]`. -/
+theorem pullback_breaks_g4_dom :
+    (∀ x, ¬ domClass finTailBase (preimageClass finToFull g4PairClass) x) ∧
+    preimageClass finToFull (domClass fullNatBase g4PairClass) (.atom 0) := by
+  refine ⟨fun x ⟨y, hy⟩ ↦ ?_, ⟨externalWitness, rfl⟩⟩
+  change finToFull (finTailBase.pair x y) =
+    fullNatBase.pair (finToFull (.atom 0)) externalWitness at hy
+  rw [finToFull_pair_map] at hy; cases y <;> cases (fullNatBase.pair_inj hy).2
+
+/-- Obstruction (3): `f⁻¹[D₁] = ∅ = f⁻¹[D₂]` collapses distinct classes `∅ ≠ {y₀}`. -/
+theorem pullback_collapses_distinct_classes :
+    (extWitnessClass externalWitness ∧ ¬ emptyFullClass externalWitness) ∧
+    (∀ x, preimageClass finToFull emptyFullClass x ↔ preimageClass finToFull extWitnessClass x) :=
+  ⟨⟨rfl, fun h ↦ h⟩, fun x ↦ ⟨fun h ↦ False.elim (by cases x <;> exact h), fun h ↦ by
+    change finToFull x = externalWitness at h; cases x <;> cases h⟩⟩
+
+/-- **Three-Way Naive Pullback Failure (Emerald, Axiom-Free):** `finToFull` is an `∈`- and
+    `pair`-preserving injection `M_fin ↪ M_full` witnessing all three Cartesian obstructions. -/
+theorem three_way_pullback_failure :
+    Function.Injective finToFull ∧
+    (∀ x y, finTailBase.mem x y ↔ fullNatBase.mem (finToFull x) (finToFull y)) ∧
+    (∀ x y, finToFull (finTailBase.pair x y) = fullNatBase.pair (finToFull x) (finToFull y)) ∧
+    (¬ SatisfiesSubclassSep finTailBase (naiveTracePullback finToFull fullNatModel.IsClass)) ∧
+    ((∀ x, ¬ domClass finTailBase (preimageClass finToFull g4PairClass) x) ∧
+      preimageClass finToFull (domClass fullNatBase g4PairClass) (.atom 0)) ∧
+    ((extWitnessClass externalWitness ∧ ¬ emptyFullClass externalWitness) ∧
+      (∀ x, preimageClass finToFull emptyFullClass x ↔
+        preimageClass finToFull extWitnessClass x)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.finToFull_injective' does not depend on any axioms -/\n#guard_msgs in\n#print axioms finToFull_injective",
+  "/-- info: 'HomotopyCRM.Vol2.three_way_pullback_failure' does not depend on any axioms -/\n#guard_msgs in\n#print axioms three_way_pullback_failure"
+]
+
+[body]
+lean_body = """
+  exact ⟨finToFull_injective, finToFull_mem_iff, finToFull_pair_map,
+    pullback_breaks_subclass_sep.2.2.2, pullback_breaks_g4_dom,
+    pullback_collapses_distinct_classes⟩
+"""
+tex = """
+\\begin{theorem}[Three-Way Model-Space Failure of Naive Pullback Along {{sym:piset}}]\\label{ch02:thm:three-way-pullback-failure}%
+\\uses{ch02:def:gb0-model-category}%
+Along a proper $\\mathcal{L}_\\in$-elementary or $\\in$- and pair-preserving embedding $f : M_{\\mathrm{fin}} \\hookrightarrow M_{\\mathrm{full}}$ in {{sym:mod-gb0}}, naive trace pullback $f^*\\mathcal{D} := \\{f^{-1}[D] \\subseteq |M_{\\mathrm{fin}}| \\mid D \\in \\mathcal{D}\\}$ fails to yield Cartesian lifts for {{sym:piset}} along three independent obstructions~\\cite{godel1940}:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Subclass Separation Leak:} For $M_{\\mathrm{fin}}$ supporting finite/tail-constant sets over $\\mathbb{N}$ and $M_{\\mathrm{full}}$ adjoining all $A \\subseteq \\mathbb{N}$, the definable class $\\mathrm{even} \\in {{sym:def-functor}}(M_{\\mathrm{full}})$ pulls back onto a bounded subclass $f^{-1}[\\mathrm{even}] \\subseteq \\omega \\in M_{\\mathrm{fin}}$ having no representing set in $M_{\\mathrm{fin}}$.
+  \\item \\textbf{G\\\"odel G4 Domain-Projection Failure:} Taking an external witness $y_0 \\in M_{\\mathrm{full}} \\setminus \\mathrm{range}(f)$ and $D := \\{(f(x_0), y_0)\\} \\in {{sym:def-functor}}(M_{\\mathrm{full}})$, we have $\\mathrm{dom}^{M_{\\mathrm{fin}}}(f^{-1}[D]) = \\emptyset \\neq \\{x_0\\} = f^{-1}[\\mathrm{dom}^{M_{\\mathrm{full}}}(D)]$.
+  \\item \\textbf{Preimage Collapse (Non-Uniqueness):} The distinct classes $D_1 := \\emptyset \\neq \\{y_0\\} =: D_2$ in $\\mathcal{D}$ satisfy $f^{-1}[D_1] = \\emptyset = f^{-1}[D_2]$, blocking unique Cartesian mediating lifts.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+Construct $M_{\\mathrm{fin}}$ with atom carrier $\\mathbb{N}$, tail-constant finite-override sets $S$, and inductive pairs $\\langle x, y \\rangle$, and take $\\mathcal{C}_{\\mathrm{fin}}$ to be all finitely supported predicates invariant under tail atom permutations above a finite bound $N$. Then $(M_{\\mathrm{fin}}, \\mathcal{C}_{\\mathrm{fin}}) \\models {{sym:gb0}}$: closure under G\\\"odel operations \\textbf{G1--G8} follows by transporting witness pairs under tail involutions, while Subclass Separation holds by overriding $[0, N)$ and setting the tail value at $N$. Embedding $M_{\\mathrm{fin}} \\hookrightarrow M_{\\mathrm{full}}$ over $\\mathbb{N}$ leaves $y_0 := \\mathrm{even}$ outside $\\mathrm{range}(f)$ and non-tail-constant above every finite override bound, giving~(1); evaluating $f^{-1}[D]$ at $y_0 \\notin \\mathrm{range}(f)$ yields~(2) and~(3).
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration", "ch02:def:gb0-model-category"]
+lean_dep = ["ch02:def:gb0-model-category"]
+curriculum = ["ch02:def:gb0-model-category"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Counterexample / Disproof", "Topological Separation"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.three_way_pullback_failure"
+purpose = "Axiom-free Emerald Lean 4 proof of all three naive pullback obstructions over finTailModel -> fullNatModel"

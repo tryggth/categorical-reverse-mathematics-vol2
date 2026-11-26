@@ -29,6 +29,22 @@ STRATUM_STYLES = {
     "crimson": ("CRMCrimson", "Crimson (Classical.choice)"),
 }
 
+CHAPTER_HEADERS = {
+    "ch01": [
+        r"\part*{Overture}",
+        r"\addcontentsline{toc}{part}{Overture}",
+        r"\chapter{Epistemic Probe Calibration and the Meta-CRM Residuum Calculus}\label{ch:probe-calibration}",
+        r"\chapterepigraph{Measure what is measurable, and make measurable what is not so.}{Attributed to Galileo Galilei}",
+        "",
+    ],
+    "ch02": [
+        r"\part{The Class--Set Adjunction and Base-Change Transgression}\label{part:class-set-adjunction}",
+        r"\chapter{Minimal Definability, Fixed-Set Kaleidoscopes, and \texorpdfstring{$\mathrm{Def} \dashv \pi_{\mathrm{Set}}$}{Def -| pi\_Set}}\label{ch:class-set-adjunction}",
+        r"\chapterepigraph{The inequalities in the world are like the combinations in a kaleidoscope; at every turn a fresh picture strikes the eye; and yet, in reality, you see only the same bits of glass as you saw before.}{Arthur Schopenhauer, \emph{Counsels and Maxims}, \S 47}",
+        "",
+    ],
+}
+
 SECTION_TITLES = {
     "1.1": (
         "Doctrinal Foundations, the Obstruction Trident, and Flow F1",
@@ -50,6 +66,22 @@ SECTION_TITLES = {
         "Operational Currencies and Quasi-Isometric Morita Resource Interleaving",
         "sec:currencies-morita",
     ),
+    "2.1": (
+        r"G\"odel Class Algebras and the Three-Way Model-Space Pullback Failure",
+        "sec:gb0-pullback-failure",
+    ),
+    "2.2": (
+        r"Minimal Definability, Coreflective Adjunction \texorpdfstring{$\mathrm{Def} \dashv \pi_{\mathrm{Set}}$}{Def -| pi\_Set}, and Syntactic Pullbacks",
+        "sec:def-left-adjoint-syntactic",
+    ),
+    "2.3": (
+        "Unbundling Limitation of Size and Williams's Fixed-Set Kaleidoscope",
+        "sec:los-williams-kaleidoscope",
+    ),
+    "2.4": (
+        "Transfinite Class Recursion, Kelley--Morse Barriers, and the Vertical Class Spectrum",
+        "sec:vertical-class-spectrum",
+    ),
 }
 
 
@@ -68,23 +100,50 @@ def tex_escape(s: str) -> str:
         "≥": r"$\ge$",
         "≠": r"$\neq$",
         "→": r"$\to$",
+        "↔": r"$\leftrightarrow$",
         "↦": r"$\mapsto$",
         "⇒": r"$\Rightarrow$",
         "⇔": r"$\Leftrightarrow$",
+        "⊣": r"$\dashv$",
+        "↪": r"$\hookrightarrow$",
         "×": r"$\times$",
         "∈": r"$\in$",
         "∉": r"$\notin$",
         "⊆": r"$\subseteq$",
+        "⊈": r"$\not\subseteq$",
         "⊊": r"$\subsetneq$",
+        "⊂": r"$\subset$",
+        "∪": r"$\cup$",
+        "∩": r"$\cap$",
+        "∖": r"$\setminus$",
         "∧": r"$\wedge$",
         "∨": r"$\vee$",
+        "¬": r"$\neg$",
+        "∀": r"$\forall$",
+        "∃": r"$\exists$",
         "∅": r"$\emptyset$",
         "≅": r"$\cong$",
         "≃": r"$\simeq$",
+        "⊢": r"$\vdash$",
+        "⊨": r"$\models$",
+        "⊬": r"$\not\vdash$",
+        "↓": r"$\downarrow$",
+        "∞": r"$\infty$",
+        "π": r"$\pi$",
+        "ω": r"$\omega$",
+        "λ": r"$\lambda$",
+        "α": r"$\alpha$",
+        "Π": r"$\Pi$",
+        "ℕ": r"$\mathbb{N}$",
         "Ω": r"$\Omega$",
         "Σ": r"$\Sigma$",
         "Φ": r"$\Phi$",
         "κ": r"$\kappa$",
+        "₀": r"\textsubscript{0}",
+        "₁": r"\textsubscript{1}",
+        "₂": r"\textsubscript{2}",
+        "⟨": r"$\langle$",
+        "⟩": r"$\rangle$",
         "§": r"\S{}",
         "–": "--",
         "—": "---",
@@ -406,15 +465,18 @@ def emit_monograph(
         r"\mainmatter",
         r"\setcounter{secnumdepth}{2}",
         "",
-        r"\chapter{Epistemic Probe Calibration and the Meta-CRM Residuum Calculus}\label{ch:probe-calibration}",
-        r"\chapterepigraph{Measure what is measurable, and make measurable what is not so.}{Attributed to Galileo Galilei}",
-        "",
     ]
 
     intervals: list[dict[str, Any]] = []
+    current_chapter: str | None = None
     current_section: str | None = None
     for nid in ordered_ids:
         node = nodes_meta[nid]
+        chap = node.get("chapter", "")
+        if chap and chap != current_chapter and chap in CHAPTER_HEADERS:
+            lines.extend(CHAPTER_HEADERS[chap])
+            current_chapter = chap
+            current_section = None
         sec = node.get("section", "")
         if sec and sec != current_section and sec in SECTION_TITLES:
             sec_title, sec_label = SECTION_TITLES[sec]

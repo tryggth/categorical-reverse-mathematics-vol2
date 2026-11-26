@@ -409,17 +409,25 @@ def main() -> int:
         )
         return 0 if overall_ok else 1
 
-    # Full / Publish mode: emit TeX + compile all 3 Royal Octavo PDFs
+    # Full / Publish mode: emit TeX + compile all 4 Royal Octavo PDFs
     manifest, guardrails, nodes_meta, symbols, receipts = load_context()
     emit_monograph(manifest, guardrails, nodes_meta, symbols)
     emit_claims_ledger(manifest, guardrails, nodes_meta, receipts, audit_json)
     emit_course_pack("ch01:tab:epistemic-probe-regimes")
+    emit_course_pack("ch02:tab:vertical-class-spectrum")
 
     pdfs = {
         "crm_vol2_monograph": compile_pdf("crm_vol2_monograph", "monograph.tex.map.json", run_index=True),
         "crm_vol2_claims_ledger": compile_pdf("crm_vol2_claims_ledger", None, run_index=False),
         "course_pack_ch01_probe_calibration": compile_pdf(
-            "course_pack_ch01_probe_calibration", "course_pack.tex.map.json", run_index=False
+            "course_pack_ch01_probe_calibration",
+            "course_pack_ch01_probe_calibration.tex.map.json",
+            run_index=False,
+        ),
+        "course_pack_ch02_class_set_kaleidoscope": compile_pdf(
+            "course_pack_ch02_class_set_kaleidoscope",
+            "course_pack_ch02_class_set_kaleidoscope.tex.map.json",
+            run_index=False,
         ),
     }
     all_pdfs_ok = all(p["passed"] for p in pdfs.values())

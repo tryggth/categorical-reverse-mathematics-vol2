@@ -1,0 +1,91 @@
+id = "ch02:prose:part1-ch02-roadmap"
+kind = "prose_block"
+title = "Part I & Chapter 2 Roadmap: Minimal Definability, Fixed-Set Kaleidoscopes, and Def -| pi_Set"
+chapter = "ch02"
+section = "2.1"
+seq_order = 205
+axis = "class_set"
+grounding_tier = "expository"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["godel1940", "felgner1971", "easton1970", "makkai1996", "maclane1998", "simpson2009", "fujimoto2012", "williams2018", "gitman2020", "joyal_moerdijk1995"]
+
+[body]
+tex = """
+Part~I turns the residuum calculus developed in the Overture onto the class--set projection {{sym:piset}} anchored in Volume~I ({{ref:vol1:def:set-projection-fibration}} and {{ref:vol1:prop:los-smuggles-gc}}). In \\S 2.1, Definition~\\ref{ch02:def:gb0-model-category} constructs the two-sorted model category {{sym:mod-gb0}} of Replacement-free G\\\"odel class algebras closed under \\textbf{G1--G8} and Subclass Separation~\\cite{godel1940,joyal_moerdijk1995}, and Theorem~\\ref{ch02:thm:three-way-pullback-failure} certifies constructively that naive trace pullback $f^*\\mathcal{D} := \\{f^{-1}[D] \\mid D \\in \\mathcal{D}\\}$ breaks along three independent obstructions: Subclass Separation leakage, G\\\"odel \\textbf{G4} domain-projection failure, and preimage collapse.
+
+To repair this non-fibrational failure in \\S 2.2, Theorem~\\ref{ch02:thm:def-left-adjoint-coreflection} proves that minimal parameter-definable expansion ${{sym:def-functor}}$ is \\emph{left adjoint} to {{sym:piset}} (${{sym:def-functor}} \\dashv {{sym:piset}}$) with identity unit $\\eta_M$ and vertical inclusion counit $\\varepsilon_{(M,\\mathcal{C})}$---embedding $\\mathbf{DefAlg}$ as a \\textbf{full coreflective subcategory} of {{sym:mod-gb0}} whose coreflector is {{sym:piset}}~\\cite{maclane1998}, with ${{sym:def-functor}}(M)$ initial in every vertical fiber ${{sym:piset}}^{-1}(M)$. Proposition~\\ref{ch02:prop:syntactic-conservative-pullback} contrasts this semantic obstruction with the syntactic theory lattice, where $\\mathcal{L}_\\in$-conservative class extensions form genuine pullback squares against minimal expansions until Replacement or Foundation fails (previewing Chapter~3~\\cite{felgner1971}).
+
+Sections~2.3--2.4 dissect the vertical fiber ${{sym:piset}}^{-1}(M)$ above a fixed set floor. Proposition~\\ref{ch02:prop:los-unbundling-independence} proves $\\mathsf{LoS} \\iff (\\mathrm{Rep} \\wedge \\mathsf{GC})$ over {{sym:gb0}} together with $2\\times 2$ independence models for Easton's $\\mathrm{Rep} \\wedge \\neg\\mathsf{GC}$~\\cite{easton1970} and $(L_{\\omega_\\omega^L}, {{sym:def-functor}}(L_{\\omega_\\omega^L})) \\models \\mathsf{GC} \\wedge \\neg\\mathrm{Rep}$. Claim~\\ref{ch02:claim:easton-hod-unsplit-card} notes that Easton's $\\forall p\\,(V \\neq \\mathrm{HOD}(\\{p\\}))$ (unlike bare $V \\neq \\mathrm{HOD}$, where $L[c]$ still splits) leaves Makkai's weak equivalence $\\mathbf{Card} \\hookrightarrow \\mathbf{Set}$ unsplit~\\cite{makkai1996}, while Theorem~\\ref{ch02:thm:williams-fixed-set-kaleidoscope} combines Williams's Fixed-Set Universality Theorem~\\cite{williams2018} with an axiom-free principal-ideal order embedding. Finally, Claims~\\ref{ch02:claim:gitman-etr-ord-fujimoto-contrast} and~\\ref{ch02:claim:kelley-morse-freyd-kan-barrier} calibrate the upper spectrum through {{sym:etr-ord}} (flagging that \\cite{gitman2020} write $\\mathsf{GBC}$ for ${{sym:nbg}}$ and that Tarskian truth predicates at $\\mathsf{ETR}_\\omega$ already prove $\\mathrm{Con}(\\mathsf{ZFC})$, contrasting with $\\mathcal{L}_\\in$-conservative $\\mathsf{CT}^-[\\mathsf{ZFC}]$~\\cite{fujimoto2012}) up to {{sym:km}} and Freyd's large-limit barrier~\\cite{simpson2009,maclane1998}, synthesized in Table~\\ref{ch02:tab:vertical-class-spectrum}.
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration"]
+lean_dep = []
+curriculum = ["vol1:def:set-projection-fibration", "vol1:prop:los-smuggles-gc"]
+
+[[edges.prose_paraphrase]]
+target_id = "vol1:def:set-projection-fibration"
+locked_spec_hash = "4b661ec146eb241ffdebf6b68628ca37ee0db7278c8be0d5f9126e5c19182757"
+scope_note = "Pinned Volume I contract for GB_0, pi_Set, and Def -| pi_Set"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:def:gb0-model-category"
+locked_spec_hash = "865bbb4013d18cb87ccc3a4601ba6a010a677f45b67fe450e8dfedb023bbe9b8"
+scope_note = "Mod(GB_0) category with G1-G8, Subclass Separation, and pi_Set"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:three-way-pullback-failure"
+locked_spec_hash = "afa92d116adde8db848a81dc4323e11d0fceb9afe6e26078e3530d2bac97ac2e"
+scope_note = "Three-way naive pullback failure (Subclass Separation, G4 dom, preimage collapse)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:def-left-adjoint-coreflection"
+locked_spec_hash = "57ef42522900fc9bce187a5f63f183d9df817281f98e9931bdff9a72a7edc833"
+scope_note = "Left adjoint Def -| pi_Set as full coreflective subcategory embedding with coreflector pi_Set"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:prop:syntactic-conservative-pullback"
+locked_spec_hash = "d6d4d5347f5d2065b2cc170037e786422da3ec39b9b561576e33c6f991fc69ad"
+scope_note = "Syntactic conservative pullback square vs. non-conservativity breakdown"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:prop:los-unbundling-independence"
+locked_spec_hash = "76e42f76458dfc406a5dc866fd88e9cdafa08510ae66a62419566b6a11229fc5"
+scope_note = "Unbundling LoS <=> Rep /\\ GC and 2x2 independence witnesses"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:claim:easton-hod-unsplit-card"
+locked_spec_hash = "618067851cfbe9070fd35b4c55f77e44db15434c81851c9a8a306c4a528662b3"
+scope_note = "Easton forall p (V != HOD({p})) leaving Card -> Set unsplit vs. L[c]"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:williams-fixed-set-kaleidoscope"
+locked_spec_hash = "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa"
+scope_note = "Williams Fixed-Set Universality and Independent-Generator order embedding"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:claim:gitman-etr-ord-fujimoto-contrast"
+locked_spec_hash = "c5d45830c1ca53420d4f057a814d98c88d937c1626e3a473b3a5e4fdcf65e7e8"
+scope_note = "Class Forcing ETR_Ord, ETR_omega Con(ZFC) leak vs. CT^-[ZFC], and GBC=NBG note"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:claim:kelley-morse-freyd-kan-barrier"
+locked_spec_hash = "7bc4d67805db42b59d0a1a45e58bd9e7eed708380fc2e7be8cb1fc3b940b7e7c"
+scope_note = "Kelley-Morse Pi^1_infty comprehension and Freyd large-limit/Kan barrier"
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Metamathematical Principle"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch02:thm:three-way-pullback-failure"
+purpose = "Chapter 2 roadmap summary of 3-way pullback failure"
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch02:thm:def-left-adjoint-coreflection"
+purpose = "Chapter 2 roadmap summary of Def -| pi_Set coreflection"

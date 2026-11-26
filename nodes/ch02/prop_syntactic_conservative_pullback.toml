@@ -1,0 +1,149 @@
+id = "ch02:prop:syntactic-conservative-pullback"
+kind = "proposition"
+title = "Syntactic Pullback Square for Conservative Class Extensions vs. Breakdown"
+chapter = "ch02"
+section = "2.2"
+seq_order = 240
+axis = "class_set"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["felgner1971", "joyal_moerdijk1995"]
+
+[spec]
+statement = "In contrast to semantic model-space pullback failure (Theorem ch02:thm:three-way-pullback-failure), inside the syntactic interpretability preorder of two-sorted class theories (T_set, T_cls) equipped with the adjunction Def_syn -| Tr_set (where Tr_set extracts first-order L_in-set theorems), whenever T_0 <= T_1, E_0 is L_in-conservative over T_0 (Tr_set(E_0) == T_0), and E_1 == Def_syn(T_1) sup E_0, the pushout square forms a genuine pullback square against minimal class extensions Def_syn(X) and on set traces. Conversely, any non-conservative set leak X <= Tr_set(L_0) with X <= T_1 and not (X <= T_0) destroys the pullback square (previewing Chapter 3 when Replacement or Foundation is dropped)."
+hypotheses = [
+  "Sys : SyntacticClassSystem with TheoryJoinPreorder SetTh, ClsTh and Galois adjunction Def_syn -| Tr_set (with Def_syn conservative)",
+  "hT : T_0 <= T_1, hCons : IsConservativeExt Sys E_0 T_0, hPush : ClsTh.Equiv E_1 (ClsTh.sup (defSyn T_1) E_0)"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ClassSetAdjunction"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.TheoryJoinPreorder",
+  "HomotopyCRM.Vol2.TheoryJoinPreorder.Equiv",
+  "HomotopyCRM.Vol2.SyntacticClassSystem",
+  "HomotopyCRM.Vol2.IsConservativeExt",
+  "HomotopyCRM.Vol2.syntactic_conservative_pullback"
+]
+expected_axioms = []
+lean_signature = """
+/-- Interpretability / deductive-inclusion preorder with finite deductive joins `T₁ ∪ T₂`. -/
+structure TheoryJoinPreorder : Type 1 where
+  /-- Carrier type of syntactic theories. -/
+  T : Type
+  /-- Deductive inclusion `T₁ ≤ T₂`. -/
+  le : T → T → Prop
+  /-- Reflexivity of deduction. -/
+  le_refl : ∀ a, le a a
+  /-- Transitivity of deduction. -/
+  le_trans : ∀ {a b c}, le a b → le b c → le a c
+  /-- Deductive join / theory union `a ⊔ b`. -/
+  sup : T → T → T
+  /-- Left inclusion into deductive join. -/
+  le_sup_left : ∀ a b, le a (sup a b)
+  /-- Right inclusion into deductive join. -/
+  le_sup_right : ∀ a b, le b (sup a b)
+  /-- Universal property of deductive join. -/
+  sup_le : ∀ {a b c}, le a c → le b c → le (sup a b) c
+
+/-- Mutual deductive interpretability equivalence `a ≡ b`. -/
+def TheoryJoinPreorder.Equiv (P : TheoryJoinPreorder) (a b : P.T) : Prop := P.le a b ∧ P.le b a
+
+/-- Two-sorted syntactic theory lattice with `Def_syn ⊣ Tr_set` Galois adjunction. -/
+structure SyntacticClassSystem : Type 1 where
+  /-- Lattice of first-order set theories. -/
+  SetTh : TheoryJoinPreorder
+  /-- Lattice of two-sorted class theories. -/
+  ClsTh : TheoryJoinPreorder
+  /-- Minimal conservative class expansion `Def_syn : SetTh → ClsTh`. -/
+  defSyn : SetTh.T → ClsTh.T
+  /-- First-order `L_∈`-theorem trace `Tr_set : ClsTh → SetTh`. -/
+  traceSet : ClsTh.T → SetTh.T
+  /-- Monotonicity of `Def_syn`. -/
+  defSyn_mono : ∀ {a b}, SetTh.le a b → ClsTh.le (defSyn a) (defSyn b)
+  /-- Monotonicity of `Tr_set`. -/
+  traceSet_mono : ∀ {a b}, ClsTh.le a b → SetTh.le (traceSet a) (traceSet b)
+  /-- Syntactic adjunction `Def_syn(T) ≤ S ↔ T ≤ Tr_set(S)`. -/
+  defSyn_le_iff : ∀ T S, ClsTh.le (defSyn T) S ↔ SetTh.le T (traceSet S)
+  /-- `L_∈`-conservativity of minimal expansion `Tr_set(Def_syn(T)) ≤ T`. -/
+  defSyn_cons : ∀ T : SetTh.T, SetTh.le (traceSet (defSyn T)) T
+
+/-- `L_∈`-conservativity of class extension `S` over set theory `T`: `Tr_set(S) ≡ T`. -/
+def IsConservativeExt (Sys : SyntacticClassSystem) (S : Sys.ClsTh.T) (T : Sys.SetTh.T) : Prop :=
+  Sys.SetTh.Equiv (Sys.traceSet S) T
+
+/-- **Syntactic Conservative Pullback Theorem (Emerald, Axiom-Free):**
+    In `SyntacticClassSystem`, any `L_∈`-conservative extension `E₀` over `T₀ ≤ T₁` generates an
+    opcartesian join `E₁ ≡ Def_syn(T₁) ⊔ E₀` forming a genuine pullback square against minimal
+    extensions `Def_syn(X)` and set traces; conversely, any set-level leak destroys the pullback. -/
+theorem syntactic_conservative_pullback (Sys : SyntacticClassSystem)
+    (T₀ T₁ : Sys.SetTh.T) (E₀ E₁ : Sys.ClsTh.T)
+    (hT : Sys.SetTh.le T₀ T₁) (hCons : IsConservativeExt Sys E₀ T₀)
+    (hPush : Sys.ClsTh.Equiv E₁ (Sys.ClsTh.sup (Sys.defSyn T₁) E₀)) :
+    (Sys.ClsTh.le (Sys.defSyn T₁) E₁ ∧ Sys.ClsTh.le E₀ E₁ ∧
+      ∀ Z, Sys.ClsTh.le (Sys.defSyn T₁) Z → Sys.ClsTh.le E₀ Z → Sys.ClsTh.le E₁ Z) ∧
+    (∀ X : Sys.SetTh.T,
+      (Sys.ClsTh.le (Sys.defSyn X) E₀ ∧ Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₁)) ↔
+        Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₀)) ∧
+    (∀ X : Sys.SetTh.T,
+      (Sys.SetTh.le X (Sys.traceSet E₀) ∧ Sys.SetTh.le X T₁) ↔ Sys.SetTh.le X T₀) ∧
+    (∀ (L₀ : Sys.ClsTh.T) (X : Sys.SetTh.T),
+      Sys.SetTh.le X (Sys.traceSet L₀) → Sys.SetTh.le X T₁ → ¬ Sys.SetTh.le X T₀ →
+      Sys.ClsTh.le (Sys.defSyn X) L₀ ∧ Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₁) ∧
+        ¬ Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₀)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.syntactic_conservative_pullback' does not depend on any axioms -/\n#guard_msgs in\n#print axioms syntactic_conservative_pullback"
+]
+
+[body]
+lean_body = """
+  have hUnit : ∀ T : Sys.SetTh.T, Sys.SetTh.le T (Sys.traceSet (Sys.defSyn T)) :=
+    fun T ↦ (Sys.defSyn_le_iff T (Sys.defSyn T)).mp (Sys.ClsTh.le_refl _)
+  refine ⟨⟨Sys.ClsTh.le_trans (Sys.ClsTh.le_sup_left _ _) hPush.2,
+      Sys.ClsTh.le_trans (Sys.ClsTh.le_sup_right _ _) hPush.2,
+      fun Z h1 h2 ↦ Sys.ClsTh.le_trans hPush.1 (Sys.ClsTh.sup_le h1 h2)⟩,
+    fun X ↦ ⟨fun ⟨hX0, _⟩ ↦
+        Sys.defSyn_mono (Sys.SetTh.le_trans ((Sys.defSyn_le_iff X E₀).mp hX0) hCons.1),
+      fun hXT ↦ ⟨(Sys.defSyn_le_iff X E₀).mpr (Sys.SetTh.le_trans (Sys.SetTh.le_trans
+        ((Sys.defSyn_le_iff X (Sys.defSyn T₀)).mp hXT) (Sys.defSyn_cons T₀)) hCons.2),
+        Sys.ClsTh.le_trans hXT (Sys.defSyn_mono hT)⟩⟩,
+    fun X ↦ ⟨fun ⟨hX0, _⟩ ↦ Sys.SetTh.le_trans hX0 hCons.1,
+      fun hXT ↦ ⟨Sys.SetTh.le_trans hXT hCons.2, Sys.SetTh.le_trans hXT hT⟩⟩,
+    fun L₀ X hXL hXT1 hNT0 ↦ ⟨(Sys.defSyn_le_iff X L₀).mpr hXL, Sys.defSyn_mono hXT1, fun hle ↦
+      hNT0 (Sys.SetTh.le_trans (hUnit X)
+        (Sys.SetTh.le_trans (Sys.traceSet_mono hle) (Sys.defSyn_cons T₀)))⟩⟩
+"""
+tex = """
+\\begin{proposition}[Syntactic Pullback Square for Conservative Extensions vs.\\ Breakdown]\\label{ch02:prop:syntactic-conservative-pullback}%
+\\uses{ch02:thm:three-way-pullback-failure,ch02:thm:def-left-adjoint-coreflection}%
+In contrast to the semantic model-space pullback failure of Theorem~\\ref{ch02:thm:three-way-pullback-failure}, pass to the syntactic interpretability preorder $(\\mathbf{Th}_{\\mathrm{Set}}, \\mathbf{Th}_{\\mathrm{Cls}})$ of set and class theories~\\cite{joyal_moerdijk1995} equipped with minimal expansion ${{sym:def-functor}}_{\\mathrm{syn}}$ and $\\mathcal{L}_\\in$-trace $\\mathrm{Tr}_{\\mathrm{Set}}$ satisfying ${{sym:def-functor}}_{\\mathrm{syn}}(T) \\le S \\iff T \\le \\mathrm{Tr}_{\\mathrm{Set}}(S)$ and $\\mathrm{Tr}_{\\mathrm{Set}}({{sym:def-functor}}_{\\mathrm{syn}}(T)) \\le T$. Whenever $T_0 \\le T_1$ in $\\mathbf{Th}_{\\mathrm{Set}}$, $E_0$ is $\\mathcal{L}_\\in$-conservative over $T_0$ ($\\mathrm{Tr}_{\\mathrm{Set}}(E_0) \\equiv T_0$), and $E_1 \\equiv {{sym:def-functor}}_{\\mathrm{syn}}(T_1) \\sqcup E_0$:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item The opcartesian pushout square satisfies the pullback universal property against all minimal class extensions ${{sym:def-functor}}_{\\mathrm{syn}}(X)$ and along the set-trace square $\\mathrm{Tr}_{\\mathrm{Set}}(E_0) \\to \\mathrm{Tr}_{\\mathrm{Set}}(E_1) \\leftarrow T_1$.
+  \\item Conversely, whenever a class extension $L_0$ leaks an $\\mathcal{L}_\\in$-sentence $X \\le \\mathrm{Tr}_{\\mathrm{Set}}(L_0)$ that holds in $T_1$ yet fails in $T_0$ (previewing Chapter~3 when Replacement or Foundation is dropped~\\cite{felgner1971}), the pullback square collapses at ${{sym:def-functor}}_{\\mathrm{syn}}(X)$.
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+For~(1), if ${{sym:def-functor}}_{\\mathrm{syn}}(X) \\le E_0$ then by adjunction $X \\le \\mathrm{Tr}_{\\mathrm{Set}}(E_0) \\le T_0$, whence ${{sym:def-functor}}_{\\mathrm{syn}}(X) \\le {{sym:def-functor}}_{\\mathrm{syn}}(T_0)$ by monotonicity; conversely $T_0 \\le T_1$ and $\\mathrm{Tr}_{\\mathrm{Set}}({{sym:def-functor}}_{\\mathrm{syn}}(T_0)) \\le T_0 \\le \\mathrm{Tr}_{\\mathrm{Set}}(E_0)$ yield ${{sym:def-functor}}_{\\mathrm{syn}}(X) \\le E_0$. Similarly, trace projection gives $\\mathrm{Tr}_{\\mathrm{Set}}(E_0) \\times_{\\mathrm{Tr}_{\\mathrm{Set}}(E_1)} T_1 \\equiv T_0$. Part~(2) follows contrapositively from unit and $\\mathcal{L}_\\in$-conservativity of ${{sym:def-functor}}_{\\mathrm{syn}}(T_0)$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch02:thm:three-way-pullback-failure", "ch02:thm:def-left-adjoint-coreflection"]
+lean_dep = []
+curriculum = ["ch02:thm:three-way-pullback-failure", "ch02:thm:def-left-adjoint-coreflection"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Conservation / Solvency", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.syntactic_conservative_pullback"
+purpose = "Axiom-free Emerald Lean 4 proof of conservative syntactic pullback square vs. non-conservativity breakdown"

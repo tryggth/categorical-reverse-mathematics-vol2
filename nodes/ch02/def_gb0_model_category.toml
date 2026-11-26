@@ -1,0 +1,305 @@
+id = "ch02:def:gb0-model-category"
+kind = "definition"
+title = "The Category Mod(GB_0) of Godel Class Algebras and Forgetful Projection pi_Set"
+chapter = "ch02"
+section = "2.1"
+seq_order = 210
+axis = "class_set"
+grounding_tier = "framework_def"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["godel1940", "joyal_moerdijk1995"]
+
+[spec]
+statement = "A GB0Model is a two-sorted set-and-class structure (M, C) over a pairing-equipped set universe M = (Carrier, mem, pair) closed under extensional membership equivalence, singleton and set parameters, Godel's eight finite predicative class operations G1-G8 (including G4 domain projection domClass), and Subclass Separation (every class C in C bounded by a set a in M is represented by a set b in M). Together with elementary two-sorted morphisms (f, F) : (M, C) -> (N, D) preserving membership, pairing, Godel expression satisfaction (L_in-elementarity), and Godel expressions, Mod(GB_0) carries the forgetful projection functor piSet : Mod(GB_0) -> SetBase."
+hypotheses = [
+  "M : SetBase carries membership mem, pairing pair, and pair injectivity pair_inj",
+  "IsClass : Set M.Carrier -> Prop is closed under singletons, set extensions, G1-G8, and Subclass Separation",
+  "Morphisms preserve mem, pair, L_in-elementarity on Godel expressions, and class transport"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ClassSetAdjunction"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.SetBase",
+  "HomotopyCRM.Vol2.gb0MemRel",
+  "HomotopyCRM.Vol2.gb0Inter",
+  "HomotopyCRM.Vol2.gb0Compl",
+  "HomotopyCRM.Vol2.domClass",
+  "HomotopyCRM.Vol2.gb0ProdV",
+  "HomotopyCRM.Vol2.gb0Converse",
+  "HomotopyCRM.Vol2.gb0CycleRight",
+  "HomotopyCRM.Vol2.gb0SwapInner",
+  "HomotopyCRM.Vol2.SatisfiesSubclassSep",
+  "HomotopyCRM.Vol2.GodelExpr",
+  "HomotopyCRM.Vol2.GodelExpr.map",
+  "HomotopyCRM.Vol2.GodelExpr.map_id",
+  "HomotopyCRM.Vol2.GodelExpr.map_comp",
+  "HomotopyCRM.Vol2.GodelExpr.map_congr",
+  "HomotopyCRM.Vol2.evalGodelExpr",
+  "HomotopyCRM.Vol2.GB0Model",
+  "HomotopyCRM.Vol2.evalGodelExpr_isClass",
+  "HomotopyCRM.Vol2.SetBaseHom",
+  "HomotopyCRM.Vol2.SetBaseHom.id",
+  "HomotopyCRM.Vol2.SetBaseHom.comp",
+  "HomotopyCRM.Vol2.SetBaseHom.Eq",
+  "HomotopyCRM.Vol2.GB0Hom",
+  "HomotopyCRM.Vol2.GB0Hom.id",
+  "HomotopyCRM.Vol2.GB0Hom.comp",
+  "HomotopyCRM.Vol2.GB0Hom.Eq",
+  "HomotopyCRM.Vol2.piSet",
+  "HomotopyCRM.Vol2.piSetMap",
+  "HomotopyCRM.Vol2.piSetMap_id",
+  "HomotopyCRM.Vol2.piSetMap_comp"
+]
+expected_axioms = []
+lean_signature = """
+/-- First-order set carrier equipped with membership and injective Kuratowski pairing. -/
+structure SetBase : Type 1 where
+  /-- Domain of sets, membership `∈`, ordered pairing, and pair injectivity. -/
+  Carrier : Type
+  mem : Carrier → Carrier → Prop
+  pair : Carrier → Carrier → Carrier
+  pair_inj : ∀ {x₁ y₁ x₂ y₂ : Carrier}, pair x₁ y₁ = pair x₂ y₂ → x₁ = x₂ ∧ y₁ = y₂
+
+/-- Gödel G1: Membership relation `{(x, y) | x ∈ y}`. -/
+def gb0MemRel (M : SetBase) : Set M.Carrier := fun z ↦ ∃ x y, z = M.pair x y ∧ M.mem x y
+/-- Gödel G2: Class intersection `C ∩ D`. -/
+def gb0Inter {α : Type} (C D : Set α) : Set α := fun x ↦ C x ∧ D x
+/-- Gödel G3: Class complement `V \\ C`. -/
+def gb0Compl {α : Type} (C : Set α) : Set α := fun x ↦ ¬ C x
+/-- Gödel G4: Domain projection `dom(C) = {x | ∃ y, (x, y) ∈ C}`. -/
+def domClass (M : SetBase) (C : Set M.Carrier) : Set M.Carrier := fun x ↦ ∃ y, C (M.pair x y)
+/-- Gödel G5: Left-cylinder product `C × V`. -/
+def gb0ProdV (M : SetBase) (C : Set M.Carrier) : Set M.Carrier :=
+  fun z ↦ ∃ x y, z = M.pair x y ∧ C x
+/-- Gödel G6: Pair converse `{(x, y) | (y, x) ∈ C}`. -/
+def gb0Converse (M : SetBase) (C : Set M.Carrier) : Set M.Carrier :=
+  fun z ↦ ∃ x y, z = M.pair x y ∧ C (M.pair y x)
+/-- Gödel G7: Right cyclic permutation of triples. -/
+def gb0CycleRight (M : SetBase) (C : Set M.Carrier) : Set M.Carrier :=
+  fun w ↦ ∃ x y z, w = M.pair x (M.pair y z) ∧ C (M.pair y (M.pair z x))
+/-- Gödel G8: Inner pair transposition of triples. -/
+def gb0SwapInner (M : SetBase) (C : Set M.Carrier) : Set M.Carrier :=
+  fun w ↦ ∃ x y z, w = M.pair x (M.pair y z) ∧ C (M.pair x (M.pair z y))
+/-- Subclass Separation: any class bounded by a set `a` is represented by a set `b`. -/
+def SatisfiesSubclassSep (M : SetBase) (IsClass : Set M.Carrier → Prop) : Prop :=
+  ∀ C : Set M.Carrier, IsClass C →
+    (∃ a : M.Carrier, ∀ x, C x → M.mem x a) → ∃ b : M.Carrier, ∀ x, M.mem x b ↔ C x
+
+/-- Parameterized Gödel G1–G8 expressions generating minimal definable classes `Def(M)`. -/
+inductive GodelExpr (P : Type) : Type
+  | singleton (p : P) | setElts (p : P) | memRel | inter (e₁ e₂ : GodelExpr P)
+  | compl (e : GodelExpr P) | dom (e : GodelExpr P) | prodV (e : GodelExpr P)
+  | converse (e : GodelExpr P) | cycleRight (e : GodelExpr P) | swapInner (e : GodelExpr P)
+
+/-- Translate parameters in a `GodelExpr` along `f : P → Q`. -/
+def GodelExpr.map {P Q : Type} (f : P → Q) : GodelExpr P → GodelExpr Q
+  | .singleton p => .singleton (f p) | .setElts p => .setElts (f p) | .memRel => .memRel
+  | .inter e₁ e₂ => .inter (e₁.map f) (e₂.map f) | .compl e => .compl (e.map f)
+  | .dom e => .dom (e.map f) | .prodV e => .prodV (e.map f)
+  | .converse e => .converse (e.map f) | .cycleRight e => .cycleRight (e.map f)
+  | .swapInner e => .swapInner (e.map f)
+
+/-- Identity law for `GodelExpr.map`. -/
+theorem GodelExpr.map_id {P : Type} : ∀ e : GodelExpr P, e.map id = e
+  | .singleton _ | .setElts _ | .memRel => rfl
+  | .inter e₁ e₂ => by dsimp only [GodelExpr.map]; rw [map_id e₁, map_id e₂]
+  | .compl e => by dsimp only [GodelExpr.map]; rw [map_id e]
+  | .dom e => by dsimp only [GodelExpr.map]; rw [map_id e]
+  | .prodV e => by dsimp only [GodelExpr.map]; rw [map_id e]
+  | .converse e => by dsimp only [GodelExpr.map]; rw [map_id e]
+  | .cycleRight e => by dsimp only [GodelExpr.map]; rw [map_id e]
+  | .swapInner e => by dsimp only [GodelExpr.map]; rw [map_id e]
+
+/-- Composition law for `GodelExpr.map`. -/
+theorem GodelExpr.map_comp {P Q R : Type} (f : P → Q) (g : Q → R) :
+    ∀ e : GodelExpr P, e.map (g ∘ f) = (e.map f).map g
+  | .singleton _ | .setElts _ | .memRel => rfl
+  | .inter e₁ e₂ => by dsimp only [GodelExpr.map]; rw [map_comp f g e₁, map_comp f g e₂]
+  | .compl e => by dsimp only [GodelExpr.map]; rw [map_comp f g e]
+  | .dom e => by dsimp only [GodelExpr.map]; rw [map_comp f g e]
+  | .prodV e => by dsimp only [GodelExpr.map]; rw [map_comp f g e]
+  | .converse e => by dsimp only [GodelExpr.map]; rw [map_comp f g e]
+  | .cycleRight e => by dsimp only [GodelExpr.map]; rw [map_comp f g e]
+  | .swapInner e => by dsimp only [GodelExpr.map]; rw [map_comp f g e]
+
+/-- Pointwise congruence for `GodelExpr.map` (axiom-free, avoiding `funext`). -/
+theorem GodelExpr.map_congr {P Q : Type} {f g : P → Q} (h : ∀ x, f x = g x) :
+    ∀ e : GodelExpr P, e.map f = e.map g
+  | .singleton p => by dsimp only [GodelExpr.map]; rw [h p]
+  | .setElts p => by dsimp only [GodelExpr.map]; rw [h p]
+  | .memRel => rfl
+  | .inter e₁ e₂ => by dsimp only [GodelExpr.map]; rw [map_congr h e₁, map_congr h e₂]
+  | .compl e => by dsimp only [GodelExpr.map]; rw [map_congr h e]
+  | .dom e => by dsimp only [GodelExpr.map]; rw [map_congr h e]
+  | .prodV e => by dsimp only [GodelExpr.map]; rw [map_congr h e]
+  | .converse e => by dsimp only [GodelExpr.map]; rw [map_congr h e]
+  | .cycleRight e => by dsimp only [GodelExpr.map]; rw [map_congr h e]
+  | .swapInner e => by dsimp only [GodelExpr.map]; rw [map_congr h e]
+
+/-- Extensional evaluation of a `GodelExpr` inside a `SetBase`. -/
+def evalGodelExpr (M : SetBase) : GodelExpr M.Carrier → Set M.Carrier
+  | .singleton p => fun x ↦ x = p | .setElts p => fun x ↦ M.mem x p | .memRel => gb0MemRel M
+  | .inter e₁ e₂ => gb0Inter (evalGodelExpr M e₁) (evalGodelExpr M e₂)
+  | .compl e => gb0Compl (evalGodelExpr M e) | .dom e => domClass M (evalGodelExpr M e)
+  | .prodV e => gb0ProdV M (evalGodelExpr M e) | .converse e => gb0Converse M (evalGodelExpr M e)
+  | .cycleRight e => gb0CycleRight M (evalGodelExpr M e)
+  | .swapInner e => gb0SwapInner M (evalGodelExpr M e)
+
+/-- Two-sorted model `(M, C)` of Replacement-free Bernays–Gödel class theory `GB₀`. -/
+structure GB0Model : Type 1 where
+  /-- Base universe, classes, extensionality, singletons/sets, G1–G8, and Subclass Sep. -/
+  base : SetBase
+  IsClass : Set base.Carrier → Prop
+  ext_mem : ∀ {C D}, (∀ x, C x ↔ D x) → IsClass C → IsClass D
+  singleton_mem : ∀ p, IsClass (fun x ↦ x = p)
+  set_mem : ∀ p, IsClass (fun x ↦ base.mem x p)
+  g1_memRel : IsClass (gb0MemRel base)
+  g2_inter : ∀ {C D}, IsClass C → IsClass D → IsClass (gb0Inter C D)
+  g3_compl : ∀ {C}, IsClass C → IsClass (gb0Compl C)
+  g4_dom : ∀ {C}, IsClass C → IsClass (domClass base C)
+  g5_prodV : ∀ {C}, IsClass C → IsClass (gb0ProdV base C)
+  g6_converse : ∀ {C}, IsClass C → IsClass (gb0Converse base C)
+  g7_cycleRight : ∀ {C}, IsClass C → IsClass (gb0CycleRight base C)
+  g8_swapInner : ∀ {C}, IsClass C → IsClass (gb0SwapInner base C)
+  subclass_sep : SatisfiesSubclassSep base IsClass
+
+/-- Every Gödel expression evaluates to an admissible class inside any `GB0Model`. -/
+theorem evalGodelExpr_isClass (X : GB0Model) :
+    ∀ e : GodelExpr X.base.Carrier, X.IsClass (evalGodelExpr X.base e)
+  | .singleton p => X.singleton_mem p | .setElts p => X.set_mem p | .memRel => X.g1_memRel
+  | .inter e₁ e₂ => X.g2_inter (evalGodelExpr_isClass X e₁) (evalGodelExpr_isClass X e₂)
+  | .compl e => X.g3_compl (evalGodelExpr_isClass X e)
+  | .dom e => X.g4_dom (evalGodelExpr_isClass X e)
+  | .prodV e => X.g5_prodV (evalGodelExpr_isClass X e)
+  | .converse e => X.g6_converse (evalGodelExpr_isClass X e)
+  | .cycleRight e => X.g7_cycleRight (evalGodelExpr_isClass X e)
+  | .swapInner e => X.g8_swapInner (evalGodelExpr_isClass X e)
+
+/-- Elementary `L_∈`-embedding preserving `∈`, pairing, and Gödel formulas/equalities. -/
+structure SetBaseHom (M N : SetBase) : Type where
+  /-- Embedding map, membership iff, pair preservation, and Gödel elementarity. -/
+  toFun : M.Carrier → N.Carrier
+  mem_iff : ∀ x y, M.mem x y ↔ N.mem (toFun x) (toFun y)
+  pair_map : ∀ x y, toFun (M.pair x y) = N.pair (toFun x) (toFun y)
+  elem_iff : ∀ (e : GodelExpr M.Carrier) (x : M.Carrier),
+    evalGodelExpr M e x ↔ evalGodelExpr N (e.map toFun) (toFun x)
+  elem_ext : ∀ e₁ e₂ : GodelExpr M.Carrier,
+    (∀ x, evalGodelExpr M e₁ x ↔ evalGodelExpr M e₂ x) →
+    ∀ y, evalGodelExpr N (e₁.map toFun) y ↔ evalGodelExpr N (e₂.map toFun) y
+
+/-- Identity morphism on a `SetBase`. -/
+def SetBaseHom.id (M : SetBase) : SetBaseHom M M where
+  toFun := _root_.id; mem_iff _ _ := Iff.rfl; pair_map _ _ := rfl
+  elem_iff e x := by
+    change evalGodelExpr M e x ↔ evalGodelExpr M (e.map _root_.id) x
+    rw [GodelExpr.map_id]
+  elem_ext e₁ e₂ h y := by
+    rw [GodelExpr.map_id, GodelExpr.map_id]; exact h y
+
+/-- Composition of `SetBaseHom` morphisms. -/
+def SetBaseHom.comp {L M N : SetBase} (f : SetBaseHom L M) (g : SetBaseHom M N) :
+    SetBaseHom L N where
+  toFun := g.toFun ∘ f.toFun
+  mem_iff x y := (f.mem_iff x y).trans (g.mem_iff (f.toFun x) (f.toFun y))
+  pair_map x y := by dsimp; rw [f.pair_map, g.pair_map]
+  elem_iff e x := (f.elem_iff e x).trans (by
+    change evalGodelExpr M (e.map f.toFun) (f.toFun x) ↔
+      evalGodelExpr N (e.map (g.toFun ∘ f.toFun)) (g.toFun (f.toFun x))
+    rw [GodelExpr.map_comp]; exact g.elem_iff (e.map f.toFun) (f.toFun x))
+  elem_ext e₁ e₂ h y := by
+    rw [GodelExpr.map_comp, GodelExpr.map_comp]
+    exact g.elem_ext (e₁.map f.toFun) (e₂.map f.toFun) (f.elem_ext e₁ e₂ h) y
+
+/-- Pointwise extensional equality of `SetBaseHom` morphisms (axiom-free). -/
+def SetBaseHom.Eq {M N : SetBase} (f g : SetBaseHom M N) : Prop := ∀ x, f.toFun x = g.toFun x
+
+/-- Two-sorted `GB₀` morphism `(f, F) : (M, C) → (N, D)`. -/
+structure GB0Hom (X Y : GB0Model) : Type where
+  /-- Base embedding, class transport, extensionality, `∈`-preservation, and Gödel transport. -/
+  baseHom : SetBaseHom X.base Y.base
+  classMap : {C : Set X.base.Carrier // X.IsClass C} → {D : Set Y.base.Carrier // Y.IsClass D}
+  classMap_ext : ∀ C₁ C₂ : {C // X.IsClass C},
+    (∀ x, C₁.1 x ↔ C₂.1 x) → ∀ y, (classMap C₁).1 y ↔ (classMap C₂).1 y
+  mem_preserve : ∀ C : {C // X.IsClass C}, ∀ x, C.1 x ↔ (classMap C).1 (baseHom.toFun x)
+  map_godel : ∀ e : GodelExpr X.base.Carrier, ∀ y,
+    (classMap ⟨evalGodelExpr X.base e, evalGodelExpr_isClass X e⟩).1 y ↔
+      evalGodelExpr Y.base (e.map baseHom.toFun) y
+
+/-- Identity two-sorted morphism in `Mod(GB₀)`. -/
+def GB0Hom.id (X : GB0Model) : GB0Hom X X where
+  baseHom := SetBaseHom.id X.base; classMap := _root_.id
+  classMap_ext _ _ h y := h y; mem_preserve _ _ := Iff.rfl
+  map_godel e y := by
+    change evalGodelExpr X.base e y ↔ evalGodelExpr X.base (e.map _root_.id) y
+    rw [GodelExpr.map_id]
+
+/-- Composition of two-sorted morphisms in `Mod(GB₀)`. -/
+def GB0Hom.comp {X Y Z : GB0Model} (f : GB0Hom X Y) (g : GB0Hom Y Z) : GB0Hom X Z where
+  baseHom := SetBaseHom.comp f.baseHom g.baseHom; classMap := g.classMap ∘ f.classMap
+  classMap_ext C₁ C₂ h := g.classMap_ext _ _ (f.classMap_ext C₁ C₂ h)
+  mem_preserve C x := (f.mem_preserve C x).trans (g.mem_preserve (f.classMap C) (f.baseHom.toFun x))
+  map_godel e z := by
+    have h₁ := g.classMap_ext (f.classMap ⟨evalGodelExpr X.base e, evalGodelExpr_isClass X e⟩)
+      ⟨evalGodelExpr Y.base (e.map f.baseHom.toFun), evalGodelExpr_isClass Y _⟩ (f.map_godel e) z
+    have h₂ := g.map_godel (e.map f.baseHom.toFun) z
+    change _ ↔ evalGodelExpr Z.base (e.map (g.baseHom.toFun ∘ f.baseHom.toFun)) z
+    rw [GodelExpr.map_comp]; exact h₁.trans h₂
+
+/-- Pointwise extensional equivalence of `GB0Hom` morphisms (axiom-free). -/
+def GB0Hom.Eq {X Y : GB0Model} (φ ψ : GB0Hom X Y) : Prop :=
+  SetBaseHom.Eq φ.baseHom ψ.baseHom ∧ ∀ C y, (φ.classMap C).1 y ↔ (ψ.classMap C).1 y
+
+/-- Forgetful object projection `π_Set : Mod(GB₀) → SetBase`. -/
+@[reducible] def piSet (X : GB0Model) : SetBase := X.base
+/-- Forgetful morphism projection `π_Set : GB0Hom X Y → SetBaseHom X.base Y.base`. -/
+@[reducible] def piSetMap {X Y : GB0Model} (φ : GB0Hom X Y) : SetBaseHom (piSet X) (piSet Y) :=
+  {{LEAN_BODY}}
+/-- Functorial identity law for `π_Set`. -/
+theorem piSetMap_id (X : GB0Model) :
+    SetBaseHom.Eq (piSetMap (GB0Hom.id X)) (SetBaseHom.id (piSet X)) := fun _ ↦ rfl
+/-- Functorial composition law for `π_Set`. -/
+theorem piSetMap_comp {X Y Z : GB0Model} (φ : GB0Hom X Y) (ψ : GB0Hom Y Z) :
+    SetBaseHom.Eq (piSetMap (GB0Hom.comp φ ψ)) (SetBaseHom.comp (piSetMap φ) (piSetMap ψ)) :=
+  fun _ ↦ rfl
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.evalGodelExpr_isClass' does not depend on any axioms -/\n#guard_msgs in\n#print axioms evalGodelExpr_isClass",
+  "/-- info: 'HomotopyCRM.Vol2.piSetMap_comp' does not depend on any axioms -/\n#guard_msgs in\n#print axioms piSetMap_comp"
+]
+
+[body]
+lean_body = """
+φ.baseHom
+"""
+tex = """
+\\begin{definition}[The Category {{sym:mod-gb0}} of G\\\"odel Class Algebras and Projection {{sym:piset}}]\\label{ch02:def:gb0-model-category}%
+\\uses{vol1:def:set-projection-fibration}%
+Relative to Volume~I ({{ref:vol1:def:set-projection-fibration}}), a \\textbf{G\\\"odel class algebra} $(M, \\mathcal{C}) \\in {{sym:mod-gb0}}$ consists of a pairing-equipped set structure $M = (|M|, \\in_M, \\langle -, - \\rangle_M)$ together with a collection $\\mathcal{C} \\subseteq \\wp(|M|)$ closed under extensional equivalence, singleton and set parameters, G\\\"odel's eight predicative class operations \\textbf{G1--G8} (including \\textbf{G4} domain projection $\\mathrm{dom}^M(C) := \\{x \\mid \\exists y,\\; (x, y) \\in C\\}$)~\\cite{godel1940,joyal_moerdijk1995}, and \\textbf{Subclass Separation}: every $C \\in \\mathcal{C}$ bounded by a set $a \\in M$ is represented by a set $b \\in M$. Morphisms $(f, F) : (M, \\mathcal{C}) \\to (N, \\mathcal{D})$ in {{sym:mod-gb0}} pair an $\\mathcal{L}_\\in$-elementary set-base embedding $f : M \\hookrightarrow N$ (preserving $\\in$, pairs, satisfaction, and extensional equivalences of parameterized G\\\"odel expressions) with a membership- and G\\\"odel-preserving class transport $F : \\mathcal{C} \\to \\mathcal{D}$, and {{sym:piset}} sends $(M, \\mathcal{C}) \\mapsto M$, $(f, F) \\mapsto f$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration"]
+lean_dep = []
+curriculum = ["vol1:def:set-projection-fibration"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Authorial framework definition"
+blueprint_tier = "lean_ok"
+characterization_types = ["Framework Definition", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.GB0Model"
+purpose = "Axiom-free Emerald Lean 4 formalization of GB0Model (G1-G8 + Subclass Separation), GB0Hom, and piSet"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:set-projection-fibration"
+locator = "docs/ch07_sets_residuum.tex:18"
+purpose = "Pinned Volume I origin for Replacement-free GB_0 and pi_Set"

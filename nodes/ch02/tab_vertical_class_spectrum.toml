@@ -1,0 +1,114 @@
+id = "ch02:tab:vertical-class-spectrum"
+kind = "summary_table"
+title = "Table 2.1: Vertical Class-Theory Spectrum Along pi_Set Above Set_M"
+chapter = "ch02"
+section = "2.4"
+seq_order = 285
+axis = "class_set"
+grounding_tier = "expository"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["felgner1971", "fujimoto2012", "gitman2020", "maclane1998"]
+
+[body]
+tex = """
+\\begin{table}[htbp]
+\\centering
+\\scriptsize
+\\setlength{\\tabcolsep}{2.6pt}
+\\renewcommand{\\arraystretch}{1.14}
+\\begin{tabularx}{\\textwidth}{@{}P{0.17\\textwidth}P{0.19\\textwidth}P{0.19\\textwidth}YY@{}}
+\\toprule
+\\textbf{Vertical Rung} & \\textbf{Categorical Operations} & \\textbf{$\\mathcal{L}_\\in$-Conservativity} & \\textbf{Operational Currencies \\& Anchors} & \\textbf{Key Reference} \\\\
+\\midrule
+{{sym:gb0}} (Replacement-free) & Coreflective ${{sym:def-functor}} \\dashv {{sym:piset}}$; 3-way $f^*\\mathcal{D}$ failure & Yes over $\\mathsf{Z}$ via ${{sym:def-functor}}(M)$ & Inverted Clamping / Rank-Compression baseline ({{ref:ch01:def:operational-currencies}}) & {{ref:ch02:def:gb0-model-category}}, {{ref:ch02:thm:three-way-pullback-failure}}, {{ref:ch02:thm:def-left-adjoint-coreflection}}, {{ref:ch02:prop:syntactic-conservative-pullback}} \\\\
+{{sym:gbc}} (${{sym:gb0}} + \\mathrm{Rep} + \\mathrm{AC}$) & Predicative \\textbf{G1--G8}; $\\mathbf{Card} \\hookrightarrow \\mathbf{Set}$ unsplit under Easton & Yes over $\\mathsf{ZFC}$ via ${{sym:def-functor}}(M)$ & Unsplit weak equivalence under $\\forall p\\,(V \\neq \\mathrm{HOD}(\\{p\\}))$ & {{ref:ch02:prop:los-unbundling-independence}}, {{ref:ch02:claim:easton-hod-unsplit-card}}, {{ref:ch02:thm:williams-fixed-set-kaleidoscope}} \\\\
+{{sym:nbg}} (${{sym:gbc}} + \\mathsf{GC} = {{sym:gb0}} + \\mathsf{LoS}$) & Splits $\\mathbf{Card} \\hookrightarrow \\mathbf{Set}$; $\\mathrm{Ord} \\xrightarrow{\\sim} V$ & Yes over $\\mathsf{ZFC}$ (Felgner~\\cite{felgner1971}) & Oracle Cost (Global Choice selector $\\mathsf{GC}$) & {{ref:ch02:prop:los-unbundling-independence}}, {{ref:ch02:claim:easton-hod-unsplit-card}} \\\\
+${{sym:nbg}} + {{sym:etr-ord}}$ & Class forcing $\\Vdash_{\\mathbb{P}}$; $\\mathrm{Ord}$-Ad\\'amek chains & \\textbf{No} over $\\mathsf{ZFC}$ ($\\mathsf{ETR}_\\omega \\vdash \\mathrm{Con}(\\mathsf{ZFC})$ vs.\\ $\\mathsf{CT}^-[\\mathsf{ZFC}]$~\\cite{fujimoto2012}); yes over $T^*$ & Reflection leak vs.\\ $T^*$ (\\cite{gitman2020} write $\\mathsf{GBC}$ for ${{sym:nbg}}$) & {{ref:ch02:claim:gitman-etr-ord-fujimoto-contrast}} \\\\
+${{sym:nbg}} + \\mathsf{ETR}$ & Arbitrary class well-order recursion & \\textbf{No} ($\\vdash \\mathrm{Con}({{sym:nbg}} + {{sym:etr-ord}})$) & Oracle + Rank-Compression escalation & {{ref:ch02:claim:gitman-etr-ord-fujimoto-contrast}} \\\\
+{{sym:km}} ($\\Pi^1_\\infty$-\\textsf{CA}) & Complete class lattices; still blocked from class-sized $\\mathbf{Set}$-limits / Kan ext.~\\cite{maclane1998} & \\textbf{No} ($\\vdash \\mathrm{Con}({{sym:nbg}} + \\mathsf{ETR})$, modeled by $(V_\\kappa, V_{\\kappa+1})$) & Inverted Clamping ($V_\\lambda \\ni V_\\kappa$ Grothendieck universe required) & {{ref:ch02:claim:kelley-morse-freyd-kan-barrier}} \\\\
+\\bottomrule
+\\end{tabularx}
+\\caption{Six-rung vertical class-theory spectrum along ${{sym:piset}}^{-1}(M)$ above $\\mathbf{Set}_M$, contrasting categorical power, $\\mathcal{L}_\\in$-conservativity, and Operational Currencies.}
+\\label{ch02:tab:vertical-class-spectrum}
+\\end{table}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = [
+  "vol1:def:set-projection-fibration",
+  "vol1:prop:los-smuggles-gc",
+  "ch02:prose:part1-ch02-roadmap",
+  "ch02:def:gb0-model-category",
+  "ch02:thm:three-way-pullback-failure",
+  "ch02:thm:def-left-adjoint-coreflection",
+  "ch02:prop:syntactic-conservative-pullback",
+  "ch02:prop:los-unbundling-independence",
+  "ch02:claim:easton-hod-unsplit-card",
+  "ch02:thm:williams-fixed-set-kaleidoscope",
+  "ch02:claim:gitman-etr-ord-fujimoto-contrast",
+  "ch02:claim:kelley-morse-freyd-kan-barrier"
+]
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:def:gb0-model-category"
+locked_spec_hash = "865bbb4013d18cb87ccc3a4601ba6a010a677f45b67fe450e8dfedb023bbe9b8"
+scope_note = "Table 2.1 GB_0 row: Mod(GB_0), G1-G8, Subclass Separation"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:three-way-pullback-failure"
+locked_spec_hash = "afa92d116adde8db848a81dc4323e11d0fceb9afe6e26078e3530d2bac97ac2e"
+scope_note = "Table 2.1 GB_0 row: 3-way naive trace pullback failure"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:def-left-adjoint-coreflection"
+locked_spec_hash = "57ef42522900fc9bce187a5f63f183d9df817281f98e9931bdff9a72a7edc833"
+scope_note = "Table 2.1 GB_0 row: Def -| pi_Set coreflection"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:prop:syntactic-conservative-pullback"
+locked_spec_hash = "d6d4d5347f5d2065b2cc170037e786422da3ec39b9b561576e33c6f991fc69ad"
+scope_note = "Table 2.1 GB_0 row: syntactic conservative pullback square"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:prop:los-unbundling-independence"
+locked_spec_hash = "76e42f76458dfc406a5dc866fd88e9cdafa08510ae66a62419566b6a11229fc5"
+scope_note = "Table 2.1 NBG row: LoS <=> Rep /\\ GC unbundling"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:claim:easton-hod-unsplit-card"
+locked_spec_hash = "618067851cfbe9070fd35b4c55f77e44db15434c81851c9a8a306c4a528662b3"
+scope_note = "Table 2.1 GBC row: unsplit Card -> Set under Easton forall p (V != HOD({p}))"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:williams-fixed-set-kaleidoscope"
+locked_spec_hash = "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa"
+scope_note = "Table 2.1 GBC row: Williams fixed-set fiber kaleidoscope"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:claim:gitman-etr-ord-fujimoto-contrast"
+locked_spec_hash = "c5d45830c1ca53420d4f057a814d98c88d937c1626e3a473b3a5e4fdcf65e7e8"
+scope_note = "Table 2.1 ETR_Ord and ETR rows: Class Forcing Theorem, ETR_omega Con(ZFC) leak, and CT^-[ZFC] contrast"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:claim:kelley-morse-freyd-kan-barrier"
+locked_spec_hash = "7bc4d67805db42b59d0a1a45e58bd9e7eed708380fc2e7be8cb1fc3b940b7e7c"
+scope_note = "Table 2.1 KM row: impredicative comprehension and Freyd large-limit/Kan barrier"
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Choice Calibration", "Metamathematical Principle"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch02:def:gb0-model-category"
+purpose = "Table 2.1 baseline GB_0 row"
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch02:thm:williams-fixed-set-kaleidoscope"
+purpose = "Table 2.1 GBC vertical fiber kaleidoscope row"

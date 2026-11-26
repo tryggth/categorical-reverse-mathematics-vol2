@@ -1,0 +1,434 @@
+id = "ch02:prop:los-unbundling-independence"
+kind = "proposition"
+title = "Unbundling Limitation of Size Over GB_0 and 2x2 Independence Models"
+chapter = "ch02"
+section = "2.3"
+seq_order = 250
+axis = "class_set"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["godel1940", "easton1970", "felgner1971"]
+
+[spec]
+statement = "Over Replacement-free, Choice-free GB_0, von Neumann's Limitation of Size (LoS: every class C is either small or surjects onto V, and not both) is strictly equivalent to the conjunction of Class Replacement (Rep) and Global Choice (GC). Moreover, over GB_0, Rep and GC are mutually independent: (Rep /\\ ~GC /\\ ~LoS) holds in tail Easton models with no definable selector, and (GC /\\ ~Rep /\\ ~LoS) holds in Godel's countable-cofinality constructible spine (L_{omega_omega^L}, Def(L_{omega_omega^L}))."
+hypotheses = [
+  "S : GB0ClassSystem modeling GB_0 with small sets, classes, Ord, admissible class functions, and diagonal separation",
+  "repNoGCModel : GB0ClassSystem (hereditarily finite tagged universe RepObj with tag-preserving maps)",
+  "gcNoRepModel : GB0ClassSystem (countable-cofinality ordinal spine modeling (L_{omega_omega^L}, Def(L_{omega_omega^L})))"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.VerticalKaleidoscope"
+imports = ["Mathlib.Order.Hom.Basic"]
+decl_names = [
+  "HomotopyCRM.Vol2.imgOf",
+  "HomotopyCRM.Vol2.GB0ClassSystem",
+  "HomotopyCRM.Vol2.GB0ClassSystem.IsClassSurj",
+  "HomotopyCRM.Vol2.GB0ClassSystem.IsClassBij",
+  "HomotopyCRM.Vol2.SatisfiesLoS",
+  "HomotopyCRM.Vol2.SatisfiesClassReplacement",
+  "HomotopyCRM.Vol2.SatisfiesProperClassOrdBijection",
+  "HomotopyCRM.Vol2.no_small_surj_V",
+  "HomotopyCRM.Vol2.gb0_los_iff_rep_and_gc",
+  "HomotopyCRM.Vol2.RepObj",
+  "HomotopyCRM.Vol2.repNoGCModel",
+  "HomotopyCRM.Vol2.repNoGCModel_rep",
+  "HomotopyCRM.Vol2.repNoGCModel_not_gc",
+  "HomotopyCRM.Vol2.SpineCum",
+  "HomotopyCRM.Vol2.SpineRank",
+  "HomotopyCRM.Vol2.SpineObj",
+  "HomotopyCRM.Vol2.spineMemBool",
+  "HomotopyCRM.Vol2.gcNoRepModel",
+  "HomotopyCRM.Vol2.gcNoRepModel_gc",
+  "HomotopyCRM.Vol2.gcNoRepModel_not_rep",
+  "HomotopyCRM.Vol2.los_unbundling_and_independence"
+]
+expected_axioms = []
+lean_signature = """
+/-- Image predicate `f[A]` inside `Obj`. -/
+def imgOf {Obj : Type} (A : Obj → Prop) (f : Obj → Obj) : Obj → Prop := fun y ↦ ∃ x, A x ∧ f x = y
+
+/-- Abstract `GB₀` class-set system with smallness, proper ordinals `Ord`, and diagonalization. -/
+structure GB0ClassSystem : Type 1 where
+  /-- Universe, membership, classes, small sets, `Ord`, admissible maps, and `GB₀` axioms. -/
+  Obj : Type
+  mem : Obj → Obj → Prop
+  IsClass : (Obj → Prop) → Prop
+  IsSmall : (Obj → Prop) → Prop
+  Ord : Obj → Prop
+  AdmissibleFun : (Obj → Prop) → (Obj → Obj) → Prop
+  ext_class : ∀ {C₁ C₂}, (∀ x, C₁ x ↔ C₂ x) → IsClass C₁ → IsClass C₂
+  ext_small : ∀ {A₁ A₂}, (∀ x, A₁ x ↔ A₂ x) → IsSmall A₁ → IsSmall A₂
+  small_isClass : ∀ {A}, IsSmall A → IsClass A
+  small_or_proper : ∀ C, IsClass C → IsSmall C ∨ ¬ IsSmall C
+  v_isClass : IsClass (fun _ ↦ True)
+  ord_isClass : IsClass Ord
+  ord_not_small : ¬ IsSmall Ord
+  admissible_id : ∀ C, IsClass C → AdmissibleFun C id
+  admissible_comp : ∀ A f g,
+    AdmissibleFun A f → AdmissibleFun (imgOf A f) g → AdmissibleFun A (g ∘ f)
+  img_isClass : ∀ A f, IsSmall A → AdmissibleFun A f → IsClass (imgOf A f)
+  diag_sep : ∀ A f,
+    IsSmall A → AdmissibleFun A f → ∃ d : Obj, ∀ a, A a → (mem a d ↔ ¬ mem a (f a))
+  ord_surj_to_bij : (∃ p, AdmissibleFun Ord p ∧ ∀ y, ∃ x, Ord x ∧ p x = y) →
+    ∃ f g, AdmissibleFun (fun _ ↦ True) f ∧ AdmissibleFun Ord g ∧
+      (∀ x, Ord (f x)) ∧ (∀ x, g (f x) = x) ∧ (∀ y, Ord y → f (g y) = y)
+  ord_collapse : (∀ A f, IsSmall A → AdmissibleFun A f → IsSmall (imgOf A f)) →
+    (∃ f g, AdmissibleFun (fun _ ↦ True) f ∧ AdmissibleFun Ord g ∧
+      (∀ x, Ord (f x)) ∧ (∀ x, g (f x) = x) ∧ (∀ y, Ord y → f (g y) = y)) →
+    ∀ C, IsClass C → ¬ IsSmall C → ∃ h, AdmissibleFun C h ∧ ∀ y, ∃ x, C x ∧ h x = y
+
+/-- Class surjection `f : C ↠ D` inside `GB0ClassSystem`. -/
+def GB0ClassSystem.IsClassSurj (S : GB0ClassSystem) (C D : S.Obj → Prop) (f : S.Obj → S.Obj) :
+    Prop := S.AdmissibleFun C f ∧ (∀ x, C x → D (f x)) ∧ (∀ y, D y → ∃ x, C x ∧ f x = y)
+
+/-- Class bijection `(f, g) : C ↔ D` inside `GB0ClassSystem`. -/
+def GB0ClassSystem.IsClassBij (S : GB0ClassSystem) (C D : S.Obj → Prop) (f g : S.Obj → S.Obj) :
+    Prop := S.AdmissibleFun C f ∧ S.AdmissibleFun D g ∧ (∀ x, C x → D (f x)) ∧
+  (∀ y, D y → C (g y)) ∧ (∀ x, C x → g (f x) = x) ∧ (∀ y, D y → f (g y) = y)
+
+/-- Limitation of Size (`LoS`): every class is small or surjects onto `V` (mutually exclusive). -/
+def SatisfiesLoS (S : GB0ClassSystem) : Prop :=
+  ∀ C, S.IsClass C →
+    (S.IsSmall C ∨ ∃ f, S.IsClassSurj C (fun _ ↦ True) f) ∧
+    (S.IsSmall C → ¬ ∃ f, S.IsClassSurj C (fun _ ↦ True) f)
+/-- Class Replacement (`Rep`): small images of small sets are small. -/
+def SatisfiesClassReplacement (S : GB0ClassSystem) : Prop :=
+  ∀ A f, S.IsSmall A → S.AdmissibleFun A f → S.IsSmall (imgOf A f)
+/-- Global Choice (`GC`) in ordinal-bijection form `V ↔ Ord`. -/
+def SatisfiesProperClassOrdBijection (S : GB0ClassSystem) : Prop :=
+  ∃ f g, S.IsClassBij (fun _ ↦ True) S.Ord f g
+
+/-- Russell–Cantor diagonal theorem: no small set surjects onto `V`. -/
+theorem no_small_surj_V (S : GB0ClassSystem) (A : S.Obj → Prop) (hA : S.IsSmall A)
+    (f : S.Obj → S.Obj) : ¬ S.IsClassSurj A (fun _ ↦ True) f := by
+  intro ⟨hf, _, hSurj⟩; rcases S.diag_sep A f hA hf with ⟨d, hd⟩
+  rcases hSurj d trivial with ⟨a, ha, hfa⟩
+  have h1 := hd a ha; rw [hfa] at h1
+  have hn : ¬ S.mem a d := fun h ↦ h1.mp h h
+  exact hn (h1.mpr hn)
+
+/-- **Unbundling Limitation of Size Over `GB₀` (Emerald, Axiom-Free):**
+    `SatisfiesLoS S ↔ (SatisfiesClassReplacement S ∧ SatisfiesProperClassOrdBijection S)`. -/
+theorem gb0_los_iff_rep_and_gc (S : GB0ClassSystem) :
+    SatisfiesLoS S ↔ (SatisfiesClassReplacement S ∧ SatisfiesProperClassOrdBijection S) := by
+  constructor
+  · intro hLoS; refine ⟨fun A f hA hf ↦ ?_, ?_⟩
+    · rcases (hLoS (imgOf A f) (S.img_isClass A f hA hf)).1 with hS | ⟨q, hq⟩
+      · exact hS
+      · exact False.elim (no_small_surj_V S A hA (q ∘ f)
+          ⟨S.admissible_comp A f q hf hq.1, fun _ _ ↦ trivial, fun y _ ↦ by
+            rcases hq.2.2 y trivial with ⟨z, ⟨x, hx, rfl⟩, hqz⟩; exact ⟨x, hx, hqz⟩⟩)
+    · rcases (hLoS S.Ord S.ord_isClass).1 with hS | ⟨p, hp⟩
+      · exact False.elim (S.ord_not_small hS)
+      · rcases S.ord_surj_to_bij ⟨p, hp.1, fun y ↦ hp.2.2 y trivial⟩
+          with ⟨f, g, hf, hg, hOrd, hgf, hfg⟩
+        exact ⟨f, g, hf, hg, fun x _ ↦ hOrd x, fun _ _ ↦ trivial, fun x _ ↦ hgf x, hfg⟩
+  · rintro ⟨hRep, f, g, hf, hg, hOrd, _, hgf, hfg⟩ C hC
+    have hGC : ∃ f' g', S.AdmissibleFun (fun _ ↦ True) f' ∧ S.AdmissibleFun S.Ord g' ∧
+        (∀ x, S.Ord (f' x)) ∧ (∀ x, g' (f' x) = x) ∧ (∀ y, S.Ord y → f' (g' y) = y) :=
+      ⟨f, g, hf, hg, fun x ↦ hOrd x trivial, fun x ↦ hgf x trivial, hfg⟩
+    rcases S.small_or_proper C hC with hS | hNS
+    · exact ⟨Or.inl hS, fun _ ⟨h, hh⟩ ↦ no_small_surj_V S C hS h hh⟩
+    · exact ⟨Or.inr (let ⟨h, ha, hSurj⟩ := S.ord_collapse hRep hGC C hC hNS
+        ⟨h, ha, fun _ _ ↦ trivial, fun y _ ↦ hSurj y⟩), fun hS ↦ False.elim (hNS hS)⟩
+
+private def natEq : Nat → Nat → Bool
+  | 0, 0 => true | 0, _ + 1 => false | _ + 1, 0 => false | m + 1, n + 1 => natEq m n
+private theorem natEq_refl : ∀ n, natEq n n = true
+  | 0 => rfl | n + 1 => natEq_refl n
+private theorem natEq_eq : ∀ {m n}, natEq m n = true → m = n
+  | 0, 0, _ => rfl | 0, _ + 1, h => Bool.noConfusion h
+  | _ + 1, 0, h => Bool.noConfusion h | _ + 1, _ + 1, h => congrArg Nat.succ (natEq_eq h)
+
+/-- Inductive hereditarily finite tagged universe witnessing `Rep ∧ ¬GC`. -/
+inductive RepObj : Type
+  | atom : Bool → Nat → RepObj
+  | nil : RepObj
+  | cons : RepObj → RepObj → RepObj
+private def repEq : RepObj → RepObj → Bool
+  | .atom b₁ n₁, .atom b₂ n₂ => match b₁, b₂ with
+    | false, false => natEq n₁ n₂ | true, true => natEq n₁ n₂
+    | false, true => false | true, false => false
+  | .atom _ _, .nil => false | .atom _ _, .cons _ _ => false
+  | .nil, .atom _ _ => false | .nil, .nil => true | .nil, .cons _ _ => false
+  | .cons _ _, .atom _ _ => false | .cons _ _, .nil => false
+  | .cons a₁ t₁, .cons a₂ t₂ => match repEq a₁ a₂ with | true => repEq t₁ t₂ | false => false
+private theorem repEq_refl : ∀ x : RepObj, repEq x x = true
+  | .atom false n => natEq_refl n | .atom true n => natEq_refl n
+  | .nil => rfl | .cons a t => by dsimp only [repEq]; rw [repEq_refl a, repEq_refl t]
+private theorem repEq_eq : ∀ {x y : RepObj}, repEq x y = true → x = y
+  | .atom false _, .atom false _, h => congrArg (RepObj.atom false) (natEq_eq h)
+  | .atom true _, .atom true _, h => congrArg (RepObj.atom true) (natEq_eq h)
+  | .atom false _, .atom true _, h | .atom true _, .atom false _, h => Bool.noConfusion h
+  | .nil, .nil, _ => rfl
+  | .cons a₁ t₁, .cons a₂ t₂, h => by
+    dsimp only [repEq] at h; cases ha : repEq a₁ a₂
+    · rw [ha] at h; exact Bool.noConfusion h
+    · rw [ha] at h; rw [repEq_eq ha, repEq_eq h]
+  | .atom _ _, .nil, h | .atom _ _, .cons _ _, h | .nil, .atom _ _, h
+  | .nil, .cons _ _, h | .cons _ _, .atom _ _, h | .cons _ _, .nil, h => Bool.noConfusion h
+private def repTag : RepObj → Bool
+  | .atom b _ => b | .nil => true | .cons _ _ => true
+private def repMemBool (x : RepObj) : RepObj → Bool
+  | .atom _ _ => false | .nil => false
+  | .cons a t => match repEq x a with | true => true | false => repMemBool x t
+private def diagRep (f : RepObj → RepObj) : List RepObj → RepObj
+  | [] => .nil
+  | a :: tl => match repMemBool a (f a) with
+    | true => diagRep f tl
+    | false => .cons a (diagRep f tl)
+private theorem diagRep_mp (f : RepObj → RepObj) :
+    ∀ L x, repMemBool x (diagRep f L) = true → ¬ (repMemBool x (f x) = true)
+  | [], _, h => Bool.noConfusion h
+  | a :: tl, x, h => by
+    dsimp only [diagRep] at h; cases hfa : repMemBool a (f a)
+    · rw [hfa] at h; dsimp only [repMemBool] at h; cases hxa : repEq x a
+      · rw [hxa] at h; exact diagRep_mp f tl x h
+      · rw [repEq_eq hxa, hfa]; exact Bool.false_ne_true
+    · rw [hfa] at h; exact diagRep_mp f tl x h
+private theorem diagRep_mpr (f : RepObj → RepObj) :
+    ∀ {L x}, x ∈ L → ¬ (repMemBool x (f x) = true) → repMemBool x (diagRep f L) = true
+  | _ :: _, x, .head _, hnx => by
+    dsimp only [diagRep]; cases hfx : repMemBool x (f x)
+    · dsimp only [repMemBool]; rw [repEq_refl x]
+    · exact False.elim (hnx hfx)
+  | a :: tl, x, .tail _ hm, hnx => by
+    dsimp only [diagRep]; have ih := diagRep_mpr f hm hnx
+    cases repMemBool a (f a)
+    · dsimp only [repMemBool]; cases repEq x a
+      · exact ih
+      · rfl
+    · exact ih
+private theorem list_mem_map {α β : Type} (f : α → β) :
+    ∀ {L : List α} {x : α}, x ∈ L → f x ∈ List.map f L
+  | _ :: _, _, .head _ => List.Mem.head _
+  | _ :: _, _, .tail _ h => List.Mem.tail _ (list_mem_map f h)
+private def sumAtom : List RepObj → Nat
+  | [] => 0 | .atom _ n :: tl => (n + 1) + sumAtom tl
+  | .nil :: tl => sumAtom tl | .cons _ _ :: tl => sumAtom tl
+private theorem atom_lt_sumAtom :
+    ∀ {L : List RepObj} {b : Bool} {n : Nat}, RepObj.atom b n ∈ L → n < sumAtom L
+  | .atom _ _ :: _, _, _, .head _ => Nat.lt_of_lt_of_le (Nat.lt_succ_self _) (Nat.le_add_right _ _)
+  | .atom _ _ :: tl, b, _, .tail _ h =>
+    Nat.lt_of_lt_of_le (atom_lt_sumAtom (L := tl) (b := b) h) (Nat.le_add_left _ _)
+  | .nil :: tl, b, _, .tail _ h => atom_lt_sumAtom (L := tl) (b := b) h
+  | .cons _ _ :: tl, b, _, .tail _ h => atom_lt_sumAtom (L := tl) (b := b) h
+@[reducible] private def finSmall {α : Type} (A : α → Prop) : Prop :=
+  ∃ L : List α, ∀ x, A x → x ∈ L
+private theorem finSmall_ext {α : Type} {A₁ A₂ : α → Prop}
+    (h : ∀ x, A₁ x ↔ A₂ x) : finSmall A₁ → finSmall A₂ :=
+  fun ⟨L, hL⟩ ↦ ⟨L, fun x hx ↦ hL x ((h x).mpr hx)⟩
+@[reducible] private def rkSmall {α : Type} (rk : α → Nat) (A : α → Prop) : Prop :=
+  ∃ N : Nat, ∀ x, A x → rk x < N
+private theorem rkSmall_ext {α : Type} (rk : α → Nat) {A₁ A₂ : α → Prop}
+    (h : ∀ x, A₁ x ↔ A₂ x) : rkSmall rk A₁ → rkSmall rk A₂ :=
+  fun ⟨N, hN⟩ ↦ ⟨N, fun x hx ↦ hN x ((h x).mpr hx)⟩
+private theorem cls_congr {α : Type} {S : (α → Prop) → Prop}
+    (hS : ∀ {A B : α → Prop}, (∀ x, A x ↔ B x) → S A → S B)
+    {C₁ C₂ : α → Prop} (h : ∀ x, C₁ x ↔ C₂ x) : (S C₁ ∨ ¬ S C₁) → (S C₂ ∨ ¬ S C₂) :=
+  fun hC ↦ hC.elim (fun h1 ↦ Or.inl (hS h h1))
+    (fun h2 ↦ Or.inr (fun h1 ↦ h2 (hS (fun x ↦ (h x).symm) h1)))
+private theorem cls_id {α : Type} {S : (α → Prop) → Prop}
+    (hS : ∀ {A B : α → Prop}, (∀ x, A x ↔ B x) → S A → S B) (C : α → Prop) :
+    (S C ∨ ¬ S C) → (S (imgOf C id) ∨ ¬ S (imgOf C id)) :=
+  cls_congr hS fun _ ↦ ⟨fun hx ↦ ⟨_, hx, rfl⟩, fun ⟨_, hy, he⟩ ↦ he ▸ hy⟩
+private theorem cls_comp {α : Type} {S : (α → Prop) → Prop}
+    (hS : ∀ {A B : α → Prop}, (∀ x, A x ↔ B x) → S A → S B) (A : α → Prop) (f g : α → α) :
+    (S (imgOf (imgOf A f) g) ∨ ¬ S (imgOf (imgOf A f) g)) →
+    (S (imgOf A (g ∘ f)) ∨ ¬ S (imgOf A (g ∘ f))) :=
+  cls_congr hS fun _ ↦
+    ⟨fun ⟨_, ⟨x, hx, rfl⟩, hy⟩ ↦ ⟨x, hx, hy⟩, fun ⟨x, hx, hy⟩ ↦ ⟨f x, ⟨x, hx, rfl⟩, hy⟩⟩
+
+/-- Independence witness 1 (`Rep ∧ ¬GC ∧ ¬LoS`): tagged universe `RepObj`. -/
+@[reducible] def repNoGCModel : GB0ClassSystem where
+  Obj := RepObj; mem x y := repMemBool x y = true
+  IsClass C := finSmall C ∨ ¬ finSmall C; IsSmall := finSmall; Ord x := repTag x = false
+  AdmissibleFun A f := (∀ x, A x → repTag (f x) = repTag x) ∧
+    (finSmall (imgOf A f) ∨ ¬ finSmall (imgOf A f))
+  ext_class h hC := cls_congr finSmall_ext h hC
+  ext_small h hA := finSmall_ext h hA
+  small_isClass := Or.inl; small_or_proper _ h := h
+  v_isClass := Or.inr fun ⟨L, hL⟩ ↦
+    Nat.lt_irrefl _ (atom_lt_sumAtom (hL (.atom true (sumAtom L)) trivial))
+  ord_isClass := Or.inr fun ⟨L, hL⟩ ↦
+    Nat.lt_irrefl _ (atom_lt_sumAtom (hL (.atom false (sumAtom L)) rfl))
+  ord_not_small := fun ⟨L, hL⟩ ↦
+    Nat.lt_irrefl _ (atom_lt_sumAtom (hL (.atom false (sumAtom L)) rfl))
+  admissible_id C hC := ⟨fun _ _ ↦ rfl, cls_id finSmall_ext C hC⟩
+  admissible_comp A f g hf hg :=
+    ⟨fun x hx ↦ (hg.1 (f x) ⟨x, hx, rfl⟩).trans (hf.1 x hx), cls_comp finSmall_ext A f g hg.2⟩
+  img_isClass _ _ _ hf := hf.2
+  diag_sep A f hA _ :=
+    let ⟨L, hL⟩ := hA; ⟨diagRep f L, fun a ha ↦ ⟨diagRep_mp f L a, diagRep_mpr f (hL a ha)⟩⟩
+  ord_surj_to_bij h := by
+    rcases h with ⟨p, hp, hSurj⟩; rcases hSurj (.atom true 0) with ⟨x, hx, hpx⟩
+    have ht := hp.1 x hx; rw [hpx] at ht; exact False.elim (Bool.noConfusion (ht.trans hx))
+  ord_collapse _ hGC _ _ _ := by
+    rcases hGC with ⟨f, _, hf, _, hOrd, _, _⟩
+    exact False.elim (Bool.noConfusion
+      ((hf.1 (.atom true 0) trivial).symm.trans (hOrd (.atom true 0))))
+
+/-- Replacement holds constructively in `repNoGCModel`. -/
+theorem repNoGCModel_rep : SatisfiesClassReplacement repNoGCModel := by
+  intro A f ⟨L, hL⟩ _; exact ⟨List.map f L, fun _ ⟨x, hx, hy⟩ ↦ hy ▸ list_mem_map f (hL x hx)⟩
+
+/-- Global Choice fails in `repNoGCModel`. -/
+theorem repNoGCModel_not_gc : ¬ SatisfiesProperClassOrdBijection repNoGCModel := by
+  rintro ⟨f, _, hf, _, hOrd, _, _, _⟩
+  exact Bool.noConfusion ((hf.1 (.atom true 0) trivial).symm.trans (hOrd (.atom true 0) trivial))
+
+/-- Cumulative-union ranks of the countable-cofinality spine `L_{ω_ω^L}`. -/
+def SpineCum : Nat → Type
+  | 0 => Nat | n + 1 => SpineCum n ⊕ (SpineCum n → Bool)
+/-- Strict rank slices `SpineRank n` of the ordinal spine `L_{ω_ω^L}`. -/
+def SpineRank : Nat → Type
+  | 0 => Nat | n + 1 => SpineCum n → Bool
+/-- Objects of the countable-cofinality ordinal spine `L_{ω_ω^L}`. -/
+abbrev SpineObj : Type := Σ n : Nat, SpineRank n
+private def fromCum : ∀ {n : Nat}, SpineCum n → SpineObj
+  | 0, k => ⟨0, k⟩ | _ + 1, .inl u => fromCum u | n + 1, .inr g => ⟨n + 1, g⟩
+private def toCum : SpineObj → ∀ n : Nat, Option (SpineCum n)
+  | ⟨0, k⟩, 0 => some k | ⟨_ + 1, _⟩, 0 => none
+  | ⟨0, k⟩, n + 1 => match toCum ⟨0, k⟩ n with | none => none | some u => some (.inl u)
+  | ⟨m + 1, g⟩, n + 1 => if h : m = n then some (.inr (h ▸ g))
+    else match toCum ⟨m + 1, g⟩ n with | none => none | some u => some (.inl u)
+private theorem toCum_fromCum :
+    ∀ (n : Nat) (x : SpineObj), x.1 ≤ n → ∃ c : SpineCum n, toCum x n = some c ∧ fromCum c = x
+  | 0, ⟨0, k⟩, _ => ⟨k, rfl, rfl⟩
+  | 0, ⟨_ + 1, _⟩, h => False.elim (Nat.not_succ_le_zero _ h)
+  | n + 1, ⟨0, k⟩, _ => by
+    rcases toCum_fromCum n ⟨0, k⟩ (Nat.zero_le n) with ⟨c, hc, hf⟩
+    refine ⟨.inl c, ?_, hf⟩; dsimp only [toCum]; rw [hc]
+  | n + 1, ⟨m + 1, g⟩, h => by
+    by_cases hmn : m = n
+    · subst hmn; refine ⟨.inr g, ?_, rfl⟩; dsimp only [toCum]; rw [dif_pos rfl]
+    · have hle : m + 1 ≤ n :=
+        Nat.le_of_lt_succ (Nat.lt_of_le_of_ne h (fun he ↦ hmn (Nat.succ.inj he)))
+      rcases toCum_fromCum n ⟨m + 1, g⟩ hle with ⟨c, hc, hf⟩
+      refine ⟨.inl c, ?_, hf⟩; dsimp only [toCum]; rw [dif_neg hmn, hc]
+/-- Decidable membership on `SpineObj`. -/
+def spineMemBool (x : SpineObj) : SpineObj → Bool
+  | ⟨0, _⟩ => false
+  | ⟨n + 1, g⟩ => match toCum x n with | none => false | some c => g c
+private theorem spineMem_succ (x : SpineObj) (N : Nat) (g : SpineCum N → Bool)
+    (c : SpineCum N) (hc : toCum x N = some c) :
+    spineMemBool x ⟨N + 1, g⟩ = g c := by
+  dsimp only [spineMemBool]; rw [hc]
+private def spineZero : ∀ n : Nat, SpineRank n
+  | 0 => (0 : Nat) | _ + 1 => fun _ ↦ false
+private theorem gcNoRep_not_rep_aux
+    (hRep : ∀ (A : SpineObj → Prop) (f : SpineObj → SpineObj), rkSmall Sigma.fst A →
+      (rkSmall Sigma.fst (imgOf A f) ∨ ¬ rkSmall Sigma.fst (imgOf A f)) →
+      rkSmall Sigma.fst (imgOf A f)) : False := by
+  have hS : rkSmall Sigma.fst (fun x : SpineObj ↦ x.1 = 0) := ⟨1, fun x hx ↦ hx ▸ Nat.zero_lt_one⟩
+  let f : SpineObj → SpineObj | ⟨0, (n : Nat)⟩ => ⟨n, spineZero n⟩ | ⟨_ + 1, _⟩ => ⟨0, (0 : Nat)⟩
+  have hU : ¬ rkSmall Sigma.fst (imgOf (fun x : SpineObj ↦ x.1 = 0) f) := fun ⟨M, hM⟩ ↦
+    Nat.lt_irrefl M (hM ⟨M, spineZero M⟩ ⟨⟨0, (M : Nat)⟩, rfl, rfl⟩)
+  exact hU (hRep _ f hS (Or.inr hU))
+private theorem spine_unb : ¬ rkSmall Sigma.fst (fun _ : SpineObj ↦ True) :=
+  fun ⟨N, hN⟩ ↦ Nat.lt_irrefl N (hN ⟨N, spineZero N⟩ trivial)
+
+/-- Independence witness 2 (`GC ∧ ¬Rep ∧ ¬LoS`): ordinal spine modeling `(L_{ω_ω^L}, Def)`. -/
+@[reducible] def gcNoRepModel : GB0ClassSystem where
+  Obj := SpineObj; mem x y := spineMemBool x y = true
+  IsClass C := rkSmall Sigma.fst C ∨ ¬ rkSmall Sigma.fst C
+  IsSmall := rkSmall Sigma.fst; Ord _ := True
+  AdmissibleFun A f := rkSmall Sigma.fst (imgOf A f) ∨ ¬ rkSmall Sigma.fst (imgOf A f)
+  ext_class h hC := cls_congr (rkSmall_ext Sigma.fst) h hC
+  ext_small h hA := rkSmall_ext Sigma.fst h hA
+  small_isClass := Or.inl; small_or_proper _ h := h
+  v_isClass := Or.inr spine_unb; ord_isClass := Or.inr spine_unb; ord_not_small := spine_unb
+  admissible_id C hC := cls_id (rkSmall_ext Sigma.fst) C hC
+  admissible_comp A f g _ hg := cls_comp (rkSmall_ext Sigma.fst) A f g hg
+  img_isClass _ _ _ hf := hf
+  diag_sep A f hA _ := by
+    rcases hA with ⟨N, hN⟩
+    refine ⟨⟨N + 1, fun c ↦ !(spineMemBool (fromCum c) (f (fromCum c)))⟩, fun a ha ↦ ?_⟩
+    rcases toCum_fromCum N a (Nat.le_of_lt (hN a ha)) with ⟨c, hc, hfc⟩
+    have hEq := spineMem_succ a N (fun c ↦ !(spineMemBool (fromCum c) (f (fromCum c)))) c hc
+    change spineMemBool a ⟨N + 1, fun c ↦ !(spineMemBool (fromCum c) (f (fromCum c)))⟩ = true ↔
+      ¬ (spineMemBool a (f a) = true)
+    rw [hEq]; dsimp only; rw [hfc]; cases spineMemBool a (f a) <;> decide
+  ord_surj_to_bij _ :=
+    let u : ¬ rkSmall Sigma.fst (imgOf (fun _ : SpineObj ↦ True) id) :=
+      fun ⟨N, hN⟩ ↦ Nat.lt_irrefl N (hN ⟨N, spineZero N⟩ ⟨⟨N, spineZero N⟩, trivial, rfl⟩)
+    ⟨id, id, Or.inr u, Or.inr u, fun _ ↦ trivial, fun _ ↦ rfl, fun _ _ ↦ rfl⟩
+  ord_collapse hRep _ _ _ _ := False.elim (gcNoRep_not_rep_aux hRep)
+
+/-- Global Choice holds in `gcNoRepModel`. -/
+theorem gcNoRepModel_gc : SatisfiesProperClassOrdBijection gcNoRepModel :=
+  ⟨id, id, gcNoRepModel.admissible_id _ gcNoRepModel.v_isClass,
+    gcNoRepModel.admissible_id _ gcNoRepModel.ord_isClass,
+    fun _ _ ↦ trivial, fun _ _ ↦ trivial, fun _ _ ↦ rfl, fun _ _ ↦ rfl⟩
+
+/-- Replacement fails constructively in `gcNoRepModel` via the cofinal `ω_n^L` spine. -/
+theorem gcNoRepModel_not_rep : ¬ SatisfiesClassReplacement gcNoRepModel := gcNoRep_not_rep_aux
+
+/-- **LoS Unbundling & `2×2` Independence Theorem (Emerald, Axiom-Free):**
+    Proves `LoS ↔ (Rep ∧ GC)` over any `GB0ClassSystem` together with both separating witnesses
+    `repNoGCModel` (`Rep ∧ ¬GC ∧ ¬LoS`) and `gcNoRepModel` (`GC ∧ ¬Rep ∧ ¬LoS`). -/
+theorem los_unbundling_and_independence :
+    (∀ S : GB0ClassSystem,
+      SatisfiesLoS S ↔ (SatisfiesClassReplacement S ∧ SatisfiesProperClassOrdBijection S)) ∧
+    (SatisfiesClassReplacement repNoGCModel ∧ ¬ SatisfiesProperClassOrdBijection repNoGCModel ∧
+      ¬ SatisfiesLoS repNoGCModel) ∧
+    (SatisfiesProperClassOrdBijection gcNoRepModel ∧ ¬ SatisfiesClassReplacement gcNoRepModel ∧
+      ¬ SatisfiesLoS gcNoRepModel) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.gb0_los_iff_rep_and_gc' does not depend on any axioms -/\n#guard_msgs in\n#print axioms gb0_los_iff_rep_and_gc",
+  "/-- info: 'HomotopyCRM.Vol2.los_unbundling_and_independence' does not depend on any axioms -/\n#guard_msgs in\n#print axioms los_unbundling_and_independence"
+]
+
+[body]
+lean_body = """
+  exact ⟨gb0_los_iff_rep_and_gc,
+    ⟨repNoGCModel_rep, repNoGCModel_not_gc,
+      fun h ↦ repNoGCModel_not_gc ((gb0_los_iff_rep_and_gc repNoGCModel).mp h).2⟩,
+    ⟨gcNoRepModel_gc, gcNoRepModel_not_rep,
+      fun h ↦ gcNoRepModel_not_rep ((gb0_los_iff_rep_and_gc gcNoRepModel).mp h).1⟩⟩
+"""
+tex = """
+\\begin{proposition}[Unbundling Limitation of Size Over {{sym:gb0}} and $2\\times 2$ Independence]\\label{ch02:prop:los-unbundling-independence}%
+\\uses{vol1:prop:los-smuggles-gc,ch02:def:gb0-model-category}%
+Expanding Volume~I ({{ref:vol1:prop:los-smuggles-gc}}), over Replacement-free, Choice-free {{sym:gb0}}:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item Von Neumann's Limitation of Size ($\\mathsf{LoS}$: a class $C$ fails to be small iff $C$ surjects onto $V$) is strictly equivalent to $(\\mathrm{Rep} \\wedge \\mathsf{GC})$, so ${{sym:gb0}} + \\mathsf{LoS} = {{sym:nbg}}$ smuggles Global Choice across Choice-free bases.
+  \\item Over {{sym:gb0}}, $\\mathrm{Rep}$ and $\\mathsf{GC}$ are mutually independent: $(\\mathrm{Rep} \\wedge \\neg\\mathsf{GC} \\wedge \\neg\\mathsf{LoS})$ holds in tail Easton models $(M, {{sym:def-functor}}(M))$~\\cite{easton1970,felgner1971}, while $(\\mathsf{GC} \\wedge \\neg\\mathrm{Rep} \\wedge \\neg\\mathsf{LoS})$ holds in G\\\"odel's $(L_{\\omega_\\omega^L}, {{sym:def-functor}}(L_{\\omega_\\omega^L}))$~\\cite{godel1940}.
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+For $(\\mathsf{LoS} \\implies \\mathrm{Rep} \\wedge \\mathsf{GC})$, Burali--Forti gives $\\mathrm{Ord} \\notin \\mathcal{S}$, so $\\mathsf{LoS}$ provides a surjection $p : \\mathrm{Ord} \\twoheadrightarrow V$ whose minimal-preimage selector yields $\\mathsf{GC}$; for $\\mathrm{Rep}$, if $F[A] \\notin \\mathcal{S}$ for small $A$, composing $\\mathsf{LoS}$'s surjection $q : F[A] \\twoheadrightarrow V$ with $F$ yields $h : A \\twoheadrightarrow V$, refuting Russell--Cantor diagonalization on $D = \\{a \\in A \\mid a \\notin h(a)\\}$. Conversely, under $\\mathrm{Rep} + \\mathsf{GC}$ Foundation stratifies $V = \\bigcup_{\\alpha} V_\\alpha$, giving $\\Phi : V \\xrightarrow{\\sim} \\mathrm{Ord}$, and every proper class $C$ maps bijectively onto $\\mathrm{Ord}$ via initial-segment order types (without $\\mathsf{ETR}_{\\mathrm{Ord}}$), establishing $\\mathsf{LoS}$. For independence, Easton tail forcing~\\cite{easton1970} yields $\\mathrm{Rep} + \\neg\\mathsf{GC}$, whereas in $L_{\\omega_\\omega^L}$ G\\\"odel condensation~\\cite{godel1940} verifies Power Set and $\\mathsf{Z}$ alongside the global $<_L$-well-order ($\\mathsf{GC}$), while the countable cofinal sequence $\\{\\omega_n^L\\}_{n < \\omega}$ admits no surjection onto $L_{\\omega_\\omega^L}$, refuting $\\mathrm{Rep}$ and $\\mathsf{LoS}$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:prop:los-smuggles-gc", "ch02:def:gb0-model-category"]
+lean_dep = []
+curriculum = ["vol1:prop:los-smuggles-gc", "ch02:def:gb0-model-category"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Choice Calibration", "Conservation / Solvency", "Counterexample / Disproof"]
+witness_scope = "GB0ClassSystem mechanizes the abstract equivalence SatisfiesLoS <-> (SatisfiesClassReplacement /\\ SatisfiesProperClassOrdBijection) and both concrete independence models repNoGCModel (Rep /\\ ~GC /\\ ~LoS) and gcNoRepModel (GC /\\ ~Rep /\\ ~LoS, countable-cofinality ordinal spine modeling (L_{omega_omega^L}, Def(L_{omega_omega^L}))) axiom-free (Emerald) in VerticalKaleidoscope.lean; Godel condensation for L_{omega_omega^L} |= GB_0 + GC + ~Rep and Easton tail forcing for Rep + ~GC live in the monograph proof."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch02:prop:los-unbundling-independence"
+purpose = "Full set-theoretic proof of LoS <=> Rep /\\ GC and Godel condensation in L_{omega_omega^L}"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.los_unbundling_and_independence"
+purpose = "Axiom-free Emerald Lean 4 proof of abstract LoS equivalence and 2x2 independence witnesses"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:los-smuggles-gc"
+locator = "docs/ch07_sets_residuum.tex:135"
+purpose = "Pinned Volume I origin for unbundling LoS over GB_0"

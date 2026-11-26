@@ -1,0 +1,52 @@
+id = "ch02:claim:easton-hod-unsplit-card"
+kind = "inline_claim"
+title = "Easton Tail Homogeneity Leaves Card -> Set Unsplit Under Def(M)"
+chapter = "ch02"
+section = "2.3"
+seq_order = 255
+axis = "class_set"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["easton1970", "makkai1996", "felgner1971"]
+
+[spec]
+statement = "By homogeneity of tail Easton class-forcing extensions (Easton 1970, pp. 139-178), there exist models M |= ZFC + forall p (V != HOD({p})) in which no set parameter p defines a global well-ordering; consequently (M, Def(M)) |= GBC + ~GC leaves Makkai's large weak categorical equivalence Card >-> Set unsplit (Makkai 1996; Felgner 1971). Crucially, bare V != HOD is insufficient because adding a single Cohen real c over L yields L[c] |= V != HOD yet <_{L[c]} in Def(L[c]) still splits Card >-> Set."
+
+[body]
+tex = """
+\\begin{inlineclaim}[Easton Tail Homogeneity and Unsplit $\\mathbf{Card} \\hookrightarrow \\mathbf{Set}$ Under {{sym:def-functor}}(M)]\\label{ch02:claim:easton-hod-unsplit-card}%
+\\uses{ch02:thm:def-left-adjoint-coreflection,ch02:prop:los-unbundling-independence}%
+Lifting Michael Makkai's equivalence-splitting calibration~\\cite{makkai1996} from small categories to $\\mathbf{Cat}(\\mathcal{C})$ over {{sym:gbc}}, splitting the weak equivalence $I : \\mathbf{Card} \\hookrightarrow \\mathbf{Set}$ via a class quasi-inverse functor is equivalent to Global Choice ({{sym:nbg}})~\\cite{felgner1971}. By homogeneity of tail Easton class-forcing extensions~\\cite[pp.~139--178]{easton1970}, there exist models $M \\models \\mathsf{ZFC} + \\forall p\\,(V \\neq \\mathrm{HOD}(\\{p\\}))$, whose minimal coreflection $(M, {{sym:def-functor}}(M)) \\models {{sym:gbc}} + \\neg\\mathsf{GC}$ leaves $\\mathbf{Card} \\hookrightarrow \\mathbf{Set}$ unsplit. (Bare $V \\neq \\mathrm{HOD}$ is insufficient: for a single Cohen real $c$ over $L$, $L[c] \\models V \\neq \\mathrm{HOD}$ yet the parameter-definable well-order $<_{L[c]} \\in {{sym:def-functor}}(L[c])$ still splits $\\mathbf{Card} \\hookrightarrow \\mathbf{Set}$.)
+\\end{inlineclaim}
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration", "ch02:thm:def-left-adjoint-coreflection", "ch02:prop:los-unbundling-independence"]
+lean_dep = []
+curriculum = ["ch02:thm:def-left-adjoint-coreflection", "ch02:prop:los-unbundling-independence"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Choice Calibration", "Model-Theoretic Amalgamation"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "easton1970"
+locator = "pp. 139–178"
+purpose = "Tail Easton class-forcing homogeneity yielding ZFC + forall p (V != HOD({p}))"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "makkai1996"
+locator = "§§1–3, pp. 109–135"
+purpose = "Calibration of weak categorical equivalence splitting vs. Choice"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "felgner1971"
+locator = "pp. 43–62"
+purpose = "Global Choice equivalence and NBG conservativity over ZFC"

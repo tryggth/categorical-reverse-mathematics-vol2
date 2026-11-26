@@ -21,7 +21,9 @@ outputs = [
 logical_dep = [
   "ch01:prose:meta-crm-roadmap",
   "ch01:thm:flow-f4-split-polarity-transport",
-  "ch01:thm:mode3-orbit-stabilizer-exactness"
+  "ch01:thm:mode3-orbit-stabilizer-exactness",
+  "ch02:prose:part1-ch02-roadmap",
+  "ch02:tab:vertical-class-spectrum"
 ]
 lean_dep = []
 curriculum = []

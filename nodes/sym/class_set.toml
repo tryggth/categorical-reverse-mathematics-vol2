@@ -1,0 +1,65 @@
+id = "sym:class-set"
+kind = "symbol"
+title = "Class-Set Theories and Def -| pi_Set Notation Registry"
+chapter = "ch02"
+section = "2.1"
+seq_order = 203
+axis = "class_set"
+grounding_tier = "conceptual"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = []
+
+[spec]
+[[spec.exports]]
+key = "gb0"
+latex = "\\ensuremath{\\mathsf{GB}_0}"
+description = "Replacement-free Bernays-Godel class theory over Zermelo set theory Z"
+
+[[spec.exports]]
+key = "gbc"
+latex = "\\ensuremath{\\mathsf{GBC}}"
+description = "Bernays-Godel class theory with Replacement and set-level Choice"
+
+[[spec.exports]]
+key = "nbg"
+latex = "\\ensuremath{\\mathsf{NBG}}"
+description = "von Neumann-Bernays-Godel class theory (GBC + Global Choice)"
+
+[[spec.exports]]
+key = "km"
+latex = "\\ensuremath{\\mathsf{KM}}"
+description = "Impredicative Kelley-Morse second-order class theory"
+
+[[spec.exports]]
+key = "etr-ord"
+latex = "\\ensuremath{\\mathsf{ETR}_{\\mathrm{Ord}}}"
+description = "Elementary Transfinite Recursion of length Ord"
+
+[[spec.exports]]
+key = "def-functor"
+latex = "\\ensuremath{\\mathrm{Def}}"
+description = "Minimal first-order parameter-definable class expansion functor"
+
+[[spec.exports]]
+key = "piset"
+latex = "\\ensuremath{\\pi_{\\mathrm{Set}}}"
+description = "Forgetful class-to-set base projection functor"
+
+[[spec.exports]]
+key = "mod-gb0"
+latex = "\\ensuremath{\\mathbf{Mod}(\\mathsf{GB}_0)}"
+description = "Category of two-sorted GB_0 class-set models and elementary morphisms"
+
+[body]
+tex = """
+\\begin{remark}[Notation Registry: Class--Set Theories and $\\mathrm{Def} \\dashv \\pi_{\\mathrm{Set}}$]\\label{sym:class-set}%
+This registry exports the closed-world Volume~II macros for Replacement-free class theory {{sym:gb0}}, Bernays--G\\\"odel class theory with Choice {{sym:gbc}}, von Neumann--Bernays--G\\\"odel class theory {{sym:nbg}}, Kelley--Morse class theory {{sym:km}}, ordinal-length Elementary Transfinite Recursion {{sym:etr-ord}}, minimal definable expansion {{sym:def-functor}}, set-projection {{sym:piset}}, and the model category {{sym:mod-gb0}}.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

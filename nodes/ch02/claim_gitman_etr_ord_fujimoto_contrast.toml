@@ -1,0 +1,46 @@
+id = "ch02:claim:gitman-etr-ord-fujimoto-contrast"
+kind = "inline_claim"
+title = "Class Forcing ETR_Ord vs. Full ETR Reflection Leak and Fujimoto CT^-[ZFC] Contrast"
+chapter = "ch02"
+section = "2.4"
+seq_order = 270
+axis = "class_set"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["gitman2020", "fujimoto2012", "williams2018"]
+
+[spec]
+statement = "By Gitman, Hamkins, Holy, Schlicht, and Williams (J. Symbolic Logic 85, 2020, Thm. 1.2, pp. 869-905; noting that Gitman et al. write GBC for NBG = GBC + GC), over NBG the Class Forcing Theorem (definability of the forcing relation and Truth Lemma for proper-class forcing) is equivalent to Elementary Transfinite Recursion of length Ord (ETR_Ord), whereas strictly stronger full ETR proves Con(NBG + ETR_Ord). Already at ETR_omega, Tarskian truth predicates relative to arbitrary class parameters prove Con(ZFC), breaking L_in-conservativity over ZFC (conservative only over T* := Th_{L_in}(NBG + ETR_Ord)), contrasting sharply with Fujimoto's (APAL 163, 2012, pp. 1484-1523) L_in-conservative compositional truth theory CT^-[ZFC] (which only exhibits countable model non-expandability)."
+
+[body]
+tex = """
+\\begin{inlineclaim}[Class Forcing {{sym:etr-ord}}, Full $\\mathsf{ETR}$ Reflection, and Fujimoto's $\\mathsf{CT}^-{[}\\mathsf{ZFC}{]}$ Contrast]\\label{ch02:claim:gitman-etr-ord-fujimoto-contrast}%
+\\uses{ch02:thm:williams-fixed-set-kaleidoscope}%
+Gitman, Hamkins, Holy, Schlicht, and Williams~\\cite[Thm.~1.2, pp.~869--905]{gitman2020} (explicitly noting that \\cite{gitman2020} write ``$\\mathsf{GBC}$'' for ${{sym:nbg}} = {{sym:gbc}} + \\mathsf{GC}$; cf.~\\cite{williams2018}) prove that over ${{sym:nbg}}$, the Class Forcing Theorem is equivalent to Elementary Transfinite Recursion of length $\\mathrm{Ord}$ ({{sym:etr-ord}}), whereas strictly stronger full $\\mathsf{ETR}$ along arbitrary class well-orderings proves $\\mathrm{Con}({{sym:nbg}} + {{sym:etr-ord}})$. Constructing Tarskian truth predicates relative to arbitrary class parameters holds already at $\\mathsf{ETR}_\\omega$, which proves $\\mathrm{Con}(\\mathsf{ZFC})$ and triggers an $\\mathcal{L}_\\in$-reflection leak over $\\mathsf{ZFC}$ (remaining $\\mathcal{L}_\\in$-conservative only over its own first-order trace $T^* := \\mathrm{Th}_{\\mathcal{L}_\\in}({{sym:nbg}} + {{sym:etr-ord}})$)---contrasting sharply with Kentaro Fujimoto's~\\cite[pp.~1484--1523]{fujimoto2012} $\\mathcal{L}_\\in$-conservative compositional truth theory $\\mathsf{CT}^-[\\mathsf{ZFC}]$, which exhibits countable model non-expandability without proving new $\\mathcal{L}_\\in$-sentences.
+\\end{inlineclaim}
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration", "ch02:thm:williams-fixed-set-kaleidoscope"]
+lean_dep = []
+curriculum = ["ch02:thm:williams-fixed-set-kaleidoscope"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Model-Theoretic Amalgamation"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "gitman2020"
+locator = "Thm. 1.2, pp. 869–905"
+purpose = "Equivalence of Class Forcing Theorem with ETR_Ord over NBG and Con(NBG + ETR_Ord) in full ETR"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "fujimoto2012"
+locator = "pp. 1484–1523"
+purpose = "L_in-conservative compositional truth CT^-[ZFC] vs. Tarskian reflection leak at ETR_omega"

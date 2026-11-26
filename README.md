@@ -2,10 +2,10 @@
 ### *Universes, Classes, and Higher Fixed Points*
 
 > **[Live Interactive Glass-Box Observatory (GitHub Pages)](https://tryggth.github.io/categorical-reverse-mathematics-vol2/)** · **[How This Book Is Built (`PROCESS.md`)](PROCESS.md)** · **[14-Slice Project Plan (`ROADMAP.md`)](ROADMAP.md)**  
-> **Live Royal Octavo PDFs:** [Monograph PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_monograph.pdf) · [4-Part Master Claims Ledger PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_claims_ledger.pdf) · [Ch. 1 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf)  
+> **Live Royal Octavo PDFs:** [Monograph PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_monograph.pdf) · [4-Part Master Claims Ledger PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_claims_ledger.pdf) · [Ch. 1 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf) · [Ch. 2 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf)  
 > **Synced Engineering & Open-Problem Backlog:** [GitHub Issues](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues) · [Milestones](https://github.com/tryggth/categorical-reverse-mathematics-vol2/milestones)
 
-> **Glass-Box 5-Fiber Formalization & Monograph Network (`Phase 1B`)**  
+> **Glass-Box 5-Fiber Formalization & Monograph Network (`Phase 2`)**  
 > **Author:** James F. Walters (Port Townsend, Washington) · **License:** CC BY 4.0 · **Working Title Locked:** `false`  
 > **Companion to Volume I:** `../categorical-reverse-mathematics (HEAD b849be75)` · Zenodo Concept DOI [`10.5281/zenodo.24238086`](https://doi.org/10.5281/zenodo.24238086)
 
@@ -17,7 +17,7 @@ Volume II is developed as a **single-network, machine-checked mathematical and m
 flowchart LR
   SRC["nodes/**/*.toml + certs/*.2ltt.json"] --> DB["DuckDB (5 Acyclic Fibers + Two-Hash Taint Engine)"]
   DB --> TCB["mathlib_vol2 + KernelArena (Two-Package TCB)"]
-  DB --> PDFS["3 Royal Octavo PDFs (Monograph, Ledger, Course Pack)"]
+  DB --> PDFS["4 Royal Octavo PDFs (Monograph, Ledger, Ch.1 & Ch.2 Course Packs)"]
   TCB --> PDFS
   TCB --> SMAIN["pub:doc:* -> main (README, PROCESS, ROADMAP)"]
   PDFS --> SPAGES["pub:web/pdf:* -> gh-pages (Observatory + PDFs)"]
@@ -28,7 +28,7 @@ flowchart LR
 > **Branch Guide (Do Not Merge `lean-export` / `gh-pages` into `main`):**
 > - **`main`** — Canonical single-network source of truth (`nodes/**/*.toml`, `certs/*.2ltt.json`, `scripts/`, `manifest/`, `README.md`, `PROCESS.md`, `ROADMAP.md`). All mathematical edits and PRs target `main` only.
 > - **`lean-export`** — Standalone auto-generated Lean 4 + `KernelArena` projection branch (`scripts/export_lean_branch.py`, committed via `GIT_INDEX_FILE` without DuckDB or LaTeX). **Do not merge `lean-export` into `main`.**
-> - **`gh-pages`** — Auto-generated static Glass-Box Observatory + 3 Royal Octavo PDFs (`scripts/emit_observatory.py`, committed via `GIT_INDEX_FILE`). **Do not merge `gh-pages` into `main`.**
+> - **`gh-pages`** — Auto-generated static Glass-Box Observatory + 4 Royal Octavo PDFs (`scripts/emit_observatory.py`, committed via `GIT_INDEX_FILE`). **Do not merge `gh-pages` into `main`.**
 
 ## Live Public Surfaces
 
@@ -40,17 +40,18 @@ flowchart LR
 | **Royal Octavo Monograph PDF** | Observatory PDF | [crm_vol2_monograph.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_monograph.pdf) |
 | **4-Part Master Claims & Grounding Ledger PDF** | Observatory PDF | [crm_vol2_claims_ledger.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_claims_ledger.pdf) |
 | **Standalone Ch. 1 Course Pack PDF** | Observatory PDF | [course_pack_ch01_probe_calibration.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf) |
+| **Standalone Ch. 2 Course Pack PDF** | Observatory PDF | [course_pack_ch02_class_set_kaleidoscope.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) |
 | **Glass-Box Methodology & Taint Engine Guide** | Repository Doc | [PROCESS.md](PROCESS.md) |
 | **14-Slice Volume II Project Plan** | Repository Doc | [ROADMAP.md](ROADMAP.md) |
 
 ## Current Verification Telemetry
 
-- **Core Mathematical, Prose, & Symbol Nodes:** `33` (`33` CLEAN, `0` TAINTED across `274` directed edges)
-- **14-Slice Blueprint (`nodes/plan/*.toml`):** `3 VERIFIED`, `1 ACTIVE`, `10 PLANNED` — active slice: `plan:ch02-class-set-adjunction` (Ch. 2 (Part I): Class-Set Adjunction, Mod(GB_0), & Williams Kaleidoscope)
+- **Core Mathematical, Prose, & Symbol Nodes:** `47` (`47` CLEAN, `0` TAINTED across `382` directed edges)
+- **14-Slice Blueprint (`nodes/plan/*.toml`):** `4 VERIFIED`, `1 ACTIVE`, `9 PLANNED` — active slice: `plan:ch03-piset-transgression` (Ch. 3 (Part I): Leray Transgression Along pi_Set & Felgner vs. DC_Ord)
 - **Publication Sinks (`nodes/pub/*.toml`):** `7` out-degree-0 sinks (`main_docs`, `gh_pages`, `lean_export`, `gh_issues`)
-- **Two-Package TCB (`leanprover/lean4:v4.28.0`):** `235` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `1` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)
-- **Four-Color Stratum Spectrometer:** Emerald=21, Sapphire=0, Amber=1, Crimson=2, Prose/Symbol=9
-- **Four-Part Grounding Cohorts:** Cohort I=15, Cohort II=13, Cohort III=2, Cohort IV=3
+- **Two-Package TCB (`leanprover/lean4:v4.28.0`):** `343` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `1` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)
+- **Four-Color Stratum Spectrometer:** Emerald=29, Sapphire=0, Amber=1, Crimson=2, Prose/Symbol=15
+- **Four-Part Grounding Cohorts:** Cohort I=20, Cohort II=17, Cohort III=5, Cohort IV=5
 
 ## Headline Verified Nodes (Locked via `prose_paraphrase`)
 
@@ -73,6 +74,9 @@ flowchart LR
 | `ch01:def:operational-currencies` | The Four CRM Operational Currency Regimes | Emerald (Axiom-Free) | `lean_ok` | `a127c150` |
 | `ch01:thm:morita-resource-interleaving` | Quasi-Isometric Morita Resource Interleaving Theorem | Emerald (Axiom-Free) | `lean_witness` | `b120a3e9` |
 | `ch01:cex:russells-socks-levelwise-morita-failure` | Russell's Socks Touchstone: Failure of Levelwise Morita Invariance at k = 1 | Emerald (Axiom-Free) | `lean_ok` | `c177cab6` |
+| `ch02:thm:three-way-pullback-failure` | Three-Way Failure of Naive Model-Space Pullback Along pi_Set | Emerald (Axiom-Free) | `lean_ok` | `afa92d11` |
+| `ch02:thm:def-left-adjoint-coreflection` | Minimal Definability Adjunction Def -| pi_Set and Coreflective Fiber Initiality | Emerald (Axiom-Free) | `lean_ok` | `57ef4252` |
+| `ch02:thm:williams-fixed-set-kaleidoscope` | Williams's Fixed-Set Universality Theorem and Independent-Generator Fiber Embedding | Emerald (Axiom-Free) | `lean_witness` | `a3c7fbe2` |
 
 ## Quickstart & Local Verification
 

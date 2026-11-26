@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,25 @@ from typing import Any
 import duckdb
 
 from emit_tex import BUILD_TEX_DIR, DB_PATH, REPO_ROOT, SOURCEMAPS_DIR, load_context, render_node_tex
+
+COURSE_PACKS: dict[str, dict[str, str]] = {
+    "ch01:tab:epistemic-probe-regimes": {
+        "stem": "course_pack_ch01_probe_calibration",
+        "subtitle": r"Standalone Course Pack: Chapter~1 Probe Calibration",
+        "chapter_title": r"Epistemic Probe Calibration (Standalone Course Pack)",
+        "chapter_label": "ch:course-probe",
+        "section_title": r"Curriculum Cone and Probe Thresholds",
+        "extra_note": r" (excluding out-of-slice nodes such as \texttt{ch01:rem:trident-mode3-2ltt-bootstrap})",
+    },
+    "ch02:tab:vertical-class-spectrum": {
+        "stem": "course_pack_ch02_class_set_kaleidoscope",
+        "subtitle": r"Standalone Course Pack: Chapter~2 Class--Set Adjunction \& Fixed-Set Kaleidoscope",
+        "chapter_title": r"Minimal Definability, Fixed-Set Kaleidoscopes, and \texorpdfstring{$\mathrm{Def} \dashv \pi_{\mathrm{Set}}$}{Def -| pi\_Set} (Standalone Course Pack)",
+        "chapter_label": "ch:course-ch02-kaleidoscope",
+        "section_title": r"Curriculum Cone and Vertical Class Spectrum",
+        "extra_note": r" (sliced directly from Table~2.1 across \S\S 2.1--2.4)",
+    },
+}
 
 
 def compute_curriculum_cone(target_id: str) -> list[str]:
@@ -35,6 +55,9 @@ def compute_curriculum_cone(target_id: str) -> list[str]:
     ).fetchall()
     cone_ids = {r[0] for r in cone_rows}
 
+    seq_rows = con.execute("SELECT id, seq_order FROM nodes").fetchall()
+    seq_map = {r[0]: int(r[1]) for r in seq_rows}
+
     edges = con.execute(
         """
         SELECT DISTINCT src_id, dst_id
@@ -51,7 +74,7 @@ def compute_curriculum_cone(target_id: str) -> list[str]:
             adj[src].append(dst)
             indeg[dst] += 1
 
-    queue = sorted([nid for nid, d in indeg.items() if d == 0])
+    queue = sorted([nid for nid, d in indeg.items() if d == 0], key=lambda x: (seq_map.get(x, 1000), x))
     ordered: list[str] = []
     while queue:
         curr = queue.pop(0)
@@ -60,17 +83,28 @@ def compute_curriculum_cone(target_id: str) -> list[str]:
             indeg[nxt] -= 1
             if indeg[nxt] == 0:
                 queue.append(nxt)
-        queue.sort()
+        queue.sort(key=lambda x: (seq_map.get(x, 1000), x))
     if len(ordered) != len(cone_ids):
         raise RuntimeError("Cycle detected while sorting curriculum cone.")
     return ordered
 
 
 def emit_course_pack(target_id: str) -> Path:
+    if target_id not in COURSE_PACKS:
+        raise ValueError(f"Unknown course pack target '{target_id}'. Registered: {sorted(COURSE_PACKS)}")
+    cfg = COURSE_PACKS[target_id]
     manifest, _, nodes_meta, symbols, _ = load_context()
     ordered_ids = compute_curriculum_cone(target_id)
     allowed_set = set(ordered_ids)
     excluded_ids = sorted(set(nodes_meta.keys()) - allowed_set)
+
+    cone_payload = sorted(
+        [[nid, nodes_meta[nid]["spec_hash"], nodes_meta[nid]["body_hash"]] for nid in ordered_ids],
+        key=lambda row: row[0],
+    )
+    cone_hash = hashlib.sha256(
+        b"VOL2_COURSE_CONE_V1\x00" + json.dumps(cone_payload, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
 
     target_title = nodes_meta[target_id]["title"]
     target_tex = target_id.replace("_", "\\_")
@@ -86,16 +120,16 @@ def emit_course_pack(target_id: str) -> Path:
         r"\begin{center}",
         r"  {\LARGE\bfseries Categorical Reverse Mathematics --- Volume~II\par}",
         r"  \vspace{0.4em}",
-        r"  {\large\itshape\color{CRMBlue} Standalone Course Pack: Chapter~1 Probe Calibration\par}",
+        f"  {{\\large\\itshape\\color{{CRMBlue}} {cfg['subtitle']}\\par}}",
         r"  \vspace{0.8em}",
         f"  {{\\normalsize Sliced from backward \\texttt{{curriculum}} cone of \\texttt{{{target_tex}}}\\par}}",
         r"\end{center}",
         r"\clearpage",
         r"\mainmatter",
         r"\setcounter{secnumdepth}{2}",
-        r"\chapter{Epistemic Probe Calibration (Standalone Course Pack)}\label{ch:course-probe}",
-        r"\section{Curriculum Cone and Probe Thresholds}",
-        f"This standalone pack extracts the {len(ordered_ids)}-node backward \\texttt{{curriculum}} cone terminating at \\ref{{{target_id}}} (excluding orthogonal out-of-slice nodes such as \\texttt{{ch01:rem:trident-mode3-2ltt-bootstrap}}).",
+        f"\\chapter{{{cfg['chapter_title']}}}\\label{{{cfg['chapter_label']}}}",
+        f"\\section{{{cfg['section_title']}}}",
+        f"This standalone pack extracts the {len(ordered_ids)}-node backward \\texttt{{curriculum}} cone terminating at \\ref{{{target_id}}}{cfg['extra_note']}.",
         "",
     ]
 
@@ -122,28 +156,42 @@ def emit_course_pack(target_id: str) -> Path:
         ]
     )
 
-    out_tex = BUILD_TEX_DIR / "course_pack_ch01_probe_calibration.tex"
+    BUILD_TEX_DIR.mkdir(parents=True, exist_ok=True)
+    SOURCEMAPS_DIR.mkdir(parents=True, exist_ok=True)
+    stem = cfg["stem"]
+    out_tex = BUILD_TEX_DIR / f"{stem}.tex"
     out_tex.write_text("\n".join(lines), encoding="utf-8")
-    (SOURCEMAPS_DIR / "course_pack.tex.map.json").write_text(
-        json.dumps(
-            {"tex_file": str(out_tex.relative_to(REPO_ROOT)), "intervals": intervals},
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-    (REPO_ROOT / "build" / "course_pack_manifest.json").write_text(
-        json.dumps(
-            {
-                "target_id": target_id,
-                "included_nodes": ordered_ids,
-                "excluded_nodes": excluded_ids,
-            },
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+
+    map_payload = json.dumps(
+        {"tex_file": str(out_tex.relative_to(REPO_ROOT)), "intervals": intervals},
+        indent=2,
+    ) + "\n"
+    (SOURCEMAPS_DIR / f"{stem}.tex.map.json").write_text(map_payload, encoding="utf-8")
+    if target_id == "ch01:tab:epistemic-probe-regimes":
+        (SOURCEMAPS_DIR / "course_pack.tex.map.json").write_text(map_payload, encoding="utf-8")
+
+    manifest_path = REPO_ROOT / "build" / "course_pack_manifest.json"
+    manifest_data: dict[str, Any] = {}
+    if manifest_path.exists():
+        try:
+            manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            manifest_data = {}
+    packs = manifest_data.setdefault("packs", {})
+    pack_rec = {
+        "target_id": target_id,
+        "stem": stem,
+        "cone_hash": cone_hash,
+        "included_nodes": ordered_ids,
+        "excluded_nodes": excluded_ids,
+    }
+    packs[target_id] = pack_rec
+    if target_id == "ch01:tab:epistemic-probe-regimes" or "target_id" not in manifest_data:
+        manifest_data["target_id"] = target_id
+        manifest_data["cone_hash"] = cone_hash
+        manifest_data["included_nodes"] = ordered_ids
+        manifest_data["excluded_nodes"] = excluded_ids
+    manifest_path.write_text(json.dumps(manifest_data, indent=2) + "\n", encoding="utf-8")
     return out_tex
 
 
@@ -154,9 +202,16 @@ def main() -> int:
         default="ch01:tab:epistemic-probe-regimes",
         help="Terminal curriculum target node id.",
     )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Emit all registered Chapter Course Packs.",
+    )
     args = parser.parse_args()
-    out_tex = emit_course_pack(args.target)
-    print(f"SLICE_COURSE_OK target={args.target} tex={out_tex.relative_to(REPO_ROOT)}")
+    targets = list(COURSE_PACKS.keys()) if args.all else [args.target]
+    for tid in targets:
+        out_tex = emit_course_pack(tid)
+        print(f"SLICE_COURSE_OK target={tid} tex={out_tex.relative_to(REPO_ROOT)}")
     return 0
 
 

@@ -15,7 +15,7 @@ sensitivity = "spec_and_metrics"
 outputs = ["README.md", "PROCESS.md", "ROADMAP.md", "CITATION.cff"]
 
 [edges]
-logical_dep = ["plan:ch00-bootstrap", "plan:ch01-p1a", "plan:ch01-p1b"]
+logical_dep = ["plan:ch00-bootstrap", "plan:ch01-p1a", "plan:ch01-p1b", "plan:ch02-class-set-adjunction"]
 lean_dep = []
 curriculum = []
 
@@ -103,3 +103,18 @@ scope_note = "Front-door summary of Emerald two-sided (a,b)/(a',b') Morita resou
 target_id = "ch01:cex:russells-socks-levelwise-morita-failure"
 locked_spec_hash = "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32"
 scope_note = "Front-door summary of Emerald Russell's Socks k=1 failure vs k=2 separation"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:three-way-pullback-failure"
+locked_spec_hash = "afa92d116adde8db848a81dc4323e11d0fceb9afe6e26078e3530d2bac97ac2e"
+scope_note = "Front-door summary of Emerald 3-way model-space naive pullback failure along pi_Set"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:def-left-adjoint-coreflection"
+locked_spec_hash = "57ef42522900fc9bce187a5f63f183d9df817281f98e9931bdff9a72a7edc833"
+scope_note = "Front-door summary of Emerald Def -| pi_Set adjunction and coreflective fiber initiality"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:thm:williams-fixed-set-kaleidoscope"
+locked_spec_hash = "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa"
+scope_note = "Front-door summary of Williams Fixed-Set Kaleidoscope and Independent-Generator order embedding"

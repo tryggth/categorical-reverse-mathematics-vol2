@@ -1,13 +1,13 @@
 # Volume II Project Roadmap — 14-Slice Blueprint (`ROADMAP.md`)
 
-Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `manifest/publication_lock.json` for **Categorical Reverse Mathematics — Volume II** (`Phase 1B`).
+Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `manifest/publication_lock.json` for **Categorical Reverse Mathematics — Volume II** (`Phase 2`).
 
 ## Progress Summary
 
 - **Total Slices:** `14` (Chapters 1–9 + 3 `KernelArena` 2LTT TCB Rungs)
-- **Verified (`VERIFIED`):** `3` (all listed `deliverable_nodes` exist and are `CLEAN` in `vol2.duckdb`)
+- **Verified (`VERIFIED`):** `4` (all listed `deliverable_nodes` exist and are `CLEAN` in `vol2.duckdb`)
 - **Active (`ACTIVE`):** `1` (lowest `seq_order` unverified slice)
-- **Planned (`PLANNED`):** `10`
+- **Planned (`PLANNED`):** `9`
 
 ## 14-Slice Master Schedule
 
@@ -16,8 +16,8 @@ Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `m
 | 1 | `Phase 0` (`plan:ch00-bootstrap`) | Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum | `VERIFIED` | `10/10` | `HomotopyCRM.Vol2.ProbeSuite`, `HomotopyCRM.Vol2.CertChecks`, `KernelArena.Check` | `ltt_eff_muchnik_meets` | Done |
 | 2 | `Phase 1A` (`plan:ch01-p1a`) | Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum | `VERIFIED` | `12/12` | `HomotopyCRM.Vol2.ObstructionTrident`, `HomotopyCRM.Vol2.DoctrinalFlows` | `ltt_eff_muchnik_meets` | Done |
 | 3 | `Phase 1B` (`plan:ch01-p1b`) | Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum | `VERIFIED` | `11/11` | `HomotopyCRM.Vol2.ZeroGiraud`, `HomotopyCRM.Vol2.MoritaInterleaving` | `ltt_eff_muchnik_meets` | [#1](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1) |
-| 4 | `Ch. 2` (`plan:ch02-class-set-adjunction`) | Chapter 2: Class-Set Adjunction & Mod(GB_0) | `ACTIVE` | `0/4` | `HomotopyCRM.Vol2.ClassSetAdjunction`, `HomotopyCRM.Vol2.WilliamsKaleidoscope` | — | [#2](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2) |
-| 5 | `Ch. 3` (`plan:ch03-piset-transgression`) | Chapter 3: Leray Transgression Along pi_Set | `PLANNED` | `0/4` | `HomotopyCRM.Vol2.PiSetTransgression`, `HomotopyCRM.Vol2.FelgnerMembrane` | `global_section_dc` | [#3](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3) |
+| 4 | `Ch. 2` (`plan:ch02-class-set-adjunction`) | Chapter 2: Class-Set Adjunction & Mod(GB_0) | `VERIFIED` | `14/14` | `HomotopyCRM.Vol2.ClassSetAdjunction`, `HomotopyCRM.Vol2.VerticalKaleidoscope` | — | [#2](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2) |
+| 5 | `Ch. 3` (`plan:ch03-piset-transgression`) | Chapter 3: Leray Transgression Along pi_Set | `ACTIVE` | `0/4` | `HomotopyCRM.Vol2.PiSetTransgression`, `HomotopyCRM.Vol2.FelgnerMembrane` | `global_section_dc` | [#3](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3) |
 | 6 | `TCB Rung 1` (`plan:tcb-rung1-cubical-kan`) | TCB: KernelArena 2LTT | `PLANNED` | `0/3` | `KernelArena.AST`, `KernelArena.Check`, `HomotopyCRM.Vol2.CertChecks` | — | [#4](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4) |
 | 7 | `Ch. 4` (`plan:ch04-smallness-and-schemes`) | Chapter 4: Smallness Valves & Scheme Residuum | `PLANNED` | `0/4` | `HomotopyCRM.Vol2.SmallnessValves`, `HomotopyCRM.Vol2.SchemeResiduum` | `cumulative_hierarchy_strict_inclusion` | [#5](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5) |
 | 8 | `Ch. 5` (`plan:ch05-borel-unraveling`) | Chapter 5: Arboreal Comonads & Borel Unraveling | `PLANNED` | `0/3` | `HomotopyCRM.Vol2.ArborealGameComonads`, `HomotopyCRM.Vol2.BorelUnraveling` | — | [#6](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/6) |
@@ -55,15 +55,15 @@ Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `m
 - **Scope:** Formalize ZeroGiraud.lean (Topological No-Schism, constructive 0-Giraud (P1)+(P3)+(P4)+(P5) representation + Dogma/Casuistry banishment, Crimson Zorn Living-Zone existence with (P0)+(P2), and 4-element (P0) independence witness), register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, formalize MoritaInterleaving.lean (two-sided (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks k=1 failure witness), and refresh Ch. 1 Cohort IV containers.
 
 ### 4. Ch. 2 (Part I): Class-Set Adjunction, Mod(GB_0), & Williams Kaleidoscope (`plan:ch02-class-set-adjunction`)
-- **Status:** `ACTIVE` (`0/4` deliverables `CLEAN`) · Issue [#2](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2)
+- **Status:** `VERIFIED` (`14/14` deliverables `CLEAN`) · Issue [#2](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2)
 - **Milestone 2:** Chapter 2: Class-Set Adjunction & Mod(GB_0) (`Ch. 2`)
-- **Target Modules:** `HomotopyCRM.Vol2.ClassSetAdjunction`, `HomotopyCRM.Vol2.WilliamsKaleidoscope`
-- **Deliverable Nodes:** `ch02:def:mod-gb0-equipment`, `ch02:cex:naive-pullback-threeway-failure`, `ch02:thm:def-left-adjoint-pi-set`, `ch02:thm:williams-fixed-set-kaleidoscope`
+- **Target Modules:** `HomotopyCRM.Vol2.ClassSetAdjunction`, `HomotopyCRM.Vol2.VerticalKaleidoscope`
+- **Deliverable Nodes:** `vol1:def:set-projection-fibration`, `vol1:prop:los-smuggles-gc`, `sym:class-set`, `ch02:prose:part1-ch02-roadmap`, `ch02:def:gb0-model-category`, `ch02:thm:three-way-pullback-failure`, `ch02:thm:def-left-adjoint-coreflection`, `ch02:prop:syntactic-conservative-pullback`, `ch02:prop:los-unbundling-independence`, `ch02:claim:easton-hod-unsplit-card`, `ch02:thm:williams-fixed-set-kaleidoscope`, `ch02:claim:gitman-etr-ord-fujimoto-contrast`, `ch02:claim:kelley-morse-freyd-kan-barrier`, `ch02:tab:vertical-class-spectrum`
 - **Guardrails:** None
 - **Scope:** Construct the Mod(GB_0) doctrinal setting, prove the 3-way naive model-space pullback failure counterexample, establish the Def -| pi_Set class-set adjunction, and formalize Williams' fixed-set kaleidoscope of class theories over a fixed set universe.
 
 ### 5. Ch. 3 (Part I): Leray Transgression Along pi_Set & Felgner vs. DC_Ord (`plan:ch03-piset-transgression`)
-- **Status:** `PLANNED` (`0/4` deliverables `CLEAN`) · Issue [#3](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3)
+- **Status:** `ACTIVE` (`0/4` deliverables `CLEAN`) · Issue [#3](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3)
 - **Milestone 3:** Chapter 3: Leray Transgression Along pi_Set (`Ch. 3`)
 - **Target Modules:** `HomotopyCRM.Vol2.PiSetTransgression`, `HomotopyCRM.Vol2.FelgnerMembrane`
 - **Deliverable Nodes:** `ch03:thm:leray-transgression-pi-set`, `ch03:prop:card-to-set-splitting`, `ch03:thm:felgner-1971-membrane`, `ch03:cex:glazer-felgner-dc-ord-leak`

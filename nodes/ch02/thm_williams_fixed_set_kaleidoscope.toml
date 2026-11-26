@@ -1,0 +1,218 @@
+id = "ch02:thm:williams-fixed-set-kaleidoscope"
+kind = "theorem"
+title = "Williams's Fixed-Set Universality Theorem and Independent-Generator Fiber Embedding"
+chapter = "ch02"
+section = "2.3"
+seq_order = 260
+axis = "class_set"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["williams2018", "felgner1971"]
+
+[spec]
+statement = "By Williams's Fixed-Set Universality Theorem (Williams 2018, Ch. 2-3 / Main Theorem), holding any countable model M |= ZFC completely rigid via id_M, the vertical fiber poset pi_Set^{-1}(M) of GBC-realizations (M, C) ordered by class inclusion embeds every countable partial order. Abstracting the underlying algebraic mechanism, given any partial order (P, <=) and an IndependentClassFamily F over a fixed base M, the principal-ideal map p |-> cl(down p) defines a strict OrderEmbedding P >->o FixedSetFiber M holding base = M identically rigid; moreover, every Nat-indexed countable partial order embeds into a Boolean-closed finitely-supported fiber over Nat x Bool."
+hypotheses = [
+  "F : IndependentClassFamily M P over a partial order [PartialOrder P] and fixed set base M",
+  "External forcing theorem [williams2018]: over any countable M |= ZFC, product class forcing yields mutually generic GBC-closed independent proper classes"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.VerticalKaleidoscope"
+imports = ["Mathlib.Order.Hom.Basic"]
+decl_names = [
+  "HomotopyCRM.Vol2.FixedSetFiber",
+  "HomotopyCRM.Vol2.FixedSetFiber.base",
+  "HomotopyCRM.Vol2.FixedSetFiber.instPreorder",
+  "HomotopyCRM.Vol2.IndependentClassFamily",
+  "HomotopyCRM.Vol2.principalIdealFiber",
+  "HomotopyCRM.Vol2.principalIdealEmbedding",
+  "HomotopyCRM.Vol2.principalIdealEmbedding_base_rigid",
+  "HomotopyCRM.Vol2.countableColumnFamily",
+  "HomotopyCRM.Vol2.countableColumnFamily_bool_closed",
+  "HomotopyCRM.Vol2.countable_poset_embeds_fixed_set_fiber",
+  "HomotopyCRM.Vol2.williams_independent_fiber_embedding"
+]
+expected_axioms = []
+lean_signature = """
+/-- Vertical fiber `π_Set⁻¹(M)` over a fixed set base `M`, ordered by class inclusion. -/
+structure FixedSetFiber (M : Type) : Type 1 where
+  /-- Predicative class collection over `M`. -/
+  IsClass : (M → Prop) → Prop
+
+/-- Fixed underlying set carrier `M` (identically rigid across the fiber). -/
+@[reducible] def FixedSetFiber.base {M : Type} (_ : FixedSetFiber M) : Type := M
+
+/-- Inclusion preorder on `FixedSetFiber M` (axiom-free). -/
+instance FixedSetFiber.instPreorder (M : Type) : Preorder (FixedSetFiber M) where
+  le C₁ C₂ := ∀ X, C₁.IsClass X → C₂.IsClass X
+  lt C₁ C₂ := (∀ X, C₁.IsClass X → C₂.IsClass X) ∧ ¬ (∀ X, C₂.IsClass X → C₁.IsClass X)
+  le_refl _ _ h := h; le_trans _ _ _ h12 h23 X h := h23 X (h12 X h)
+  lt_iff_le_not_ge _ _ := Iff.rfl
+
+/-- Algebraically independent `P`-indexed family of classes with monotone closure `cl`. -/
+structure IndependentClassFamily (M P : Type) [PartialOrder P] : Type 1 where
+  /-- Generator family, monotone closure `cl`, membership, and algebraic independence. -/
+  gen : P → (M → Prop)
+  cl : (P → Prop) → (M → Prop) → Prop
+  cl_mono : ∀ {S₁ S₂ : P → Prop}, (∀ q, S₁ q → S₂ q) → ∀ X, cl S₁ X → cl S₂ X
+  gen_mem : ∀ S p, S p → cl S (gen p)
+  independent : ∀ S p, cl S (gen p) → S p
+
+/-- Principal-ideal fiber point `C_{↓p} ∈ π_Set⁻¹(M)`. -/
+@[reducible] def principalIdealFiber {M P : Type} [PartialOrder P]
+    (F : IndependentClassFamily M P) (p : P) : FixedSetFiber M where
+  IsClass := F.cl (fun q ↦ q ≤ p)
+
+/-- Strict `OrderEmbedding` `(P, ≤) ↪o FixedSetFiber M` via principal ideals `p ↦ C_{↓p}`. -/
+def principalIdealEmbedding {M P : Type} [PartialOrder P]
+    (F : IndependentClassFamily M P) : P ↪o FixedSetFiber M where
+  toFun := principalIdealFiber F
+  inj' a b h := by
+    have h1 : (principalIdealFiber F a).IsClass (F.gen a) := F.gen_mem _ a le_rfl
+    have h2 : (principalIdealFiber F b).IsClass (F.gen b) := F.gen_mem _ b le_rfl
+    have hab : a ≤ b :=
+      F.independent _ a (Eq.mp (congrArg (fun X ↦ X.IsClass (F.gen a)) h) h1)
+    have hba : b ≤ a :=
+      F.independent _ b (Eq.mpr (congrArg (fun X ↦ X.IsClass (F.gen b)) h) h2)
+    exact le_antisymm hab hba
+  map_rel_iff' := fun {a b} ↦
+    ⟨fun h ↦ F.independent _ a (h (F.gen a) (F.gen_mem _ a le_rfl)),
+     fun hab X hX ↦ F.cl_mono (fun _ hqa ↦ le_trans hqa hab) X hX⟩
+
+/-- Base rigidity: every embedded kaleidoscope point leaves the set floor `M` identical. -/
+theorem principalIdealEmbedding_base_rigid {M P : Type} [PartialOrder P]
+    (F : IndependentClassFamily M P) (p : P) : (principalIdealEmbedding F p).base = M := rfl
+
+private theorem list_mem_of_not_forall_ne {P : Type} (e : P → Nat) (p : P) :
+    ∀ L : List P, (¬ ∀ r ∈ L, e r ≠ e p) → ∃ r ∈ L, e r = e p
+  | [], h => False.elim (h (fun _ hr ↦ by cases hr))
+  | a :: tl, h => by
+    by_cases hap : e a = e p
+    · exact ⟨a, List.Mem.head tl, hap⟩
+    · have htl : ¬ ∀ r ∈ tl, e r ≠ e p := fun hAll ↦ h fun r hr ↦ by
+        cases hr with | head => exact hap | tail _ hm => exact hAll r hm
+      rcases list_mem_of_not_forall_ne e p tl htl with ⟨r, hr, heq⟩
+      exact ⟨r, List.Mem.tail a hr, heq⟩
+
+/-- Concrete Boolean-closed independent column family over `ℕ × Bool` for any countable poset. -/
+@[reducible] def countableColumnFamily {P : Type} [PartialOrder P] (e : P → Nat)
+    (he : Function.Injective e) : IndependentClassFamily (Nat × Bool) P where
+  gen p x := x.1 = e p ∧ x.2 = true
+  cl S C := ∃ L : List P, (∀ r ∈ L, S r) ∧
+    ∀ n, (∀ r ∈ L, e r ≠ n) → (C (n, false) ↔ C (n, true))
+  cl_mono hS _ hC := let ⟨L, hL, hC⟩ := hC; ⟨L, fun r hr ↦ hS r (hL r hr), hC⟩
+  gen_mem S p hp :=
+    ⟨[p], (fun r hr ↦ by cases hr with | head => exact hp | tail _ h => cases h),
+     fun n hn ↦ ⟨fun h ↦ Bool.noConfusion h.2,
+       fun h ↦ False.elim (hn p (List.Mem.head []) h.1.symm)⟩⟩
+  independent S p hC := by
+    rcases hC with ⟨L, hL, hC⟩
+    have hNotAll : ¬ ∀ r ∈ L, e r ≠ e p := fun hAll ↦
+      Bool.noConfusion ((hC (e p) hAll).mpr ⟨rfl, rfl⟩).2
+    rcases list_mem_of_not_forall_ne e p L hNotAll with ⟨r, hr, heq⟩
+    rw [← he heq]; exact hL r hr
+
+private theorem mem_append_elim {α : Type} {a : α} :
+    ∀ {L₁ L₂ : List α}, a ∈ L₁ ++ L₂ → a ∈ L₁ ∨ a ∈ L₂
+  | [], _, h => Or.inr h
+  | _ :: _, _, .head _ => Or.inl (List.Mem.head _)
+  | _ :: _, _, .tail _ h => (mem_append_elim h).elim (fun h1 ↦ Or.inl (List.Mem.tail _ h1)) Or.inr
+private theorem mem_append_l {α : Type} {a : α} :
+    ∀ {L₁ L₂ : List α}, a ∈ L₁ → a ∈ L₁ ++ L₂
+  | _ :: _, _, .head _ => List.Mem.head _
+  | _ :: _, _, .tail _ h => List.Mem.tail _ (mem_append_l h)
+private theorem mem_append_r {α : Type} {a : α} :
+    ∀ (L₁ : List α) {L₂ : List α}, a ∈ L₂ → a ∈ L₁ ++ L₂
+  | [], _, h => h
+  | _ :: _, _, h => List.Mem.tail _ (mem_append_r _ h)
+
+/-- Every generated fiber point of `countableColumnFamily` is closed under Boolean `¬` and `∩`. -/
+theorem countableColumnFamily_bool_closed {P : Type} [PartialOrder P] (e : P → Nat)
+    (he : Function.Injective e) (S : P → Prop) :
+    (∀ C, (countableColumnFamily e he).cl S C →
+      (countableColumnFamily e he).cl S (fun x ↦ ¬ C x)) ∧
+    (∀ C₁ C₂, (countableColumnFamily e he).cl S C₁ →
+      (countableColumnFamily e he).cl S C₂ →
+      (countableColumnFamily e he).cl S (fun x ↦ C₁ x ∧ C₂ x)) := by
+  refine ⟨fun C ⟨L, hL, hC⟩ ↦ ⟨L, hL, fun n hn ↦ not_congr (hC n hn)⟩,
+    fun C₁ C₂ ⟨L₁, hL₁, hC₁⟩ ⟨L₂, hL₂, hC₂⟩ ↦ ⟨L₁ ++ L₂, fun r hr ↦ ?_, fun n hn ↦ ?_⟩⟩
+  · exact (mem_append_elim hr).elim (hL₁ r) (hL₂ r)
+  · exact and_congr (hC₁ n fun r hr ↦ hn r (mem_append_l hr))
+      (hC₂ n fun r hr ↦ hn r (mem_append_r L₁ hr))
+
+/-- Every `ℕ`-indexed countable partial order strictly embeds into `FixedSetFiber (ℕ × Bool)`. -/
+theorem countable_poset_embeds_fixed_set_fiber {P : Type} [PartialOrder P] (e : P → Nat)
+    (he : Function.Injective e) :
+    ∃ ι : P ↪o FixedSetFiber (Nat × Bool), ∀ p, (ι p).base = (Nat × Bool) :=
+  ⟨principalIdealEmbedding (countableColumnFamily e he), fun _ ↦ rfl⟩
+
+/-- **Independent-Generator Fiber Order-Embedding Theorem (Emerald, Axiom-Free):**
+    Combines general `IndependentClassFamily` principal-ideal embedding + base rigidity
+    with the Boolean-closed countable partial-order realization. -/
+theorem williams_independent_fiber_embedding :
+    (∀ {M P : Type} [PartialOrder P] (_ : IndependentClassFamily M P),
+      ∃ ι : P ↪o FixedSetFiber M, (∀ a b, ι a ≤ ι b ↔ a ≤ b) ∧ ∀ p, (ι p).base = M) ∧
+    (∀ {P : Type} [PartialOrder P] (e : P → Nat) (he : Function.Injective e),
+      (∃ ι : P ↪o FixedSetFiber (Nat × Bool), ∀ p, (ι p).base = (Nat × Bool)) ∧
+      ∀ S, (∀ C, (countableColumnFamily e he).cl S C →
+          (countableColumnFamily e he).cl S (fun x ↦ ¬ C x)) ∧
+        (∀ C₁ C₂, (countableColumnFamily e he).cl S C₁ →
+          (countableColumnFamily e he).cl S C₂ →
+          (countableColumnFamily e he).cl S (fun x ↦ C₁ x ∧ C₂ x))) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.principalIdealEmbedding_base_rigid' does not depend on any axioms -/\n#guard_msgs in\n#print axioms principalIdealEmbedding_base_rigid",
+  "/-- info: 'HomotopyCRM.Vol2.williams_independent_fiber_embedding' does not depend on any axioms -/\n#guard_msgs in\n#print axioms williams_independent_fiber_embedding"
+]
+
+[body]
+lean_body = """
+  exact ⟨fun {_ _} _ F ↦
+      ⟨principalIdealEmbedding F, fun a b ↦ (principalIdealEmbedding F).map_rel_iff,
+       principalIdealEmbedding_base_rigid F⟩,
+    fun e he ↦ ⟨countable_poset_embeds_fixed_set_fiber e he,
+      countableColumnFamily_bool_closed e he⟩⟩
+"""
+tex = """
+\\begin{theorem}[Williams's Fixed-Set Universality and Independent-Generator Fiber Embedding]\\label{ch02:thm:williams-fixed-set-kaleidoscope}%
+\\uses{ch02:def:gb0-model-category,ch02:thm:def-left-adjoint-coreflection,ch02:claim:easton-hod-unsplit-card}%
+Let $M \\models \\mathsf{ZFC}$ be any countable model, held completely rigid via $\\mathrm{id}_M$.
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Fixed-Set Universality (Williams~2018~\\cite{williams2018}):} The vertical fiber poset ${{sym:piset}}^{-1}(M)$ of ${{sym:gbc}}$-realizations $(M, \\mathcal{C})$ ordered by class inclusion $\\mathcal{C} \\subseteq \\mathcal{C}'$ embeds every countable partial order~\\cite{felgner1971}.
+  \\item \\textbf{Independent-Generator Order Embedding:} For any partial order $(P, \\le)$ and any algebraically independent generator family $(G_p)_{p \\in P}$ with monotone class closure $\\mathrm{cl}$ over a fixed base $M$, the principal-ideal map $p \\mapsto \\mathcal{C}_{\\downarrow p} := \\mathrm{cl}(\\{G_q \\mid q \\le p\\})$ is a strict order embedding $(P, \\le) \\hookrightarrow_o {{sym:piset}}^{-1}(M)$ holding $M$ identically rigid.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+For~(2), monotonicity $p \\le q \\implies \\mathcal{C}_{\\downarrow p} \\subseteq \\mathcal{C}_{\\downarrow q}$ is immediate from monotonicity of $\\mathrm{cl}$; conversely, if $\\mathcal{C}_{\\downarrow p} \\subseteq \\mathcal{C}_{\\downarrow q}$ then $G_p \\in \\mathcal{C}_{\\downarrow q}$, and algebraic independence forces $p \\le q$, while antisymmetry yields injectivity. To realize~(1) over countable $M \\models \\mathsf{ZFC}$, Williams~\\cite[Ch.~2--3]{williams2018} constructs by product class forcing a countable mutually generic family of proper classes $(G_p)_{p \\in P}$ preserving ${{sym:gbc}}$ and remaining independent under class-definable combinations.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:def:set-projection-fibration", "ch02:def:gb0-model-category", "ch02:thm:def-left-adjoint-coreflection", "ch02:claim:easton-hod-unsplit-card"]
+lean_dep = []
+curriculum = ["ch02:thm:def-left-adjoint-coreflection", "ch02:claim:easton-hod-unsplit-card"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Model-Theoretic Amalgamation", "Choice Calibration"]
+witness_scope = "principalIdealEmbedding and countable_poset_embeds_fixed_set_fiber mechanize the Independent-Generator Fiber Order-Embedding Theorem ((P, <=) embeds strictly via OrderEmbedding into FixedSetFiber M holding base = M identically rigid, plus a concrete Boolean-closed finitely-supported family for every Nat-indexed countable partial order) axiom-free (Emerald) in VerticalKaleidoscope.lean; supplying a mutually generic GBC-closed independent family of proper classes over an arbitrary countable M |= ZFC via product class forcing is the external theorem of Williams (2018, Ch. 2 / Main Theorem)."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch02:thm:williams-fixed-set-kaleidoscope"
+purpose = "Principal-ideal order embedding over product class-forcing independent generators"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.williams_independent_fiber_embedding"
+purpose = "Axiom-free Emerald Lean 4 proof of IndependentClassFamily OrderEmbedding and countable poset fiber embedding"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "williams2018"
+locator = "Ch. 2–3, Main Theorem"
+purpose = "Mutually generic GBC-closed proper classes over countable M |= ZFC via product class forcing"

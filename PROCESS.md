@@ -6,13 +6,13 @@ This document explains the machine-checked **single-network architecture** power
 
 All mathematical definitions, theorems, counterexamples, inline claims, prose blocks, summary tables, symbol registries, Volume I contracts, roadmap work items (`nodes/plan/*.toml`), and publication sinks (`nodes/pub/*.toml`) live as declarative TOML nodes compiled deterministically by `scripts/compile_db.py` into `build/vol2.duckdb` (`scripts/schema.sql`).
 
-Edges span **five orthogonal fibers** (currently `274` total directed edges):
+Edges span **five orthogonal fibers** (currently `382` total directed edges):
 
-1. **`logical_dep` (72 edges):** Mathematical and structural proof dependencies.
-2. **`lean_dep` (28 edges):** Formal Lean 4 module/declaration dependencies verified by the Hidden-Edge Gate.
-3. **`prose_paraphrase` (48 edges):** Spec-hash-locked paraphrasing links from formal/claim nodes into Cohort IV prose containers and `pub:doc:repo-frontdoor`.
-4. **`notation` (78 edges):** Automatic dependencies induced by `{{sym:...}}` and `{{ref:...}}` macros.
-5. **`curriculum` (48 edges):** Pedagogical dependencies used by `scripts/slice_course.py` to carve standalone Royal Octavo Course Packs.
+1. **`logical_dep` (96 edges):** Mathematical and structural proof dependencies.
+2. **`lean_dep` (35 edges):** Formal Lean 4 module/declaration dependencies verified by the Hidden-Edge Gate.
+3. **`prose_paraphrase` (70 edges):** Spec-hash-locked paraphrasing links from formal/claim nodes into Cohort IV prose containers and `pub:doc:repo-frontdoor`.
+4. **`notation` (103 edges):** Automatic dependencies induced by `{{sym:...}}` and `{{ref:...}}` macros.
+5. **`curriculum` (78 edges):** Pedagogical dependencies used by `scripts/slice_course.py` to carve standalone Royal Octavo Course Packs.
 
 DuckDB enforces four structural SQL invariants on every compile:
 - **Per-Fiber & Structural-Union Acyclicity:** Terminating `WITH RECURSIVE` CTE cycle checks across each fiber individually and across their union.

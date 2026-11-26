@@ -28,5 +28,5 @@ logical_dep = [
   "plan:ch09-cic-vs-2ltt-horizons"
 ]
 lean_dep = []
-curriculum = ["ch01:tab:epistemic-probe-regimes"]
+curriculum = ["ch01:tab:epistemic-probe-regimes", "ch02:tab:vertical-class-spectrum"]
 prose_paraphrase = []
