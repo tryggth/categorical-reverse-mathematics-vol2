@@ -1,0 +1,337 @@
+{
+  "nodes": [
+    {
+      "id": "ch01:cex:flow-f1-frontier-nonmonotone",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cexProblem",
+        "HomotopyCRM.Vol2.cexI",
+        "HomotopyCRM.Vol2.cexProbeSuite",
+        "HomotopyCRM.Vol2.cexFiltration",
+        "HomotopyCRM.Vol2.cexBit",
+        "HomotopyCRM.Vol2.cexSubsetMask",
+        "HomotopyCRM.Vol2.cexInClosureBit",
+        "HomotopyCRM.Vol2.cexIsAdmissibleMask",
+        "HomotopyCRM.Vol2.cexParetoCard",
+        "HomotopyCRM.Vol2.cex_tWake_eq_zero",
+        "HomotopyCRM.Vol2.cex_tDogma_eq_top",
+        "HomotopyCRM.Vol2.cex_frontier_card_0",
+        "HomotopyCRM.Vol2.cex_frontier_card_1",
+        "HomotopyCRM.Vol2.cex_frontier_card_2",
+        "HomotopyCRM.Vol2.cex_frontier_nonmonotone"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:cex:flow-f1-frontier-nonmonotone",
+        "ch01:def:adm-pareto-frontier",
+        "ch01:def:probe-suite",
+        "ch01:thm:flow-f1-threshold-order"
+      ]
+    },
+    {
+      "id": "ch01:def:adm-pareto-frontier",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.probeTheory",
+        "HomotopyCRM.Vol2.probeExtent",
+        "HomotopyCRM.Vol2.mooreClosure",
+        "HomotopyCRM.Vol2.ExtentSub",
+        "HomotopyCRM.Vol2.Refines",
+        "HomotopyCRM.Vol2.IsClosedExtent",
+        "HomotopyCRM.Vol2.IsAdmissible",
+        "HomotopyCRM.Vol2.IsScotoma",
+        "HomotopyCRM.Vol2.HasAperture",
+        "HomotopyCRM.Vol2.InParetoFrontier",
+        "HomotopyCRM.Vol2.IsDogma"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:adm-pareto-frontier",
+        "ch01:def:probe-suite"
+      ]
+    },
+    {
+      "id": "ch01:def:essential-fiber-trident",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.GroupoidStructure",
+        "HomotopyCRM.Vol2.EssentialFiber",
+        "HomotopyCRM.Vol2.Mode1SectionInhabited",
+        "HomotopyCRM.Vol2.Mode1NonContractibleSplit",
+        "HomotopyCRM.Vol2.SplittingPolarity",
+        "HomotopyCRM.Vol2.Mode2PhantomDefect",
+        "HomotopyCRM.Vol2.BaseAut",
+        "HomotopyCRM.Vol2.frameAct",
+        "HomotopyCRM.Vol2.SameSpecies",
+        "HomotopyCRM.Vol2.LiftIsotropy",
+        "HomotopyCRM.Vol2.discreteGroupoid",
+        "HomotopyCRM.Vol2.mode2_phantom_of_injective_not_mem"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:essential-fiber-trident"
+      ]
+    },
+    {
+      "id": "ch01:def:probe-suite",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DoctrinalProblem",
+        "HomotopyCRM.Vol2.DoctrinalProblem.T",
+        "HomotopyCRM.Vol2.DoctrinalProblem.W",
+        "HomotopyCRM.Vol2.ProbeSuite",
+        "HomotopyCRM.Vol2.ProbeSuite.sat",
+        "HomotopyCRM.Vol2.ProbeSuite.touchstoneHyperedge"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:probe-suite"
+      ]
+    },
+    {
+      "id": "ch01:def:touchstone-specific-gravity",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.ImplicationSchema",
+        "HomotopyCRM.Vol2.satisfiesAllPremises",
+        "HomotopyCRM.Vol2.isMinimalCut",
+        "HomotopyCRM.Vol2.minimalCutCount",
+        "HomotopyCRM.Vol2.SpecificGravity",
+        "HomotopyCRM.Vol2.SpecificGravity.le",
+        "HomotopyCRM.Vol2.touchstoneSpecificGravity",
+        "HomotopyCRM.Vol2.total_pathology_zero_cuts"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:probe-suite",
+        "ch01:def:touchstone-specific-gravity"
+      ]
+    },
+    {
+      "id": "ch01:prop:extent-transversal-galois",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DualSet",
+        "HomotopyCRM.Vol2.chuSetPreorder",
+        "HomotopyCRM.Vol2.dualSetPreorder",
+        "HomotopyCRM.Vol2.extentOf",
+        "HomotopyCRM.Vol2.theoryOf",
+        "HomotopyCRM.Vol2.extentOf_iff_probeExtent",
+        "HomotopyCRM.Vol2.theoryOf_iff_probeTheory",
+        "HomotopyCRM.Vol2.chu_galois_connection",
+        "HomotopyCRM.Vol2.IsClosedChuExtent",
+        "HomotopyCRM.Vol2.IsAdmissibleChuExtent",
+        "HomotopyCRM.Vol2.IsAdmissibleBundle",
+        "HomotopyCRM.Vol2.BundleEquiv",
+        "HomotopyCRM.Vol2.IsMaximalAdmissibleExtent",
+        "HomotopyCRM.Vol2.IsMinimalPrimeTransversal",
+        "HomotopyCRM.Vol2.extentOf_isAdmissible",
+        "HomotopyCRM.Vol2.theoryOf_isAdmissible",
+        "HomotopyCRM.Vol2.extentOf_theoryOf_iff",
+        "HomotopyCRM.Vol2.theoryOf_extentOf_bundleEquiv",
+        "HomotopyCRM.Vol2.extent_max_iff_transversal_min"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:adm-pareto-frontier",
+        "ch01:def:probe-suite",
+        "ch01:prop:extent-transversal-galois"
+      ]
+    },
+    {
+      "id": "ch01:prop:flow-f3-lt-partition-and-schism",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.Tuple",
+        "HomotopyCRM.Vol2.OmegaM1V2",
+        "HomotopyCRM.Vol2.OmegaMap",
+        "HomotopyCRM.Vol2.FixedNucleus",
+        "HomotopyCRM.Vol2.fixedNucleusOfFin3",
+        "HomotopyCRM.Vol2.fin3OfFixedNucleus",
+        "HomotopyCRM.Vol2.fixedNucleus_left_inv",
+        "HomotopyCRM.Vol2.fixedNucleus_right_inv",
+        "HomotopyCRM.Vol2.NonFixedNucleus",
+        "HomotopyCRM.Vol2.nonFixedNucleusOfFin2",
+        "HomotopyCRM.Vol2.fin2OfNonFixedNucleus",
+        "HomotopyCRM.Vol2.nonFixedNucleus_left_inv",
+        "HomotopyCRM.Vol2.nonFixedNucleus_right_inv",
+        "HomotopyCRM.Vol2.NonFixedTuple",
+        "HomotopyCRM.Vol2.sliceNucleusToProd",
+        "HomotopyCRM.Vol2.sliceNucleusOfProd",
+        "HomotopyCRM.Vol2.sliceNucleus_left_inv",
+        "HomotopyCRM.Vol2.sliceNucleus_right_inv",
+        "HomotopyCRM.Vol2.flow_f3_card_partition",
+        "HomotopyCRM.Vol2.SchismLTT",
+        "HomotopyCRM.Vol2.flow_f3_schism_witness",
+        "HomotopyCRM.Vol2.flow_f3_partition_and_schism_witness"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:prop:flow-f3-lt-partition-and-schism"
+      ]
+    },
+    {
+      "id": "ch01:prop:lt-stability-projsub",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.ReflectiveSubterminalSystem",
+        "HomotopyCRM.Vol2.HasProjSubE",
+        "HomotopyCRM.Vol2.HasProjSubS",
+        "HomotopyCRM.Vol2.unitReflectiveSystem",
+        "HomotopyCRM.Vol2.reflective_preserves_projSub"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:prop:lt-stability-projsub"
+      ]
+    },
+    {
+      "id": "ch01:rem:trident-mode3-2ltt-bootstrap",
+      "formal_pkg": "kernel_arena",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch01_rem_trident_mode3_2ltt_bootstrap",
+        "HomotopyCRM.Vol2.check_ch01_rem_trident_mode3_2ltt_bootstrap"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:rem:trident-mode3-2ltt-bootstrap"
+      ]
+    },
+    {
+      "id": "ch01:thm:flow-f1-threshold-order",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.WithTopNatLE",
+        "HomotopyCRM.Vol2.instLEWithTopNat",
+        "HomotopyCRM.Vol2.MonotoneFiltration",
+        "HomotopyCRM.Vol2.firstHitAux",
+        "HomotopyCRM.Vol2.tWake",
+        "HomotopyCRM.Vol2.tDogma",
+        "HomotopyCRM.Vol2.dogma_implies_aperture",
+        "HomotopyCRM.Vol2.le_firstHitAux",
+        "HomotopyCRM.Vol2.firstHitAux_mono",
+        "HomotopyCRM.Vol2.flow_f1_threshold_order"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:adm-pareto-frontier",
+        "ch01:def:probe-suite",
+        "ch01:thm:flow-f1-threshold-order"
+      ]
+    },
+    {
+      "id": "ch01:thm:flow-f2-four-rung-escalation",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.FlowF2Witness",
+        "HomotopyCRM.Vol2.flowF2InT",
+        "HomotopyCRM.Vol2.flowF2OpenTargets",
+        "HomotopyCRM.Vol2.flowF2LTTargets",
+        "HomotopyCRM.Vol2.flowF2SliceLTTargets",
+        "HomotopyCRM.Vol2.inCTriv",
+        "HomotopyCRM.Vol2.inCOpen",
+        "HomotopyCRM.Vol2.inCLT",
+        "HomotopyCRM.Vol2.inCSliceLT",
+        "HomotopyCRM.Vol2.M1VSliceObj",
+        "HomotopyCRM.Vol2.m1VSliceFiber",
+        "HomotopyCRM.Vol2.m1VSliceAct",
+        "HomotopyCRM.Vol2.m1_etale_slice_refutes_proj1",
+        "HomotopyCRM.Vol2.flow_f2_four_rung_strict_escalation"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:thm:flow-f2-four-rung-escalation"
+      ]
+    },
+    {
+      "id": "ch01:thm:flow-f4-split-polarity-transport",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.BoolImp",
+        "HomotopyCRM.Vol2.IsAdmissibleTransversal",
+        "HomotopyCRM.Vol2.imageBundle",
+        "HomotopyCRM.Vol2.flow_f4_split_polarity_transport",
+        "HomotopyCRM.Vol2.flow_f4_strict_chu_hyperedge_pullback"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:adm-pareto-frontier",
+        "ch01:def:probe-suite",
+        "ch01:prop:extent-transversal-galois",
+        "ch01:thm:flow-f4-split-polarity-transport"
+      ]
+    },
+    {
+      "id": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "amber",
+      "decl_names": [
+        "HomotopyCRM.Vol2.stabilizerLeftSetoid",
+        "HomotopyCRM.Vol2.speciesOrbitSetoid",
+        "HomotopyCRM.Vol2.orbitMap",
+        "HomotopyCRM.Vol2.speciesQuot",
+        "HomotopyCRM.Vol2.orbitMap_injective_and_range",
+        "HomotopyCRM.Vol2.speciesQuot_eq_iff",
+        "HomotopyCRM.Vol2.M2F2",
+        "HomotopyCRM.Vol2.instDecidableEqM2F2",
+        "HomotopyCRM.Vol2.GL2F2",
+        "HomotopyCRM.Vol2.instGroupGL2F2",
+        "HomotopyCRM.Vol2.instMulActionGL2F2M2F2",
+        "HomotopyCRM.Vol2.gl2f2List",
+        "HomotopyCRM.Vol2.instFintypeGL2F2",
+        "HomotopyCRM.Vol2.m2f2SpeciesIdx",
+        "HomotopyCRM.Vol2.m2f2SpeciesRep",
+        "HomotopyCRM.Vol2.m2f2_card",
+        "HomotopyCRM.Vol2.gl2f2_card",
+        "HomotopyCRM.Vol2.m2f2SpeciesIdx_conj",
+        "HomotopyCRM.Vol2.m2f2Species_same_iff",
+        "HomotopyCRM.Vol2.m2f2SpeciesQuotEquivFin6",
+        "HomotopyCRM.Vol2.m2f2OrbitSizes",
+        "HomotopyCRM.Vol2.m2f2_orbit_decomposition",
+        "HomotopyCRM.Vol2.mode3_orbit_stabilizer_exactness"
+      ],
+      "expected_axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "allowed_ancestors": [
+        "ch01:def:essential-fiber-trident",
+        "ch01:thm:mode3-orbit-stabilizer-exactness"
+      ]
+    },
+    {
+      "id": "ch01:thm:scotoma-pareto-trichotomy",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "decl_names": [
+        "HomotopyCRM.Vol2.StrictWeaker",
+        "HomotopyCRM.Vol2.ExtentEquiv",
+        "HomotopyCRM.Vol2.EpistemicTrichotomy",
+        "HomotopyCRM.Vol2.scotoma_pareto_trichotomy",
+        "HomotopyCRM.Vol2.epistemicTrichotomy_disjoint"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "allowed_ancestors": [
+        "ch01:def:adm-pareto-frontier",
+        "ch01:def:probe-suite",
+        "ch01:thm:scotoma-pareto-trichotomy"
+      ]
+    }
+  ]
+}

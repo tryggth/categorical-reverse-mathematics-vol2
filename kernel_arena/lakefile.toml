@@ -1,0 +1,13 @@
+name = "kernel_arena"
+version = "0.1.0"
+defaultTargets = ["KernelArena", "kernel-arena"]
+
+[leanOptions]
+relaxedAutoImplicit = false
+
+[[lean_lib]]
+name = "KernelArena"
+
+[[lean_exe]]
+name = "kernel-arena"
+root = "Main"
