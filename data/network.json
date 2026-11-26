@@ -11,48 +11,48 @@
     "vol1_root_display": "../categorical-reverse-mathematics",
     "vol1_pinned_head": "b849be75",
     "vol1_zenodo_doi": "10.5281/zenodo.24238086",
-    "phase": "Phase 1A-Pub",
-    "active_slice": "Public Observatory & Issue Board Live",
+    "phase": "Phase 1B",
+    "active_slice": "Ch. 1 Complete (v0.1.0-ch01)",
     "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
     "repo_url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2",
     "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
     "lean_export_branch_url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/tree/lean-export",
-    "lean_export_commit": "ab71b6e6c2b8ffb49e6d253d1d38b3540dd2f12f"
+    "lean_export_commit": "6407dd50444851e772ff2166e3ea2610b35a1cf8"
   },
   "metrics": {
-    "total_nodes": 43,
-    "core_nodes": 22,
-    "core_clean": 22,
+    "total_nodes": 54,
+    "core_nodes": 33,
+    "core_clean": 33,
     "core_tainted": 0,
     "work_items_total": 14,
     "work_items_counts": {
-      "VERIFIED": 2,
+      "VERIFIED": 3,
       "ACTIVE": 1,
-      "PLANNED": 11
+      "PLANNED": 10
     },
     "pub_targets_total": 7,
     "pub_targets_clean": 7,
-    "total_edges": 164,
+    "total_edges": 274,
     "edges_by_fiber": {
-      "curriculum": 32,
-      "lean_dep": 18,
-      "logical_dep": 56,
-      "notation": 37,
-      "prose_paraphrase": 21
+      "curriculum": 48,
+      "lean_dep": 28,
+      "logical_dep": 72,
+      "notation": 78,
+      "prose_paraphrase": 48
     },
     "strata": {
-      "emerald": 15,
-      "none": 5,
+      "emerald": 21,
+      "none": 9,
       "amber": 1,
-      "crimson": 1
+      "crimson": 2
     },
     "cohorts": {
-      "Cohort II": 10,
-      "Cohort IV": 2,
-      "Cohort I": 9,
-      "Cohort III": 1
+      "Cohort II": 13,
+      "Cohort IV": 3,
+      "Cohort I": 15,
+      "Cohort III": 2
     },
-    "decl_ownership_count": 158
+    "decl_ownership_count": 236
   },
   "nodes": [
     {
@@ -138,7 +138,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "262565cd6aa5e2be3467bf68fb4f54b3dff521a4fd07a3e152ef209a05afcad7",
       "body_hash": "77e83a26fda9d61aee3ae11882bda7921c0e034d68fff7351ef4e425f7bbf38a",
       "grounding_hash": "c5b1e6d62146eb83d43977a2c2ffd1a20beac8dec59cce7d2b0fc4ac21b61811",
@@ -264,7 +264,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "9ff295bdb5acb85cafe47dd55e997635827a14ff3a2b04b12a6ba1bc03f9d9f7",
       "body_hash": "38e0ec8ca4ffa865c49cef682ef92343e7111c2194e9417e54465db6a65fe2b4",
       "grounding_hash": "97f7f3d03d611e436b6ddb01757c90720b00b20dc2dc2bd52cbc8c7ba3465ff9",
@@ -320,11 +320,11 @@
       "cert_path": "",
       "cert_sha256": "",
       "verified_at_utc": "",
-      "spec_hash": "5c6566bc916777200cc480b0e96208ccc53c585e0fb427977d66754cd603bd29",
+      "spec_hash": "fed4650801d53ced0a06a429fafedf3f940c7d06ff91a8c641af7bbd31a66767",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ACTIVE",
-      "taint_reason": "0/6 deliverables CLEAN",
+      "taint_status": "VERIFIED",
+      "taint_reason": "11/11 deliverables CLEAN",
       "file_path": "nodes/plan/ch01_p1b.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -344,27 +344,32 @@
           "HomotopyCRM.Vol2.MoritaInterleaving"
         ],
         "deliverable_nodes": [
-          "ch01:def:zero-giraud-axioms",
-          "ch01:cex:zero-giraud-p0-independence",
+          "sym:giraud-morita",
+          "ch01:prop:topological-no-schism",
+          "ch01:thm:zero-giraud-representation",
+          "ch01:thm:zero-giraud-living-zone-zorn",
+          "ch01:cex:p0-independent-of-p1-p5",
           "ch01:prob:two-giraud-prototopos-nerve",
           "ch01:def:operational-currencies",
+          "ch01:claim:abramsky-arboreal-coalgebra-numbers",
           "ch01:thm:morita-resource-interleaving",
-          "ch01:cex:russell-socks-finite"
+          "ch01:cex:russells-socks-levelwise-morita-failure",
+          "ch01:tab:currencies-morita-ledger"
         ],
         "guardrails": [
           "ltt_eff_muchnik_meets"
         ],
-        "summary": "Formalize ZeroGiraud.lean (P0)-(P5) with a 4-element (P0) independence witness, register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, prove MoritaInterleaving.lean (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks counterexample, and refresh the Ch. 1 Roadmap & Table 1.1."
+        "summary": "Formalize ZeroGiraud.lean (Topological No-Schism, constructive 0-Giraud (P1)+(P3)+(P4)+(P5) representation + Dogma/Casuistry banishment, Crimson Zorn Living-Zone existence with (P0)+(P2), and 4-element (P0) independence witness), register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, formalize MoritaInterleaving.lean (two-sided (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks k=1 failure witness), and refresh Ch. 1 Cohort IV containers."
       },
       "pub": null,
       "issue": {
         "number": 1,
         "title": "[Phase 1B] Phase 1B: Ch. 1 \u00a7\u00a71.4\u20131.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving",
-        "state": "OPEN",
+        "state": "CLOSED",
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1",
         "milestone": "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum",
         "labels": [
-          "slice:active"
+          "slice:verified"
         ]
       }
     },
@@ -387,7 +392,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "09d24ff7151fdf8dcf72d650fe8de2d4772cd0be225308d8b05c656fa3021b1c",
       "body_hash": "c42951e28ab2735b023390a88155bf68dc13e1e5501edda99c88ed291fd65b28",
       "grounding_hash": "036c238644f1be2d67be9a2a3cc0f625a5d33050ec5636fe5ebce38ee23fe3cc",
@@ -440,7 +445,7 @@
       "spec_hash": "cd4e77a60d0c218b83584b53b511175bdc36a04f6b845889784af5a7ef9e8b35",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "PLANNED",
+      "taint_status": "ACTIVE",
       "taint_reason": "0/4 deliverables CLEAN",
       "file_path": "nodes/plan/ch02_class_set_adjunction.toml",
       "primary_category": "",
@@ -477,7 +482,7 @@
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2",
         "milestone": "Chapter 2: Class-Set Adjunction & Mod(GB_0)",
         "labels": [
-          "slice:planned"
+          "slice:active"
         ]
       }
     },
@@ -566,7 +571,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "fc35682a0b76a0aee7ff0432e30229c4f54c0bafbc4794d0b414600743d08b7f",
       "body_hash": "4744e088b3e29f000d3d94cca2c9f1bb61adbb296263ff8fb51e19e0c374cce5",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -670,7 +675,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "b84ffd78c1fbe763829bd7e6718fd3cfa912306b11982e4372698e429dd63f49",
       "body_hash": "7f4facec629d58b957bf701e7259a26c79d27b0c109b19b73be01a8a6952cda2",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -901,9 +906,9 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "fb0698d74023061d1e0a1db475d93a7f125160c317426b0914f5522964fc69d2",
-      "body_hash": "7ed68e03747aa9c78ffc49a250e94a40d2759bcb002b148a4d9115c813e10844",
+      "body_hash": "bff34689946ce615434a811484994715c77e2fd4f4a53ef2af4cb8787079c631",
       "grounding_hash": "89900586ad529db5f91c5951824c721a6059c25d210634f4b1192aa348a97cf9",
       "taint_status": "CLEAN",
       "taint_reason": "",
@@ -927,7 +932,7 @@
         }
       ],
       "statement": "",
-      "tex": "Building directly on the doctrinal philosophy framework of Volume~I ({{ref:vol1:def:doctrinal-philosophy}}) and Shulman's 2-Chu-Dialectica pairing~\\cite{Shulman20}, Volume~II systematizes the calibration of structural probe suites {{sym:probe-suite}} across universes, classes, and higher fixed points. Paralleling the categorical resource and game-comonad program of Abramsky, Dawar, Jakl, Paine, and Reggio~\\cite{abramsky2022,abramsky_reggio2021,dawar_jakl_reggio2021,reggio2021,abramsky_jakl_paine2022} alongside realizability topology lattices~\\cite{Kihara23}, Definition~\\ref{ch01:def:probe-suite} isolates a decidable probe incidence matrix $I : \\mathbb{D} \\times {{sym:probe-suite}} \\to \\mathbf{Bool}$ constrained by Pre-Definition, Strict Non-Conservativity, and \\textbf{L\\'evy-Bounded Size Discipline} (a bounded $\\Sigma_1$ / small-site L\\'evy complexity witness preventing Vop\\v{e}nka reflection leaks), and generating Touchstone hyperedges $H_K(w)$ for each defect $w \\in W = H \\setminus C$.\n\nUnder Definition~\\ref{ch01:def:adm-pareto-frontier}, admissible extents $\\mathrm{Adm}_{{{sym:probe-suite}}}$ form a refinement poset whose inclusion-maximal minimal Pareto frontier {{sym:pareto-res}} partitions cleanly into Provable Scotoma ($\\emptyset$), Unique Conceptual Residuum ($|\\mathrm{Res}^{\\min}| = 1$), or Multi-Dimensional Pareto Schism ($|\\mathrm{Res}^{\\min}| \\ge 2$) by Theorem~\\ref{ch01:thm:scotoma-pareto-trichotomy}. Along a monotone probe filtration $\\mathcal{P}_t$, Theorem~\\ref{ch01:thm:flow-f1-threshold-order} proves unconditionally that the awakening threshold precedes the dogma threshold (${{sym:twake}} \\le {{sym:tdogma}}$). Crucially, however, Counterexample~\\ref{ch01:cex:flow-f1-frontier-nonmonotone} demonstrates why $|{{sym:pareto-res}}|$ need not vary monotonically inside $[{{sym:twake}}, {{sym:tdogma}})$: new probes introduced at intermediate stages can first split a single admissible residuum into an incomparable Pareto Schism ($1 \\mapsto 2$) before a subsequent coarser unifying probe subsumes both branches back into a single strictly weaker residuum ($2 \\mapsto 1$) without ever collapsing $T$ into Dogma. Finally, {{ref:ch01:rem:trident-mode3-2ltt-bootstrap}} previews the zero-\\texttt{Mathlib} two-level type theory kernel boundary separating fibrant and strict types.\n",
+      "tex": "Building directly on the doctrinal philosophy framework of Volume~I ({{ref:vol1:def:doctrinal-philosophy}}) and Shulman's 2-Chu-Dialectica pairing~\\cite{Shulman20}, Volume~II systematizes the calibration of structural probe suites {{sym:probe-suite}} across universes, classes, and higher fixed points. Paralleling the categorical resource and game-comonad program of Abramsky, Dawar, Jakl, Paine, and Reggio~\\cite{abramsky2022,abramsky_reggio2021,dawar_jakl_reggio2021,reggio2021,abramsky_jakl_paine2022} alongside realizability topology lattices~\\cite{Kihara23}, Definition~\\ref{ch01:def:probe-suite} isolates a decidable probe incidence matrix $I : \\mathbb{D} \\times {{sym:probe-suite}} \\to \\mathbf{Bool}$ constrained by Pre-Definition, Strict Non-Conservativity, and \\textbf{L\\'evy-Bounded Size Discipline} (a bounded $\\Sigma_1$ / small-site L\\'evy complexity witness preventing Vop\\v{e}nka reflection leaks), and generating Touchstone hyperedges $H_K(w)$ for each defect $w \\in W = H \\setminus C$.\n\nUnder Definition~\\ref{ch01:def:adm-pareto-frontier}, admissible extents $\\mathrm{Adm}_{{{sym:probe-suite}}}$ form a refinement poset whose inclusion-maximal minimal Pareto frontier {{sym:pareto-res}} partitions cleanly into Provable Scotoma ($\\emptyset$), Unique Conceptual Residuum ($|\\mathrm{Res}^{\\min}| = 1$), or Multi-Dimensional Pareto Schism ($|\\mathrm{Res}^{\\min}| \\ge 2$) by Theorem~\\ref{ch01:thm:scotoma-pareto-trichotomy}. Along a monotone probe filtration $\\mathcal{P}_t$, Theorem~\\ref{ch01:thm:flow-f1-threshold-order} proves unconditionally that the awakening threshold precedes the dogma threshold (${{sym:twake}} \\le {{sym:tdogma}}$). Crucially, however, Counterexample~\\ref{ch01:cex:flow-f1-frontier-nonmonotone} demonstrates why $|{{sym:pareto-res}}|$ need not vary monotonically inside $[{{sym:twake}}, {{sym:tdogma}})$: new probes introduced at intermediate stages can first split a single admissible residuum into an incomparable Pareto Schism ($1 \\mapsto 2$) before a subsequent coarser unifying probe subsumes both branches back into a single strictly weaker residuum ($2 \\mapsto 1$) without ever collapsing $T$ into Dogma. Moreover, {{ref:ch01:rem:trident-mode3-2ltt-bootstrap}} previews the zero-\\texttt{Mathlib} two-level type theory kernel boundary separating fibrant and strict types.\n\nSections~1.2--1.5 complete Chapter~1's Meta-CRM calculus across dualities, intrinsic site characterizations, and operational resource translation. In \\S\\S 1.2--1.3, 2-Chu extent--transversal duality, Touchstone Specific Gravity, hereditary subterminal projectivity, and Doctrinal Stability Flows~F2--F4 govern localization and mixed-variance transport across realizability topoi. In \\S 1.4, {{ref:ch01:prop:topological-no-schism}} shows constructively that binary union closure forces at most one Living-Zone maximum whereas {{sym:j-ext}}-multiplicativity unlocks Pareto Schisms, {{ref:ch01:thm:zero-giraud-representation}} establishes an axiom-free $0$-Giraud representation theorem for~\\textup{(P1)+(P3)+(P4)+(P5)} simultaneously banishing Dogma and Immortal Casuistry, {{ref:ch01:thm:zero-giraud-living-zone-zorn}} derives Living-Zone existence under~\\textup{(P0)+(P2)} via Zorn's Lemma, {{ref:ch01:cex:p0-independent-of-p1-p5}} separates~\\textup{(P0)} from~\\textup{(P1)--(P5)} on a $4$-element join-semilattice, and {{ref:ch01:prob:two-giraud-prototopos-nerve}} poses the $2$-categorical prototopos nerve problem~\\cite{diliberti_ramos2019,diliberti_tarantino_ye2026}. Finally, \\S 1.5 introduces the four CRM Operational Currencies ({{ref:ch01:def:operational-currencies}}), links game-comonad coalgebra numbers~({{ref:ch01:claim:abramsky-arboreal-coalgebra-numbers}}), proves two-sided $(a,b)/(a',b')$ descending-filtration Morita Resource Interleaving and $k = \\infty$ invariance ({{ref:ch01:thm:morita-resource-interleaving}})~\\cite{abramsky_shah2021}, and certifies the Russell's Socks $k=1$ failure / $k=2$ separation Touchstone ({{ref:ch01:cex:russells-socks-levelwise-morita-failure}}).\n",
       "lean_signature": "",
       "lean_body": "",
       "plan": null,
@@ -1096,7 +1101,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "fc557e8aa356c416f152ee890928ce785545f35e469a8941f28ffa38786c9390",
       "body_hash": "3b22c32f4d7cd7d4186f8701b0ca5c91a2cd0f3f42eb0cd22a6950df6e8e441b",
       "grounding_hash": "685af69e27e7c873db2f81a95de21c21d88b1dad7e2b47a6d4dee1059582ec1d",
@@ -1369,7 +1374,7 @@
       ],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "8dbdf07012c533f003e59016c17f2721ef72022eb23334cbb58ee76b1682dd39",
       "body_hash": "086fe2f83bdea12e14dcef330988c111f121ee7ab7e9a0761ca59427031ccacc",
       "grounding_hash": "9e24b8d2c0afc055be32e96dfd9106ab62a7a970d650d1fa6e8f595de2b79cb1",
@@ -1421,7 +1426,7 @@
       "actual_axioms": [],
       "cert_path": "certs/ch01_bool_id_bootstrap.2ltt.json",
       "cert_sha256": "8b67ff241b25764b1640553b174a523816a2c221d4a14ddf115c9a87f3eb0c0c",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369",
       "body_hash": "01b987f24d637b6cb7111c3465b401be264dcdec18b419dadf88c435a0214b73",
       "grounding_hash": "11ffe4a8751ea49f3c4d8156c3585d3278c25dbe23cc576601183488f5431980",
@@ -1476,7 +1481,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "069b4c14ccf72941ebf4d343136bb113105d4d8540ed0b9dab8dfa777efb5769",
       "body_hash": "83a39fa9a9a74ab498e6157060c7543486aabd4f6066d5e53781cd99f1c4e328",
       "grounding_hash": "2383988ba37eaad9a49e674c995024e95c9d8abce849c097e2a4c467578cbeeb",
@@ -1536,7 +1541,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "c4f63751392bc419219648b7581d835b066eda107c1e29119a8094a78b886dfa",
       "body_hash": "034d11d72a0054b56fa9bd497d39808fbb40b3255e44e3479e728fd50fa4fc18",
       "grounding_hash": "fbfd6e7ff30f793c61513df412731290445b8c8402d28e87a17f0207fa7ef2a0",
@@ -1598,7 +1603,7 @@
       ],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "73d0580b8dfec86cca711b79a3255f80d4e086b2df7cdaad7274c0a873cff4ea",
       "body_hash": "1836c35a3195888dd2650f9b1a3ada0394f4224df1c8599053868dd92f729c76",
       "grounding_hash": "d538863f3cd18515c67225fcdb2c987c680c8d85518676c8013bcde65ea6c0dd",
@@ -1657,7 +1662,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "d8f9b2fdbc17447986fc1fe34718d6515fc3a43a2f54fad7248074defd0808b9",
       "body_hash": "824ec50af90c9bbde13f6dc01a06c9bf9e977922c1fbb9f164f8107fb8cdde99",
       "grounding_hash": "00f451d548218a0fd92a429619117e819f489962b116f576981be0b697841cdf",
@@ -1721,7 +1726,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21",
       "body_hash": "1672d2ba58b8150daf1c4e8365c492949e61960cab43ed6957d99b6659cb48a1",
       "grounding_hash": "18d5e8f6f3779e19748b39dce25ea128e2ebaf085e5a4bbfb05a36238ebc73b2",
@@ -1769,9 +1774,9 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "1ec9487c74270afe6f6188736def6b99e20da6329cf06d7d7e9539b452053b4b",
-      "body_hash": "acc5a793a5d32df2e2700a95a86e9d4c782e13b01f8816c72fdbbf4abaa733a4",
+      "body_hash": "b93fbd2c854ad650ac35257ecdaa9bb06d9e4d79c386a0e902303259085b60da",
       "grounding_hash": "ed935fc3c7a32c9e7e971b84ad4922e3b5e789942e69875c280e1b997317e214",
       "taint_status": "CLEAN",
       "taint_reason": "",
@@ -1795,7 +1800,7 @@
         }
       ],
       "statement": "",
-      "tex": "\\begin{table}[htbp]\n\\centering\n\\scriptsize\n\\setlength{\\tabcolsep}{3.0pt}\n\\renewcommand{\\arraystretch}{1.15}\n\\begin{tabularx}{\\textwidth}{@{}P{0.20\\textwidth}P{0.22\\textwidth}YP{0.21\\textwidth}@{}}\n\\toprule\n\\textbf{Epistemic Regime} & \\textbf{Formal Criterion} & \\textbf{Structural Diagnostic \\& Filtration Dynamics} & \\textbf{Formal Anchor} \\\\\n\\midrule\nProvable Scotoma & $\\mathrm{Adm}_{{{sym:probe-suite}}} = \\emptyset$ & Every ${{sym:probe-suite}}$-closed extent covering $K$ leaks a defect $w \\in W$; probes obey Pre-Definition, Strict Non-Conservativity, and L\\'evy-Bounded $\\Sigma_1$ / small-site complexity preventing Vop\\v{e}nka reflection leaks. & {{ref:ch01:def:probe-suite}}, {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\\nUnique Residuum & $|{{sym:pareto-res}}| = 1$ & Unique inclusion-maximal admissible extent inside $T$ up to mutual inclusion. & {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\\nPareto Schism & $|{{sym:pareto-res}}| \\ge 2$ & Incomparable maximal trade-offs in $\\mathrm{Adm}_{{{sym:probe-suite}}}$ ($\\neg(E_1 \\equiv E_2)$). & {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\\nFlow F1 Thresholds & ${{sym:twake}} \\le {{sym:tdogma}}$ & Every Dogma stage witnesses an Aperture via $T$; awakening always precedes dogma constructively. & {{ref:ch01:thm:flow-f1-threshold-order}} \\\\\nFlow F1 Bifurcation / Unification & $|{{sym:pareto-res}}(\\mathcal{P}_t)|: 1 \\mapsto 2 \\mapsto 1$ & Intermediate probes split $\\{k_0, h_1\\}$ vs.\\ $\\{k_0, h_2\\}$ before a unifying probe $\\{k_0, h_1, h_2\\} \\subsetneq T$ restores $|{{sym:pareto-res}}| = 1$ inside $[{{sym:twake}}, {{sym:tdogma}})$. & {{ref:ch01:cex:flow-f1-frontier-nonmonotone}} \\\\\n\\bottomrule\n\\end{tabularx}\n\\caption{Epistemic probe regimes, Pareto frontier trichotomy, and Flow~F1 calibration dynamics (Clauses~1--3).}\n\\label{ch01:tab:epistemic-probe-regimes}\n\\end{table}\n",
+      "tex": "\\begin{table}[htbp]\n\\centering\n\\scriptsize\n\\setlength{\\tabcolsep}{3.0pt}\n\\renewcommand{\\arraystretch}{1.15}\n\\begin{tabularx}{\\textwidth}{@{}P{0.20\\textwidth}P{0.22\\textwidth}YP{0.21\\textwidth}@{}}\n\\toprule\n\\textbf{Epistemic Regime} & \\textbf{Formal Criterion} & \\textbf{Structural Diagnostic \\& Filtration Dynamics} & \\textbf{Formal Anchor} \\\\\n\\midrule\nProvable Scotoma & $\\mathrm{Adm}_{{{sym:probe-suite}}} = \\emptyset$ & Every ${{sym:probe-suite}}$-closed extent covering $K$ leaks a defect $w \\in W$; probes obey Pre-Definition, Strict Non-Conservativity, and L\\'evy-Bounded $\\Sigma_1$ / small-site complexity preventing Vop\\v{e}nka reflection leaks. & {{ref:ch01:def:probe-suite}}, {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\\nUnique Residuum & $|{{sym:pareto-res}}| = 1$ & Unique inclusion-maximal admissible extent inside $T$ up to mutual inclusion. & {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\\nPareto Schism & $|{{sym:pareto-res}}| \\ge 2$ & Incomparable maximal trade-offs in $\\mathrm{Adm}_{{{sym:probe-suite}}}$ ($\\neg(E_1 \\equiv E_2)$). & {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\\nFlow F1 Thresholds & ${{sym:twake}} \\le {{sym:tdogma}}$ & Every Dogma stage witnesses an Aperture via $T$; awakening always precedes dogma constructively. & {{ref:ch01:thm:flow-f1-threshold-order}} \\\\\nFlow F1 Bifurcation / Unification & $|{{sym:pareto-res}}(\\mathcal{P}_t)|: 1 \\mapsto 2 \\mapsto 1$ & Intermediate probes split $\\{k_0, h_1\\}$ vs.\\ $\\{k_0, h_2\\}$ before a unifying probe $\\{k_0, h_1, h_2\\} \\subsetneq T$ restores $|{{sym:pareto-res}}| = 1$ inside $[{{sym:twake}}, {{sym:tdogma}})$. & {{ref:ch01:cex:flow-f1-frontier-nonmonotone}} \\\\\n$0$-Giraud Representation & \\textup{(P1)+(P3)+(P4)+(P5)} & Constructive equivalence with {{sym:j-ext}}-multiplicative, $\\Sigma$-invariant, off-core discerning probes; \\textup{(P5)} banishes Dogma ($T \\notin \\mathcal{M}$) and Casuistry (${{sym:apodictic}}(T) \\notin \\mathcal{M}$), while binary union closure forbids Pareto Schisms. & {{ref:ch01:prop:topological-no-schism}}, {{ref:ch01:thm:zero-giraud-representation}} \\\\\nCore--Target Aperture \\textup{(P0)} & $c_{\\mathcal{M}}(K) \\subseteq T$ & Adjoining~\\textup{(P0)} and~\\textup{(P2)} yields $\\mathrm{Max}(\\mathcal{F}) \\neq \\emptyset$ via Zorn's Lemma (Crimson); the $4$-element semilattice $\\mathbf{Fin}\\,4$ separates~\\textup{(P0)} from~\\textup{(P1)--(P5)} constructively ($\\mathcal{F} = \\emptyset$). & {{ref:ch01:thm:zero-giraud-living-zone-zorn}}, {{ref:ch01:cex:p0-independent-of-p1-p5}} \\\\\nCurrencies \\& Morita Interleaving & $(\\equiv_{ak+b}^{T_1}) \\subseteq I^*(\\equiv_k^{T_2})$ & Four Operational Currencies plus two-sided $(a,b)/(a',b')$ descending-filtration interleaving and exact $k=\\infty$ invariance; Russell's Socks witnesses $k=1$ failure in $T_2$ vs.\\ $k=2$ separation in $T_1$. & {{ref:ch01:def:operational-currencies}}, {{ref:ch01:thm:morita-resource-interleaving}}, {{ref:ch01:cex:russells-socks-levelwise-morita-failure}} \\\\\n\\bottomrule\n\\end{tabularx}\n\\caption{Epistemic probe regimes, Pareto frontier trichotomy, Flow~F1 calibration, $0$-Giraud axioms~\\textup{(P0)--(P5)}, and Morita resource interleaving (Clauses~1--3).}\n\\label{ch01:tab:epistemic-probe-regimes}\n\\end{table}\n",
       "lean_signature": "",
       "lean_body": "",
       "plan": null,
@@ -1841,7 +1846,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "8e07cdaa128d354efde82f032d98e1c351630facbb1b3929d21c3a9b582e4e80",
       "body_hash": "93327c447354898e7b16cd95737346dc9cd9c5ce8122659709e647bebc365322",
       "grounding_hash": "90906f2bf549f50dc190ee48807c1a5863b1f6723418630fd6740f1af9cb3a0e",
@@ -1904,7 +1909,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "910761a9cf0c7ba5b1407f774c0b601ceec98daa88a7e9fb05aea5c9f34be81b",
       "body_hash": "b60de2ccf7cb1f40d73af70f5ab43d92d475d615be0b0efccaedd700697f5cae",
       "grounding_hash": "85ef9aa436b907c0c70a254eb57fca4c32f14bb84011ab939203b49769a1563a",
@@ -1958,7 +1963,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "4b3414ced6ff8d14405e4be7e912c6d58eeda1af627f76ba6e1d454d3449d3fb",
       "body_hash": "f1108022ece939d02a3fdf99d301de5fe814205a0c9d904d4f0f1e7007488598",
       "grounding_hash": "2204773812644aad8e91ec5c22c4cac8a9f6de5b9a5e99eeac5ab021d418cc62",
@@ -2032,7 +2037,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "ad78ce8e47623580b2b8401129aed14d7d113c7bbb151b30d4ca7453c08d2f56",
       "body_hash": "cfb6d2f051c5d8fd5bc3806698d3532045b75620ca665db2dc3a2b4fd487fe0b",
       "grounding_hash": "1ae7f19fb3f9182882688a75e47bf9ba59dfb1b0d2db4698685e3e7999e0da9d",
@@ -2092,7 +2097,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "7d8f3b09d9eb173b9e8d91399177ecdaece4b080208dab85c32a30fd5faa32d3",
       "body_hash": "fc7d8ff10d8a23dd5a970bb36f1a82bc6a7df22db4d8f90d032c458b8ce310df",
       "grounding_hash": "d8e5d0940821b2611e6df1db19cdd6af0edb71284f4bbad33d23bf143c808084",
@@ -2171,7 +2176,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "20719a8594b088431c3018c217e6a7a13ff3d7eb5a2853b8ad73b024a0f2d188",
       "body_hash": "e9f1db3db3dd1b98db4c220db8a10f13c3d625dc2a8cac9252c93c2757a34689",
       "grounding_hash": "f851818569847fa4cb9e644745973b2ec1689fe0a7600230412e21dbe97cbdc6",
@@ -2243,7 +2248,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-25T23:58:17.267620+00:00",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
       "spec_hash": "8127e3cb8d1697e98da7c7c7bc999abfb4ebb554c3893c62b3b3d2ed9e8fac5f",
       "body_hash": "f25961e4e0e5b2a4a88ec1c7565775059499af5d95d9b70293907d34b333fdcc",
       "grounding_hash": "c6d8ed91533a5af4da6a080834cb042b8ddc10350960abc326c8ab94ce9e930c",
@@ -2274,6 +2279,678 @@
       "tex": "\\begin{theorem}[Flow~F4 Split-Polarity Transport Law]\\label{ch01:thm:flow-f4-split-polarity-transport}%\n\\uses{vol1:def:doctrinal-philosophy,ch01:def:probe-suite,ch01:prop:extent-transversal-galois}%\nLet $(F : \\mathbb{D}_1 \\to \\mathbb{D}_2,\\; G : \\mathcal{P}_2 \\to \\mathcal{P}_1)$ be a mixed-variance conversion morphism in {{sym:phil-cat}}~\\cite{shulman2020} preserving cores and obstructions ($F[K_1] \\subseteq K_2$, $F[W_1] \\subseteq W_2$) relative to {{ref:ch01:def:probe-suite}} and {{ref:ch01:prop:extent-transversal-galois}}. Assume the \\textbf{Split-Polarity Law}:\n\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]\n  \\item \\textbf{Oplax Core Preservation:} $\\forall k \\in K_1,\\; \\forall p_2 \\in \\mathcal{P}_2,\\quad I_2(F(k), p_2) \\le I_1(k, G(p_2))$;\n  \\item \\textbf{Lax Obstruction Hitting:} $\\forall w \\in W_1,\\; \\forall p_2 \\in \\mathcal{P}_2,\\quad I_1(w, G(p_2)) \\le I_2(F(w), p_2)$.\n\\end{enumerate}\nThen for every admissible transversal $\\Theta_2 \\subseteq \\mathcal{P}_2$ on $\\mathfrak{A}_2$, its direct image $G[\\Theta_2] := \\{G(p_2) \\mid p_2 \\in \\Theta_2\\} \\subseteq \\mathcal{P}_1$ is an admissible transversal on $\\mathfrak{A}_1$. In particular, under a strict $2$-Chu adjunction $I_2(F(d), p_2) = I_1(d, G(p_2))$, Touchstone hyperedges pull back on the nose:\n\\[\n  H_{K_2}(F(w)) \\;=\\; G^{-1}\\bigl(H_{K_1}(w)\\bigr).\n\\]\n\\end{theorem}\n\\begin{proof}\nConstructively without axioms: for any $k \\in K_1$ and $G(p_2) \\in G[\\Theta_2]$ ($p_2 \\in \\Theta_2$), $F(k) \\in K_2$ gives $I_2(F(k), p_2) = \\mathrm{true}$, whence oplax core preservation yields $I_1(k, G(p_2)) = \\mathrm{true}$. Dually, for any $w \\in W_1$, $F(w) \\in W_2$ produces $p_2 \\in \\Theta_2$ with $I_2(F(w), p_2) = \\mathrm{false}$; if $I_1(w, G(p_2)) = \\mathrm{true}$, lax obstruction hitting would force $I_2(F(w), p_2) = \\mathrm{true}$, contradiction, so $I_1(w, G(p_2)) = \\mathrm{false}$. Under $I_2(F(d), p_2) = I_1(d, G(p_2))$, both polarity inequalities hold identically and $p_2 \\in H_{K_2}(F(w)) \\iff I_2(F(w), p_2) = \\mathrm{false} \\iff I_1(w, G(p_2)) = \\mathrm{false} \\iff G(p_2) \\in H_{K_1}(w)$.\n\\end{proof}\n",
       "lean_signature": "/-- Constructive truth implication on `Bool`: `a = true \u2192 b = true`. -/\ndef BoolImp (a b : Bool) : Prop :=\n  a = true \u2192 b = true\n\n/-- Admissible transversal bundle `\u0398 \u2286 P` separating core `K` (all satisfied) from obstructions `W` (each hit). -/\ndef IsAdmissibleTransversal {D P : Type} (I : D \u2192 P \u2192 Bool)\n    (K W : D \u2192 Prop) (\u0398 : P \u2192 Prop) : Prop :=\n  (\u2200 k, K k \u2192 \u2200 p, \u0398 p \u2192 I k p = true) \u2227\n  (\u2200 w, W w \u2192 \u2203 p, \u0398 p \u2227 I w p = false)\n\n/-- Direct image probe bundle `G[\u0398\u2082] = { G(p\u2082) | p\u2082 \u2208 \u0398\u2082 }`. -/\ndef imageBundle {P\u2081 P\u2082 : Type} (G : P\u2082 \u2192 P\u2081) (\u0398\u2082 : P\u2082 \u2192 Prop) : P\u2081 \u2192 Prop :=\n  fun p\u2081 \u21a6 \u2203 p\u2082, \u0398\u2082 p\u2082 \u2227 G p\u2082 = p\u2081\n\n/-- **Flow F4 Split-Polarity Transport Law:** Oplax core preservation + lax obstruction hitting\n    transport every admissible transversal `\u0398\u2082` on `\ud835\udd04\u2082` back to `G[\u0398\u2082]` on `\ud835\udd04\u2081` (zero axioms). -/\ntheorem flow_f4_split_polarity_transport {D\u2081 P\u2081 D\u2082 P\u2082 : Type}\n    (I\u2081 : D\u2081 \u2192 P\u2081 \u2192 Bool) (I\u2082 : D\u2082 \u2192 P\u2082 \u2192 Bool)\n    (K\u2081 W\u2081 : D\u2081 \u2192 Prop) (K\u2082 W\u2082 : D\u2082 \u2192 Prop)\n    (F : D\u2081 \u2192 D\u2082) (G : P\u2082 \u2192 P\u2081)\n    (hK : \u2200 k, K\u2081 k \u2192 K\u2082 (F k))\n    (hW : \u2200 w, W\u2081 w \u2192 W\u2082 (F w))\n    (hOplaxCore : \u2200 k p\u2082, K\u2081 k \u2192 BoolImp (I\u2082 (F k) p\u2082) (I\u2081 k (G p\u2082)))\n    (hLaxObs : \u2200 w p\u2082, W\u2081 w \u2192 BoolImp (I\u2081 w (G p\u2082)) (I\u2082 (F w) p\u2082))\n    {\u0398\u2082 : P\u2082 \u2192 Prop}\n    (h\u0398\u2082 : IsAdmissibleTransversal I\u2082 K\u2082 W\u2082 \u0398\u2082) :\n    IsAdmissibleTransversal I\u2081 K\u2081 W\u2081 (imageBundle G \u0398\u2082) := by\n  {{LEAN_BODY}}\n\n/-- Strict Chu specialization `I\u2082(F d, p\u2082) = I\u2081(d, G p\u2082)` induces exact Touchstone hyperedge pullback\n    `H_{K\u2082}(F(w)) = G\u207b\u00b9(H_{K\u2081}(w))` and transversal transport (zero axioms). -/\ntheorem flow_f4_strict_chu_hyperedge_pullback {D\u2081 P\u2081 D\u2082 P\u2082 : Type}\n    {\u03a6\u2081 : DoctrinalProblem D\u2081} {\u03a6\u2082 : DoctrinalProblem D\u2082}\n    (S\u2081 : ProbeSuite \u03a6\u2081 P\u2081) (S\u2082 : ProbeSuite \u03a6\u2082 P\u2082)\n    (F : D\u2081 \u2192 D\u2082) (G : P\u2082 \u2192 P\u2081)\n    (hChu : \u2200 d p\u2082, S\u2082.I (F d) p\u2082 = S\u2081.I d (G p\u2082)) :\n    (\u2200 w p\u2082, S\u2082.touchstoneHyperedge (F w) p\u2082 \u2194 S\u2081.touchstoneHyperedge w (G p\u2082)) \u2227\n    ((\u2200 k, \u03a6\u2081.K k \u2192 \u03a6\u2082.K (F k)) \u2192 (\u2200 w, \u03a6\u2081.W w \u2192 \u03a6\u2082.W (F w)) \u2192\n      \u2200 \u0398\u2082, IsAdmissibleTransversal S\u2082.I \u03a6\u2082.K \u03a6\u2082.W \u0398\u2082 \u2192\n        IsAdmissibleTransversal S\u2081.I \u03a6\u2081.K \u03a6\u2081.W (imageBundle G \u0398\u2082)) := by\n  refine \u27e8fun w p\u2082 \u21a6 ?_, fun hK hW \u0398\u2082 h\u0398\u2082 \u21a6 ?_\u27e9\n  \u00b7 dsimp only [ProbeSuite.touchstoneHyperedge]\n    rw [hChu w p\u2082]\n  \u00b7 exact flow_f4_split_polarity_transport S\u2081.I S\u2082.I \u03a6\u2081.K \u03a6\u2081.W \u03a6\u2082.K \u03a6\u2082.W F G hK hW\n      (fun k p\u2082 _ h \u21a6 (hChu k p\u2082).symm.trans h)\n      (fun w p\u2082 _ h \u21a6 (hChu w p\u2082).trans h)\n      h\u0398\u2082\n",
       "lean_body": "  refine \u27e8?_, ?_\u27e9\n  \u00b7 intro k hk p\u2081 \u27e8p\u2082, h\u03b8\u2082, hG\u27e9\n    cases hG\n    exact hOplaxCore k p\u2082 hk (h\u0398\u2082.1 (F k) (hK k hk) p\u2082 h\u03b8\u2082)\n  \u00b7 intro w hw\n    rcases h\u0398\u2082.2 (F w) (hW w hw) with \u27e8p\u2082, h\u03b8\u2082, hFalse\u27e9\n    refine \u27e8G p\u2082, \u27e8p\u2082, h\u03b8\u2082, rfl\u27e9, ?_\u27e9\n    cases hVal : I\u2081 w (G p\u2082)\n    \u00b7 rfl\n    \u00b7 exact False.elim (Bool.noConfusion (Eq.trans hFalse.symm (hLaxObs w p\u2082 hw hVal)))\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "sym:giraud-morita",
+      "kind": "symbol",
+      "is_core": true,
+      "cohort": "Cohort II",
+      "title": "0-Giraud Extensivity and Morita Game-Comonad Notation Registry",
+      "chapter": "ch01",
+      "section": "1.4",
+      "seq_order": 70,
+      "axis": "meta_crm",
+      "grounding_tier": "conceptual",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "b66f697610ac454d85fc838a7d8be5c360a4b8eb946faed2756746bdaa5e632e",
+      "body_hash": "399415f47b46f0b7a6d1cb62d853893ed2aa98b7ad7e3c78e29ab7c50c72e599",
+      "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/sym/giraud_morita.toml",
+      "primary_category": "",
+      "blueprint_tier": "none",
+      "characterization_types": [],
+      "witness_scope": "",
+      "dual_pillars": [],
+      "statement": "",
+      "tex": "\\begin{remark}[Notation Registry: 0-Giraud and Morita Game Comonads]\\label{sym:giraud-morita}%\nThis node registers the canonical Volume~II notation for the extensivity Grothendieck topology {{sym:j-ext}}, the $k$-round Ehrenfeucht--Fra\\\"iss\\'e game comonad {{sym:ef-comonad}}, the $k$-pebble game comonad {{sym:pebble-comonad}}, and $k$-round Ehrenfeucht--Fra\\\"iss\\'e equivalence {{sym:ef-equiv}}.\n\\end{remark}\n",
+      "lean_signature": "",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:prop:topological-no-schism",
+      "kind": "proposition",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Topological No-Schism Principle Under Binary Union Closure",
+      "chapter": "ch01",
+      "section": "1.4",
+      "seq_order": 72,
+      "axis": "meta_crm",
+      "grounding_tier": "lean_ok",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.InLivingZone",
+        "HomotopyCRM.Vol2.IsMaxLivingZone",
+        "HomotopyCRM.Vol2.IsBinaryUnionClosed",
+        "HomotopyCRM.Vol2.topological_no_schism"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50",
+      "body_hash": "b448210deaaf8c31dfbefa7ed1c468e2c8a141e2fac36b2ddbd1ec1cff43724d",
+      "grounding_hash": "d3bc7455f012ccd307feb0ba4aa3fd85e7d2600c489f77b79436cd47b3b1c0f7",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/prop_topological_no_schism.toml",
+      "primary_category": "Proved by Lean code",
+      "blueprint_tier": "lean_ok",
+      "characterization_types": [
+        "Topological Separation",
+        "Duality"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.topological_no_schism",
+          "purpose": "Axiom-free Emerald Lean 4 proof of uniqueness of Living-Zone maxima under binary union closure"
+        }
+      ],
+      "statement": "For any intersection-closed extent family M subset P(D) that is also closed under binary set-theoretic unions (E1, E2 in M implies E1 cup E2 in M), the Living-Zone poset F = {R in M | K subseteq R subseteq T} has at most one inclusion-maximal element up to extensional equivalence (R1, R2 in Max(F) implies R1 = R2). By contrast, J_ext-multiplicativity (closure under doctrinal products) breaks binary union closure and permits Pareto Schisms.",
+      "tex": "\\begin{proposition}[Topological No-Schism Principle]\\label{ch01:prop:topological-no-schism}%\n\\uses{ch01:def:adm-pareto-frontier}%\nLet $\\mathcal{M} \\subseteq \\wp(\\mathbb{D})$ be a Moore extent family and let $\\mathcal{F} := \\{R \\in \\mathcal{M} \\mid K \\subseteq R \\subseteq T\\}$ be its Living-Zone poset relative to {{ref:ch01:def:adm-pareto-frontier}}. If $\\mathcal{M}$ is closed under binary set-theoretic unions ($E_1, E_2 \\in \\mathcal{M} \\implies E_1 \\cup E_2 \\in \\mathcal{M}$), then $\\mathcal{F}$ has at most one inclusion-maximal element:\n\\[\n  R_1, R_2 \\in \\mathrm{Max}(\\mathcal{F}) \\implies \\forall d \\in \\mathbb{D},\\; (d \\in R_1 \\iff d \\in R_2).\n\\]\n\\end{proposition}\n\\begin{proof}\nConstructively without axioms: if $R_1, R_2 \\in \\mathrm{Max}(\\mathcal{F})$, binary union closure places $R_1 \\cup R_2 \\in \\mathcal{M}$, and $K \\subseteq R_1 \\subseteq R_1 \\cup R_2 \\subseteq T$ gives $R_1 \\cup R_2 \\in \\mathcal{F}$. Maximality of $R_1$ and $R_2$ forces $R_1 \\cup R_2 \\subseteq R_1$ and $R_1 \\cup R_2 \\subseteq R_2$, yielding $R_1 = R_2$. By contrast, {{sym:j-ext}}-multiplicativity requires extents to be closed under doctrinal products $d_1 \\times d_2$ rather than arbitrary binary unions: when $d_1 \\in E_1 \\setminus E_2$ and $d_2 \\in E_2 \\setminus E_1$, $d_1 \\times d_2$ need not lie in $E_1 \\cup E_2$, which breaks union closure and unlocks multi-dimensional Pareto Schisms ($|{{sym:pareto-res}}| \\ge 2$).\n\\end{proof}\n",
+      "lean_signature": "/-- Living-Zone membership `R \u2208 \u2131 = {R \u2208 \u2133 | K \u2286 R \u2286 T}`. -/\ndef InLivingZone {D : Type} (M : Set (Set D)) (K T R : Set D) : Prop :=\n  M R \u2227 (\u2200 d, K d \u2192 R d) \u2227 (\u2200 d, R d \u2192 T d)\n/-- Inclusion-maximality inside the Living-Zone poset `\u2131`. -/\ndef IsMaxLivingZone {D : Type} (M : Set (Set D)) (K T R : Set D) : Prop :=\n  InLivingZone M K T R \u2227 \u2200 R', InLivingZone M K T R' \u2192 (\u2200 d, R d \u2192 R' d) \u2192 (\u2200 d, R' d \u2192 R d)\n/-- Closure of an extent family `\u2133` under binary set-theoretic unions. -/\ndef IsBinaryUnionClosed {D : Type} (M : Set (Set D)) : Prop :=\n  \u2200 E\u2081 E\u2082 : Set D, M E\u2081 \u2192 M E\u2082 \u2192 M (fun d \u21a6 E\u2081 d \u2228 E\u2082 d)\n\n/-- **Topological No-Schism Principle:** If `\u2133` is closed under binary unions, `\u2131` has at most\n    one inclusion-maximal element up to extensional equivalence (zero axioms). -/\ntheorem topological_no_schism {D : Type} (M : Set (Set D)) (K T : Set D)\n    (hU : IsBinaryUnionClosed M) {R\u2081 R\u2082 : Set D}\n    (h\u2081 : IsMaxLivingZone M K T R\u2081) (h\u2082 : IsMaxLivingZone M K T R\u2082) : \u2200 d, R\u2081 d \u2194 R\u2082 d := by\n  {{LEAN_BODY}}\n",
+      "lean_body": "  have hUmem : InLivingZone M K T (fun d \u21a6 R\u2081 d \u2228 R\u2082 d) := \u27e8hU R\u2081 R\u2082 h\u2081.1.1 h\u2082.1.1,\n    fun d hk \u21a6 Or.inl (h\u2081.1.2.1 d hk), fun d h \u21a6 Or.elim h (h\u2081.1.2.2 d) (h\u2082.1.2.2 d)\u27e9\n  exact fun d \u21a6 \u27e8fun hd \u21a6 h\u2082.2 _ hUmem (fun _ h \u21a6 Or.inr h) d (Or.inl hd),\n    fun hd \u21a6 h\u2081.2 _ hUmem (fun _ h \u21a6 Or.inl h) d (Or.inr hd)\u27e9\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:thm:zero-giraud-representation",
+      "kind": "theorem",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Constructive 0-Giraud Representation Theorem and Banishment of Dogma and Immortal Casuistry",
+      "chapter": "ch01",
+      "section": "1.4",
+      "seq_order": 75,
+      "axis": "meta_crm",
+      "grounding_tier": "lean_ok",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DoctrinalDomain",
+        "HomotopyCRM.Vol2.NonTrivialProblem",
+        "HomotopyCRM.Vol2.AssertoricSet",
+        "HomotopyCRM.Vol2.OffCoreSet",
+        "HomotopyCRM.Vol2.IsMultiplicative",
+        "HomotopyCRM.Vol2.IsModalExact",
+        "HomotopyCRM.Vol2.IsOffCoreDiscerning",
+        "HomotopyCRM.Vol2.IsAdmissibleProbeFamily",
+        "HomotopyCRM.Vol2.GeneratedByProbes",
+        "HomotopyCRM.Vol2.ZeroGiraudP1",
+        "HomotopyCRM.Vol2.ZeroGiraudP3",
+        "HomotopyCRM.Vol2.ZeroGiraudP4",
+        "HomotopyCRM.Vol2.ZeroGiraudP5",
+        "HomotopyCRM.Vol2.zero_giraud_representation",
+        "HomotopyCRM.Vol2.p5_contrapositive",
+        "HomotopyCRM.Vol2.p5_banishes_dogma_and_casuistry"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e",
+      "body_hash": "2545bb0e7660b97e6f1f95391379fc3edc6af28d0c2a4ff0309046c5c1a39f52",
+      "grounding_hash": "bed12b68f8201818bb9454c3aeeb7383bede7795eca953e64234f3b4ef4f089d",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/thm_zero_giraud_representation.toml",
+      "primary_category": "Proved by Lean code",
+      "blueprint_tier": "lean_ok",
+      "characterization_types": [
+        "Categorical Equivalence",
+        "Duality"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.zero_giraud_representation",
+          "purpose": "Full constructive Emerald proof of 0-Giraud (P1)+(P3)+(P4)+(P5) representation and Dogma/Casuistry banishment"
+        }
+      ],
+      "statement": "Over a doctrinal domain (D, mul, zero, boxSigma) with Alexandrov S4 interior operator boxSigma and problem (H, C, K) with T = (D \\ H) cup C, an extent family M subset P(D) arises from an iota-indexed, multiplicative, Sigma-invariant, off-core discerning probe family P : iota -> P(D) if and only if M satisfies intrinsic axioms (P1) iota-indexed intersection-density, (P3) multiplicativity (zero in E and mul-closure), (P4) modal Sigma-exactness (boxSigma(E) = E), and (P5) off-core discernment (boxSigma((D \\ H) cup K) subseteq E implies E = top). Moreover, for any non-trivial problem (H not subseteq C), (P5) constructively banishes both Dogma (T not in M) and Immortal Casuistry (boxSigma(T) not in M).",
+      "tex": "\\begin{theorem}[Constructive $0$-Giraud Representation and Banishment of Dogma and Casuistry]\\label{ch01:thm:zero-giraud-representation}%\n\\uses{ch01:def:probe-suite,ch01:prop:topological-no-schism}%\nLet $(\\mathbb{D}, \\times, 0, {{sym:apodictic}})$ be a doctrinal domain equipped with an Alexandrov $S4$ stability interior {{sym:apodictic}} preserving intersections, and let $\\Phi = (H, C, K)$ be a doctrinal problem with $T := (\\mathbb{D} \\setminus H) \\cup C$. Constructively without axioms (stratum \\textbf{Emerald}):\n\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]\n  \\item An extent family $\\mathcal{M} \\subseteq \\wp(\\mathbb{D})$ arises as arbitrary intersections of an $\\iota$-indexed family $P : \\iota \\to \\wp(\\mathbb{D})$ of {{sym:j-ext}}-multiplicative, $\\Sigma$-invariant, off-core discerning probes if and only if $\\mathcal{M}$ satisfies the intrinsic $0$-Giraud axioms:\n  \\begin{itemize}[leftmargin=1.5em]\n    \\item \\textbf{(P1) $\\iota$-Indexed $\\bigcap$-Density:} $\\mathcal{M}$ is closed under extensional equivalence and arbitrary intersections, and contains a $\\bigcap$-dense $\\iota$-indexed generator family $(G_i)_{i \\in \\iota}$;\n    \\item \\textbf{(P3) Multiplicativity:} Every $E \\in \\mathcal{M}$ contains $0$ and is closed under $\\times$;\n    \\item \\textbf{(P4) Modal $\\Sigma$-Exactness:} Every $E \\in \\mathcal{M}$ satisfies ${{sym:apodictic}}(E) = E$;\n    \\item \\textbf{(P5) Off-Core Discernment:} Every $E \\in \\mathcal{M}$ satisfies ${{sym:apodictic}}((\\mathbb{D} \\setminus H) \\cup K) \\subseteq E \\implies E = \\top$ (hence $E \\neq \\top \\implies {{sym:apodictic}}((\\mathbb{D} \\setminus H) \\cup K) \\not\\subseteq E$).\n  \\end{itemize}\n  \\item If $\\Phi$ is non-trivial ($\\exists w \\in H \\setminus C$), axiom~\\textbf{(P5)} simultaneously banishes \\textbf{Dogma} ($T \\notin \\mathcal{M}$) and \\textbf{Immortal Casuistry} (${{sym:apodictic}}(T) \\notin \\mathcal{M}$).\n\\end{enumerate}\n\\end{theorem}\n\\begin{proof}\nFor~(1), if $\\mathcal{M}$ is generated by intersections $\\bigcap_{i \\in S} P_i$ of an admissible probe family $(P_i)_{i \\in \\iota}$, taking $G_i := P_i$ yields $\\bigcap$-density (P1), while multiplicativity (P3), Alexandrov intersection preservation for (P4), and pointwise intersection pass-through for (P5) transfer from each $P_i$ to every $E \\in \\mathcal{M}$. Conversely, (P1) supplies generators $G_i \\in \\mathcal{M}$, and axioms (P3)--(P5) on $\\mathcal{M}$ immediately certify that $(G_i)_{i \\in \\iota}$ is an admissible probe family generating $\\mathcal{M}$. For~(2), since $K \\subseteq C$, $(\\mathbb{D} \\setminus H) \\cup K \\subseteq T$, whence ${{sym:apodictic}}((\\mathbb{D} \\setminus H) \\cup K) \\subseteq {{sym:apodictic}}(T) \\subseteq T$; thus if either $T \\in \\mathcal{M}$ or ${{sym:apodictic}}(T) \\in \\mathcal{M}$, (P5) forces $w \\in T$ (contradicting $w \\in H \\setminus C$).\n\\end{proof}\n",
+      "lean_signature": "/-- Doctrinal domain `(D, mul, zero, boxSigma)` with Alexandrov S4 interior operator. -/\nstructure DoctrinalDomain (D : Type) where\n  /-- Binary doctrinal product `\u00d7`. -/\n  mul : D \u2192 D \u2192 D\n  /-- Terminal / trivial doctrine `0` (`1`). -/\n  zero : D\n  /-- Modal S4 stability interior `Box_\u03a3 : Set D \u2192 Set D`. -/\n  boxSigma : Set D \u2192 Set D\n  /-- S4 Axiom T (deflation): `Box_\u03a3(U) \u2286 U`. -/\n  box_deflate : \u2200 U d, boxSigma U d \u2192 U d\n  /-- S4 Monotonicity: `U \u2286 V \u2192 Box_\u03a3(U) \u2286 Box_\u03a3(V)`. -/\n  box_mono : \u2200 {U V : Set D}, (\u2200 d, U d \u2192 V d) \u2192 \u2200 d, boxSigma U d \u2192 boxSigma V d\n  /-- S4 Axiom 4 (idempotence): `Box_\u03a3(U) \u2286 Box_\u03a3(Box_\u03a3(U))`. -/\n  box_idem : \u2200 U d, boxSigma U d \u2192 boxSigma (boxSigma U) d\n  /-- Alexandrov intersection preservation for monoid-stability interiors `Box_\u03a3`. -/\n  box_sInter : \u2200 (F : Set (Set D)) (d : D),\n    (\u2200 U, F U \u2192 boxSigma U d) \u2192 boxSigma (fun x \u21a6 \u2200 U, F U \u2192 U x) d\n\n/-- Non-trivial doctrinal problem `(H, C, K)` witnessing `H \u2288 C`. -/\nstructure NonTrivialProblem (D : Type) extends DoctrinalProblem D where\n  /-- Explicit defect witness `w \u2208 H \\ C`. -/\n  hasDefect : \u2203 w, H w \u2227 \u00ac C w\n\n/-- Set-theoretic Assertoric Closure `T := (D \\ H) \u222a C`. -/\ndef AssertoricSet {D : Type} (\u03a6 : DoctrinalProblem D) : Set D := fun d \u21a6 \u00ac \u03a6.H d \u2228 \u03a6.C d\n/-- Off-core locus `(D \\ H) \u222a K`. -/\ndef OffCoreSet {D : Type} (\u03a6 : DoctrinalProblem D) : Set D := fun d \u21a6 \u00ac \u03a6.H d \u2228 \u03a6.K d\n/-- Axiom (P3) on a single extent: `zero \u2208 E` and `mul`-closure. -/\ndef IsMultiplicative {D : Type} (dom : DoctrinalDomain D) (E : Set D) : Prop :=\n  E dom.zero \u2227 \u2200 d\u2081 d\u2082, E d\u2081 \u2192 E d\u2082 \u2192 E (dom.mul d\u2081 d\u2082)\n/-- Axiom (P4) on a single extent: modal `\u03a3`-exactness `Box_\u03a3(E) = E`. -/\ndef IsModalExact {D : Type} (dom : DoctrinalDomain D) (E : Set D) : Prop :=\n  \u2200 d, dom.boxSigma E d \u2194 E d\n/-- Axiom (P5) on a single extent: `Box_\u03a3((D \\ H) \u222a K) \u2286 E \u2192 E = \u22a4`. -/\ndef IsOffCoreDiscerning {D : Type} (dom : DoctrinalDomain D)\n    (\u03a6 : DoctrinalProblem D) (E : Set D) : Prop :=\n  (\u2200 d, dom.boxSigma (OffCoreSet \u03a6) d \u2192 E d) \u2192 \u2200 d, E d\n/-- An `\u03b9`-indexed extensive, `\u03a3`-invariant, off-core discerning probe family. -/\ndef IsAdmissibleProbeFamily {D \u03b9 : Type} (dom : DoctrinalDomain D)\n    (\u03a6 : DoctrinalProblem D) (P : \u03b9 \u2192 Set D) : Prop :=\n  \u2200 i, IsMultiplicative dom (P i) \u2227 IsModalExact dom (P i) \u2227 IsOffCoreDiscerning dom \u03a6 (P i)\n/-- Extent family `\u2133` generated by intersections of a probe family `P : \u03b9 \u2192 Set D`. -/\ndef GeneratedByProbes {D \u03b9 : Type} (P : \u03b9 \u2192 Set D) (M : Set (Set D)) : Prop :=\n  \u2200 E : Set D, M E \u2194 \u2203 S : Set \u03b9, \u2200 d, E d \u2194 \u2200 i, S i \u2192 P i d\n/-- Intrinsic axiom (P1): extensional `\u22c2`-closure and `\u03b9`-indexed `\u22c2`-density. -/\ndef ZeroGiraudP1 {D \u03b9 : Type} (M : Set (Set D)) : Prop :=\n  (\u2200 E\u2081 E\u2082 : Set D, (\u2200 d, E\u2081 d \u2194 E\u2082 d) \u2192 M E\u2081 \u2192 M E\u2082) \u2227\n  (\u2200 F : Set (Set D), (\u2200 E, F E \u2192 M E) \u2192 M (fun d \u21a6 \u2200 E, F E \u2192 E d)) \u2227\n  \u2203 G : \u03b9 \u2192 Set D, (\u2200 i, M (G i)) \u2227 \u2200 E, M E \u2192 \u2200 d, (\u2200 i, (\u2200 x, E x \u2192 G i x) \u2192 G i d) \u2192 E d\n/-- Intrinsic axiom (P3): every extent in `\u2133` is multiplicative. -/\ndef ZeroGiraudP3 {D : Type} (dom : DoctrinalDomain D) (M : Set (Set D)) : Prop :=\n  \u2200 E, M E \u2192 IsMultiplicative dom E\n/-- Intrinsic axiom (P4): every extent in `\u2133` is modal `\u03a3`-exact. -/\ndef ZeroGiraudP4 {D : Type} (dom : DoctrinalDomain D) (M : Set (Set D)) : Prop :=\n  \u2200 E, M E \u2192 IsModalExact dom E\n/-- Intrinsic axiom (P5): every extent in `\u2133` satisfies off-core discernment. -/\ndef ZeroGiraudP5 {D : Type} (dom : DoctrinalDomain D) (\u03a6 : DoctrinalProblem D)\n    (M : Set (Set D)) : Prop := \u2200 E, M E \u2192 IsOffCoreDiscerning dom \u03a6 E\n\n/-- **0-Giraud Representation Theorem (Constructive, Emerald):** `\u2133` arises from an\n    `\u03b9`-indexed extensive, `\u03a3`-invariant, off-core discerning probe family iff `\u2133`\n    satisfies intrinsic axioms (P1), (P3), (P4), and (P5) (zero axioms). -/\ntheorem zero_giraud_representation {D \u03b9 : Type} (dom : DoctrinalDomain D)\n    (\u03a6 : DoctrinalProblem D) (M : Set (Set D)) :\n    (\u2203 P : \u03b9 \u2192 Set D, IsAdmissibleProbeFamily dom \u03a6 P \u2227 GeneratedByProbes P M) \u2194\n    (ZeroGiraudP1 (\u03b9 := \u03b9) M \u2227 ZeroGiraudP3 dom M \u2227\n      ZeroGiraudP4 dom M \u2227 ZeroGiraudP5 dom \u03a6 M) := by\n  {{LEAN_BODY}}\n\n/-- Contrapositive formulation of (P5): any non-top `E \u2208 \u2133` omits `Box_\u03a3((D \\ H) \u222a K)`. -/\ntheorem p5_contrapositive {D : Type} (dom : DoctrinalDomain D)\n    (\u03a6 : DoctrinalProblem D) (M : Set (Set D)) (hP5 : ZeroGiraudP5 dom \u03a6 M)\n    {E : Set D} (hME : M E) (hNotTop : \u00ac \u2200 d, E d) :\n    \u00ac \u2200 d, dom.boxSigma (OffCoreSet \u03a6) d \u2192 E d := fun hSub \u21a6 hNotTop (hP5 E hME hSub)\n\n/-- **(P5) Simultaneous Banishment:** Off-core discernment banishes both Dogma (`T \u2209 \u2133`)\n    and Immortal Casuistry (`Box_\u03a3(T) \u2209 \u2133`) constructively (zero axioms). -/\ntheorem p5_banishes_dogma_and_casuistry {D : Type} (dom : DoctrinalDomain D)\n    (\u03a6 : NonTrivialProblem D) (M : Set (Set D)) (hP5 : ZeroGiraudP5 dom \u03a6.toDoctrinalProblem M) :\n    \u00ac M (AssertoricSet \u03a6.toDoctrinalProblem) \u2227\n    \u00ac M (dom.boxSigma (AssertoricSet \u03a6.toDoctrinalProblem)) \u2227\n    \u00ac M \u03a6.toDoctrinalProblem.T \u2227 \u00ac M (dom.boxSigma \u03a6.toDoctrinalProblem.T) := by\n  have hS : \u2200 d, OffCoreSet \u03a6.toDoctrinalProblem d \u2192 AssertoricSet \u03a6.toDoctrinalProblem d :=\n    fun d h \u21a6 Or.elim h Or.inl (fun hk \u21a6 Or.inr (\u03a6.core_sub_concl d hk))\n  have hI : \u2200 d, OffCoreSet \u03a6.toDoctrinalProblem d \u2192 \u03a6.toDoctrinalProblem.T d :=\n    fun d h hh \u21a6 Or.elim h (fun hnh \u21a6 False.elim (hnh hh)) (fun hk \u21a6 \u03a6.core_sub_concl d hk)\n  rcases \u03a6.hasDefect with \u27e8w, hwH, hwNC\u27e9\n  refine \u27e8fun h \u21a6 ?_, fun h \u21a6 ?_, fun h \u21a6 ?_, fun h \u21a6 ?_\u27e9\n  \u00b7 exact Or.elim (hP5 _ h (fun d hd \u21a6 hS d (dom.box_deflate _ d hd)) w) (\u00b7 hwH) hwNC\n  \u00b7 exact Or.elim (dom.box_deflate _ w (hP5 _ h (dom.box_mono hS) w)) (\u00b7 hwH) hwNC\n  \u00b7 exact hwNC (hP5 _ h (fun d hd \u21a6 hI d (dom.box_deflate _ d hd)) w hwH)\n  \u00b7 exact hwNC (dom.box_deflate _ w (hP5 _ h (dom.box_mono hI) w) hwH)\n",
+      "lean_body": "  constructor\n  \u00b7 rintro \u27e8P, hP, hGen\u27e9\n    refine \u27e8\u27e8?_, ?_, P, ?_, ?_\u27e9, ?_, ?_, ?_\u27e9\n    \u00b7 intro E\u2081 E\u2082 hEq hM1\n      rcases (hGen E\u2081).mp hM1 with \u27e8S, hS\u27e9\n      exact (hGen E\u2082).mpr \u27e8S, fun d \u21a6 (hEq d).symm.trans (hS d)\u27e9\n    \u00b7 intro F hF\n      refine (hGen _).mpr \u27e8fun i \u21a6 \u2200 x, (\u2200 E, F E \u2192 E x) \u2192 P i x,\n        fun d \u21a6 \u27e8fun hd i hi \u21a6 hi d hd, fun hAll E hFE \u21a6 ?_\u27e9\u27e9\n      rcases (hGen E).mp (hF E hFE) with \u27e8SE, hSE\u27e9\n      exact (hSE d).mpr (fun i hiSE \u21a6 hAll i (fun x hx \u21a6 ((hSE x).mp (hx E hFE)) i hiSE))\n    \u00b7 intro i; exact (hGen (P i)).mpr \u27e8fun j \u21a6 j = i, fun d \u21a6 \u27e8fun h _ hj \u21a6 hj \u25b8 h, (\u00b7 i rfl)\u27e9\u27e9\n    \u00b7 intro E hME d hd\n      rcases (hGen E).mp hME with \u27e8S, hS\u27e9\n      exact (hS d).mpr (fun i hiS \u21a6 hd i (fun x hx \u21a6 ((hS x).mp hx) i hiS))\n    \u00b7 intro E hME\n      rcases (hGen E).mp hME with \u27e8S, hS\u27e9\n      exact \u27e8(hS dom.zero).mpr (fun i _ \u21a6 (hP i).1.1), fun d\u2081 d\u2082 h\u2081 h\u2082 \u21a6 (hS _).mpr\n        (fun i hiS \u21a6 (hP i).1.2 d\u2081 d\u2082 (((hS d\u2081).mp h\u2081) i hiS) (((hS d\u2082).mp h\u2082) i hiS))\u27e9\n    \u00b7 intro E hME d\n      rcases (hGen E).mp hME with \u27e8S, hS\u27e9\n      refine \u27e8dom.box_deflate E d, fun hd \u21a6 dom.box_mono (fun x hx \u21a6 (hS x).mpr\n        (fun i hiS \u21a6 hx (P i) \u27e8i, hiS, rfl\u27e9)) d (dom.box_sInter (fun U \u21a6 \u2203 i, S i \u2227 U = P i) d ?_)\u27e9\n      rintro U \u27e8i, hiS, rfl\u27e9; exact ((hP i).2.1 d).mpr (((hS d).mp hd) i hiS)\n    \u00b7 intro E hME hOff d\n      rcases (hGen E).mp hME with \u27e8S, hS\u27e9\n      exact (hS d).mpr (fun i hiS \u21a6 (hP i).2.2 (fun x hx \u21a6 ((hS x).mp (hOff x hx)) i hiS) d)\n  \u00b7 rintro \u27e8\u27e8hExt, hInter, G, hMG, hDense\u27e9, hP3, hP4, hP5\u27e9\n    refine \u27e8G, fun i \u21a6 \u27e8hP3 (G i) (hMG i), hP4 (G i) (hMG i), hP5 (G i) (hMG i)\u27e9, fun E \u21a6 \u27e8?_, ?_\u27e9\u27e9\n    \u00b7 intro hME; exact \u27e8fun i \u21a6 \u2200 x, E x \u2192 G i x, fun d \u21a6 \u27e8fun hd i hi \u21a6 hi d hd, hDense E hME d\u27e9\u27e9\n    \u00b7 rintro \u27e8S, hS\u27e9\n      have hMF : M (fun d \u21a6 \u2200 U, (\u2203 i, S i \u2227 U = G i) \u2192 U d) :=\n        hInter (fun U \u21a6 \u2203 i, S i \u2227 U = G i) (fun U \u27e8i, _, hEq\u27e9 \u21a6 hEq \u25b8 hMG i)\n      refine hExt _ E (fun d \u21a6 \u27e8fun h \u21a6 (hS d).mpr (fun i hiS \u21a6 h (G i) \u27e8i, hiS, rfl\u27e9),\n        fun hd U \u27e8i, hiS, hEq\u27e9 \u21a6 hEq \u25b8 ((hS d).mp hd) i hiS\u27e9) hMF\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "kind": "theorem",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "0-Giraud Living-Zone Existence Theorem via Zorn's Lemma",
+      "chapter": "ch01",
+      "section": "1.4",
+      "seq_order": 78,
+      "axis": "meta_crm",
+      "grounding_tier": "lean_ok",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.mooreClosureOf",
+        "HomotopyCRM.Vol2.ZeroGiraudP0",
+        "HomotopyCRM.Vol2.ZeroGiraudP2",
+        "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "actual_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9",
+      "body_hash": "68b0a3b301afb7b113a4dd582b7d41f1e94e0506602552f329c94a439699df14",
+      "grounding_hash": "df690d0449b8569ffcce42b6829c363af3a2d7ef9c84f94d7e920e953ba88112",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/thm_zero_giraud_living_zone_zorn.toml",
+      "primary_category": "Proved by Lean code",
+      "blueprint_tier": "lean_ok",
+      "characterization_types": [
+        "Choice Calibration",
+        "Inhabitation & Finiteness"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn",
+          "purpose": "Crimson Lean 4 proof (Classical.choice + Quot.sound + propext via zorn_subset_nonempty) of Living-Zone existence"
+        }
+      ],
+      "statement": "Over any intersection-closed extent family M subset P(D) satisfying (P0) Core-Target Aperture (c_M(K) subseteq T) and (P2) Directed Union Closure, the Living-Zone poset F = {R in M | K subseteq R subseteq T} possesses at least one inclusion-maximal Pareto residuum extent R in Max(F) above c_M(K) via Zorn's Lemma.",
+      "tex": "\\begin{theorem}[$0$-Giraud Living-Zone Existence via Zorn's Lemma]\\label{ch01:thm:zero-giraud-living-zone-zorn}%\n\\uses{ch01:prop:topological-no-schism,ch01:thm:zero-giraud-representation}%\nLet $\\mathcal{M} \\subseteq \\wp(\\mathbb{D})$ be closed under arbitrary intersections (in particular satisfying~\\textbf{(P1)} of Theorem~\\ref{ch01:thm:zero-giraud-representation}). Assume additionally:\n\\begin{itemize}[leftmargin=1.5em]\n  \\item \\textbf{(P0) Core--Target Aperture:} $c_{\\mathcal{M}}(K) \\subseteq T$, where $c_{\\mathcal{M}}(U) := \\bigcap\\{E \\in \\mathcal{M} \\mid U \\subseteq E\\}$;\n  \\item \\textbf{(P2) Directed Union Closure:} $\\mathcal{M}$ is closed under unions $\\bigcup \\mathcal{C}$ of nonempty directed subfamilies $\\mathcal{C} \\subseteq \\mathcal{M}$.\n\\end{itemize}\nThen the Living-Zone poset $\\mathcal{F} = \\{R \\in \\mathcal{M} \\mid K \\subseteq R \\subseteq T\\}$ possesses at least one inclusion-maximal Pareto residuum extent $R \\in \\mathrm{Max}(\\mathcal{F})$ above $c_{\\mathcal{M}}(K)$. (Stratum \\textbf{Crimson}, isolating \\texttt{Classical.choice} strictly to Zorn maximization.)\n\\end{theorem}\n\\begin{proof}\nBy intersection closure and~\\textbf{(P0)}, $x_0 := c_{\\mathcal{M}}(K)$ satisfies $x_0 \\in \\mathcal{M}$ and $K \\subseteq x_0 \\subseteq T$, so $x_0 \\in \\mathcal{F}$. For any nonempty chain $\\mathcal{C} \\subseteq \\mathcal{F}$, total comparability makes $\\mathcal{C}$ directed, whence~\\textbf{(P2)} places $\\bigcup \\mathcal{C} \\in \\mathcal{M}$; moreover $K \\subseteq E_0 \\subseteq \\bigcup \\mathcal{C} \\subseteq T$ for any $E_0 \\in \\mathcal{C}$, so $\\bigcup \\mathcal{C} \\in \\mathcal{F}$ upper-bounds $\\mathcal{C}$. Applying Zorn's Lemma (\\texttt{zorn\\_subset\\_nonempty}) above $x_0$ produces an inclusion-maximal Living-Zone extent $R \\in \\mathrm{Max}(\\mathcal{F})$.\n\\end{proof}\n",
+      "lean_signature": "/-- Moore closure `c_\u2133(U) = \u22c2 {E \u2208 \u2133 | U \u2286 E}` induced by an extent family `\u2133`. -/\ndef mooreClosureOf {D : Type} (M : Set (Set D)) (U : Set D) : Set D :=\n  fun d \u21a6 \u2200 E, (M E \u2227 \u2200 x, U x \u2192 E x) \u2192 E d\n/-- Axiom (P0 \u2014 Core-Target Aperture): `c_\u2133(K) \u2286 T`. -/\ndef ZeroGiraudP0 {D : Type} (M : Set (Set D)) (K T : Set D) : Prop :=\n  \u2200 d, mooreClosureOf M K d \u2192 T d\n/-- Axiom (P2 \u2014 Directed Union Closure): `\u2133` is closed under nonempty directed unions. -/\ndef ZeroGiraudP2 {D : Type} (M : Set (Set D)) : Prop :=\n  \u2200 c : Set (Set D), (\u2200 E, c E \u2192 M E) \u2192 c.Nonempty \u2192\n    (\u2200 E\u2081, c E\u2081 \u2192 \u2200 E\u2082, c E\u2082 \u2192 \u2203 E\u2083, c E\u2083 \u2227 (\u2200 d, E\u2081 d \u2192 E\u2083 d) \u2227 (\u2200 d, E\u2082 d \u2192 E\u2083 d)) \u2192\n    M (Set.sUnion c)\n\n/-- **0-Giraud Living-Zone Existence (Crimson, Zorn):** Adjoining (P0) and (P2) guarantees at\n    least one inclusion-maximal Pareto residuum `R \u2208 Max(\u2131)` via `zorn_subset_nonempty`. -/\ntheorem zero_giraud_living_zone_zorn {D : Type} (M : Set (Set D)) (K T : Set D)\n    (hInter : \u2200 F : Set (Set D), (\u2200 E, F E \u2192 M E) \u2192 M (fun d \u21a6 \u2200 E, F E \u2192 E d))\n    (hP0 : ZeroGiraudP0 M K T) (hP2 : ZeroGiraudP2 M) :\n    \u2203 R : Set D, mooreClosureOf M K \u2286 R \u2227\n      IsMaxLivingZone M K T R \u2227 Maximal (\u00b7 \u2208 { E : Set D | InLivingZone M K T E }) R := by\n  {{LEAN_BODY}}\n",
+      "lean_body": "  let S : Set (Set D) := { E : Set D | InLivingZone M K T E }\n  let x\u2080 : Set D := mooreClosureOf M K\n  have hx\u2080 : x\u2080 \u2208 S := \u27e8hInter _ (fun _ h \u21a6 h.1), fun d hk _ hE \u21a6 hE.2 d hk, hP0\u27e9\n  have hChain : \u2200 c \u2286 S, IsChain (\u00b7 \u2286 \u00b7) c \u2192 c.Nonempty \u2192 \u2203 ub \u2208 S, \u2200 s \u2208 c, s \u2286 ub := by\n    intro c hcS hcChain \u27e8E\u2080, hE\u2080\u27e9\n    have hDir : \u2200 E\u2081, c E\u2081 \u2192 \u2200 E\u2082, c E\u2082 \u2192\n        \u2203 E\u2083, c E\u2083 \u2227 (\u2200 d, E\u2081 d \u2192 E\u2083 d) \u2227 (\u2200 d, E\u2082 d \u2192 E\u2083 d) := fun E\u2081 hE\u2081 E\u2082 hE\u2082 \u21a6 by\n      by_cases hEq : E\u2081 = E\u2082\n      \u00b7 subst hEq; exact \u27e8E\u2081, hE\u2081, fun _ h \u21a6 h, fun _ h \u21a6 h\u27e9\n      \u00b7 rcases hcChain hE\u2081 hE\u2082 hEq with h12 | h21\n        \u00b7 exact \u27e8E\u2082, hE\u2082, fun d hd \u21a6 h12 hd, fun _ h \u21a6 h\u27e9\n        \u00b7 exact \u27e8E\u2081, hE\u2081, fun _ h \u21a6 h, fun d hd \u21a6 h21 hd\u27e9\n    exact \u27e8Set.sUnion c, \u27e8hP2 c (fun E hE \u21a6 (hcS hE).1) \u27e8E\u2080, hE\u2080\u27e9 hDir,\n      fun d hk \u21a6 \u27e8E\u2080, hE\u2080, (hcS hE\u2080).2.1 d hk\u27e9, fun d \u27e8E, hEc, hEd\u27e9 \u21a6 (hcS hEc).2.2 d hEd\u27e9,\n      fun s hs d hd \u21a6 \u27e8s, hs, hd\u27e9\u27e9\n  rcases zorn_subset_nonempty S hChain x\u2080 hx\u2080 with \u27e8R, hSub, hMax\u27e9\n  exact \u27e8R, hSub, \u27e8hMax.prop, fun R' hR' hRR' \u21a6 hMax.le_of_ge hR' (fun d hd \u21a6 hRR' d hd)\u27e9, hMax\u27e9\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:cex:p0-independent-of-p1-p5",
+      "kind": "counterexample",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Independence of Core-Target Aperture (P0) from 0-Giraud Axioms (P1)-(P5)",
+      "chapter": "ch01",
+      "section": "1.4",
+      "seq_order": 80,
+      "axis": "meta_crm",
+      "grounding_tier": "lean_ok",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.p0CexMul",
+        "HomotopyCRM.Vol2.p0CexDomain",
+        "HomotopyCRM.Vol2.p0CexProblem",
+        "HomotopyCRM.Vol2.p0CexProbe",
+        "HomotopyCRM.Vol2.p0CexFamily",
+        "HomotopyCRM.Vol2.p0CexBoolExt",
+        "HomotopyCRM.Vol2.p0CexProbe_admissible",
+        "HomotopyCRM.Vol2.p0Cex_P2_decidable",
+        "HomotopyCRM.Vol2.p0Cex_P2_bool",
+        "HomotopyCRM.Vol2.p0_independent_of_p1_p5"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a",
+      "body_hash": "d799d62aa37a138205766147b03f5697a8336218c3c7a472b3c05f94d375a984",
+      "grounding_hash": "197a90aadfaf988c9e2d5ae827a5a8c76213c9835d72697f0cf41574420713e1",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/cex_p0_independent_of_p1_p5.toml",
+      "primary_category": "Proved by Lean code",
+      "blueprint_tier": "lean_ok",
+      "characterization_types": [
+        "Counterexample / Disproof",
+        "Topological Separation"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.p0_independent_of_p1_p5",
+          "purpose": "Axiom-free Emerald Lean 4 witness separating (P0) from (P1)-(P5) on Fin 4"
+        }
+      ],
+      "statement": "On the 4-element join-semilattice D = Fin 4 (0 < 1 < 2 < 3 modeling {0 < k < w < h}, mul = max, zero = 0, boxSigma = id) with H = {0,1,2}, C = K = {0,1}, T = {0,1,3}, defect w = 2, and extent family M = {D, {0,1,2}}, M satisfies (P1) intersection-density, constructive (P2) directed-union closure, (P3) multiplicativity, (P4) modal Sigma-exactness, and (P5) off-core discernment, while violating (P0) (2 in c_M(K) \\ T) and leaving the Living-Zone poset F empty (zero axioms, Emerald).",
+      "tex": "\\begin{counterexample}[Independence of Core--Target Aperture \\textup{(P0)} from \\textup{(P1)--(P5)}]\\label{ch01:cex:p0-independent-of-p1-p5}%\n\\uses{ch01:thm:zero-giraud-representation,ch01:thm:zero-giraud-living-zone-zorn}%\nLet $D = \\mathbf{Fin}\\,4 = \\{0 < k < w < h\\}$ ($0 \\mapsto 0, 1 \\mapsto k, 2 \\mapsto w, 3 \\mapsto h$) carry the join-semilattice multiplication $\\mathrm{mul} := \\max$, unit $0$, and trivial interior ${{sym:apodictic}} := \\mathrm{id}$. Set $H = \\{0, 1, 2\\}$, $C = K = \\{0, 1\\}$ (whence $T = (D \\setminus H) \\cup C = \\{0, 1, 3\\}$ and defect $w = 2$), and take $\\mathcal{M} := \\{D, \\{0, 1, 2\\}\\}$ generated by the single probe $P_\\bullet = \\{0, 1, 2\\}$. Constructively without axioms (stratum \\textbf{Emerald}):\n\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]\n  \\item $\\mathcal{M}$ satisfies~\\textbf{(P1)} ($\\bigcap$-density), constructive~\\textbf{(P2)} (closed under nonempty directed unions on finite Boolean chains and decidable unions), \\textbf{(P3)} ($0 \\in P_\\bullet$ and $\\max$-closure), \\textbf{(P4)} ($\\mathrm{id}(E) = E$), and~\\textbf{(P5)} (since $(D \\setminus H) \\cup K = \\{0, 1, 3\\} \\not\\subseteq \\{0, 1, 2\\}$).\n  \\item However, $c_{\\mathcal{M}}(K) = \\{0, 1, 2\\} \\not\\subseteq \\{0, 1, 3\\} = T$, so~\\textbf{(P0)} fails ($w = 2 \\in c_{\\mathcal{M}}(K) \\setminus T$) and the Living-Zone poset $\\mathcal{F} = \\emptyset$ is empty.\n\\end{enumerate}\n\\end{counterexample}\n\\begin{proof}\nBecause $P_\\bullet = \\{0, 1, 2\\}$ is a lower set of $D = \\mathbf{Fin}\\,4$ containing $0$, it is $\\max$-closed~\\textbf{(P3)} and $\\mathrm{id}$-invariant~\\textbf{(P4)}; because $h = 3 \\in (D \\setminus H) \\cup K$ lies outside $P_\\bullet$, $P_\\bullet$ satisfies~\\textbf{(P5)}. Theorem~\\ref{ch01:thm:zero-giraud-representation} therefore certifies~\\textbf{(P1)}, \\textbf{(P3)}, \\textbf{(P4)}, and~\\textbf{(P5)} for $\\mathcal{M} = \\{D, \\{0,1,2\\}\\}$, while direct Boolean evaluation proves directed union closure~\\textbf{(P2)}. Yet every extent in $\\mathcal{M}$ covering $K = \\{0,1\\}$ also contains $w = 2 \\notin T$, violating~\\textbf{(P0)} and forcing $\\mathcal{F} = \\emptyset$.\n\\end{proof}\n",
+      "lean_signature": "private theorem nat_lt3_0 : 0 < 3 := Nat.zero_lt_succ 2\nprivate theorem nat_lt3_1 : 1 < 3 := Nat.succ_lt_succ (Nat.zero_lt_succ 1)\nprivate theorem nat_lt3_2 : 2 < 3 := Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 0))\nprivate theorem fin4_absurd {n : Nat} (h : n + 4 < 4) : False := Nat.not_lt_zero n\n  (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ\n    (Nat.lt_of_succ_lt_succ h))))\n\n/-- Join-semilattice product `max` on `Fin 4` (`0 < 1 < 2 < 3` modeling `{0 < k < w < h}`). -/\ndef p0CexMul (a b : Fin 4) : Fin 4 := if a.val \u2264 b.val then b else a\n\n/-- Four-element doctrinal domain `(Fin 4, max, 0, id)`. -/\ndef p0CexDomain : DoctrinalDomain (Fin 4) where\n  mul := p0CexMul; zero := \u27e80, Nat.zero_lt_succ 3\u27e9; boxSigma := fun U \u21a6 U\n  box_deflate := fun _ _ h \u21a6 h; box_mono := fun h _ hd \u21a6 h _ hd\n  box_idem := fun _ _ h \u21a6 h; box_sInter := fun _ _ h \u21a6 h\n\n/-- Four-element problem `H = {0,1,2}`, `C = K = {0,1}`, `T = {0,1,3}`, defect `w = 2`. -/\ndef p0CexProblem : NonTrivialProblem (Fin 4) where\n  H := fun d \u21a6 d.val < 3; C := fun d \u21a6 d.val < 2; K := fun d \u21a6 d.val < 2\n  core_sub_hyp := fun _ h \u21a6 Nat.lt_trans h (Nat.lt_succ_self 2); core_sub_concl := fun _ h \u21a6 h\n  hasDefect := \u27e8\u27e82, Nat.succ_lt_succ (Nat.succ_lt_succ (Nat.zero_lt_succ 1))\u27e9,\n    nat_lt3_2, fun h \u21a6 Nat.not_lt_zero 0 (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ h))\u27e9\n\n/-- Single probe cutting `{0, 1, 2}` inside `Fin 4`. -/\ndef p0CexProbe : Unit \u2192 Set (Fin 4) := fun _ d \u21a6 d.val < 3\n\n/-- Extent family `\u2133 = {D, {0,1,2}}` generated by `p0CexProbe`. -/\ndef p0CexFamily : Set (Set (Fin 4)) :=\n  fun E \u21a6 \u2203 S : Set Unit, \u2200 d, E d \u2194 \u2200 i, S i \u2192 p0CexProbe i d\n\n/-- Computable `Bool` encoding of the two extents `{0,1,2}` (`false`) and `Fin 4` (`true`). -/\ndef p0CexBoolExt (isTop : Bool) (d : Fin 4) : Bool := isTop || decide (d.val < 3)\n\n/-- `p0CexProbe` is extensive, `\u03a3`-invariant, and off-core discerning (zero axioms). -/\ntheorem p0CexProbe_admissible :\n    IsAdmissibleProbeFamily p0CexDomain p0CexProblem.toDoctrinalProblem p0CexProbe := by\n  intro _\n  refine \u27e8\u27e8nat_lt3_0, fun d\u2081 d\u2082 h\u2081 h\u2082 \u21a6 ?_\u27e9, fun _ \u21a6 Iff.rfl, fun hOff _ \u21a6 ?_\u27e9\n  \u00b7 dsimp only [p0CexDomain, p0CexMul, p0CexProbe]; split <;> assumption\n  \u00b7 exact False.elim (Nat.lt_irrefl 3 (hOff \u27e83, Nat.lt_succ_self 3\u27e9 (Or.inl (Nat.lt_irrefl 3))))\n\n/-- Constructive (P2) for `p0CexFamily` on nonempty directed families decidable at `3`. -/\ntheorem p0Cex_P2_decidable (c : Set (Set (Fin 4)))\n    (hcM : \u2200 E, c E \u2192 p0CexFamily E) (hcNe : c.Nonempty)\n    (hDec : Decidable (Set.sUnion c \u27e83, Nat.lt_succ_self 3\u27e9)) :\n    p0CexFamily (Set.sUnion c) := by\n  rcases hcNe with \u27e8E\u2080, hE\u2080\u27e9; rcases hcM E\u2080 hE\u2080 with \u27e8S\u2080, hS\u2080\u27e9\n  match hDec with\n  | isTrue h3 =>\n    refine \u27e8fun _ \u21a6 False, fun d \u21a6 \u27e8fun _ _ hf \u21a6 False.elim hf, fun _ \u21a6 ?_\u27e9\u27e9\n    rcases d with \u27e8_ | _ | _ | _ | n, hdv\u27e9\n    \u00b7 exact \u27e8E\u2080, hE\u2080, (hS\u2080 \u27e80, hdv\u27e9).mpr (fun _ _ \u21a6 nat_lt3_0)\u27e9\n    \u00b7 exact \u27e8E\u2080, hE\u2080, (hS\u2080 \u27e81, hdv\u27e9).mpr (fun _ _ \u21a6 nat_lt3_1)\u27e9\n    \u00b7 exact \u27e8E\u2080, hE\u2080, (hS\u2080 \u27e82, hdv\u27e9).mpr (fun _ _ \u21a6 nat_lt3_2)\u27e9\n    \u00b7 exact h3\n    \u00b7 exact False.elim (fin4_absurd hdv)\n  | isFalse hn3 =>\n    refine \u27e8fun _ \u21a6 True, fun d \u21a6 \u27e8fun hd _ _ \u21a6 ?_, fun hlt \u21a6 ?_\u27e9\u27e9\n    \u00b7 rcases d with \u27e8_ | _ | _ | _ | n, hdv\u27e9\n      \u00b7 exact nat_lt3_0\n      \u00b7 exact nat_lt3_1\n      \u00b7 exact nat_lt3_2\n      \u00b7 exact False.elim (hn3 hd)\n      \u00b7 exact False.elim (fin4_absurd hdv)\n    \u00b7 exact \u27e8E\u2080, hE\u2080, (hS\u2080 d).mpr (fun _ _ \u21a6 hlt () trivial)\u27e9\n\n/-- Unconditional (P2) on finite computable chains of Boolean extents in `{ {0,1,2}, Fin 4 }`. -/\ntheorem p0Cex_P2_bool (cs : List Bool) (hne : cs \u2260 []) (d : Fin 4) :\n    cs.any (fun b \u21a6 p0CexBoolExt b d) = p0CexBoolExt (cs.any id) d := by\n  induction cs with\n  | nil => exact False.elim (hne rfl)\n  | cons a tl ih =>\n    cases tl with\n    | nil => dsimp only [List.any, p0CexBoolExt, id]; cases a <;> cases decide (d.val < 3) <;> rfl\n    | cons b rest =>\n      change (p0CexBoolExt a d || (b :: rest).any (fun x \u21a6 p0CexBoolExt x d)) =\n        p0CexBoolExt (a || (b :: rest).any id) d\n      rw [ih (fun h \u21a6 by cases h)]; dsimp only [p0CexBoolExt]\n      cases a <;> cases (b :: rest).any id <;> cases decide (d.val < 3) <;> rfl\n\n/-- **Independence of (P0) from (P1)\u2013(P5):** On `Fin 4`, `p0CexFamily` satisfies (P1),\n    constructive (P2), (P3), (P4), and (P5), yet violates (P0) (`2 \u2208 c_\u2133(K) \\ T`) and has\n    empty Living Zone `\u2131 = \u2205` (zero axioms). -/\ntheorem p0_independent_of_p1_p5 :\n    ZeroGiraudP1 (\u03b9 := Unit) p0CexFamily \u2227 ZeroGiraudP3 p0CexDomain p0CexFamily \u2227\n    ZeroGiraudP4 p0CexDomain p0CexFamily \u2227\n    ZeroGiraudP5 p0CexDomain p0CexProblem.toDoctrinalProblem p0CexFamily \u2227\n    (\u2200 cs : List Bool, cs \u2260 [] \u2192 \u2200 d : Fin 4,\n      cs.any (fun b \u21a6 p0CexBoolExt b d) = p0CexBoolExt (cs.any id) d) \u2227\n    mooreClosureOf p0CexFamily p0CexProblem.K \u27e82, by decide\u27e9 \u2227\n    \u00ac AssertoricSet p0CexProblem.toDoctrinalProblem \u27e82, by decide\u27e9 \u2227\n    \u00ac ZeroGiraudP0 p0CexFamily p0CexProblem.K (AssertoricSet p0CexProblem.toDoctrinalProblem) \u2227\n    (\u2200 E, \u00ac InLivingZone p0CexFamily p0CexProblem.K\n        (AssertoricSet p0CexProblem.toDoctrinalProblem) E) := by\n  {{LEAN_BODY}}\n",
+      "lean_body": "  have hRep := (zero_giraud_representation (\u03b9 := Unit) p0CexDomain\n    p0CexProblem.toDoctrinalProblem p0CexFamily).mp \u27e8p0CexProbe, p0CexProbe_admissible,\n    fun _ \u21a6 Iff.rfl\u27e9\n  have hCl2 : mooreClosureOf p0CexFamily p0CexProblem.K \u27e82, by decide\u27e9 :=\n    fun E \u27e8\u27e8S, hS\u27e9, _\u27e9 \u21a6 (hS \u27e82, by decide\u27e9).mpr (fun _ _ \u21a6 nat_lt3_2)\n  have hNotT2 : \u00ac AssertoricSet p0CexProblem.toDoctrinalProblem \u27e82, by decide\u27e9 :=\n    fun hT \u21a6 Or.elim hT (fun hnh \u21a6 hnh nat_lt3_2) (fun hc \u21a6 Nat.lt_irrefl 2 hc)\n  refine \u27e8hRep.1, hRep.2.1, hRep.2.2.1, hRep.2.2.2, p0Cex_P2_bool,\n    hCl2, hNotT2, fun hP0 \u21a6 hNotT2 (hP0 \u27e82, by decide\u27e9 hCl2), ?_\u27e9\n  intro E \u27e8\u27e8S, hS\u27e9, _, hT\u27e9\n  exact hNotT2 (hT \u27e82, by decide\u27e9 ((hS \u27e82, by decide\u27e9).mpr (fun _ _ \u21a6 nat_lt3_2)))\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:prob:two-giraud-prototopos-nerve",
+      "kind": "problem",
+      "is_core": true,
+      "cohort": "Cohort II",
+      "title": "Categorified 2-Giraud / Prototopos Nerve Characterization for Doctrinal 2-Categories",
+      "chapter": "ch01",
+      "section": "1.4",
+      "seq_order": 82,
+      "axis": "meta_crm",
+      "grounding_tier": "open_problem",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "edd573bcbc06de36aab4af22af4a62f151cadb55ce67a5ed0dbf54e0df9c913f",
+      "body_hash": "9be946ead625655065f27fcc132255ecef00955f2fd6e7befb95ad9f4dc3b1d5",
+      "grounding_hash": "59c99863abe59b2216a2e9e9f17435cda45aeb1de95ba9e0647ab77fe5711f57",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/prob_two_giraud_prototopos_nerve.toml",
+      "primary_category": "Open problem",
+      "blueprint_tier": "none",
+      "characterization_types": [
+        "Open Problem",
+        "Categorical Equivalence",
+        "Duality"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "external_cite",
+          "ref": "shulman2020",
+          "locator": "TAC 35 (2020), \u00a7\u00a72-4, pp. 89-136",
+          "purpose": "2-Chu-Dialectica doctrinal 2-category substrate"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "diliberti_ramos2019",
+          "locator": "Appl. Categ. Structures 28 (2020), \u00a7\u00a73-5, pp. 935-962",
+          "purpose": "kappa-prototopos Gabriel-Ulmer duality and site presentations"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "diliberti_tarantino_ye2026",
+          "locator": "arXiv:2610.29771 (2026), \u00a7\u00a72-4",
+          "purpose": "Galois mirror symmetry between doctrines and subgeometric logics in Topos"
+        }
+      ],
+      "statement": "Formulate intrinsic 2-Giraud / prototopos nerve axioms (2-categorical analogues of (P0)-(P5)) characterizing when a 2-Chu doctrinal philosophy over a 2-category of doctrines arises as the calibrated probe-sheaf nerve of a kappa-prototopos or subgeometric mirror-symmetry site, preserving the Core-Target Aperture (P0) while classifying multi-dimensional higher Pareto Schisms.",
+      "tex": "\\begin{problem}[Categorified $2$-Giraud / Prototopos Nerve Characterization]\\label{ch01:prob:two-giraud-prototopos-nerve}%\n\\uses{ch01:thm:zero-giraud-representation,ch01:thm:zero-giraud-living-zone-zorn,ch01:cex:p0-independent-of-p1-p5}%\nLift the $0$-Giraud characterization ({{ref:ch01:thm:zero-giraud-representation}}--{{ref:ch01:cex:p0-independent-of-p1-p5}}) from set-theoretic extent lattices $\\mathcal{M} \\subseteq \\wp(\\mathbb{D})$ to $2$-categorical doctrinal philosophies in {{sym:phil-cat}}~\\cite{shulman2020}: determine intrinsic $2$-Giraud axioms (corresponding to $\\kappa$-prototopos extensivity and pro-exactness in Gabriel--Ulmer duality~\\cite{diliberti_ramos2019} and subgeometric mirror symmetry between doctrines and logics~\\cite{diliberti_tarantino_ye2026,diliberti_ye2026}) characterizing exactly which $2$-Chu doctrinal residuum classes arise from a calibrated {{sym:j-ext}}-probe $2$-site while preserving the Core--Target Aperture~\\textup{(P0)} and classifying higher Pareto Schisms.\n\\end{problem}\n",
+      "lean_signature": "",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
+      "issue": {
+        "number": 13,
+        "title": "[Open Problem] Categorified 2-Giraud / Prototopos Nerve Characterization for Doctrinal 2-Categories",
+        "state": "OPEN",
+        "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/13",
+        "milestone": "",
+        "labels": [
+          "horizon:open-problem"
+        ]
+      }
+    },
+    {
+      "id": "ch01:def:operational-currencies",
+      "kind": "definition",
+      "is_core": true,
+      "cohort": "Cohort II",
+      "title": "The Four CRM Operational Currency Regimes",
+      "chapter": "ch01",
+      "section": "1.5",
+      "seq_order": 85,
+      "axis": "meta_crm",
+      "grounding_tier": "framework_def",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.MoritaInterleaving",
+      "decl_names": [
+        "HomotopyCRM.Vol2.OperationalCurrency",
+        "HomotopyCRM.Vol2.OperationalCurrency.usesOracle",
+        "HomotopyCRM.Vol2.OperationalCurrency.toFin4",
+        "HomotopyCRM.Vol2.OperationalCurrency.ofFin4",
+        "HomotopyCRM.Vol2.CurrencyProfile",
+        "HomotopyCRM.Vol2.operationalCurrencyEquivFin4",
+        "HomotopyCRM.Vol2.operationalCurrency_oracle_partition"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
+      "body_hash": "8b6306aa9849c6cada296d04649d97062509b987f71f8baa31875dfebc6c37b6",
+      "grounding_hash": "1588a2b8a41ea5c438522fde0046e907c22ab279137a50bf36b68f24db7e7590",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/def_operational_currencies.toml",
+      "primary_category": "Authorial framework definition",
+      "blueprint_tier": "lean_ok",
+      "characterization_types": [
+        "Framework Definition",
+        "Conservation / Solvency"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.operationalCurrencyEquivFin4",
+          "purpose": "Axiom-free Emerald Lean 4 bijection OperationalCurrency equiv Fin 4 and oracle-usage partition"
+        }
+      ],
+      "statement": "Categorical Reverse Mathematics measures inferential and Morita translations across four disjoint Operational Currency regimes: (1) Zero-Oracle Gauge Cost (computable / finite-symmetry gauge fixing without non-computable oracles), (2) Oracle Cost (non-computable Weihrauch / Muchnik / Lawvere-Tierney oracle strength j_O), (3) Rank-Compression Cost (game-comonadic or syntactic resource-depth compression parameters kappa^E, kappa^P, (a,b)), and (4) Inverted Clamping Cost (cohomological / Levy-rank size-valve ceilings). Certifies OperationalCurrency equiv Fin 4 and exact oracle-usage partition with zero axioms.",
+      "tex": "\\begin{definition}[CRM Operational Currency Regimes]\\label{ch01:def:operational-currencies}%\n\\uses{vol1:def:doctrinal-philosophy,ch01:thm:mode3-orbit-stabilizer-exactness}%\nRelative to {{ref:vol1:def:doctrinal-philosophy}} and Mode~(iii) gauge symmetry ({{ref:ch01:thm:mode3-orbit-stabilizer-exactness}}), Volume~II classifies the operational cost of doctrinal reductions and Morita translations into four disjoint \\textbf{Operational Currency}\\index{Operational currency} regimes:\n\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]\n  \\item \\textbf{Zero-Oracle Gauge Cost:} Purely computable symmetry-breaking or orbit-stabilizer accounting (for example, $(R_{2,2}, \\phi_{\\mathrm{aug}})$ Species enumeration) incurring zero non-computable oracles.\n  \\item \\textbf{Oracle Cost:} Non-computable choice or realizability strength metered by Lawvere--Tierney topologies $j_{\\mathcal{O}}$ and extended Weihrauch degrees.\n  \\item \\textbf{Rank-Compression Cost:} Quantifier-rank, tree-depth ($\\kappa^{\\mathbb{E}}$), or pebble-width ($\\kappa^{\\mathbb{P}}$) inflation $(a, b) \\in \\mathbb{N}_{\\ge 1} \\times \\mathbb{N}$ induced by syntactic bi-interpretations.\n  \\item \\textbf{Inverted Clamping Cost:} Cohomological or L\\'evy-rank size-valve ceilings constraining universe growth and small-site reflection.\n\\end{enumerate}\n\\end{definition}\n",
+      "lean_signature": "private theorem oc_fin4_absurd {n : Nat} (h : n + 4 < 4) : False := Nat.not_lt_zero n\n  (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ\n    (Nat.lt_of_succ_lt_succ h))))\n/-- The four CRM Operational Currency regimes: (1) Zero-Oracle Gauge Cost, (2) Oracle Cost,\n    (3) Rank-Compression Cost, and (4) Inverted Clamping Cost. -/\ninductive OperationalCurrency : Type\n  | zeroOracleGauge | oracleCost | rankCompression | invertedClamping\n/-- Indicator of whether an operational currency invokes non-computable oracles. -/\ndef OperationalCurrency.usesOracle : OperationalCurrency \u2192 Bool\n  | .zeroOracleGauge => false | .oracleCost => true\n  | .rankCompression => false | .invertedClamping => false\n/-- Canonical encoding `OperationalCurrency \u2192 Fin 4`. -/\ndef OperationalCurrency.toFin4 : OperationalCurrency \u2192 Fin 4\n  | .zeroOracleGauge => \u27e80, by decide\u27e9 | .oracleCost => \u27e81, by decide\u27e9\n  | .rankCompression => \u27e82, by decide\u27e9 | .invertedClamping => \u27e83, by decide\u27e9\n/-- Canonical decoding `Fin 4 \u2192 OperationalCurrency`. -/\ndef OperationalCurrency.ofFin4 : Fin 4 \u2192 OperationalCurrency\n  | \u27e80, _\u27e9 => .zeroOracleGauge | \u27e81, _\u27e9 => .oracleCost\n  | \u27e82, _\u27e9 => .rankCompression | \u27e83, _\u27e9 => .invertedClamping\n  | \u27e8_ + 4, hn\u27e9 => False.elim (oc_fin4_absurd hn)\n/-- Structured operational cost profile attaching distortion parameters to a currency. -/\nstructure CurrencyProfile : Type where\n  /-- Active CRM operational currency regime. -/\n  regime : OperationalCurrency\n  /-- Multiplicative resource distortion slope `a \u2265 1`. -/\n  slope : Nat\n  /-- Additive resource distortion offset `b`. -/\n  offset : Nat\n  /-- Positivity witness for multiplicative distortion. -/\n  slope_pos : 0 < slope\n/-- Constructive bijection `OperationalCurrency \u2243 Fin 4` certifying 4 disjoint regimes. -/\ndef operationalCurrencyEquivFin4 : OperationalCurrency \u2243 Fin 4 where\n  toFun := OperationalCurrency.toFin4; invFun := OperationalCurrency.ofFin4\n  left_inv := fun r \u21a6 by\n    {{LEAN_BODY}}\n  right_inv := fun i \u21a6 by\n    rcases i with \u27e8_ | _ | _ | _ | _, hn\u27e9 <;> first | rfl | exact False.elim (oc_fin4_absurd hn)\n/-- Exact oracle-usage partition across the four CRM Operational Currencies (zero axioms). -/\ntheorem operationalCurrency_oracle_partition :\n    OperationalCurrency.usesOracle .zeroOracleGauge = false \u2227\n    OperationalCurrency.usesOracle .oracleCost = true \u2227\n    OperationalCurrency.usesOracle .rankCompression = false \u2227\n    OperationalCurrency.usesOracle .invertedClamping = false := \u27e8rfl, rfl, rfl, rfl\u27e9\n",
+      "lean_body": "    cases r <;> rfl\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "kind": "inline_claim",
+      "is_core": true,
+      "cohort": "Cohort III",
+      "title": "Abramsky-Reggio-Dawar-Jakl Game-Comonad Hierarchy and Coalgebra Numbers",
+      "chapter": "ch01",
+      "section": "1.5",
+      "seq_order": 88,
+      "axis": "meta_crm",
+      "grounding_tier": "external_theorem",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "8ce93afe7afd8f93a7554814a4ceb6b00c858356603cf2532a2396f7b563cd81",
+      "body_hash": "e8b38f6cdf2a07994c5237560f9f227fb802844a4a2443e23ecff18b41284df8",
+      "grounding_hash": "f9c21ec7c94b1d4f85dadf7ffc3f88251389800f8e54a86edd4f3759d3eac885",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/claim_abramsky_arboreal_coalgebra_numbers.toml",
+      "primary_category": "External theorem",
+      "blueprint_tier": "none",
+      "characterization_types": [
+        "Duality",
+        "Categorical Equivalence",
+        "Inhabitation & Finiteness"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "external_cite",
+          "ref": "abramsky2022",
+          "locator": "\u00a7\u00a73-6, pp. 6-20",
+          "purpose": "Three-tier game-comonad hierarchy (E_k, P_k, modal) and coalgebra numbers td, tw + 1"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "abramsky_reggio2021",
+          "locator": "\u00a7\u00a73-4 (ICALP 2021, LIPIcs 198, pp. 115:1-115:20)",
+          "purpose": "Arboreal categories axiomatizing resource-indexed comonadic coalgebras"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "dawar_jakl_reggio2021",
+          "locator": "Thm. 11 (LICS 2021, pp. 1-13)",
+          "purpose": "Lovasz-type homomorphism-counting characterization for game comonads"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "reggio2021",
+          "locator": "Thm. 4.6 (arXiv:2110.11061)",
+          "purpose": "Polyadic sets and homomorphism counting over finite relational probes"
+        }
+      ],
+      "statement": "By Abramsky (arXiv:2206.07393, \u00a7\u00a73-6, pp. 6-20), Abramsky-Shah (JLC 31, 2021), Abramsky-Marsden (LICS 2021), Abramsky-Reggio (ICALP 2021, \u00a7\u00a73-4), Dawar-Jakl-Reggio (LICS 2021, Thm. 11), and Reggio (arXiv:2110.11061, Thm. 4.6), finite-model-theoretic combinatorial games organize into a three-tier game-comonad hierarchy (Ehrenfeucht-Fraisse E_k, pebbling P_k, and modal/guarded/hybrid comonads) in arboreal and polyadic categories whose coalgebra numbers recover tree-depth kappa^E = td and tree-width kappa^P = tw + 1 and admit Lovasz-type homomorphism-counting probes.",
+      "tex": "\\begin{inlineclaim}[Game-Comonad Hierarchy, Coalgebra Numbers, and Polyadic Lov\\'asz Probes]\\label{ch01:claim:abramsky-arboreal-coalgebra-numbers}%\n\\uses{ch01:def:operational-currencies}%\nIn Abramsky's Structure-and-Power program~\\cite[\\S\\S 3--6, pp.~6--20]{abramsky2022}, syntactic resource bounds correspond functorially to a three-tier game-comonad hierarchy---the Ehrenfeucht--Fra\\\"iss\\'e comonad {{sym:ef-comonad}} (quantifier rank), the pebble comonad {{sym:pebble-comonad}} (bounded variable width), and modal/guarded/hybrid fragment comonads~\\cite{abramsky_shah2021,abramsky_marsden2021}---inside arboreal categories~\\cite[\\S\\S 3--4]{abramsky_reggio2021}. Their coalgebra numbers recover exact combinatorial invariants, $\\kappa^{\\mathbb{E}}(A) = \\mathrm{td}(A)$ (tree-depth) and $\\kappa^{\\mathbb{P}}(A) = \\mathrm{tw}(A) + 1$ (tree-width plus one), while polyadic and arboreal Lov\\'asz-type theorems characterize resource-bounded equivalence via homomorphism-counting probe families~\\cite[Thm.~11]{dawar_jakl_reggio2021}\\cite[Thm.~4.6]{reggio2021}.\n\\end{inlineclaim}\n",
+      "lean_signature": "",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:thm:morita-resource-interleaving",
+      "kind": "theorem",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Quasi-Isometric Morita Resource Interleaving Theorem",
+      "chapter": "ch01",
+      "section": "1.5",
+      "seq_order": 92,
+      "axis": "meta_crm",
+      "grounding_tier": "prose_proof",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.MoritaInterleaving",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DescendingResourceTower",
+        "HomotopyCRM.Vol2.DescendingResourceTower.infEquiv",
+        "HomotopyCRM.Vol2.pullbackRel",
+        "HomotopyCRM.Vol2.DistortedBiInterpretation",
+        "HomotopyCRM.Vol2.morita_forward_interleaving",
+        "HomotopyCRM.Vol2.morita_backward_interleaving",
+        "HomotopyCRM.Vol2.morita_backward_floor_bound",
+        "HomotopyCRM.Vol2.morita_inf_invariance",
+        "HomotopyCRM.Vol2.morita_resource_interleaving"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
+      "body_hash": "dda14cfcc32d36e71e841ad372b55365a4e669625cb1bef52696363a106e3ebe",
+      "grounding_hash": "99e2e0c6d265c484ab03ecdfbd31854d5129fd1cc6a5b5c93b73d122ac7c5cc4",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/thm_morita_resource_interleaving.toml",
+      "primary_category": "English language proof in monograph",
+      "blueprint_tier": "lean_witness",
+      "characterization_types": [
+        "Categorical Equivalence",
+        "Conservation / Solvency",
+        "Duality"
+      ],
+      "witness_scope": "DescendingResourceTower and DistortedBiInterpretation mechanize both finite-level (a,b)/(a',b') interleaving inclusions, the floor-bound corollary for k >= b', and exact k = infty invariance axiom-free (Emerald) in MoritaInterleaving.lean; deriving the syntactic distortion constants (a,b) and (a',b') from pretopos bi-interpretations of general first-order theories lives in the monograph proof.",
+      "dual_pillars": [
+        {
+          "kind": "monograph_proof",
+          "ref": "ch01:thm:morita-resource-interleaving",
+          "purpose": "Full syntactic pretopos bi-interpretation derivation of (a,b)/(a',b') quantifier-rank distortion"
+        },
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.morita_resource_interleaving",
+          "purpose": "Axiom-free Emerald Lean 4 witness verifying two-sided interleaving, floor bound, and k = infty invariance"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "abramsky2022",
+          "locator": "\u00a7\u00a73-6, pp. 6-20",
+          "purpose": "Ehrenfeucht-Fraisse game-comonad equivalence filtration"
+        }
+      ],
+      "statement": "Across any syntactic pretopos bi-interpretation (I, J; eta, epsilon) between theories T1 and T2 with forward distortion (a, b) in N_{>=1} x N and backward distortion (a', b') in N_{>=1} x N, the descending game-comonad equivalence towers satisfy two-sided quasi-isometric resource interleaving: (equiv_{a*k+b}^{E,T1}) <= I*(equiv_k^{E,T2}), I*(equiv_{a'*m+b'}^{E,T2}) <= (equiv_m^{E,T1}), the floor-bound corollary I*(equiv_k^{E,T2}) <= (equiv_{floor((k-b')/a')}^{E,T1}) for k >= b', and exact k = infty invariance intersect_k equiv_k^{E,T1} = I*(intersect_k equiv_k^{E,T2}).",
+      "tex": "\\begin{theorem}[Two-Sided Quasi-Isometric Morita Resource Interleaving]\\label{ch01:thm:morita-resource-interleaving}%\n\\uses{ch01:def:operational-currencies,ch01:claim:abramsky-arboreal-coalgebra-numbers}%\nLet $(I, J; \\eta, \\varepsilon)$ be a syntactic pretopos bi-interpretation between first-order theories $T_1$ and $T_2$~\\cite{johnstone2002} whose induced quotient/finite-product definitions have forward quantifier-rank distortion $(a, b) \\in \\mathbb{N}_{\\ge 1} \\times \\mathbb{N}$ and backward distortion $(a', b') \\in \\mathbb{N}_{\\ge 1} \\times \\mathbb{N}$ relative to the Ehrenfeucht--Fra\\\"iss\\'e game-comonad towers {{sym:ef-comonad}} of {{ref:ch01:claim:abramsky-arboreal-coalgebra-numbers}}. Then for all $k, m \\in \\mathbb{N}$:\n\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]\n  \\item \\textbf{Two-Sided Interleaving:}\n  \\[\n    (\\equiv_{a k + b}^{\\mathbb{E}, T_1}) \\;\\subseteq\\; I^*(\\equiv_k^{\\mathbb{E}, T_2}), \\qquad\n    I^*(\\equiv_{a' m + b'}^{\\mathbb{E}, T_2}) \\;\\subseteq\\; (\\equiv_m^{\\mathbb{E}, T_1}).\n  \\]\n  \\item \\textbf{Floor-Bound Corollary:} For every $k \\ge b'$, $I^*(\\equiv_k^{\\mathbb{E}, T_2}) \\subseteq (\\equiv_{\\lfloor (k - b')/a' \\rfloor}^{\\mathbb{E}, T_1})$.\n  \\item \\textbf{Exact $k = \\infty$ Invariance:} $\\bigcap_{k \\in \\mathbb{N}} \\equiv_k^{\\mathbb{E}, T_1} \\;=\\; I^*\\!\\Bigl(\\bigcap_{k \\in \\mathbb{N}} \\equiv_k^{\\mathbb{E}, T_2}\\Bigr)$.\n\\end{enumerate}\n\\end{theorem}\n\\begin{proof}\nEach definable sort and relation of $T_2$ translates along $I$ into finite tuples and formulas over $T_1$ of bounded quantifier-rank overhead $(a, b)$, so any Spoiler $k$-round strategy between $I(M_1)$ and $I(M_2)$ unfolds to an $(ak + b)$-round Spoiler strategy between $M_1$ and $M_2$; contrapositively, $M_1 \\equiv_{ak+b}^{\\mathbb{E}, T_1} M_2 \\implies I(M_1) \\equiv_k^{\\mathbb{E}, T_2} I(M_2)$. Symmetrically, translating along $J$ with backward distortion $(a', b')$ gives $I(M_1) \\equiv_{a'm+b'}^{\\mathbb{E}, T_2} I(M_2) \\implies J(I(M_1)) \\equiv_m^{\\mathbb{E}, T_1} J(I(M_2))$, and the unit isomorphism $\\eta_{M} : M \\cong J(I(M))$ transfers this to $M_1 \\equiv_m^{\\mathbb{E}, T_1} M_2$. For $k \\ge b'$, setting $m := \\lfloor (k - b')/a' \\rfloor$ yields $a' m + b' \\le k$, so antitonicity of the descending filtration gives $I^*(\\equiv_k^{\\mathbb{E}, T_2}) \\subseteq I^*(\\equiv_{a' m + b'}^{\\mathbb{E}, T_2}) \\subseteq (\\equiv_m^{\\mathbb{E}, T_1})$. Taking the intersection over all $k \\in \\mathbb{N}$ yields exact $k = \\infty$ Morita invariance~\\cite{abramsky2022,abramsky_shah2021}.\n\\end{proof}\n",
+      "lean_signature": "/-- Descending resource-indexed equivalence tower `(\u2261_k)_{k \u2208 \u2115}` on a model carrier `M`. -/\nstructure DescendingResourceTower (M : Type) where\n  /-- Level-`k` equivalence relation `x \u2261_k y`. -/\n  equiv : Nat \u2192 M \u2192 M \u2192 Prop\n  /-- Reflexivity at every level `k`. -/\n  refl : \u2200 k x, equiv k x x\n  /-- Symmetry at every level `k`. -/\n  symm : \u2200 {k x y}, equiv k x y \u2192 equiv k y x\n  /-- Transitivity at every level `k`. -/\n  trans : \u2200 {k x y z}, equiv k x y \u2192 equiv k y z \u2192 equiv k x z\n  /-- Antitonicity (descending filtration): `m \u2264 k \u2192 (\u2261_k \u2286 \u2261_m)`. -/\n  anti : \u2200 {m k x y}, m \u2264 k \u2192 equiv k x y \u2192 equiv m x y\n/-- Asymptotic `k = \u221e` equivalence `\u22c2_{k \u2208 \u2115} \u2261_k`. -/\ndef DescendingResourceTower.infEquiv {M : Type} (\u03c4 : DescendingResourceTower M)\n    (x y : M) : Prop := \u2200 k : Nat, \u03c4.equiv k x y\n/-- Pullback relation `I*(R)(x, y) := R (I x) (I y)`. -/\ndef pullbackRel {M\u2081 M\u2082 : Type} (I : M\u2081 \u2192 M\u2082) (R : M\u2082 \u2192 M\u2082 \u2192 Prop)\n    (x y : M\u2081) : Prop := R (I x) (I y)\n/-- Two-sided distorted bi-interpretation `(I, J; \u03b7)` between descending resource towers. -/\nstructure DistortedBiInterpretation {M\u2081 M\u2082 : Type}\n    (\u03c4\u2081 : DescendingResourceTower M\u2081) (\u03c4\u2082 : DescendingResourceTower M\u2082) where\n  /-- Forward model interpretation `I : Mod(T\u2081) \u2192 Mod(T\u2082)`. -/\n  I : M\u2081 \u2192 M\u2082\n  /-- Backward model interpretation `J : Mod(T\u2082) \u2192 Mod(T\u2081)`. -/\n  J : M\u2082 \u2192 M\u2081\n  /-- Forward multiplicative distortion `a \u2265 1`. -/\n  a : Nat\n  /-- Forward additive distortion `b`. -/\n  b : Nat\n  /-- Positivity of forward slope `a`. -/\n  ha : 0 < a\n  /-- Backward multiplicative distortion `a' \u2265 1`. -/\n  a' : Nat\n  /-- Backward additive distortion `b'`. -/\n  b' : Nat\n  /-- Positivity of backward slope `a'`. -/\n  ha' : 0 < a'\n  /-- Forward simulation bound: `x \u2261_{a*k+b}^{T\u2081} y \u2192 I x \u2261_k^{T\u2082} I y`. -/\n  forward_bound : \u2200 k x y, \u03c4\u2081.equiv (a * k + b) x y \u2192 \u03c4\u2082.equiv k (I x) (I y)\n  /-- Backward simulation bound: `u \u2261_{a'*m+b'}^{T\u2082} v \u2192 J u \u2261_m^{T\u2081} J v`. -/\n  backward_bound : \u2200 m u v, \u03c4\u2082.equiv (a' * m + b') u v \u2192 \u03c4\u2081.equiv m (J u) (J v)\n  /-- Unit isomorphism invariance `\u03b7_x : x \u2245 J (I x)` at every resource level `m`. -/\n  unit_equiv : \u2200 m x, \u03c4\u2081.equiv m x (J (I x))\nprivate theorem morita_succ_sub_succ (m k : Nat) : (m + 1) - (k + 1) = m - k := by\n  induction k with | zero => rfl | succ _ ih => exact congrArg Nat.pred ih\nprivate theorem morita_sub_le (x y : Nat) : x - y \u2264 x := by\n  induction y with\n  | zero => exact Nat.le_refl x | succ _ ih => exact Nat.le_trans (Nat.pred_le _) ih\nprivate theorem morita_sub_add_cancel {a b : Nat} (h : a \u2264 b) : (b - a) + a = b := by\n  induction b generalizing a with\n  | zero => cases a with | zero => rfl | succ k => exact False.elim (Nat.not_lt_zero k h)\n  | succ m ih => cases a with | zero => rfl | succ k =>\n    rw [morita_succ_sub_succ m k]\n    change (m - k + k) + 1 = m + 1; rw [ih (Nat.le_of_succ_le_succ h)]\nprivate theorem morita_div_go_mul_le (y : Nat) (hy : 0 < y) :\n    \u2200 (fuel x : Nat) (hfuel : x < fuel), y * Nat.div.go y hy fuel x hfuel \u2264 x\n  | 0, _, hfuel => False.elim (Nat.not_lt_zero _ hfuel)\n  | fuel + 1, x, hfuel => by\n    rw [Nat.div.go.eq_def]; dsimp only; split\n    \u00b7 next hle =>\n      have hlt : x - y < fuel := by\n        cases y with | zero => exact False.elim (Nat.lt_irrefl 0 hy) | succ y' => cases x with\n          | zero => exact False.elim (Nat.not_lt_zero y' hle)\n          | succ x' =>\n            rw [morita_succ_sub_succ]\n            exact Nat.lt_of_le_of_lt (morita_sub_le x' y') (Nat.lt_of_succ_lt_succ hfuel)\n      rw [Nat.mul_succ]\n      have h1 := Nat.add_le_add_right (morita_div_go_mul_le y hy fuel (x - y) hlt) y\n      rw [morita_sub_add_cancel hle] at h1; exact h1\n    \u00b7 exact Nat.zero_le x\nprivate theorem morita_mul_div_le (a b : Nat) : a * (b / a) \u2264 b := by\n  change a * Nat.div b a \u2264 b; rw [Nat.div.eq_def]; split\n  \u00b7 next ha => exact morita_div_go_mul_le a ha (b + 1) b (Nat.lt_succ_self b)\n  \u00b7 exact Nat.zero_le b\n/-- Forward finite-level interleaving: `(\u2261_{a*k+b}^{T\u2081}) \u2286 I*(\u2261_k^{T\u2082})`. -/\ntheorem morita_forward_interleaving {M\u2081 M\u2082 : Type} {\u03c4\u2081 : DescendingResourceTower M\u2081}\n    {\u03c4\u2082 : DescendingResourceTower M\u2082} (B : DistortedBiInterpretation \u03c4\u2081 \u03c4\u2082) (k : Nat) (x y : M\u2081) :\n    \u03c4\u2081.equiv (B.a * k + B.b) x y \u2192 pullbackRel B.I (\u03c4\u2082.equiv k) x y := B.forward_bound k x y\n/-- Backward finite-level interleaving: `I*(\u2261_{a'*m+b'}^{T\u2082}) \u2286 (\u2261_m^{T\u2081})`. -/\ntheorem morita_backward_interleaving {M\u2081 M\u2082 : Type} {\u03c4\u2081 : DescendingResourceTower M\u2081}\n    {\u03c4\u2082 : DescendingResourceTower M\u2082} (B : DistortedBiInterpretation \u03c4\u2081 \u03c4\u2082) (m : Nat) (x y : M\u2081)\n    (h : pullbackRel B.I (\u03c4\u2082.equiv (B.a' * m + B.b')) x y) : \u03c4\u2081.equiv m x y :=\n  \u03c4\u2081.trans (B.unit_equiv m x)\n    (\u03c4\u2081.trans (B.backward_bound m (B.I x) (B.I y) h) (\u03c4\u2081.symm (B.unit_equiv m y)))\n/-- Floor-bound corollary: for `k \u2265 b'`, `I*(\u2261_k^{T\u2082}) \u2286 (\u2261_{\u230a(k - b') / a'\u230b}^{T\u2081})`. -/\ntheorem morita_backward_floor_bound {M\u2081 M\u2082 : Type} {\u03c4\u2081 : DescendingResourceTower M\u2081}\n    {\u03c4\u2082 : DescendingResourceTower M\u2082} (B : DistortedBiInterpretation \u03c4\u2081 \u03c4\u2082) (k : Nat)\n    (hbk : B.b' \u2264 k) (x y : M\u2081) (h : pullbackRel B.I (\u03c4\u2082.equiv k) x y) :\n    \u03c4\u2081.equiv ((k - B.b') / B.a') x y := by\n  have h2 := Nat.add_le_add_right (morita_mul_div_le B.a' (k - B.b')) B.b'\n  rw [morita_sub_add_cancel hbk] at h2\n  exact morita_backward_interleaving B ((k - B.b') / B.a') x y (\u03c4\u2082.anti h2 h)\n/-- Asymptotic `k = \u221e` invariance: `\u22c2_k \u2261_k^{T\u2081} \u2194 I*(\u22c2_k \u2261_k^{T\u2082})`. -/\ntheorem morita_inf_invariance {M\u2081 M\u2082 : Type} {\u03c4\u2081 : DescendingResourceTower M\u2081}\n    {\u03c4\u2082 : DescendingResourceTower M\u2082} (B : DistortedBiInterpretation \u03c4\u2081 \u03c4\u2082) (x y : M\u2081) :\n    \u03c4\u2081.infEquiv x y \u2194 pullbackRel B.I \u03c4\u2082.infEquiv x y :=\n  \u27e8fun h k \u21a6 morita_forward_interleaving B k x y (h (B.a * k + B.b)),\n   fun h m \u21a6 morita_backward_interleaving B m x y (h (B.a' * m + B.b'))\u27e9\n/-- **Quasi-Isometric Morita Resource Interleaving (Bundled Witness, Emerald):**\n    Certifies both finite-level interleaving bounds, the floor corollary, and exact\n    `k = \u221e` invariance across any distorted bi-interpretation (zero axioms). -/\ntheorem morita_resource_interleaving {M\u2081 M\u2082 : Type} {\u03c4\u2081 : DescendingResourceTower M\u2081}\n    {\u03c4\u2082 : DescendingResourceTower M\u2082} (B : DistortedBiInterpretation \u03c4\u2081 \u03c4\u2082) :\n    (\u2200 k x y, \u03c4\u2081.equiv (B.a * k + B.b) x y \u2192 pullbackRel B.I (\u03c4\u2082.equiv k) x y) \u2227\n    (\u2200 m x y, pullbackRel B.I (\u03c4\u2082.equiv (B.a' * m + B.b')) x y \u2192 \u03c4\u2081.equiv m x y) \u2227\n    (\u2200 k, B.b' \u2264 k \u2192 \u2200 x y,\n      pullbackRel B.I (\u03c4\u2082.equiv k) x y \u2192 \u03c4\u2081.equiv ((k - B.b') / B.a') x y) \u2227\n    (\u2200 x y, \u03c4\u2081.infEquiv x y \u2194 pullbackRel B.I \u03c4\u2082.infEquiv x y) := by\n  {{LEAN_BODY}}\n",
+      "lean_body": "  exact \u27e8morita_forward_interleaving B, morita_backward_interleaving B,\n    morita_backward_floor_bound B, morita_inf_invariance B\u27e9\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "kind": "counterexample",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Russell's Socks Touchstone: Failure of Levelwise Morita Invariance at k = 1",
+      "chapter": "ch01",
+      "section": "1.5",
+      "seq_order": 95,
+      "axis": "meta_crm",
+      "grounding_tier": "lean_ok",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.MoritaInterleaving",
+      "decl_names": [
+        "HomotopyCRM.Vol2.SockModelT1",
+        "HomotopyCRM.Vol2.SockModelT2",
+        "HomotopyCRM.Vol2.sockI",
+        "HomotopyCRM.Vol2.sockJ",
+        "HomotopyCRM.Vol2.sockModelEquiv",
+        "HomotopyCRM.Vol2.SockModelT1.Sock",
+        "HomotopyCRM.Vol2.SockModelT1.E",
+        "HomotopyCRM.Vol2.SockModelT1.D",
+        "HomotopyCRM.Vol2.SockModelT2.Elem",
+        "HomotopyCRM.Vol2.SockModelT2.isSock",
+        "HomotopyCRM.Vol2.SockModelT2.isPair",
+        "HomotopyCRM.Vol2.SockModelT2.E",
+        "HomotopyCRM.Vol2.SockModelT2.D",
+        "HomotopyCRM.Vol2.SockModelT2.Gpi",
+        "HomotopyCRM.Vol2.SockModelT2.Mis",
+        "HomotopyCRM.Vol2.sockT2_mis_definable",
+        "HomotopyCRM.Vol2.PartialIsoT1",
+        "HomotopyCRM.Vol2.efGameT1",
+        "HomotopyCRM.Vol2.efEquivT1",
+        "HomotopyCRM.Vol2.PartialIsoT2",
+        "HomotopyCRM.Vol2.efGameT2",
+        "HomotopyCRM.Vol2.efEquivT2",
+        "HomotopyCRM.Vol2.matchedPair",
+        "HomotopyCRM.Vol2.mismatchedPair",
+        "HomotopyCRM.Vol2.russells_socks_t1_equiv_1",
+        "HomotopyCRM.Vol2.russells_socks_t2_not_equiv_1",
+        "HomotopyCRM.Vol2.russells_socks_t1_not_equiv_2",
+        "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
+      "body_hash": "5767b46231b98abe3b0dce68f24eb9255d43f5c07c8b50718de85304520f9aea",
+      "grounding_hash": "a8da153051607fe93f7cbbe55730b9ebc29a8fd07f696b3035e62baf7ab50b04",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/cex_russells_socks_levelwise_morita_failure.toml",
+      "primary_category": "Proved by Lean code",
+      "blueprint_tier": "lean_ok",
+      "characterization_types": [
+        "Counterexample / Disproof",
+        "Categorical Equivalence"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "lean_decl",
+          "ref": "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure",
+          "purpose": "Axiom-free Emerald Lean 4 Touchstone certifying k=1 Morita failure in T2, k=1 equivalence in T1, and k=2 separation in T1"
+        }
+      ],
+      "statement": "Let T1 be the theory of pairs of socks (carrier X, pair equivalence E, irreflexive symmetric mismatch relation D subseteq E \\ Delta_X) and T2 be its Morita-equivalent quotient presentation adjoining pair sort Q = X / E, projection graph G_pi, and definable quotient predicate Mis(q). Certify constructively with zero axioms (Emerald): (1) an explicit model bijection SockModelT1 equiv SockModelT2 (J(I(M)) = M), (2) two-sock models matchedPair and mismatchedPair satisfy matchedPair equiv_1^E mismatchedPair in T1, (3) I(matchedPair) not equiv_1^E I(mismatchedPair) already at k = 1 in T2, and (4) matchedPair not equiv_2^E mismatchedPair separates at k = 2 in T1.",
+      "tex": "\\begin{counterexample}[Russell's Socks Touchstone: Levelwise Morita Failure]\\label{ch01:cex:russells-socks-levelwise-morita-failure}%\n\\uses{ch01:thm:morita-resource-interleaving}%\nConsider the single-sorted theory $T_1$ of paired socks $(X, E, D)$ (pair equivalence $E$, irreflexive symmetric mismatch relation $D \\subseteq E \\setminus \\Delta_X$) and its Morita-equivalent quotient presentation $T_2$ adjoining the pair sort $Q = X/E$, projection graph $G_\\pi(x, q)$, and definable predicate $\\mathrm{Mis}(q) \\iff \\exists x, y,\\; G_\\pi(x,q) \\wedge G_\\pi(y,q) \\wedge D(x,y)$. Constructively without axioms (stratum \\textbf{Emerald}):\n\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]\n  \\item The explicit interpretation functor $I : \\mathbf{Mod}(T_1) \\xrightarrow{\\sim} \\mathbf{Mod}(T_2)$ has exact inverse $J$ ($J(I(M)) = M$).\n  \\item On the two-sock models $M_{\\mathrm{match}}$ ($D = \\emptyset$) and $M_{\\mathrm{mis}}$ (one mismatched pair), $M_{\\mathrm{match}} {{sym:ef-equiv}} M_{\\mathrm{mis}}$ holds at $k = 1$ in $T_1$.\n  \\item Inside $T_2$, however, $I(M_{\\mathrm{match}}) \\not\\equiv_1^{\\mathbb{E}} I(M_{\\mathrm{mis}})$ fails already at $k = 1$.\n  \\item Two rounds suffice to restore separation in $T_1$: $M_{\\mathrm{match}} \\not\\equiv_2^{\\mathbb{E}} M_{\\mathrm{mis}}$.\n\\end{enumerate}\n\\end{counterexample}\n\\begin{proof}\nAt $k = 1$ in $T_1$, Spoiler picks a single sock $x$, Duplicator replies with the corresponding sock, and no $2$-element subset can witness $D$ (since $D$ is irreflexive), so all $1$-element partial isomorphisms agree. Under $I$, the quotient predicate $\\mathrm{Mis}(q)$ reduces a $2$-quantifier property over $X$ to a $1$-quantifier unary property on $Q$, so Spoiler picks the unique pair element $q \\in Q$ at $k = 1$ and separates $\\mathrm{Mis}(q) = \\mathrm{false}$ from $\\mathrm{Mis}(q) = \\mathrm{true}$. Thus levelwise preservation ($a=1, b=0$) fails, whereas $k=2 = 1 \\cdot 1 + 1$ in $T_1$ separates $M_{\\mathrm{match}}$ from $M_{\\mathrm{mis}}$, exemplifying the additive shift $b = 1$ of Theorem~\\ref{ch01:thm:morita-resource-interleaving}.\n\\end{proof}\n",
+      "lean_signature": "private def listGetBool : List Bool \u2192 Nat \u2192 Bool\n  | [] => fun _ => false\n  | b :: tl => fun n => match n with | 0 => b | k + 1 => listGetBool tl k\nprivate theorem natBeq_refl (m : Nat) : Nat.beq m m = true := by\n  induction m with | zero => rfl | succ _ ih => exact ih\nprivate theorem natBeq_eq : \u2200 {m n : Nat}, Nat.beq m n = true \u2192 m = n\n  | 0, 0, _ => rfl | _ + 1, _ + 1, h => congrArg Nat.succ (natBeq_eq h)\n  | 0, _ + 1, h => False.elim (Bool.noConfusion h)\n  | _ + 1, 0, h => False.elim (Bool.noConfusion h)\nprivate theorem fin1_absurd {n : Nat} (h : n + 1 < 1) : False :=\n  Nat.not_lt_zero n (Nat.lt_of_succ_lt_succ h)\n/-- Finite paired-sock model of `T\u2081`: carrier `X = Fin n \u00d7 Bool`, pair equivalence `E`,\n    and irreflexive symmetric mismatch relation `D \u2286 E \\ \u0394_X`. -/\nstructure SockModelT1 : Type where\n  /-- Bit vector recording for each pair `i` whether its two socks are mismatched. -/\n  pairMismatch : List Bool\n/-- Morita-equivalent quotient model of `T\u2082` adjoining pair sort `Q = X / E`, projection\n    graph `G_\u03c0`, and definable quotient predicate `Mis(q)`. -/\nstructure SockModelT2 : Type where\n  /-- Quotient mismatch predicate `Mis` on pair sort `Q = Fin n`. -/\n  quotMis : List Bool\n/-- Forward Morita interpretation `I : SockModelT1 \u2192 SockModelT2`. -/\ndef sockI (M : SockModelT1) : SockModelT2 := \u27e8M.pairMismatch\u27e9\n/-- Backward Morita interpretation `J : SockModelT2 \u2192 SockModelT1`. -/\ndef sockJ (N : SockModelT2) : SockModelT1 := \u27e8N.quotMis\u27e9\n/-- Explicit Morita model bijection `SockModelT1 \u2243 SockModelT2` (`J(I(M)) = M`). -/\ndef sockModelEquiv : SockModelT1 \u2243 SockModelT2 where\n  toFun := sockI; invFun := sockJ; left_inv := fun _ \u21a6 rfl; right_inv := fun _ \u21a6 rfl\n/-- Sock carrier `X = Fin n \u00d7 Bool` of a `T\u2081` model. -/\ndef SockModelT1.Sock (M : SockModelT1) : Type := Fin M.pairMismatch.length \u00d7 Bool\n/-- Pair equivalence relation `E` on `M.Sock`. -/\ndef SockModelT1.E (_M : SockModelT1) (x y : _M.Sock) : Bool := Nat.beq x.1.val y.1.val\n/-- Irreflexive mismatch relation `D \u2286 E \\ \u0394_X` on `M.Sock`. -/\ndef SockModelT1.D (M : SockModelT1) (x y : M.Sock) : Bool :=\n  Nat.beq x.1.val y.1.val && (x.2 != y.2) && listGetBool M.pairMismatch x.1.val\n/-- Two-sorted carrier `X \u2294 Q` of a `T\u2082` quotient model. -/\ndef SockModelT2.Elem (N : SockModelT2) : Type :=\n  Sum (Fin N.quotMis.length \u00d7 Bool) (Fin N.quotMis.length)\n/-- Sort predicate for sock elements `x \u2208 X`. -/\ndef SockModelT2.isSock {N : SockModelT2} : N.Elem \u2192 Bool | .inl _ => true | .inr _ => false\n/-- Sort predicate for pair quotient elements `q \u2208 Q = X / E`. -/\ndef SockModelT2.isPair {N : SockModelT2} : N.Elem \u2192 Bool | .inl _ => false | .inr _ => true\n/-- Pair equivalence relation `E` lifted to `N.Elem`. -/\ndef SockModelT2.E (_N : SockModelT2) : _N.Elem \u2192 _N.Elem \u2192 Bool\n  | .inl x => fun y => match y with | .inl y => Nat.beq x.1.val y.1.val | .inr _ => false\n  | .inr _ => fun _ => false\n/-- Mismatch relation `D` lifted to `N.Elem`. -/\ndef SockModelT2.D (N : SockModelT2) : N.Elem \u2192 N.Elem \u2192 Bool\n  | .inl x => fun y => match y with\n    | .inl y => Nat.beq x.1.val y.1.val && (x.2 != y.2) && listGetBool N.quotMis x.1.val\n    | .inr _ => false\n  | .inr _ => fun _ => false\n/-- Projection graph `G_\u03c0(x, q)` relating sock `x` to its pair `q = [x]_E`. -/\ndef SockModelT2.Gpi (_N : SockModelT2) : _N.Elem \u2192 _N.Elem \u2192 Bool\n  | .inl x => fun y => match y with | .inr q => Nat.beq x.1.val q.val | .inl _ => false\n  | .inr _ => fun _ => false\n/-- Definable unary quotient predicate `Mis(q)` on the pair sort `Q`. -/\ndef SockModelT2.Mis (N : SockModelT2) : N.Elem \u2192 Bool\n  | .inl _ => false | .inr q => listGetBool N.quotMis q.val\n/-- Definability of `Mis(q)` from `(G_\u03c0, D)` inside `T\u2082` (zero axioms). -/\ntheorem sockT2_mis_definable (N : SockModelT2) (q : Fin N.quotMis.length) :\n    N.Mis (.inr q) = true \u2194\n    \u2203 x y : N.Elem, N.Gpi x (.inr q) = true \u2227 N.Gpi y (.inr q) = true \u2227 N.D x y = true := by\n  constructor\n  \u00b7 intro hMis; refine \u27e8.inl (q, false), .inl (q, true), natBeq_refl _, natBeq_refl _, ?_\u27e9\n    change (Nat.beq q.val q.val && true && N.Mis (.inr q)) = true\n    rw [natBeq_refl, hMis]; rfl\n  \u00b7 rintro \u27e8x, y, hx, hy, hD\u27e9\n    cases x with | inr _ => exact False.elim (Bool.noConfusion hx) | inl sx =>\n    cases y with | inr _ => exact False.elim (Bool.noConfusion hy) | inl sy =>\n    change listGetBool N.quotMis q.val = true; rw [\u2190 natBeq_eq hx]\n    dsimp only [SockModelT2.D] at hD; cases hM : listGetBool N.quotMis sx.1.val\n    \u00b7 rw [hM] at hD; cases hb : Nat.beq sx.1.val sy.1.val && (sx.2 != sy.2) <;>\n        rw [hb] at hD <;> exact False.elim (Bool.noConfusion hD)\n    \u00b7 rfl\n/-- Partial isomorphism condition in `T\u2081` across played sock pebble pairs. -/\ndef PartialIsoT1 (M\u2081 M\u2082 : SockModelT1) (ps : List (M\u2081.Sock \u00d7 M\u2082.Sock)) : Prop :=\n  \u2200 p\u2081, p\u2081 \u2208 ps \u2192 \u2200 p\u2082, p\u2082 \u2208 ps \u2192 (p\u2081.1 = p\u2082.1 \u2194 p\u2081.2 = p\u2082.2) \u2227\n    (M\u2081.E p\u2081.1 p\u2082.1 = M\u2082.E p\u2081.2 p\u2082.2) \u2227 (M\u2081.D p\u2081.1 p\u2082.1 = M\u2082.D p\u2081.2 p\u2082.2)\n/-- Inductive `k`-round Ehrenfeucht\u2013Fra\u00efss\u00e9 game on `T\u2081` models. -/\ndef efGameT1 (M\u2081 M\u2082 : SockModelT1) : Nat \u2192 List (M\u2081.Sock \u00d7 M\u2082.Sock) \u2192 Prop\n  | 0, ps => PartialIsoT1 M\u2081 M\u2082 ps\n  | k + 1, ps => PartialIsoT1 M\u2081 M\u2082 ps \u2227\n    (\u2200 x : M\u2081.Sock, \u2203 y : M\u2082.Sock, efGameT1 M\u2081 M\u2082 k ((x, y) :: ps)) \u2227\n    (\u2200 y : M\u2082.Sock, \u2203 x : M\u2081.Sock, efGameT1 M\u2081 M\u2082 k ((x, y) :: ps))\n/-- `k`-round Ehrenfeucht\u2013Fra\u00efss\u00e9 equivalence `M\u2081 \u2261_k^E M\u2082` in `T\u2081`. -/\ndef efEquivT1 (k : Nat) (M\u2081 M\u2082 : SockModelT1) : Prop := efGameT1 M\u2081 M\u2082 k []\n/-- Partial isomorphism condition in `T\u2082` across played two-sorted pebble pairs. -/\ndef PartialIsoT2 (N\u2081 N\u2082 : SockModelT2) (ps : List (N\u2081.Elem \u00d7 N\u2082.Elem)) : Prop :=\n  \u2200 p\u2081, p\u2081 \u2208 ps \u2192 \u2200 p\u2082, p\u2082 \u2208 ps \u2192\n    (p\u2081.1 = p\u2082.1 \u2194 p\u2081.2 = p\u2082.2) \u2227 (N\u2081.isSock p\u2081.1 = N\u2082.isSock p\u2081.2) \u2227\n    (N\u2081.isPair p\u2081.1 = N\u2082.isPair p\u2081.2) \u2227 (N\u2081.Mis p\u2081.1 = N\u2082.Mis p\u2081.2) \u2227\n    (N\u2081.E p\u2081.1 p\u2082.1 = N\u2082.E p\u2081.2 p\u2082.2) \u2227 (N\u2081.D p\u2081.1 p\u2082.1 = N\u2082.D p\u2081.2 p\u2082.2) \u2227\n    (N\u2081.Gpi p\u2081.1 p\u2082.1 = N\u2082.Gpi p\u2081.2 p\u2082.2)\n/-- Inductive `k`-round Ehrenfeucht\u2013Fra\u00efss\u00e9 game on `T\u2082` models. -/\ndef efGameT2 (N\u2081 N\u2082 : SockModelT2) : Nat \u2192 List (N\u2081.Elem \u00d7 N\u2082.Elem) \u2192 Prop\n  | 0, ps => PartialIsoT2 N\u2081 N\u2082 ps\n  | k + 1, ps => PartialIsoT2 N\u2081 N\u2082 ps \u2227\n    (\u2200 u : N\u2081.Elem, \u2203 v : N\u2082.Elem, efGameT2 N\u2081 N\u2082 k ((u, v) :: ps)) \u2227\n    (\u2200 v : N\u2082.Elem, \u2203 u : N\u2081.Elem, efGameT2 N\u2081 N\u2082 k ((u, v) :: ps))\n/-- `k`-round Ehrenfeucht\u2013Fra\u00efss\u00e9 equivalence `N\u2081 \u2261_k^E N\u2082` in `T\u2082`. -/\ndef efEquivT2 (k : Nat) (N\u2081 N\u2082 : SockModelT2) : Prop := efGameT2 N\u2081 N\u2082 k []\n/-- Single matched 2-sock pair (`D = \u2205`). -/\ndef matchedPair : SockModelT1 := \u27e8[false]\u27e9\n/-- Single mismatched 2-sock pair (`D = {((0,false),(0,true)), ((0,true),(0,false))}`). -/\ndef mismatchedPair : SockModelT1 := \u27e8[true]\u27e9\nprivate theorem single_pair_partialIsoT1 (x : matchedPair.Sock) :\n    PartialIsoT1 matchedPair mismatchedPair [(x, x)] := fun p\u2081 hp\u2081 p\u2082 hp\u2082 \u21a6 by\n  cases hp\u2081 with | tail _ h => cases h | head =>\n  cases hp\u2082 with | tail _ h => cases h | head =>\n  refine \u27e8Iff.rfl, rfl, ?_\u27e9\n  rcases x with \u27e8\u27e8_ | n, hiv\u27e9, b\u27e9\n  \u00b7 cases b <;> rfl\n  \u00b7 exact False.elim (fin1_absurd hiv)\n/-- `matchedPair \u2261_1^E mismatchedPair` holds at `k = 1` in `T\u2081` (zero axioms). -/\ntheorem russells_socks_t1_equiv_1 : efEquivT1 1 matchedPair mismatchedPair :=\n  \u27e8fun _ h \u21a6 False.elim (by cases h),\n   fun x \u21a6 \u27e8x, single_pair_partialIsoT1 x\u27e9, fun y \u21a6 \u27e8y, single_pair_partialIsoT1 y\u27e9\u27e9\n/-- `I(matchedPair) \u2262_1^E I(mismatchedPair)` fails already at `k = 1` in `T\u2082` (zero axioms). -/\ntheorem russells_socks_t2_not_equiv_1 :\n    \u00ac efEquivT2 1 (sockI matchedPair) (sockI mismatchedPair) := by\n  intro h; rcases h.2.1 (.inr \u27e80, by decide\u27e9) with \u27e8v, hv\u27e9\n  have hpair := hv (.inr \u27e80, by decide\u27e9, v) (List.Mem.head _)\n    (.inr \u27e80, by decide\u27e9, v) (List.Mem.head _)\n  cases v with | inl _ => exact Bool.noConfusion hpair.2.2.1 | inr q =>\n  rcases q with \u27e8_ | _, hqv\u27e9\n  \u00b7 exact Bool.noConfusion hpair.2.2.2.1\n  \u00b7 exact False.elim (fin1_absurd hqv)\n/-- `matchedPair \u2262_2^E mismatchedPair` separates at `k = 2` in `T\u2081` (zero axioms). -/\ntheorem russells_socks_t1_not_equiv_2 : \u00ac efEquivT1 2 matchedPair mismatchedPair := by\n  intro h; rcases h.2.1 (\u27e80, by decide\u27e9, false) with \u27e8y\u2081, hy\u2081\u27e9\n  rcases hy\u2081.2.1 (\u27e80, by decide\u27e9, true) with \u27e8y\u2082, hy\u2082\u27e9\n  have hStep := hy\u2082 ((\u27e80, by decide\u27e9, false), y\u2081) (List.Mem.tail _ (List.Mem.head _))\n    ((\u27e80, by decide\u27e9, true), y\u2082) (List.Mem.head _)\n  have hNeq : y\u2081 \u2260 y\u2082 := fun heq \u21a6 Bool.noConfusion (congrArg Prod.snd (hStep.1.mpr heq))\n  rcases y\u2081 with \u27e8\u27e8_ | _, hi\u2081\u27e9, b\u2081\u27e9 <;> rcases y\u2082 with \u27e8\u27e8_ | _, hi\u2082\u27e9, b\u2082\u27e9 <;> first\n  | (cases b\u2081 <;> cases b\u2082 <;> first | exact hNeq rfl | exact Bool.noConfusion hStep.2.2)\n  | exact False.elim (fin1_absurd hi\u2082) | exact False.elim (fin1_absurd hi\u2081)\n/-- **Russell's Socks Levelwise Morita Failure (Emerald):** Explicit model bijection\n    `SockModelT1 \u2243 SockModelT2` witnessing `k = 1` equivalence in `T\u2081`, `k = 1` failure\n    in `T\u2082`, and `k = 2` separation in `T\u2081` (zero axioms). -/\ntheorem russells_socks_levelwise_morita_failure :\n    (\u2200 M : SockModelT1, sockJ (sockI M) = M) \u2227 (\u2200 N : SockModelT2, sockI (sockJ N) = N) \u2227\n    efEquivT1 1 matchedPair mismatchedPair \u2227\n    \u00ac efEquivT2 1 (sockI matchedPair) (sockI mismatchedPair) \u2227\n    \u00ac efEquivT1 2 matchedPair mismatchedPair := by\n  {{LEAN_BODY}}\n",
+      "lean_body": "  exact \u27e8fun _ \u21a6 rfl, fun _ \u21a6 rfl, russells_socks_t1_equiv_1, russells_socks_t2_not_equiv_1,\n    russells_socks_t1_not_equiv_2\u27e9\n",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch01:tab:currencies-morita-ledger",
+      "kind": "summary_table",
+      "is_core": true,
+      "cohort": "Cohort IV",
+      "title": "Table 1.2: CRM Operational Currencies and Morita Resource Distortion Ledger",
+      "chapter": "ch01",
+      "section": "1.5",
+      "seq_order": 98,
+      "axis": "meta_crm",
+      "grounding_tier": "expository",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-26T04:14:41.373792+00:00",
+      "spec_hash": "cb660a706ce4dd92ace6458540cfaa187e44cc294489be8ea3c0a6340f7d50b6",
+      "body_hash": "51246e1e0b49a63f3473e625e0c4fbb01014dd8346c0043e34ca71ae622414cd",
+      "grounding_hash": "eaefa8668d16478847adda5a3611cfbc142d82ae51006e4c45c913d9e1945a8e",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch01/tab_currencies_morita_ledger.toml",
+      "primary_category": "Verified paraphrase container",
+      "blueprint_tier": "none",
+      "characterization_types": [
+        "Conservation / Solvency",
+        "Metamathematical Principle"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "prose_paraphrase",
+          "ref": "ch01:def:operational-currencies",
+          "purpose": "Table 1.2 Operational Currency rows locked to spec_hash"
+        },
+        {
+          "kind": "prose_paraphrase",
+          "ref": "ch01:thm:morita-resource-interleaving",
+          "purpose": "Table 1.2 Morita resource distortion row locked to spec_hash"
+        }
+      ],
+      "statement": "",
+      "tex": "\\begin{table}[htbp]\n\\centering\n\\scriptsize\n\\setlength{\\tabcolsep}{3.0pt}\n\\renewcommand{\\arraystretch}{1.15}\n\\begin{tabularx}{\\textwidth}{@{}P{0.20\\textwidth}P{0.20\\textwidth}YP{0.21\\textwidth}@{}}\n\\toprule\n\\textbf{Operational Currency} & \\textbf{Resource Parameter} & \\textbf{Translation / Morita Calibration Law} & \\textbf{Formal Anchor} \\\\\n\\midrule\nZero-Oracle Gauge Cost & Finite groupoid symmetry ($\\mathrm{Stab}_G$, Species) & Computable orbit-stabilizer accounting ($1+1+3+3+6+2=16$ for $M_2(\\mathbb{F}_2)$) with zero non-computable oracles. & {{ref:ch01:def:operational-currencies}}, {{ref:ch01:thm:mode3-orbit-stabilizer-exactness}} \\\\\nOracle Cost & Weihrauch / Muchnik LTT $j_{\\mathcal{O}}$ & Realizability oracle strength metered in $\\mathbf{LTT}(\\Eff) \\cong \\mathcal{W}_{\\mathrm{gen,ext}}$. & {{ref:ch01:def:operational-currencies}} \\\\\nRank-Compression Cost & {{sym:ef-comonad}} ($\\kappa^{\\mathbb{E}} = \\mathrm{td}$), {{sym:pebble-comonad}} ($\\kappa^{\\mathbb{P}} = \\mathrm{tw}+1$) & Two-sided quasi-isometric interleaving $(\\equiv_{ak+b}^{T_1}) \\subseteq I^*(\\equiv_k^{T_2})$ and $I^*(\\equiv_{a'm+b'}^{T_2}) \\subseteq (\\equiv_m^{T_1})$ with exact $k = \\infty$ invariance. & {{ref:ch01:claim:abramsky-arboreal-coalgebra-numbers}}, {{ref:ch01:thm:morita-resource-interleaving}} \\\\\nLevelwise Morita Failure & Additive shift $b = 1$ (Russell's Socks) & Quotient predicate $\\mathrm{Mis}(q)$ separates models at $k=1$ in $T_2$ while $T_1$ requires $k=2$ ($M_{\\mathrm{match}} {{sym:ef-equiv}} M_{\\mathrm{mis}}$ at $k=1$). & {{ref:ch01:cex:russells-socks-levelwise-morita-failure}} \\\\\nInverted Clamping Cost & L\\'evy-rank / small-site valve & Bounded $\\Sigma_1$ / size-valve ceilings preventing Vop\\v{e}nka reflection leaks across universe strata. & {{ref:ch01:def:operational-currencies}} \\\\\n\\bottomrule\n\\end{tabularx}\n\\caption{CRM Operational Currencies, game-comonadic coalgebra numbers, and quasi-isometric Morita translation costs.}\n\\label{ch01:tab:currencies-morita-ledger}\n\\end{table}\n",
+      "lean_signature": "",
+      "lean_body": "",
       "plan": null,
       "pub": null,
       "issue": null
@@ -2614,6 +3291,24 @@
       "metadata": {}
     },
     {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:thm:morita-resource-interleaving",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
       "src": "ch01:claim:kihara-ew-weihrauch-ltt-duality",
       "dst": "ch01:prop:flow-f3-lt-partition-and-schism",
       "fiber": "curriculum",
@@ -2622,6 +3317,12 @@
     {
       "src": "ch01:def:adm-pareto-frontier",
       "dst": "ch01:prop:extent-transversal-galois",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:adm-pareto-frontier",
+      "dst": "ch01:prop:topological-no-schism",
       "fiber": "curriculum",
       "metadata": {}
     },
@@ -2646,6 +3347,24 @@
     {
       "src": "ch01:def:essential-fiber-trident",
       "dst": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:thm:morita-resource-interleaving",
       "fiber": "curriculum",
       "metadata": {}
     },
@@ -2686,6 +3405,12 @@
       "metadata": {}
     },
     {
+      "src": "ch01:def:probe-suite",
+      "dst": "ch01:thm:zero-giraud-representation",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
       "src": "ch01:prop:extent-transversal-galois",
       "dst": "ch01:thm:flow-f4-split-polarity-transport",
       "fiber": "curriculum",
@@ -2694,6 +3419,12 @@
     {
       "src": "ch01:prop:lt-stability-projsub",
       "dst": "ch01:thm:flow-f2-four-rung-escalation",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:thm:zero-giraud-representation",
       "fiber": "curriculum",
       "metadata": {}
     },
@@ -2728,8 +3459,44 @@
       "metadata": {}
     },
     {
+      "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
       "src": "ch01:thm:scotoma-pareto-trichotomy",
       "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:thm:zero-giraud-living-zone-zorn",
       "fiber": "curriculum",
       "metadata": {}
     },
@@ -2742,6 +3509,12 @@
     {
       "src": "vol1:def:doctrinal-philosophy",
       "dst": "ch01:claim:kihara-ew-weihrauch-ltt-duality",
+      "fiber": "curriculum",
+      "metadata": {}
+    },
+    {
+      "src": "vol1:def:doctrinal-philosophy",
+      "dst": "ch01:def:operational-currencies",
       "fiber": "curriculum",
       "metadata": {}
     },
@@ -2830,8 +3603,20 @@
       "metadata": {}
     },
     {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:thm:morita-resource-interleaving",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
       "src": "ch01:def:probe-suite",
       "dst": "ch01:cex:flow-f1-frontier-nonmonotone",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:probe-suite",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
       "fiber": "lean_dep",
       "metadata": {}
     },
@@ -2872,8 +3657,32 @@
       "metadata": {}
     },
     {
+      "src": "ch01:def:probe-suite",
+      "dst": "ch01:thm:zero-giraud-living-zone-zorn",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:probe-suite",
+      "dst": "ch01:thm:zero-giraud-representation",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
       "src": "ch01:prop:extent-transversal-galois",
       "dst": "ch01:thm:flow-f4-split-polarity-transport",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:thm:zero-giraud-living-zone-zorn",
       "fiber": "lean_dep",
       "metadata": {}
     },
@@ -2902,9 +3711,45 @@
       "metadata": {}
     },
     {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
       "src": "ch01:thm:scotoma-pareto-trichotomy",
       "dst": "pub:branch:lean-export",
       "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:thm:zero-giraud-living-zone-zorn",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:thm:morita-resource-interleaving",
+      "fiber": "logical_dep",
       "metadata": {}
     },
     {
@@ -2927,6 +3772,12 @@
     },
     {
       "src": "ch01:def:adm-pareto-frontier",
+      "dst": "ch01:prop:topological-no-schism",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:adm-pareto-frontier",
       "dst": "ch01:thm:flow-f1-threshold-order",
       "fiber": "logical_dep",
       "metadata": {}
@@ -2940,6 +3791,18 @@
     {
       "src": "ch01:def:essential-fiber-trident",
       "dst": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:thm:morita-resource-interleaving",
       "fiber": "logical_dep",
       "metadata": {}
     },
@@ -2974,6 +3837,12 @@
       "metadata": {}
     },
     {
+      "src": "ch01:def:probe-suite",
+      "dst": "ch01:thm:zero-giraud-representation",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
       "src": "ch01:prop:extent-transversal-galois",
       "dst": "ch01:def:touchstone-specific-gravity",
       "fiber": "logical_dep",
@@ -2994,6 +3863,18 @@
     {
       "src": "ch01:prop:lt-stability-projsub",
       "dst": "ch01:thm:flow-f2-four-rung-escalation",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:thm:zero-giraud-living-zone-zorn",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:thm:zero-giraud-representation",
       "fiber": "logical_dep",
       "metadata": {}
     },
@@ -3041,13 +3922,55 @@
     },
     {
       "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "dst": "ch01:def:operational-currencies",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
       "dst": "pub:pdf:monograph",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:cex:russells-socks-levelwise-morita-failure",
       "fiber": "logical_dep",
       "metadata": {}
     },
     {
       "src": "ch01:thm:scotoma-pareto-trichotomy",
       "dst": "pub:pdf:claims-ledger",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:thm:zero-giraud-living-zone-zorn",
       "fiber": "logical_dep",
       "metadata": {}
     },
@@ -3191,6 +4114,12 @@
     },
     {
       "src": "vol1:def:doctrinal-philosophy",
+      "dst": "ch01:def:operational-currencies",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "vol1:def:doctrinal-philosophy",
       "dst": "ch01:def:probe-suite",
       "fiber": "logical_dep",
       "metadata": {}
@@ -3252,6 +4181,78 @@
       }
     },
     {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:cex:p0-independent-of-p1-p5"
+      }
+    },
+    {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:cex:p0-independent-of-p1-p5"
+      }
+    },
+    {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:cex:p0-independent-of-p1-p5"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:cex:russells-socks-levelwise-morita-failure"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:cex:russells-socks-levelwise-morita-failure"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:cex:russells-socks-levelwise-morita-failure"
+      }
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+      }
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+      }
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:thm:morita-resource-interleaving",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+      }
+    },
+    {
       "src": "ch01:claim:kihara-ew-weihrauch-ltt-duality",
       "dst": "ch01:prop:flow-f3-lt-partition-and-schism",
       "fiber": "notation",
@@ -3262,6 +4263,14 @@
     {
       "src": "ch01:def:adm-pareto-frontier",
       "dst": "ch01:prop:extent-transversal-galois",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:def:adm-pareto-frontier"
+      }
+    },
+    {
+      "src": "ch01:def:adm-pareto-frontier",
+      "dst": "ch01:prop:topological-no-schism",
       "fiber": "notation",
       "metadata": {
         "ref_id": "ch01:def:adm-pareto-frontier"
@@ -3289,6 +4298,30 @@
       "fiber": "notation",
       "metadata": {
         "ref_id": "ch01:def:adm-pareto-frontier"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:def:operational-currencies"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:def:operational-currencies"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:def:operational-currencies"
       }
     },
     {
@@ -3332,6 +4365,14 @@
       }
     },
     {
+      "src": "ch01:prob:two-giraud-prototopos-nerve",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:prob:two-giraud-prototopos-nerve"
+      }
+    },
+    {
       "src": "ch01:prop:extent-transversal-galois",
       "dst": "ch01:thm:flow-f4-split-polarity-transport",
       "fiber": "notation",
@@ -3345,6 +4386,22 @@
       "fiber": "notation",
       "metadata": {
         "ref_id": "ch01:prop:lt-stability-projsub"
+      }
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:prop:topological-no-schism"
+      }
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:prop:topological-no-schism"
       }
     },
     {
@@ -3372,11 +4429,163 @@
       }
     },
     {
+      "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "dst": "ch01:def:operational-currencies",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:mode3-orbit-stabilizer-exactness"
+      }
+    },
+    {
+      "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:mode3-orbit-stabilizer-exactness"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:morita-resource-interleaving"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:morita-resource-interleaving"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:morita-resource-interleaving"
+      }
+    },
+    {
       "src": "ch01:thm:scotoma-pareto-trichotomy",
       "dst": "ch01:tab:epistemic-probe-regimes",
       "fiber": "notation",
       "metadata": {
         "ref_id": "ch01:thm:scotoma-pareto-trichotomy"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:zero-giraud-living-zone-zorn"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:zero-giraud-living-zone-zorn"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:zero-giraud-representation"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:zero-giraud-representation"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:thm:zero-giraud-representation"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "ef-equiv"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "ef-comonad"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "j-ext"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:prop:topological-no-schism",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "j-ext"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "j-ext"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "ef-comonad"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "j-ext"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:thm:morita-resource-interleaving",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "ef-comonad"
+      }
+    },
+    {
+      "src": "sym:giraud-morita",
+      "dst": "ch01:thm:zero-giraud-representation",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "j-ext"
       }
     },
     {
@@ -3406,6 +4615,14 @@
     {
       "src": "sym:probe-suite",
       "dst": "ch01:prop:extent-transversal-galois",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "pareto-res"
+      }
+    },
+    {
+      "src": "sym:probe-suite",
+      "dst": "ch01:prop:topological-no-schism",
       "fiber": "notation",
       "metadata": {
         "macro_key": "pareto-res"
@@ -3445,6 +4662,14 @@
     },
     {
       "src": "sym:trident-flows",
+      "dst": "ch01:cex:p0-independent-of-p1-p5",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "apodictic"
+      }
+    },
+    {
+      "src": "sym:trident-flows",
       "dst": "ch01:def:essential-fiber-trident",
       "fiber": "notation",
       "metadata": {
@@ -3461,10 +4686,26 @@
     },
     {
       "src": "sym:trident-flows",
+      "dst": "ch01:prob:two-giraud-prototopos-nerve",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "phil-cat"
+      }
+    },
+    {
+      "src": "sym:trident-flows",
       "dst": "ch01:prop:lt-stability-projsub",
       "fiber": "notation",
       "metadata": {
         "macro_key": "proj-sub"
+      }
+    },
+    {
+      "src": "sym:trident-flows",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "apodictic"
       }
     },
     {
@@ -3484,11 +4725,27 @@
       }
     },
     {
+      "src": "sym:trident-flows",
+      "dst": "ch01:thm:zero-giraud-representation",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "apodictic"
+      }
+    },
+    {
       "src": "vol1:def:comparison-triple",
       "dst": "ch01:def:essential-fiber-trident",
       "fiber": "notation",
       "metadata": {
         "ref_id": "vol1:def:comparison-triple"
+      }
+    },
+    {
+      "src": "vol1:def:doctrinal-philosophy",
+      "dst": "ch01:def:operational-currencies",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "vol1:def:doctrinal-philosophy"
       }
     },
     {
@@ -3567,6 +4824,87 @@
       }
     },
     {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a",
+        "scope_note": "4-element join-semilattice separating (P0) from (P1)-(P5)"
+      }
+    },
+    {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a",
+        "scope_note": "Table 1.1 Fin 4 separation of (P0) from (P1)-(P5)"
+      }
+    },
+    {
+      "src": "ch01:cex:p0-independent-of-p1-p5",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a",
+        "scope_note": "Front-door summary of Emerald Fin 4 independence of (P0) from (P1)-(P5)"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
+        "scope_note": "Russell's Socks k=1 failure in T2 vs k=2 separation in T1"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
+        "scope_note": "Russell's Socks k=1 Morita failure in T2 vs k=2 separation in T1"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
+        "scope_note": "Table 1.1 Russell's Socks k=1 Morita failure row"
+      }
+    },
+    {
+      "src": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
+        "scope_note": "Front-door summary of Emerald Russell's Socks k=1 failure vs k=2 separation"
+      }
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "8ce93afe7afd8f93a7554814a4ceb6b00c858356603cf2532a2396f7b563cd81",
+        "scope_note": "Game-comonad hierarchy and coalgebra numbers kappa^E = td, kappa^P = tw + 1"
+      }
+    },
+    {
+      "src": "ch01:claim:abramsky-arboreal-coalgebra-numbers",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "8ce93afe7afd8f93a7554814a4ceb6b00c858356603cf2532a2396f7b563cd81",
+        "scope_note": "Arboreal game-comonad hierarchy and coalgebra numbers kappa^E, kappa^P"
+      }
+    },
+    {
       "src": "ch01:def:adm-pareto-frontier",
       "dst": "ch01:prose:meta-crm-roadmap",
       "fiber": "prose_paraphrase",
@@ -3582,6 +4920,42 @@
       "metadata": {
         "locked_spec_hash": "c4f63751392bc419219648b7581d835b066eda107c1e29119a8094a78b886dfa",
         "scope_note": "Scotoma, Unique Residuum, and Pareto Schism formal criteria"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
+        "scope_note": "Four CRM Operational Currency regimes"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
+        "scope_note": "Four CRM Operational Currencies table rows"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
+        "scope_note": "Table 1.1 Operational Currencies row"
+      }
+    },
+    {
+      "src": "ch01:def:operational-currencies",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
+        "scope_note": "Front-door summary of Emerald Four CRM Operational Currencies"
       }
     },
     {
@@ -3627,6 +5001,33 @@
       "metadata": {
         "locked_spec_hash": "20719a8594b088431c3018c217e6a7a13ff3d7eb5a2853b8ad73b024a0f2d188",
         "scope_note": "Front-door summary of Flow F3 3^k 2^m partition and realizability schism"
+      }
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50",
+        "scope_note": "Binary union closure prevents Pareto Schisms while J_ext-multiplicativity enables them"
+      }
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50",
+        "scope_note": "Table 1.1 0-Giraud no-schism union-closure row"
+      }
+    },
+    {
+      "src": "ch01:prop:topological-no-schism",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50",
+        "scope_note": "Front-door summary of Emerald Topological No-Schism under binary union closure"
       }
     },
     {
@@ -3694,11 +5095,56 @@
     },
     {
       "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "8dbdf07012c533f003e59016c17f2721ef72022eb23334cbb58ee76b1682dd39",
+        "scope_note": "Zero-oracle gauge cost exemplified by M2(F2)/GL2(F2) decomposition"
+      }
+    },
+    {
+      "src": "ch01:thm:mode3-orbit-stabilizer-exactness",
       "dst": "pub:doc:repo-frontdoor",
       "fiber": "prose_paraphrase",
       "metadata": {
         "locked_spec_hash": "8dbdf07012c533f003e59016c17f2721ef72022eb23334cbb58ee76b1682dd39",
         "scope_note": "Front-door summary of Amber Mode (iii) Orbit-Stabilizer exactness"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
+        "scope_note": "Two-sided (a,b)/(a',b') Morita resource interleaving and k = infty invariance"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:tab:currencies-morita-ledger",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
+        "scope_note": "Two-sided (a,b)/(a',b') Morita resource interleaving and k = infty invariance"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
+        "scope_note": "Table 1.1 two-sided (a,b)/(a',b') Morita resource interleaving row"
+      }
+    },
+    {
+      "src": "ch01:thm:morita-resource-interleaving",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
+        "scope_note": "Front-door summary of Emerald two-sided (a,b)/(a',b') Morita resource interleaving"
       }
     },
     {
@@ -3726,6 +5172,60 @@
       "metadata": {
         "locked_spec_hash": "73d0580b8dfec86cca711b79a3255f80d4e086b2df7cdaad7274c0a873cff4ea",
         "scope_note": "Front-door summary of the Crimson Epistemic Trichotomy"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9",
+        "scope_note": "Crimson Zorn Living-Zone existence adjoining (P0) and (P2)"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9",
+        "scope_note": "Table 1.1 Core-Target Aperture (P0)+(P2) Zorn existence row"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-living-zone-zorn",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9",
+        "scope_note": "Front-door summary of Crimson Zorn Living-Zone existence with (P0) and (P2)"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:prose:meta-crm-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e",
+        "scope_note": "Constructive 0-Giraud representation for (P1)+(P3)+(P4)+(P5) and Dogma/Casuistry banishment"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "ch01:tab:epistemic-probe-regimes",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e",
+        "scope_note": "Table 1.1 0-Giraud representation and (P5) Dogma/Casuistry banishment row"
+      }
+    },
+    {
+      "src": "ch01:thm:zero-giraud-representation",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e",
+        "scope_note": "Front-door summary of Emerald 0-Giraud representation and (P5) Dogma/Casuistry banishment"
       }
     }
   ],
@@ -3809,28 +5309,33 @@
         "HomotopyCRM.Vol2.MoritaInterleaving"
       ],
       "deliverable_nodes": [
-        "ch01:def:zero-giraud-axioms",
-        "ch01:cex:zero-giraud-p0-independence",
+        "sym:giraud-morita",
+        "ch01:prop:topological-no-schism",
+        "ch01:thm:zero-giraud-representation",
+        "ch01:thm:zero-giraud-living-zone-zorn",
+        "ch01:cex:p0-independent-of-p1-p5",
         "ch01:prob:two-giraud-prototopos-nerve",
         "ch01:def:operational-currencies",
+        "ch01:claim:abramsky-arboreal-coalgebra-numbers",
         "ch01:thm:morita-resource-interleaving",
-        "ch01:cex:russell-socks-finite"
+        "ch01:cex:russells-socks-levelwise-morita-failure",
+        "ch01:tab:currencies-morita-ledger"
       ],
       "guardrails": [
         "ltt_eff_muchnik_meets"
       ],
-      "summary": "Formalize ZeroGiraud.lean (P0)-(P5) with a 4-element (P0) independence witness, register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, prove MoritaInterleaving.lean (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks counterexample, and refresh the Ch. 1 Roadmap & Table 1.1.",
-      "status": "ACTIVE",
-      "verified_deliverables": 0,
-      "total_deliverables": 6,
+      "summary": "Formalize ZeroGiraud.lean (Topological No-Schism, constructive 0-Giraud (P1)+(P3)+(P4)+(P5) representation + Dogma/Casuistry banishment, Crimson Zorn Living-Zone existence with (P0)+(P2), and 4-element (P0) independence witness), register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, formalize MoritaInterleaving.lean (two-sided (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks k=1 failure witness), and refresh Ch. 1 Cohort IV containers.",
+      "status": "VERIFIED",
+      "verified_deliverables": 11,
+      "total_deliverables": 11,
       "issue": {
         "number": 1,
         "title": "[Phase 1B] Phase 1B: Ch. 1 \u00a7\u00a71.4\u20131.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving",
-        "state": "OPEN",
+        "state": "CLOSED",
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1",
         "milestone": "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum",
         "labels": [
-          "slice:active"
+          "slice:verified"
         ]
       }
     },
@@ -3853,7 +5358,7 @@
       ],
       "guardrails": [],
       "summary": "Construct the Mod(GB_0) doctrinal setting, prove the 3-way naive model-space pullback failure counterexample, establish the Def -| pi_Set class-set adjunction, and formalize Williams' fixed-set kaleidoscope of class theories over a fixed set universe.",
-      "status": "PLANNED",
+      "status": "ACTIVE",
       "verified_deliverables": 0,
       "total_deliverables": 4,
       "issue": {
@@ -3863,7 +5368,7 @@
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2",
         "milestone": "Chapter 2: Class-Set Adjunction & Mod(GB_0)",
         "labels": [
-          "slice:planned"
+          "slice:active"
         ]
       }
     },
@@ -4218,8 +5723,8 @@
         "ROADMAP.md",
         "CITATION.cff"
       ],
-      "cone_hash": "cf3d3c25333075d2b96e7415c2cc9eb63537499580b0eb0343e167aabc013508",
-      "locked_cone_hash": "cf3d3c25333075d2b96e7415c2cc9eb63537499580b0eb0343e167aabc013508",
+      "cone_hash": "03cc45cbbb2cfef70d2483799241516bbaf25a7c2db4246b865c8dd2b97044d9",
+      "locked_cone_hash": "03cc45cbbb2cfef70d2483799241516bbaf25a7c2db4246b865c8dd2b97044d9",
       "pub_status": "CLEAN",
       "pub_reason": ""
     },
@@ -4235,8 +5740,8 @@
         "build/gh_pages/data/network.json",
         "build/gh_pages/.nojekyll"
       ],
-      "cone_hash": "db2796a5ca32f6d1cef5d72228a1ee9499252d0855536d297ce36218588e37e7",
-      "locked_cone_hash": "db2796a5ca32f6d1cef5d72228a1ee9499252d0855536d297ce36218588e37e7",
+      "cone_hash": "678ab8bb878b16b5431b20628a983234f5c500f73b5a9b1fb3686c7a45c7ca14",
+      "locked_cone_hash": "678ab8bb878b16b5431b20628a983234f5c500f73b5a9b1fb3686c7a45c7ca14",
       "pub_status": "CLEAN",
       "pub_reason": ""
     },
@@ -4249,8 +5754,8 @@
         "build/tex/crm_vol2_monograph.pdf",
         "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
       ],
-      "cone_hash": "e7d0cc6a23cd597376dc5e7727280d2f845b4be8e0dc0999f280f3b7858e13f0",
-      "locked_cone_hash": "e7d0cc6a23cd597376dc5e7727280d2f845b4be8e0dc0999f280f3b7858e13f0",
+      "cone_hash": "df8fd6b41b55cf0d23a348bbb6516682ea07deca27c8d8b5b4d06c412ad63571",
+      "locked_cone_hash": "df8fd6b41b55cf0d23a348bbb6516682ea07deca27c8d8b5b4d06c412ad63571",
       "pub_status": "CLEAN",
       "pub_reason": ""
     },
@@ -4263,8 +5768,8 @@
         "build/tex/crm_vol2_claims_ledger.pdf",
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "cone_hash": "fba3f67fcd8318269747c7dea08be2548a1e6f31bbd8221639615f9fab2e8e92",
-      "locked_cone_hash": "fba3f67fcd8318269747c7dea08be2548a1e6f31bbd8221639615f9fab2e8e92",
+      "cone_hash": "fd6c67ecf6b0f5ac5616a7d13a1d6d184adf1df6c1b09df40ea1a3eb7f38a134",
+      "locked_cone_hash": "fd6c67ecf6b0f5ac5616a7d13a1d6d184adf1df6c1b09df40ea1a3eb7f38a134",
       "pub_status": "CLEAN",
       "pub_reason": ""
     },
@@ -4277,8 +5782,8 @@
         "build/tex/course_pack_ch01_probe_calibration.pdf",
         "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf"
       ],
-      "cone_hash": "8fbf034e13deb784c4d32c72b2aed8fb754e34bb03b8ae8585543d89e7e1adf3",
-      "locked_cone_hash": "8fbf034e13deb784c4d32c72b2aed8fb754e34bb03b8ae8585543d89e7e1adf3",
+      "cone_hash": "0da06cffe369fd435bdfbf3e0f5bb7a96967f93952d00e815b11b3aee178b87f",
+      "locked_cone_hash": "0da06cffe369fd435bdfbf3e0f5bb7a96967f93952d00e815b11b3aee178b87f",
       "pub_status": "CLEAN",
       "pub_reason": ""
     },
@@ -4291,8 +5796,8 @@
         "refs/heads/lean-export",
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
-      "cone_hash": "51f3165c60a7c44f654038b919343a3c12633640fa8d2d43b41cc6b40a72b280",
-      "locked_cone_hash": "51f3165c60a7c44f654038b919343a3c12633640fa8d2d43b41cc6b40a72b280",
+      "cone_hash": "d321987fd41f8b56a4fe461b355f1303c1f67229f0d36e56cc5f4ced5b816eb5",
+      "locked_cone_hash": "d321987fd41f8b56a4fe461b355f1303c1f67229f0d36e56cc5f4ced5b816eb5",
       "pub_status": "CLEAN",
       "pub_reason": ""
     },
@@ -4305,8 +5810,8 @@
         "github:milestones",
         "github:issues"
       ],
-      "cone_hash": "2552fffe83b6448843cbf4aa844ebc1ff16dc8f8a7ed01e4ca1ca505eabcd8ac",
-      "locked_cone_hash": "2552fffe83b6448843cbf4aa844ebc1ff16dc8f8a7ed01e4ca1ca505eabcd8ac",
+      "cone_hash": "e057ba70f1a5711693903d51c491cbf0356f90cddbaa52a03123f2e2cf9ea13e",
+      "locked_cone_hash": "e057ba70f1a5711693903d51c491cbf0356f90cddbaa52a03123f2e2cf9ea13e",
       "pub_status": "CLEAN",
       "pub_reason": ""
     }
@@ -4385,6 +5890,196 @@
     {
       "decl_or_cert": "HomotopyCRM.Vol2.cex_tWake_eq_zero",
       "node_id": "ch01:cex:flow-f1-frontier-nonmonotone",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexBoolExt",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexDomain",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexFamily",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexMul",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexProbe",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexProbe_admissible",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0CexProblem",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0Cex_P2_bool",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0Cex_P2_decidable",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p0_independent_of_p1_p5",
+      "node_id": "ch01:cex:p0-independent-of-p1-p5",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.PartialIsoT1",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.PartialIsoT2",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT1",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT1.D",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT1.E",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT1.Sock",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.D",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.E",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.Elem",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.Gpi",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.Mis",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.isPair",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.SockModelT2.isSock",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.efEquivT1",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.efEquivT2",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.efGameT1",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.efGameT2",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.matchedPair",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.mismatchedPair",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.russells_socks_t1_equiv_1",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.russells_socks_t1_not_equiv_2",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.russells_socks_t2_not_equiv_1",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.sockI",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.sockJ",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.sockModelEquiv",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.sockT2_mis_definable",
+      "node_id": "ch01:cex:russells-socks-levelwise-morita-failure",
       "ownership_kind": "lean_decl"
     },
     {
@@ -4500,6 +6195,41 @@
     {
       "decl_or_cert": "HomotopyCRM.Vol2.mode2_phantom_of_injective_not_mem",
       "node_id": "ch01:def:essential-fiber-trident",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.CurrencyProfile",
+      "node_id": "ch01:def:operational-currencies",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.OperationalCurrency",
+      "node_id": "ch01:def:operational-currencies",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.OperationalCurrency.ofFin4",
+      "node_id": "ch01:def:operational-currencies",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.OperationalCurrency.toFin4",
+      "node_id": "ch01:def:operational-currencies",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.OperationalCurrency.usesOracle",
+      "node_id": "ch01:def:operational-currencies",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.operationalCurrencyEquivFin4",
+      "node_id": "ch01:def:operational-currencies",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.operationalCurrency_oracle_partition",
+      "node_id": "ch01:def:operational-currencies",
       "ownership_kind": "lean_decl"
     },
     {
@@ -4803,6 +6533,26 @@
       "ownership_kind": "lean_decl"
     },
     {
+      "decl_or_cert": "HomotopyCRM.Vol2.InLivingZone",
+      "node_id": "ch01:prop:topological-no-schism",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.IsBinaryUnionClosed",
+      "node_id": "ch01:prop:topological-no-schism",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.IsMaxLivingZone",
+      "node_id": "ch01:prop:topological-no-schism",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.topological_no_schism",
+      "node_id": "ch01:prop:topological-no-schism",
+      "ownership_kind": "lean_decl"
+    },
+    {
       "decl_or_cert": "HomotopyCRM.Vol2.cert_ch01_rem_trident_mode3_2ltt_bootstrap",
       "node_id": "ch01:rem:trident-mode3-2ltt-bootstrap",
       "ownership_kind": "lean_decl"
@@ -5078,6 +6828,51 @@
       "ownership_kind": "lean_decl"
     },
     {
+      "decl_or_cert": "HomotopyCRM.Vol2.DescendingResourceTower",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.DescendingResourceTower.infEquiv",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.DistortedBiInterpretation",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.morita_backward_floor_bound",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.morita_backward_interleaving",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.morita_forward_interleaving",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.morita_inf_invariance",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.morita_resource_interleaving",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.pullbackRel",
+      "node_id": "ch01:thm:morita-resource-interleaving",
+      "ownership_kind": "lean_decl"
+    },
+    {
       "decl_or_cert": "HomotopyCRM.Vol2.EpistemicTrichotomy",
       "node_id": "ch01:thm:scotoma-pareto-trichotomy",
       "ownership_kind": "lean_decl"
@@ -5101,6 +6896,106 @@
       "decl_or_cert": "HomotopyCRM.Vol2.scotoma_pareto_trichotomy",
       "node_id": "ch01:thm:scotoma-pareto-trichotomy",
       "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.ZeroGiraudP0",
+      "node_id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.ZeroGiraudP2",
+      "node_id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.mooreClosureOf",
+      "node_id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn",
+      "node_id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.AssertoricSet",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.DoctrinalDomain",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.GeneratedByProbes",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.IsAdmissibleProbeFamily",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.IsModalExact",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.IsMultiplicative",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.IsOffCoreDiscerning",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.NonTrivialProblem",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.OffCoreSet",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.ZeroGiraudP1",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.ZeroGiraudP3",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.ZeroGiraudP4",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.ZeroGiraudP5",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p5_banishes_dogma_and_casuistry",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.p5_contrapositive",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.zero_giraud_representation",
+      "node_id": "ch01:thm:zero-giraud-representation",
+      "ownership_kind": "lean_decl"
     }
   ],
   "symbols": [
@@ -5111,16 +7006,40 @@
       "description": "Modal S4 Apodictic Closure interior under stability monoid Sigma"
     },
     {
+      "macro_key": "ef-comonad",
+      "symbol_node_id": "sym:giraud-morita",
+      "latex_macro": "\\ensuremath{\\mathbb{E}_k}",
+      "description": "k-round Ehrenfeucht-Fraisse game comonad"
+    },
+    {
+      "macro_key": "ef-equiv",
+      "symbol_node_id": "sym:giraud-morita",
+      "latex_macro": "\\ensuremath{\\equiv_k^{\\mathbb{E}}}",
+      "description": "k-round Ehrenfeucht-Fraisse equivalence relation"
+    },
+    {
       "macro_key": "hofib",
       "symbol_node_id": "sym:trident-flows",
       "latex_macro": "\\ensuremath{\\mathrm{hofib}}",
       "description": "Homotopy fiber / essential fiber functor"
     },
     {
+      "macro_key": "j-ext",
+      "symbol_node_id": "sym:giraud-morita",
+      "latex_macro": "\\ensuremath{J_{\\mathrm{ext}}}",
+      "description": "Extensivity Grothendieck topology / finite-product multiplicativity regime"
+    },
+    {
       "macro_key": "pareto-res",
       "symbol_node_id": "sym:probe-suite",
       "latex_macro": "\\ensuremath{\\mathrm{Res}_{\\mathcal{P}}^{\\min}}",
       "description": "Minimal Pareto residuum frontier"
+    },
+    {
+      "macro_key": "pebble-comonad",
+      "symbol_node_id": "sym:giraud-morita",
+      "latex_macro": "\\ensuremath{\\mathbb{P}_k}",
+      "description": "k-pebble game comonad"
     },
     {
       "macro_key": "phil-cat",
@@ -5203,15 +7122,15 @@
       "label": "Royal Octavo Monograph",
       "description": "Complete Ch. 1 monograph draft with Four-Color Stratum badges, proofs, and cross-volume guardrails.",
       "available": true,
-      "size_kb": 503.4
+      "size_kb": 546.1
     },
     {
       "filename": "crm_vol2_claims_ledger.pdf",
       "href": "pdfs/crm_vol2_claims_ledger.pdf",
       "label": "4-Part Master Claims & Grounding Ledger",
-      "description": "Complete Cohorts I\u2013IV audit ledger, paraphrase lock matrix, and 158 disjoint declarations census.",
+      "description": "Complete Cohorts I\u2013IV audit ledger, paraphrase lock matrix, and disjoint declaration ownership census.",
       "available": true,
-      "size_kb": 311.7
+      "size_kb": 317.9
     },
     {
       "filename": "course_pack_ch01_probe_calibration.pdf",
@@ -5219,7 +7138,7 @@
       "label": "Standalone Ch. 1 Course Pack",
       "description": "Curriculum-cone extract terminating at Table 1.1 (Epistemic Probe Regimes), excluding out-of-slice nodes.",
       "available": true,
-      "size_kb": 360.1
+      "size_kb": 373.4
     }
   ],
   "drill_summary": {
