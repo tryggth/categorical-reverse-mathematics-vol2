@@ -42,6 +42,14 @@ SECTION_TITLES = {
         "Doctrinal Stability Flows F2--F4 and Realizability Localizations",
         "sec:flows-f2-f4",
     ),
+    "1.4": (
+        "Intrinsic 0-Giraud Characterization and the Core-Target Aperture",
+        "sec:zero-giraud",
+    ),
+    "1.5": (
+        "Operational Currencies and Quasi-Isometric Morita Resource Interleaving",
+        "sec:currencies-morita",
+    ),
 }
 
 

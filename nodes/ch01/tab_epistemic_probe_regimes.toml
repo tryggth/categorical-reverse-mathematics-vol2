@@ -25,9 +25,12 @@ Unique Residuum & $|{{sym:pareto-res}}| = 1$ & Unique inclusion-maximal admissib
 Pareto Schism & $|{{sym:pareto-res}}| \\ge 2$ & Incomparable maximal trade-offs in $\\mathrm{Adm}_{{{sym:probe-suite}}}$ ($\\neg(E_1 \\equiv E_2)$). & {{ref:ch01:def:adm-pareto-frontier}}, {{ref:ch01:thm:scotoma-pareto-trichotomy}} \\\\
 Flow F1 Thresholds & ${{sym:twake}} \\le {{sym:tdogma}}$ & Every Dogma stage witnesses an Aperture via $T$; awakening always precedes dogma constructively. & {{ref:ch01:thm:flow-f1-threshold-order}} \\\\
 Flow F1 Bifurcation / Unification & $|{{sym:pareto-res}}(\\mathcal{P}_t)|: 1 \\mapsto 2 \\mapsto 1$ & Intermediate probes split $\\{k_0, h_1\\}$ vs.\\ $\\{k_0, h_2\\}$ before a unifying probe $\\{k_0, h_1, h_2\\} \\subsetneq T$ restores $|{{sym:pareto-res}}| = 1$ inside $[{{sym:twake}}, {{sym:tdogma}})$. & {{ref:ch01:cex:flow-f1-frontier-nonmonotone}} \\\\
+$0$-Giraud Representation & \\textup{(P1)+(P3)+(P4)+(P5)} & Constructive equivalence with {{sym:j-ext}}-multiplicative, $\\Sigma$-invariant, off-core discerning probes; \\textup{(P5)} banishes Dogma ($T \\notin \\mathcal{M}$) and Casuistry (${{sym:apodictic}}(T) \\notin \\mathcal{M}$), while binary union closure forbids Pareto Schisms. & {{ref:ch01:prop:topological-no-schism}}, {{ref:ch01:thm:zero-giraud-representation}} \\\\
+Core--Target Aperture \\textup{(P0)} & $c_{\\mathcal{M}}(K) \\subseteq T$ & Adjoining~\\textup{(P0)} and~\\textup{(P2)} yields $\\mathrm{Max}(\\mathcal{F}) \\neq \\emptyset$ via Zorn's Lemma (Crimson); the $4$-element semilattice $\\mathbf{Fin}\\,4$ separates~\\textup{(P0)} from~\\textup{(P1)--(P5)} constructively ($\\mathcal{F} = \\emptyset$). & {{ref:ch01:thm:zero-giraud-living-zone-zorn}}, {{ref:ch01:cex:p0-independent-of-p1-p5}} \\\\
+Currencies \\& Morita Interleaving & $(\\equiv_{ak+b}^{T_1}) \\subseteq I^*(\\equiv_k^{T_2})$ & Four Operational Currencies plus two-sided $(a,b)/(a',b')$ descending-filtration interleaving and exact $k=\\infty$ invariance; Russell's Socks witnesses $k=1$ failure in $T_2$ vs.\\ $k=2$ separation in $T_1$. & {{ref:ch01:def:operational-currencies}}, {{ref:ch01:thm:morita-resource-interleaving}}, {{ref:ch01:cex:russells-socks-levelwise-morita-failure}} \\\\
 \\bottomrule
 \\end{tabularx}
-\\caption{Epistemic probe regimes, Pareto frontier trichotomy, and Flow~F1 calibration dynamics (Clauses~1--3).}
+\\caption{Epistemic probe regimes, Pareto frontier trichotomy, Flow~F1 calibration, $0$-Giraud axioms~\\textup{(P0)--(P5)}, and Morita resource interleaving (Clauses~1--3).}
 \\label{ch01:tab:epistemic-probe-regimes}
 \\end{table}
 """
@@ -68,6 +71,41 @@ scope_note = "Flow F1 threshold ordering row t_wake <= t_dogma"
 target_id = "ch01:cex:flow-f1-frontier-nonmonotone"
 locked_spec_hash = "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21"
 scope_note = "Flow F1 Bifurcation/Unification 1 -> 2 -> 1 row (with Clauses 1-3 witness)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:prop:topological-no-schism"
+locked_spec_hash = "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50"
+scope_note = "Table 1.1 0-Giraud no-schism union-closure row"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:zero-giraud-representation"
+locked_spec_hash = "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e"
+scope_note = "Table 1.1 0-Giraud representation and (P5) Dogma/Casuistry banishment row"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:zero-giraud-living-zone-zorn"
+locked_spec_hash = "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9"
+scope_note = "Table 1.1 Core-Target Aperture (P0)+(P2) Zorn existence row"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:p0-independent-of-p1-p5"
+locked_spec_hash = "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a"
+scope_note = "Table 1.1 Fin 4 separation of (P0) from (P1)-(P5)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:def:operational-currencies"
+locked_spec_hash = "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea"
+scope_note = "Table 1.1 Operational Currencies row"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:morita-resource-interleaving"
+locked_spec_hash = "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480"
+scope_note = "Table 1.1 two-sided (a,b)/(a',b') Morita resource interleaving row"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:russells-socks-levelwise-morita-failure"
+locked_spec_hash = "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32"
+scope_note = "Table 1.1 Russell's Socks k=1 Morita failure row"
 
 [grounding]
 primary_category = "Verified paraphrase container"

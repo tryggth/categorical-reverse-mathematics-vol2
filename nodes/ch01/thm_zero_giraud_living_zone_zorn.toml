@@ -1,0 +1,111 @@
+id = "ch01:thm:zero-giraud-living-zone-zorn"
+kind = "theorem"
+title = "0-Giraud Living-Zone Existence Theorem via Zorn's Lemma"
+chapter = "ch01"
+section = "1.4"
+seq_order = 78
+axis = "meta_crm"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "crimson"
+cite_keys = []
+
+[spec]
+statement = "Over any intersection-closed extent family M subset P(D) satisfying (P0) Core-Target Aperture (c_M(K) subseteq T) and (P2) Directed Union Closure, the Living-Zone poset F = {R in M | K subseteq R subseteq T} possesses at least one inclusion-maximal Pareto residuum extent R in Max(F) above c_M(K) via Zorn's Lemma."
+hypotheses = [
+  "M : Set (Set D) closed under arbitrary intersections",
+  "ZeroGiraudP0 M K T (Core-Target Aperture: mooreClosureOf M K <= T)",
+  "ZeroGiraudP2 M (Directed Union Closure for nonempty directed families in M)"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ZeroGiraud"
+imports = ["Mathlib.Order.Zorn"]
+decl_names = [
+  "HomotopyCRM.Vol2.mooreClosureOf",
+  "HomotopyCRM.Vol2.ZeroGiraudP0",
+  "HomotopyCRM.Vol2.ZeroGiraudP2",
+  "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn"
+]
+expected_axioms = ["Classical.choice", "Quot.sound", "propext"]
+lean_signature = """
+/-- Moore closure `c_ℳ(U) = ⋂ {E ∈ ℳ | U ⊆ E}` induced by an extent family `ℳ`. -/
+def mooreClosureOf {D : Type} (M : Set (Set D)) (U : Set D) : Set D :=
+  fun d ↦ ∀ E, (M E ∧ ∀ x, U x → E x) → E d
+/-- Axiom (P0 — Core-Target Aperture): `c_ℳ(K) ⊆ T`. -/
+def ZeroGiraudP0 {D : Type} (M : Set (Set D)) (K T : Set D) : Prop :=
+  ∀ d, mooreClosureOf M K d → T d
+/-- Axiom (P2 — Directed Union Closure): `ℳ` is closed under nonempty directed unions. -/
+def ZeroGiraudP2 {D : Type} (M : Set (Set D)) : Prop :=
+  ∀ c : Set (Set D), (∀ E, c E → M E) → c.Nonempty →
+    (∀ E₁, c E₁ → ∀ E₂, c E₂ → ∃ E₃, c E₃ ∧ (∀ d, E₁ d → E₃ d) ∧ (∀ d, E₂ d → E₃ d)) →
+    M (Set.sUnion c)
+
+/-- **0-Giraud Living-Zone Existence (Crimson, Zorn):** Adjoining (P0) and (P2) guarantees at
+    least one inclusion-maximal Pareto residuum `R ∈ Max(ℱ)` via `zorn_subset_nonempty`. -/
+theorem zero_giraud_living_zone_zorn {D : Type} (M : Set (Set D)) (K T : Set D)
+    (hInter : ∀ F : Set (Set D), (∀ E, F E → M E) → M (fun d ↦ ∀ E, F E → E d))
+    (hP0 : ZeroGiraudP0 M K T) (hP2 : ZeroGiraudP2 M) :
+    ∃ R : Set D, mooreClosureOf M K ⊆ R ∧
+      IsMaxLivingZone M K T R ∧ Maximal (· ∈ { E : Set D | InLivingZone M K T E }) R := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.zero_giraud_living_zone_zorn' depends on axioms: [propext, Classical.choice, Quot.sound] -/\n#guard_msgs in\n#print axioms zero_giraud_living_zone_zorn"
+]
+
+[body]
+lean_body = """
+  let S : Set (Set D) := { E : Set D | InLivingZone M K T E }
+  let x₀ : Set D := mooreClosureOf M K
+  have hx₀ : x₀ ∈ S := ⟨hInter _ (fun _ h ↦ h.1), fun d hk _ hE ↦ hE.2 d hk, hP0⟩
+  have hChain : ∀ c ⊆ S, IsChain (· ⊆ ·) c → c.Nonempty → ∃ ub ∈ S, ∀ s ∈ c, s ⊆ ub := by
+    intro c hcS hcChain ⟨E₀, hE₀⟩
+    have hDir : ∀ E₁, c E₁ → ∀ E₂, c E₂ →
+        ∃ E₃, c E₃ ∧ (∀ d, E₁ d → E₃ d) ∧ (∀ d, E₂ d → E₃ d) := fun E₁ hE₁ E₂ hE₂ ↦ by
+      by_cases hEq : E₁ = E₂
+      · subst hEq; exact ⟨E₁, hE₁, fun _ h ↦ h, fun _ h ↦ h⟩
+      · rcases hcChain hE₁ hE₂ hEq with h12 | h21
+        · exact ⟨E₂, hE₂, fun d hd ↦ h12 hd, fun _ h ↦ h⟩
+        · exact ⟨E₁, hE₁, fun _ h ↦ h, fun d hd ↦ h21 hd⟩
+    exact ⟨Set.sUnion c, ⟨hP2 c (fun E hE ↦ (hcS hE).1) ⟨E₀, hE₀⟩ hDir,
+      fun d hk ↦ ⟨E₀, hE₀, (hcS hE₀).2.1 d hk⟩, fun d ⟨E, hEc, hEd⟩ ↦ (hcS hEc).2.2 d hEd⟩,
+      fun s hs d hd ↦ ⟨s, hs, hd⟩⟩
+  rcases zorn_subset_nonempty S hChain x₀ hx₀ with ⟨R, hSub, hMax⟩
+  exact ⟨R, hSub, ⟨hMax.prop, fun R' hR' hRR' ↦ hMax.le_of_ge hR' (fun d hd ↦ hRR' d hd)⟩, hMax⟩
+"""
+tex = """
+\\begin{theorem}[$0$-Giraud Living-Zone Existence via Zorn's Lemma]\\label{ch01:thm:zero-giraud-living-zone-zorn}%
+\\uses{ch01:prop:topological-no-schism,ch01:thm:zero-giraud-representation}%
+Let $\\mathcal{M} \\subseteq \\wp(\\mathbb{D})$ be closed under arbitrary intersections (in particular satisfying~\\textbf{(P1)} of Theorem~\\ref{ch01:thm:zero-giraud-representation}). Assume additionally:
+\\begin{itemize}[leftmargin=1.5em]
+  \\item \\textbf{(P0) Core--Target Aperture:} $c_{\\mathcal{M}}(K) \\subseteq T$, where $c_{\\mathcal{M}}(U) := \\bigcap\\{E \\in \\mathcal{M} \\mid U \\subseteq E\\}$;
+  \\item \\textbf{(P2) Directed Union Closure:} $\\mathcal{M}$ is closed under unions $\\bigcup \\mathcal{C}$ of nonempty directed subfamilies $\\mathcal{C} \\subseteq \\mathcal{M}$.
+\\end{itemize}
+Then the Living-Zone poset $\\mathcal{F} = \\{R \\in \\mathcal{M} \\mid K \\subseteq R \\subseteq T\\}$ possesses at least one inclusion-maximal Pareto residuum extent $R \\in \\mathrm{Max}(\\mathcal{F})$ above $c_{\\mathcal{M}}(K)$. (Stratum \\textbf{Crimson}, isolating \\texttt{Classical.choice} strictly to Zorn maximization.)
+\\end{theorem}
+\\begin{proof}
+By intersection closure and~\\textbf{(P0)}, $x_0 := c_{\\mathcal{M}}(K)$ satisfies $x_0 \\in \\mathcal{M}$ and $K \\subseteq x_0 \\subseteq T$, so $x_0 \\in \\mathcal{F}$. For any nonempty chain $\\mathcal{C} \\subseteq \\mathcal{F}$, total comparability makes $\\mathcal{C}$ directed, whence~\\textbf{(P2)} places $\\bigcup \\mathcal{C} \\in \\mathcal{M}$; moreover $K \\subseteq E_0 \\subseteq \\bigcup \\mathcal{C} \\subseteq T$ for any $E_0 \\in \\mathcal{C}$, so $\\bigcup \\mathcal{C} \\in \\mathcal{F}$ upper-bounds $\\mathcal{C}$. Applying Zorn's Lemma (\\texttt{zorn\\_subset\\_nonempty}) above $x_0$ produces an inclusion-maximal Living-Zone extent $R \\in \\mathrm{Max}(\\mathcal{F})$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch01:prop:topological-no-schism", "ch01:thm:zero-giraud-representation"]
+lean_dep = [
+  "ch01:def:probe-suite",
+  "ch01:prop:topological-no-schism",
+  "ch01:thm:zero-giraud-representation"
+]
+curriculum = ["ch01:thm:zero-giraud-representation"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Choice Calibration", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn"
+purpose = "Crimson Lean 4 proof (Classical.choice + Quot.sound + propext via zorn_subset_nonempty) of Living-Zone existence"

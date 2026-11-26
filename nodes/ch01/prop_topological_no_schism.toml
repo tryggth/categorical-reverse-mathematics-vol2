@@ -1,0 +1,87 @@
+id = "ch01:prop:topological-no-schism"
+kind = "proposition"
+title = "Topological No-Schism Principle Under Binary Union Closure"
+chapter = "ch01"
+section = "1.4"
+seq_order = 72
+axis = "meta_crm"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "For any intersection-closed extent family M subset P(D) that is also closed under binary set-theoretic unions (E1, E2 in M implies E1 cup E2 in M), the Living-Zone poset F = {R in M | K subseteq R subseteq T} has at most one inclusion-maximal element up to extensional equivalence (R1, R2 in Max(F) implies R1 = R2). By contrast, J_ext-multiplicativity (closure under doctrinal products) breaks binary union closure and permits Pareto Schisms."
+hypotheses = [
+  "M : Set (Set D) closed under binary set-theoretic unions (IsBinaryUnionClosed M)",
+  "R1, R2 inclusion-maximal in the Living-Zone poset F = { R in M | K <= R <= T }"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ZeroGiraud"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.InLivingZone",
+  "HomotopyCRM.Vol2.IsMaxLivingZone",
+  "HomotopyCRM.Vol2.IsBinaryUnionClosed",
+  "HomotopyCRM.Vol2.topological_no_schism"
+]
+expected_axioms = []
+lean_signature = """
+/-- Living-Zone membership `R ∈ ℱ = {R ∈ ℳ | K ⊆ R ⊆ T}`. -/
+def InLivingZone {D : Type} (M : Set (Set D)) (K T R : Set D) : Prop :=
+  M R ∧ (∀ d, K d → R d) ∧ (∀ d, R d → T d)
+/-- Inclusion-maximality inside the Living-Zone poset `ℱ`. -/
+def IsMaxLivingZone {D : Type} (M : Set (Set D)) (K T R : Set D) : Prop :=
+  InLivingZone M K T R ∧ ∀ R', InLivingZone M K T R' → (∀ d, R d → R' d) → (∀ d, R' d → R d)
+/-- Closure of an extent family `ℳ` under binary set-theoretic unions. -/
+def IsBinaryUnionClosed {D : Type} (M : Set (Set D)) : Prop :=
+  ∀ E₁ E₂ : Set D, M E₁ → M E₂ → M (fun d ↦ E₁ d ∨ E₂ d)
+
+/-- **Topological No-Schism Principle:** If `ℳ` is closed under binary unions, `ℱ` has at most
+    one inclusion-maximal element up to extensional equivalence (zero axioms). -/
+theorem topological_no_schism {D : Type} (M : Set (Set D)) (K T : Set D)
+    (hU : IsBinaryUnionClosed M) {R₁ R₂ : Set D}
+    (h₁ : IsMaxLivingZone M K T R₁) (h₂ : IsMaxLivingZone M K T R₂) : ∀ d, R₁ d ↔ R₂ d := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.topological_no_schism' does not depend on any axioms -/\n#guard_msgs in\n#print axioms topological_no_schism"
+]
+
+[body]
+lean_body = """
+  have hUmem : InLivingZone M K T (fun d ↦ R₁ d ∨ R₂ d) := ⟨hU R₁ R₂ h₁.1.1 h₂.1.1,
+    fun d hk ↦ Or.inl (h₁.1.2.1 d hk), fun d h ↦ Or.elim h (h₁.1.2.2 d) (h₂.1.2.2 d)⟩
+  exact fun d ↦ ⟨fun hd ↦ h₂.2 _ hUmem (fun _ h ↦ Or.inr h) d (Or.inl hd),
+    fun hd ↦ h₁.2 _ hUmem (fun _ h ↦ Or.inl h) d (Or.inr hd)⟩
+"""
+tex = """
+\\begin{proposition}[Topological No-Schism Principle]\\label{ch01:prop:topological-no-schism}%
+\\uses{ch01:def:adm-pareto-frontier}%
+Let $\\mathcal{M} \\subseteq \\wp(\\mathbb{D})$ be a Moore extent family and let $\\mathcal{F} := \\{R \\in \\mathcal{M} \\mid K \\subseteq R \\subseteq T\\}$ be its Living-Zone poset relative to {{ref:ch01:def:adm-pareto-frontier}}. If $\\mathcal{M}$ is closed under binary set-theoretic unions ($E_1, E_2 \\in \\mathcal{M} \\implies E_1 \\cup E_2 \\in \\mathcal{M}$), then $\\mathcal{F}$ has at most one inclusion-maximal element:
+\\[
+  R_1, R_2 \\in \\mathrm{Max}(\\mathcal{F}) \\implies \\forall d \\in \\mathbb{D},\\; (d \\in R_1 \\iff d \\in R_2).
+\\]
+\\end{proposition}
+\\begin{proof}
+Constructively without axioms: if $R_1, R_2 \\in \\mathrm{Max}(\\mathcal{F})$, binary union closure places $R_1 \\cup R_2 \\in \\mathcal{M}$, and $K \\subseteq R_1 \\subseteq R_1 \\cup R_2 \\subseteq T$ gives $R_1 \\cup R_2 \\in \\mathcal{F}$. Maximality of $R_1$ and $R_2$ forces $R_1 \\cup R_2 \\subseteq R_1$ and $R_1 \\cup R_2 \\subseteq R_2$, yielding $R_1 = R_2$. By contrast, {{sym:j-ext}}-multiplicativity requires extents to be closed under doctrinal products $d_1 \\times d_2$ rather than arbitrary binary unions: when $d_1 \\in E_1 \\setminus E_2$ and $d_2 \\in E_2 \\setminus E_1$, $d_1 \\times d_2$ need not lie in $E_1 \\cup E_2$, which breaks union closure and unlocks multi-dimensional Pareto Schisms ($|{{sym:pareto-res}}| \\ge 2$).
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch01:def:adm-pareto-frontier"]
+lean_dep = []
+curriculum = ["ch01:def:adm-pareto-frontier"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Topological Separation", "Duality"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.topological_no_schism"
+purpose = "Axiom-free Emerald Lean 4 proof of uniqueness of Living-Zone maxima under binary union closure"

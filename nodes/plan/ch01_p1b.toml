@@ -18,15 +18,20 @@ target_modules = [
   "HomotopyCRM.Vol2.MoritaInterleaving"
 ]
 deliverable_nodes = [
-  "ch01:def:zero-giraud-axioms",
-  "ch01:cex:zero-giraud-p0-independence",
+  "sym:giraud-morita",
+  "ch01:prop:topological-no-schism",
+  "ch01:thm:zero-giraud-representation",
+  "ch01:thm:zero-giraud-living-zone-zorn",
+  "ch01:cex:p0-independent-of-p1-p5",
   "ch01:prob:two-giraud-prototopos-nerve",
   "ch01:def:operational-currencies",
+  "ch01:claim:abramsky-arboreal-coalgebra-numbers",
   "ch01:thm:morita-resource-interleaving",
-  "ch01:cex:russell-socks-finite"
+  "ch01:cex:russells-socks-levelwise-morita-failure",
+  "ch01:tab:currencies-morita-ledger"
 ]
 guardrails = ["ltt_eff_muchnik_meets"]
-summary = "Formalize ZeroGiraud.lean (P0)-(P5) with a 4-element (P0) independence witness, register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, prove MoritaInterleaving.lean (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks counterexample, and refresh the Ch. 1 Roadmap & Table 1.1."
+summary = "Formalize ZeroGiraud.lean (Topological No-Schism, constructive 0-Giraud (P1)+(P3)+(P4)+(P5) representation + Dogma/Casuistry banishment, Crimson Zorn Living-Zone existence with (P0)+(P2), and 4-element (P0) independence witness), register Open Problem two-giraud-prototopos-nerve, define Operational Currencies, formalize MoritaInterleaving.lean (two-sided (a,b)/(a',b') quasi-isometric resource interleaving and finite Russell's Socks k=1 failure witness), and refresh Ch. 1 Cohort IV containers."
 
 [edges]
 logical_dep = ["plan:ch01-p1a"]

@@ -1,22 +1,22 @@
 {
   "schema": "vol2.publication_lock.v1",
-  "updated_at_utc": "2026-11-26T02:13:00.166734+00:00",
+  "updated_at_utc": "2026-11-26T13:58:12.199527+00:00",
   "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
   "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
-  "lean_export_commit": "ab71b6e6c2b8ffb49e6d253d1d38b3540dd2f12f",
+  "lean_export_commit": "6407dd50444851e772ff2166e3ea2610b35a1cf8",
   "pub_targets": {
     "pub:branch:lean-export": {
-      "cone_hash": "51f3165c60a7c44f654038b919343a3c12633640fa8d2d43b41cc6b40a72b280",
+      "cone_hash": "d321987fd41f8b56a4fe461b355f1303c1f67229f0d36e56cc5f4ced5b816eb5",
       "channel": "lean_export",
       "sensitivity": "lean_only",
       "outputs": [
         "refs/heads/lean-export",
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     },
     "pub:doc:repo-frontdoor": {
-      "cone_hash": "cf3d3c25333075d2b96e7415c2cc9eb63537499580b0eb0343e167aabc013508",
+      "cone_hash": "03cc45cbbb2cfef70d2483799241516bbaf25a7c2db4246b865c8dd2b97044d9",
       "channel": "main_docs",
       "sensitivity": "spec_and_metrics",
       "outputs": [
@@ -25,50 +25,50 @@
         "ROADMAP.md",
         "CITATION.cff"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     },
     "pub:gh:issues-board": {
-      "cone_hash": "2552fffe83b6448843cbf4aa844ebc1ff16dc8f8a7ed01e4ca1ca505eabcd8ac",
+      "cone_hash": "e057ba70f1a5711693903d51c491cbf0356f90cddbaa52a03123f2e2cf9ea13e",
       "channel": "gh_issues",
       "sensitivity": "plan_and_problems",
       "outputs": [
         "github:milestones",
         "github:issues"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     },
     "pub:pdf:claims-ledger": {
-      "cone_hash": "fba3f67fcd8318269747c7dea08be2548a1e6f31bbd8221639615f9fab2e8e92",
+      "cone_hash": "fd6c67ecf6b0f5ac5616a7d13a1d6d184adf1df6c1b09df40ea1a3eb7f38a134",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
         "build/tex/crm_vol2_claims_ledger.pdf",
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     },
     "pub:pdf:course-packs": {
-      "cone_hash": "8fbf034e13deb784c4d32c72b2aed8fb754e34bb03b8ae8585543d89e7e1adf3",
+      "cone_hash": "0da06cffe369fd435bdfbf3e0f5bb7a96967f93952d00e815b11b3aee178b87f",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
         "build/tex/course_pack_ch01_probe_calibration.pdf",
         "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     },
     "pub:pdf:monograph": {
-      "cone_hash": "e7d0cc6a23cd597376dc5e7727280d2f845b4be8e0dc0999f280f3b7858e13f0",
+      "cone_hash": "df8fd6b41b55cf0d23a348bbb6516682ea07deca27c8d8b5b4d06c412ad63571",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
         "build/tex/crm_vol2_monograph.pdf",
         "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     },
     "pub:web:observatory": {
-      "cone_hash": "db2796a5ca32f6d1cef5d72228a1ee9499252d0855536d297ce36218588e37e7",
+      "cone_hash": "678ab8bb878b16b5431b20628a983234f5c500f73b5a9b1fb3686c7a45c7ca14",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
@@ -78,7 +78,7 @@
         "build/gh_pages/data/network.json",
         "build/gh_pages/.nojekyll"
       ],
-      "locked_at_utc": "2026-11-26T02:13:00.166734+00:00"
+      "locked_at_utc": "2026-11-26T13:58:12.199527+00:00"
     }
   },
   "milestones": {
@@ -94,16 +94,6 @@
     "TCB: KernelArena 2LTT": 10
   },
   "issues": {
-    "plan:ch01-p1b": {
-      "number": 1,
-      "title": "[Phase 1B] Phase 1B: Ch. 1 \u00a7\u00a71.4\u20131.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving",
-      "state": "OPEN",
-      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1",
-      "milestone": "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum",
-      "labels": [
-        "slice:active"
-      ]
-    },
     "plan:ch02-class-set-adjunction": {
       "number": 2,
       "title": "[Ch. 2] Ch. 2 (Part I): Class-Set Adjunction, Mod(GB_0), & Williams Kaleidoscope",
@@ -111,7 +101,7 @@
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2",
       "milestone": "Chapter 2: Class-Set Adjunction & Mod(GB_0)",
       "labels": [
-        "slice:planned"
+        "slice:active"
       ]
     },
     "plan:ch03-piset-transgression": {
@@ -215,6 +205,26 @@
       "milestone": "Chapter 9: CIC vs. 2LTT Obstructions & Volume II Horizons",
       "labels": [
         "slice:planned"
+      ]
+    },
+    "ch01:prob:two-giraud-prototopos-nerve": {
+      "number": 13,
+      "title": "[Open Problem] Categorified 2-Giraud / Prototopos Nerve Characterization for Doctrinal 2-Categories",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/13",
+      "milestone": "",
+      "labels": [
+        "horizon:open-problem"
+      ]
+    },
+    "plan:ch01-p1b": {
+      "number": 1,
+      "title": "[Phase 1B] Phase 1B: Ch. 1 \u00a7\u00a71.4\u20131.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving",
+      "state": "CLOSED",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1",
+      "milestone": "Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum",
+      "labels": [
+        "slice:verified"
       ]
     }
   }

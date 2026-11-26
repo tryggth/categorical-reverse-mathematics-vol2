@@ -1,0 +1,45 @@
+id = "sym:giraud-morita"
+kind = "symbol"
+title = "0-Giraud Extensivity and Morita Game-Comonad Notation Registry"
+chapter = "ch01"
+section = "1.4"
+seq_order = 70
+axis = "meta_crm"
+grounding_tier = "conceptual"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = []
+
+[spec]
+[[spec.exports]]
+key = "j-ext"
+latex = "\\ensuremath{J_{\\mathrm{ext}}}"
+description = "Extensivity Grothendieck topology / finite-product multiplicativity regime"
+
+[[spec.exports]]
+key = "ef-comonad"
+latex = "\\ensuremath{\\mathbb{E}_k}"
+description = "k-round Ehrenfeucht-Fraisse game comonad"
+
+[[spec.exports]]
+key = "pebble-comonad"
+latex = "\\ensuremath{\\mathbb{P}_k}"
+description = "k-pebble game comonad"
+
+[[spec.exports]]
+key = "ef-equiv"
+latex = "\\ensuremath{\\equiv_k^{\\mathbb{E}}}"
+description = "k-round Ehrenfeucht-Fraisse equivalence relation"
+
+[body]
+tex = """
+\\begin{remark}[Notation Registry: 0-Giraud and Morita Game Comonads]\\label{sym:giraud-morita}%
+This node registers the canonical Volume~II notation for the extensivity Grothendieck topology {{sym:j-ext}}, the $k$-round Ehrenfeucht--Fra\\\"iss\\'e game comonad {{sym:ef-comonad}}, the $k$-pebble game comonad {{sym:pebble-comonad}}, and $k$-round Ehrenfeucht--Fra\\\"iss\\'e equivalence {{sym:ef-equiv}}.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

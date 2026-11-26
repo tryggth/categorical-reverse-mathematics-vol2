@@ -29,7 +29,7 @@ DRILL_PATH = REPO_ROOT / "logs" / "drill_report.json"
 
 PDF_FILES = [
     ("crm_vol2_monograph.pdf", "Royal Octavo Monograph", "Complete Ch. 1 monograph draft with Four-Color Stratum badges, proofs, and cross-volume guardrails."),
-    ("crm_vol2_claims_ledger.pdf", "4-Part Master Claims & Grounding Ledger", "Complete Cohorts I–IV audit ledger, paraphrase lock matrix, and 158 disjoint declarations census."),
+    ("crm_vol2_claims_ledger.pdf", "4-Part Master Claims & Grounding Ledger", "Complete Cohorts I–IV audit ledger, paraphrase lock matrix, and disjoint declaration ownership census."),
     ("course_pack_ch01_probe_calibration.pdf", "Standalone Ch. 1 Course Pack", "Curriculum-cone extract terminating at Table 1.1 (Epistemic Probe Regimes), excluding out-of-slice nodes."),
 ]
 

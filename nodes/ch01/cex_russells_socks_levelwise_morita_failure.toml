@@ -1,0 +1,241 @@
+id = "ch01:cex:russells-socks-levelwise-morita-failure"
+kind = "counterexample"
+title = "Russell's Socks Touchstone: Failure of Levelwise Morita Invariance at k = 1"
+chapter = "ch01"
+section = "1.5"
+seq_order = 95
+axis = "meta_crm"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "Let T1 be the theory of pairs of socks (carrier X, pair equivalence E, irreflexive symmetric mismatch relation D subseteq E \\ Delta_X) and T2 be its Morita-equivalent quotient presentation adjoining pair sort Q = X / E, projection graph G_pi, and definable quotient predicate Mis(q). Certify constructively with zero axioms (Emerald): (1) an explicit model bijection SockModelT1 equiv SockModelT2 (J(I(M)) = M), (2) two-sock models matchedPair and mismatchedPair satisfy matchedPair equiv_1^E mismatchedPair in T1, (3) I(matchedPair) not equiv_1^E I(mismatchedPair) already at k = 1 in T2, and (4) matchedPair not equiv_2^E mismatchedPair separates at k = 2 in T1."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.MoritaInterleaving"
+imports = ["Mathlib.Logic.Equiv.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.SockModelT1",
+  "HomotopyCRM.Vol2.SockModelT2",
+  "HomotopyCRM.Vol2.sockI",
+  "HomotopyCRM.Vol2.sockJ",
+  "HomotopyCRM.Vol2.sockModelEquiv",
+  "HomotopyCRM.Vol2.SockModelT1.Sock",
+  "HomotopyCRM.Vol2.SockModelT1.E",
+  "HomotopyCRM.Vol2.SockModelT1.D",
+  "HomotopyCRM.Vol2.SockModelT2.Elem",
+  "HomotopyCRM.Vol2.SockModelT2.isSock",
+  "HomotopyCRM.Vol2.SockModelT2.isPair",
+  "HomotopyCRM.Vol2.SockModelT2.E",
+  "HomotopyCRM.Vol2.SockModelT2.D",
+  "HomotopyCRM.Vol2.SockModelT2.Gpi",
+  "HomotopyCRM.Vol2.SockModelT2.Mis",
+  "HomotopyCRM.Vol2.sockT2_mis_definable",
+  "HomotopyCRM.Vol2.PartialIsoT1",
+  "HomotopyCRM.Vol2.efGameT1",
+  "HomotopyCRM.Vol2.efEquivT1",
+  "HomotopyCRM.Vol2.PartialIsoT2",
+  "HomotopyCRM.Vol2.efGameT2",
+  "HomotopyCRM.Vol2.efEquivT2",
+  "HomotopyCRM.Vol2.matchedPair",
+  "HomotopyCRM.Vol2.mismatchedPair",
+  "HomotopyCRM.Vol2.russells_socks_t1_equiv_1",
+  "HomotopyCRM.Vol2.russells_socks_t2_not_equiv_1",
+  "HomotopyCRM.Vol2.russells_socks_t1_not_equiv_2",
+  "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure"
+]
+expected_axioms = []
+lean_signature = """
+private def listGetBool : List Bool → Nat → Bool
+  | [] => fun _ => false
+  | b :: tl => fun n => match n with | 0 => b | k + 1 => listGetBool tl k
+private theorem natBeq_refl (m : Nat) : Nat.beq m m = true := by
+  induction m with | zero => rfl | succ _ ih => exact ih
+private theorem natBeq_eq : ∀ {m n : Nat}, Nat.beq m n = true → m = n
+  | 0, 0, _ => rfl | _ + 1, _ + 1, h => congrArg Nat.succ (natBeq_eq h)
+  | 0, _ + 1, h => False.elim (Bool.noConfusion h)
+  | _ + 1, 0, h => False.elim (Bool.noConfusion h)
+private theorem fin1_absurd {n : Nat} (h : n + 1 < 1) : False :=
+  Nat.not_lt_zero n (Nat.lt_of_succ_lt_succ h)
+/-- Finite paired-sock model of `T₁`: carrier `X = Fin n × Bool`, pair equivalence `E`,
+    and irreflexive symmetric mismatch relation `D ⊆ E \\ Δ_X`. -/
+structure SockModelT1 : Type where
+  /-- Bit vector recording for each pair `i` whether its two socks are mismatched. -/
+  pairMismatch : List Bool
+/-- Morita-equivalent quotient model of `T₂` adjoining pair sort `Q = X / E`, projection
+    graph `G_π`, and definable quotient predicate `Mis(q)`. -/
+structure SockModelT2 : Type where
+  /-- Quotient mismatch predicate `Mis` on pair sort `Q = Fin n`. -/
+  quotMis : List Bool
+/-- Forward Morita interpretation `I : SockModelT1 → SockModelT2`. -/
+def sockI (M : SockModelT1) : SockModelT2 := ⟨M.pairMismatch⟩
+/-- Backward Morita interpretation `J : SockModelT2 → SockModelT1`. -/
+def sockJ (N : SockModelT2) : SockModelT1 := ⟨N.quotMis⟩
+/-- Explicit Morita model bijection `SockModelT1 ≃ SockModelT2` (`J(I(M)) = M`). -/
+def sockModelEquiv : SockModelT1 ≃ SockModelT2 where
+  toFun := sockI; invFun := sockJ; left_inv := fun _ ↦ rfl; right_inv := fun _ ↦ rfl
+/-- Sock carrier `X = Fin n × Bool` of a `T₁` model. -/
+def SockModelT1.Sock (M : SockModelT1) : Type := Fin M.pairMismatch.length × Bool
+/-- Pair equivalence relation `E` on `M.Sock`. -/
+def SockModelT1.E (_M : SockModelT1) (x y : _M.Sock) : Bool := Nat.beq x.1.val y.1.val
+/-- Irreflexive mismatch relation `D ⊆ E \\ Δ_X` on `M.Sock`. -/
+def SockModelT1.D (M : SockModelT1) (x y : M.Sock) : Bool :=
+  Nat.beq x.1.val y.1.val && (x.2 != y.2) && listGetBool M.pairMismatch x.1.val
+/-- Two-sorted carrier `X ⊔ Q` of a `T₂` quotient model. -/
+def SockModelT2.Elem (N : SockModelT2) : Type :=
+  Sum (Fin N.quotMis.length × Bool) (Fin N.quotMis.length)
+/-- Sort predicate for sock elements `x ∈ X`. -/
+def SockModelT2.isSock {N : SockModelT2} : N.Elem → Bool | .inl _ => true | .inr _ => false
+/-- Sort predicate for pair quotient elements `q ∈ Q = X / E`. -/
+def SockModelT2.isPair {N : SockModelT2} : N.Elem → Bool | .inl _ => false | .inr _ => true
+/-- Pair equivalence relation `E` lifted to `N.Elem`. -/
+def SockModelT2.E (_N : SockModelT2) : _N.Elem → _N.Elem → Bool
+  | .inl x => fun y => match y with | .inl y => Nat.beq x.1.val y.1.val | .inr _ => false
+  | .inr _ => fun _ => false
+/-- Mismatch relation `D` lifted to `N.Elem`. -/
+def SockModelT2.D (N : SockModelT2) : N.Elem → N.Elem → Bool
+  | .inl x => fun y => match y with
+    | .inl y => Nat.beq x.1.val y.1.val && (x.2 != y.2) && listGetBool N.quotMis x.1.val
+    | .inr _ => false
+  | .inr _ => fun _ => false
+/-- Projection graph `G_π(x, q)` relating sock `x` to its pair `q = [x]_E`. -/
+def SockModelT2.Gpi (_N : SockModelT2) : _N.Elem → _N.Elem → Bool
+  | .inl x => fun y => match y with | .inr q => Nat.beq x.1.val q.val | .inl _ => false
+  | .inr _ => fun _ => false
+/-- Definable unary quotient predicate `Mis(q)` on the pair sort `Q`. -/
+def SockModelT2.Mis (N : SockModelT2) : N.Elem → Bool
+  | .inl _ => false | .inr q => listGetBool N.quotMis q.val
+/-- Definability of `Mis(q)` from `(G_π, D)` inside `T₂` (zero axioms). -/
+theorem sockT2_mis_definable (N : SockModelT2) (q : Fin N.quotMis.length) :
+    N.Mis (.inr q) = true ↔
+    ∃ x y : N.Elem, N.Gpi x (.inr q) = true ∧ N.Gpi y (.inr q) = true ∧ N.D x y = true := by
+  constructor
+  · intro hMis; refine ⟨.inl (q, false), .inl (q, true), natBeq_refl _, natBeq_refl _, ?_⟩
+    change (Nat.beq q.val q.val && true && N.Mis (.inr q)) = true
+    rw [natBeq_refl, hMis]; rfl
+  · rintro ⟨x, y, hx, hy, hD⟩
+    cases x with | inr _ => exact False.elim (Bool.noConfusion hx) | inl sx =>
+    cases y with | inr _ => exact False.elim (Bool.noConfusion hy) | inl sy =>
+    change listGetBool N.quotMis q.val = true; rw [← natBeq_eq hx]
+    dsimp only [SockModelT2.D] at hD; cases hM : listGetBool N.quotMis sx.1.val
+    · rw [hM] at hD; cases hb : Nat.beq sx.1.val sy.1.val && (sx.2 != sy.2) <;>
+        rw [hb] at hD <;> exact False.elim (Bool.noConfusion hD)
+    · rfl
+/-- Partial isomorphism condition in `T₁` across played sock pebble pairs. -/
+def PartialIsoT1 (M₁ M₂ : SockModelT1) (ps : List (M₁.Sock × M₂.Sock)) : Prop :=
+  ∀ p₁, p₁ ∈ ps → ∀ p₂, p₂ ∈ ps → (p₁.1 = p₂.1 ↔ p₁.2 = p₂.2) ∧
+    (M₁.E p₁.1 p₂.1 = M₂.E p₁.2 p₂.2) ∧ (M₁.D p₁.1 p₂.1 = M₂.D p₁.2 p₂.2)
+/-- Inductive `k`-round Ehrenfeucht–Fraïssé game on `T₁` models. -/
+def efGameT1 (M₁ M₂ : SockModelT1) : Nat → List (M₁.Sock × M₂.Sock) → Prop
+  | 0, ps => PartialIsoT1 M₁ M₂ ps
+  | k + 1, ps => PartialIsoT1 M₁ M₂ ps ∧
+    (∀ x : M₁.Sock, ∃ y : M₂.Sock, efGameT1 M₁ M₂ k ((x, y) :: ps)) ∧
+    (∀ y : M₂.Sock, ∃ x : M₁.Sock, efGameT1 M₁ M₂ k ((x, y) :: ps))
+/-- `k`-round Ehrenfeucht–Fraïssé equivalence `M₁ ≡_k^E M₂` in `T₁`. -/
+def efEquivT1 (k : Nat) (M₁ M₂ : SockModelT1) : Prop := efGameT1 M₁ M₂ k []
+/-- Partial isomorphism condition in `T₂` across played two-sorted pebble pairs. -/
+def PartialIsoT2 (N₁ N₂ : SockModelT2) (ps : List (N₁.Elem × N₂.Elem)) : Prop :=
+  ∀ p₁, p₁ ∈ ps → ∀ p₂, p₂ ∈ ps →
+    (p₁.1 = p₂.1 ↔ p₁.2 = p₂.2) ∧ (N₁.isSock p₁.1 = N₂.isSock p₁.2) ∧
+    (N₁.isPair p₁.1 = N₂.isPair p₁.2) ∧ (N₁.Mis p₁.1 = N₂.Mis p₁.2) ∧
+    (N₁.E p₁.1 p₂.1 = N₂.E p₁.2 p₂.2) ∧ (N₁.D p₁.1 p₂.1 = N₂.D p₁.2 p₂.2) ∧
+    (N₁.Gpi p₁.1 p₂.1 = N₂.Gpi p₁.2 p₂.2)
+/-- Inductive `k`-round Ehrenfeucht–Fraïssé game on `T₂` models. -/
+def efGameT2 (N₁ N₂ : SockModelT2) : Nat → List (N₁.Elem × N₂.Elem) → Prop
+  | 0, ps => PartialIsoT2 N₁ N₂ ps
+  | k + 1, ps => PartialIsoT2 N₁ N₂ ps ∧
+    (∀ u : N₁.Elem, ∃ v : N₂.Elem, efGameT2 N₁ N₂ k ((u, v) :: ps)) ∧
+    (∀ v : N₂.Elem, ∃ u : N₁.Elem, efGameT2 N₁ N₂ k ((u, v) :: ps))
+/-- `k`-round Ehrenfeucht–Fraïssé equivalence `N₁ ≡_k^E N₂` in `T₂`. -/
+def efEquivT2 (k : Nat) (N₁ N₂ : SockModelT2) : Prop := efGameT2 N₁ N₂ k []
+/-- Single matched 2-sock pair (`D = ∅`). -/
+def matchedPair : SockModelT1 := ⟨[false]⟩
+/-- Single mismatched 2-sock pair (`D = {((0,false),(0,true)), ((0,true),(0,false))}`). -/
+def mismatchedPair : SockModelT1 := ⟨[true]⟩
+private theorem single_pair_partialIsoT1 (x : matchedPair.Sock) :
+    PartialIsoT1 matchedPair mismatchedPair [(x, x)] := fun p₁ hp₁ p₂ hp₂ ↦ by
+  cases hp₁ with | tail _ h => cases h | head =>
+  cases hp₂ with | tail _ h => cases h | head =>
+  refine ⟨Iff.rfl, rfl, ?_⟩
+  rcases x with ⟨⟨_ | n, hiv⟩, b⟩
+  · cases b <;> rfl
+  · exact False.elim (fin1_absurd hiv)
+/-- `matchedPair ≡_1^E mismatchedPair` holds at `k = 1` in `T₁` (zero axioms). -/
+theorem russells_socks_t1_equiv_1 : efEquivT1 1 matchedPair mismatchedPair :=
+  ⟨fun _ h ↦ False.elim (by cases h),
+   fun x ↦ ⟨x, single_pair_partialIsoT1 x⟩, fun y ↦ ⟨y, single_pair_partialIsoT1 y⟩⟩
+/-- `I(matchedPair) ≢_1^E I(mismatchedPair)` fails already at `k = 1` in `T₂` (zero axioms). -/
+theorem russells_socks_t2_not_equiv_1 :
+    ¬ efEquivT2 1 (sockI matchedPair) (sockI mismatchedPair) := by
+  intro h; rcases h.2.1 (.inr ⟨0, by decide⟩) with ⟨v, hv⟩
+  have hpair := hv (.inr ⟨0, by decide⟩, v) (List.Mem.head _)
+    (.inr ⟨0, by decide⟩, v) (List.Mem.head _)
+  cases v with | inl _ => exact Bool.noConfusion hpair.2.2.1 | inr q =>
+  rcases q with ⟨_ | _, hqv⟩
+  · exact Bool.noConfusion hpair.2.2.2.1
+  · exact False.elim (fin1_absurd hqv)
+/-- `matchedPair ≢_2^E mismatchedPair` separates at `k = 2` in `T₁` (zero axioms). -/
+theorem russells_socks_t1_not_equiv_2 : ¬ efEquivT1 2 matchedPair mismatchedPair := by
+  intro h; rcases h.2.1 (⟨0, by decide⟩, false) with ⟨y₁, hy₁⟩
+  rcases hy₁.2.1 (⟨0, by decide⟩, true) with ⟨y₂, hy₂⟩
+  have hStep := hy₂ ((⟨0, by decide⟩, false), y₁) (List.Mem.tail _ (List.Mem.head _))
+    ((⟨0, by decide⟩, true), y₂) (List.Mem.head _)
+  have hNeq : y₁ ≠ y₂ := fun heq ↦ Bool.noConfusion (congrArg Prod.snd (hStep.1.mpr heq))
+  rcases y₁ with ⟨⟨_ | _, hi₁⟩, b₁⟩ <;> rcases y₂ with ⟨⟨_ | _, hi₂⟩, b₂⟩ <;> first
+  | (cases b₁ <;> cases b₂ <;> first | exact hNeq rfl | exact Bool.noConfusion hStep.2.2)
+  | exact False.elim (fin1_absurd hi₂) | exact False.elim (fin1_absurd hi₁)
+/-- **Russell's Socks Levelwise Morita Failure (Emerald):** Explicit model bijection
+    `SockModelT1 ≃ SockModelT2` witnessing `k = 1` equivalence in `T₁`, `k = 1` failure
+    in `T₂`, and `k = 2` separation in `T₁` (zero axioms). -/
+theorem russells_socks_levelwise_morita_failure :
+    (∀ M : SockModelT1, sockJ (sockI M) = M) ∧ (∀ N : SockModelT2, sockI (sockJ N) = N) ∧
+    efEquivT1 1 matchedPair mismatchedPair ∧
+    ¬ efEquivT2 1 (sockI matchedPair) (sockI mismatchedPair) ∧
+    ¬ efEquivT1 2 matchedPair mismatchedPair := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.sockModelEquiv' does not depend on any axioms -/\n#guard_msgs in\n#print axioms sockModelEquiv",
+  "/-- info: 'HomotopyCRM.Vol2.sockT2_mis_definable' does not depend on any axioms -/\n#guard_msgs in\n#print axioms sockT2_mis_definable",
+  "/-- info: 'HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure' does not depend on any axioms -/\n#guard_msgs in\n#print axioms russells_socks_levelwise_morita_failure"
+]
+
+[body]
+lean_body = """
+  exact ⟨fun _ ↦ rfl, fun _ ↦ rfl, russells_socks_t1_equiv_1, russells_socks_t2_not_equiv_1,
+    russells_socks_t1_not_equiv_2⟩
+"""
+tex = """
+\\begin{counterexample}[Russell's Socks Touchstone: Levelwise Morita Failure]\\label{ch01:cex:russells-socks-levelwise-morita-failure}%
+\\uses{ch01:thm:morita-resource-interleaving}%
+Consider the single-sorted theory $T_1$ of paired socks $(X, E, D)$ (pair equivalence $E$, irreflexive symmetric mismatch relation $D \\subseteq E \\setminus \\Delta_X$) and its Morita-equivalent quotient presentation $T_2$ adjoining the pair sort $Q = X/E$, projection graph $G_\\pi(x, q)$, and definable predicate $\\mathrm{Mis}(q) \\iff \\exists x, y,\\; G_\\pi(x,q) \\wedge G_\\pi(y,q) \\wedge D(x,y)$. Constructively without axioms (stratum \\textbf{Emerald}):
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item The explicit interpretation functor $I : \\mathbf{Mod}(T_1) \\xrightarrow{\\sim} \\mathbf{Mod}(T_2)$ has exact inverse $J$ ($J(I(M)) = M$).
+  \\item On the two-sock models $M_{\\mathrm{match}}$ ($D = \\emptyset$) and $M_{\\mathrm{mis}}$ (one mismatched pair), $M_{\\mathrm{match}} {{sym:ef-equiv}} M_{\\mathrm{mis}}$ holds at $k = 1$ in $T_1$.
+  \\item Inside $T_2$, however, $I(M_{\\mathrm{match}}) \\not\\equiv_1^{\\mathbb{E}} I(M_{\\mathrm{mis}})$ fails already at $k = 1$.
+  \\item Two rounds suffice to restore separation in $T_1$: $M_{\\mathrm{match}} \\not\\equiv_2^{\\mathbb{E}} M_{\\mathrm{mis}}$.
+\\end{enumerate}
+\\end{counterexample}
+\\begin{proof}
+At $k = 1$ in $T_1$, Spoiler picks a single sock $x$, Duplicator replies with the corresponding sock, and no $2$-element subset can witness $D$ (since $D$ is irreflexive), so all $1$-element partial isomorphisms agree. Under $I$, the quotient predicate $\\mathrm{Mis}(q)$ reduces a $2$-quantifier property over $X$ to a $1$-quantifier unary property on $Q$, so Spoiler picks the unique pair element $q \\in Q$ at $k = 1$ and separates $\\mathrm{Mis}(q) = \\mathrm{false}$ from $\\mathrm{Mis}(q) = \\mathrm{true}$. Thus levelwise preservation ($a=1, b=0$) fails, whereas $k=2 = 1 \\cdot 1 + 1$ in $T_1$ separates $M_{\\mathrm{match}}$ from $M_{\\mathrm{mis}}$, exemplifying the additive shift $b = 1$ of Theorem~\\ref{ch01:thm:morita-resource-interleaving}.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["ch01:thm:morita-resource-interleaving"]
+lean_dep = ["ch01:thm:morita-resource-interleaving"]
+curriculum = ["ch01:thm:morita-resource-interleaving"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Counterexample / Disproof", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure"
+purpose = "Axiom-free Emerald Lean 4 Touchstone certifying k=1 Morita failure in T2, k=1 equivalence in T1, and k=2 separation in T1"

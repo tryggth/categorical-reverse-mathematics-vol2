@@ -1,0 +1,111 @@
+id = "ch01:def:operational-currencies"
+kind = "definition"
+title = "The Four CRM Operational Currency Regimes"
+chapter = "ch01"
+section = "1.5"
+seq_order = 85
+axis = "meta_crm"
+grounding_tier = "framework_def"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = []
+
+[spec]
+statement = "Categorical Reverse Mathematics measures inferential and Morita translations across four disjoint Operational Currency regimes: (1) Zero-Oracle Gauge Cost (computable / finite-symmetry gauge fixing without non-computable oracles), (2) Oracle Cost (non-computable Weihrauch / Muchnik / Lawvere-Tierney oracle strength j_O), (3) Rank-Compression Cost (game-comonadic or syntactic resource-depth compression parameters kappa^E, kappa^P, (a,b)), and (4) Inverted Clamping Cost (cohomological / Levy-rank size-valve ceilings). Certifies OperationalCurrency equiv Fin 4 and exact oracle-usage partition with zero axioms."
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.MoritaInterleaving"
+imports = ["Mathlib.Logic.Equiv.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.OperationalCurrency",
+  "HomotopyCRM.Vol2.OperationalCurrency.usesOracle",
+  "HomotopyCRM.Vol2.OperationalCurrency.toFin4",
+  "HomotopyCRM.Vol2.OperationalCurrency.ofFin4",
+  "HomotopyCRM.Vol2.CurrencyProfile",
+  "HomotopyCRM.Vol2.operationalCurrencyEquivFin4",
+  "HomotopyCRM.Vol2.operationalCurrency_oracle_partition"
+]
+expected_axioms = []
+lean_signature = """
+private theorem oc_fin4_absurd {n : Nat} (h : n + 4 < 4) : False := Nat.not_lt_zero n
+  (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ (Nat.lt_of_succ_lt_succ
+    (Nat.lt_of_succ_lt_succ h))))
+/-- The four CRM Operational Currency regimes: (1) Zero-Oracle Gauge Cost, (2) Oracle Cost,
+    (3) Rank-Compression Cost, and (4) Inverted Clamping Cost. -/
+inductive OperationalCurrency : Type
+  | zeroOracleGauge | oracleCost | rankCompression | invertedClamping
+/-- Indicator of whether an operational currency invokes non-computable oracles. -/
+def OperationalCurrency.usesOracle : OperationalCurrency → Bool
+  | .zeroOracleGauge => false | .oracleCost => true
+  | .rankCompression => false | .invertedClamping => false
+/-- Canonical encoding `OperationalCurrency → Fin 4`. -/
+def OperationalCurrency.toFin4 : OperationalCurrency → Fin 4
+  | .zeroOracleGauge => ⟨0, by decide⟩ | .oracleCost => ⟨1, by decide⟩
+  | .rankCompression => ⟨2, by decide⟩ | .invertedClamping => ⟨3, by decide⟩
+/-- Canonical decoding `Fin 4 → OperationalCurrency`. -/
+def OperationalCurrency.ofFin4 : Fin 4 → OperationalCurrency
+  | ⟨0, _⟩ => .zeroOracleGauge | ⟨1, _⟩ => .oracleCost
+  | ⟨2, _⟩ => .rankCompression | ⟨3, _⟩ => .invertedClamping
+  | ⟨_ + 4, hn⟩ => False.elim (oc_fin4_absurd hn)
+/-- Structured operational cost profile attaching distortion parameters to a currency. -/
+structure CurrencyProfile : Type where
+  /-- Active CRM operational currency regime. -/
+  regime : OperationalCurrency
+  /-- Multiplicative resource distortion slope `a ≥ 1`. -/
+  slope : Nat
+  /-- Additive resource distortion offset `b`. -/
+  offset : Nat
+  /-- Positivity witness for multiplicative distortion. -/
+  slope_pos : 0 < slope
+/-- Constructive bijection `OperationalCurrency ≃ Fin 4` certifying 4 disjoint regimes. -/
+def operationalCurrencyEquivFin4 : OperationalCurrency ≃ Fin 4 where
+  toFun := OperationalCurrency.toFin4; invFun := OperationalCurrency.ofFin4
+  left_inv := fun r ↦ by
+    {{LEAN_BODY}}
+  right_inv := fun i ↦ by
+    rcases i with ⟨_ | _ | _ | _ | _, hn⟩ <;> first | rfl | exact False.elim (oc_fin4_absurd hn)
+/-- Exact oracle-usage partition across the four CRM Operational Currencies (zero axioms). -/
+theorem operationalCurrency_oracle_partition :
+    OperationalCurrency.usesOracle .zeroOracleGauge = false ∧
+    OperationalCurrency.usesOracle .oracleCost = true ∧
+    OperationalCurrency.usesOracle .rankCompression = false ∧
+    OperationalCurrency.usesOracle .invertedClamping = false := ⟨rfl, rfl, rfl, rfl⟩
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.operationalCurrencyEquivFin4' does not depend on any axioms -/\n#guard_msgs in\n#print axioms operationalCurrencyEquivFin4",
+  "/-- info: 'HomotopyCRM.Vol2.operationalCurrency_oracle_partition' does not depend on any axioms -/\n#guard_msgs in\n#print axioms operationalCurrency_oracle_partition"
+]
+
+[body]
+lean_body = """
+    cases r <;> rfl
+"""
+tex = """
+\\begin{definition}[CRM Operational Currency Regimes]\\label{ch01:def:operational-currencies}%
+\\uses{vol1:def:doctrinal-philosophy,ch01:thm:mode3-orbit-stabilizer-exactness}%
+Relative to {{ref:vol1:def:doctrinal-philosophy}} and Mode~(iii) gauge symmetry ({{ref:ch01:thm:mode3-orbit-stabilizer-exactness}}), Volume~II classifies the operational cost of doctrinal reductions and Morita translations into four disjoint \\textbf{Operational Currency}\\index{Operational currency} regimes:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Zero-Oracle Gauge Cost:} Purely computable symmetry-breaking or orbit-stabilizer accounting (for example, $(R_{2,2}, \\phi_{\\mathrm{aug}})$ Species enumeration) incurring zero non-computable oracles.
+  \\item \\textbf{Oracle Cost:} Non-computable choice or realizability strength metered by Lawvere--Tierney topologies $j_{\\mathcal{O}}$ and extended Weihrauch degrees.
+  \\item \\textbf{Rank-Compression Cost:} Quantifier-rank, tree-depth ($\\kappa^{\\mathbb{E}}$), or pebble-width ($\\kappa^{\\mathbb{P}}$) inflation $(a, b) \\in \\mathbb{N}_{\\ge 1} \\times \\mathbb{N}$ induced by syntactic bi-interpretations.
+  \\item \\textbf{Inverted Clamping Cost:} Cohomological or L\\'evy-rank size-valve ceilings constraining universe growth and small-site reflection.
+\\end{enumerate}
+\\end{definition}
+"""
+
+[edges]
+logical_dep = ["vol1:def:doctrinal-philosophy", "ch01:thm:mode3-orbit-stabilizer-exactness"]
+lean_dep = []
+curriculum = ["vol1:def:doctrinal-philosophy"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Authorial framework definition"
+blueprint_tier = "lean_ok"
+characterization_types = ["Framework Definition", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.operationalCurrencyEquivFin4"
+purpose = "Axiom-free Emerald Lean 4 bijection OperationalCurrency equiv Fin 4 and oracle-usage partition"

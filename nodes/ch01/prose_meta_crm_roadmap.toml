@@ -7,13 +7,15 @@ axis = "meta_crm"
 grounding_tier = "conceptual"
 formal_pkg = "none"
 stratum = "none"
-cite_keys = ["abramsky2022", "abramsky_reggio2021", "dawar_jakl_reggio2021", "reggio2021", "abramsky_jakl_paine2022", "Shulman20", "Kihara23"]
+cite_keys = ["abramsky2022", "abramsky_reggio2021", "dawar_jakl_reggio2021", "reggio2021", "abramsky_jakl_paine2022", "abramsky_shah2021", "Shulman20", "Kihara23", "diliberti_ramos2019", "diliberti_tarantino_ye2026"]
 
 [body]
 tex = """
 Building directly on the doctrinal philosophy framework of Volume~I ({{ref:vol1:def:doctrinal-philosophy}}) and Shulman's 2-Chu-Dialectica pairing~\\cite{Shulman20}, Volume~II systematizes the calibration of structural probe suites {{sym:probe-suite}} across universes, classes, and higher fixed points. Paralleling the categorical resource and game-comonad program of Abramsky, Dawar, Jakl, Paine, and Reggio~\\cite{abramsky2022,abramsky_reggio2021,dawar_jakl_reggio2021,reggio2021,abramsky_jakl_paine2022} alongside realizability topology lattices~\\cite{Kihara23}, Definition~\\ref{ch01:def:probe-suite} isolates a decidable probe incidence matrix $I : \\mathbb{D} \\times {{sym:probe-suite}} \\to \\mathbf{Bool}$ constrained by Pre-Definition, Strict Non-Conservativity, and \\textbf{L\\'evy-Bounded Size Discipline} (a bounded $\\Sigma_1$ / small-site L\\'evy complexity witness preventing Vop\\v{e}nka reflection leaks), and generating Touchstone hyperedges $H_K(w)$ for each defect $w \\in W = H \\setminus C$.
 
-Under Definition~\\ref{ch01:def:adm-pareto-frontier}, admissible extents $\\mathrm{Adm}_{{{sym:probe-suite}}}$ form a refinement poset whose inclusion-maximal minimal Pareto frontier {{sym:pareto-res}} partitions cleanly into Provable Scotoma ($\\emptyset$), Unique Conceptual Residuum ($|\\mathrm{Res}^{\\min}| = 1$), or Multi-Dimensional Pareto Schism ($|\\mathrm{Res}^{\\min}| \\ge 2$) by Theorem~\\ref{ch01:thm:scotoma-pareto-trichotomy}. Along a monotone probe filtration $\\mathcal{P}_t$, Theorem~\\ref{ch01:thm:flow-f1-threshold-order} proves unconditionally that the awakening threshold precedes the dogma threshold (${{sym:twake}} \\le {{sym:tdogma}}$). Crucially, however, Counterexample~\\ref{ch01:cex:flow-f1-frontier-nonmonotone} demonstrates why $|{{sym:pareto-res}}|$ need not vary monotonically inside $[{{sym:twake}}, {{sym:tdogma}})$: new probes introduced at intermediate stages can first split a single admissible residuum into an incomparable Pareto Schism ($1 \\mapsto 2$) before a subsequent coarser unifying probe subsumes both branches back into a single strictly weaker residuum ($2 \\mapsto 1$) without ever collapsing $T$ into Dogma. Finally, {{ref:ch01:rem:trident-mode3-2ltt-bootstrap}} previews the zero-\\texttt{Mathlib} two-level type theory kernel boundary separating fibrant and strict types.
+Under Definition~\\ref{ch01:def:adm-pareto-frontier}, admissible extents $\\mathrm{Adm}_{{{sym:probe-suite}}}$ form a refinement poset whose inclusion-maximal minimal Pareto frontier {{sym:pareto-res}} partitions cleanly into Provable Scotoma ($\\emptyset$), Unique Conceptual Residuum ($|\\mathrm{Res}^{\\min}| = 1$), or Multi-Dimensional Pareto Schism ($|\\mathrm{Res}^{\\min}| \\ge 2$) by Theorem~\\ref{ch01:thm:scotoma-pareto-trichotomy}. Along a monotone probe filtration $\\mathcal{P}_t$, Theorem~\\ref{ch01:thm:flow-f1-threshold-order} proves unconditionally that the awakening threshold precedes the dogma threshold (${{sym:twake}} \\le {{sym:tdogma}}$). Crucially, however, Counterexample~\\ref{ch01:cex:flow-f1-frontier-nonmonotone} demonstrates why $|{{sym:pareto-res}}|$ need not vary monotonically inside $[{{sym:twake}}, {{sym:tdogma}})$: new probes introduced at intermediate stages can first split a single admissible residuum into an incomparable Pareto Schism ($1 \\mapsto 2$) before a subsequent coarser unifying probe subsumes both branches back into a single strictly weaker residuum ($2 \\mapsto 1$) without ever collapsing $T$ into Dogma. Moreover, {{ref:ch01:rem:trident-mode3-2ltt-bootstrap}} previews the zero-\\texttt{Mathlib} two-level type theory kernel boundary separating fibrant and strict types.
+
+Sections~1.2--1.5 complete Chapter~1's Meta-CRM calculus across dualities, intrinsic site characterizations, and operational resource translation. In \\S\\S 1.2--1.3, 2-Chu extent--transversal duality, Touchstone Specific Gravity, hereditary subterminal projectivity, and Doctrinal Stability Flows~F2--F4 govern localization and mixed-variance transport across realizability topoi. In \\S 1.4, {{ref:ch01:prop:topological-no-schism}} shows constructively that binary union closure forces at most one Living-Zone maximum whereas {{sym:j-ext}}-multiplicativity unlocks Pareto Schisms, {{ref:ch01:thm:zero-giraud-representation}} establishes an axiom-free $0$-Giraud representation theorem for~\\textup{(P1)+(P3)+(P4)+(P5)} simultaneously banishing Dogma and Immortal Casuistry, {{ref:ch01:thm:zero-giraud-living-zone-zorn}} derives Living-Zone existence under~\\textup{(P0)+(P2)} via Zorn's Lemma, {{ref:ch01:cex:p0-independent-of-p1-p5}} separates~\\textup{(P0)} from~\\textup{(P1)--(P5)} on a $4$-element join-semilattice, and {{ref:ch01:prob:two-giraud-prototopos-nerve}} poses the $2$-categorical prototopos nerve problem~\\cite{diliberti_ramos2019,diliberti_tarantino_ye2026}. Finally, \\S 1.5 introduces the four CRM Operational Currencies ({{ref:ch01:def:operational-currencies}}), links game-comonad coalgebra numbers~({{ref:ch01:claim:abramsky-arboreal-coalgebra-numbers}}), proves two-sided $(a,b)/(a',b')$ descending-filtration Morita Resource Interleaving and $k = \\infty$ invariance ({{ref:ch01:thm:morita-resource-interleaving}})~\\cite{abramsky_shah2021}, and certifies the Russell's Socks $k=1$ failure / $k=2$ separation Touchstone ({{ref:ch01:cex:russells-socks-levelwise-morita-failure}}).
 """
 
 [edges]
@@ -50,6 +52,46 @@ scope_note = "5-point 3-stage filtration with Clauses (1)-(3) witness, t_wake=0,
 target_id = "ch01:rem:trident-mode3-2ltt-bootstrap"
 locked_spec_hash = "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369"
 scope_note = "Mode (iii) Obstruction Trident 2LTT bootstrap preview (excluded from Course Pack slice)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:prop:topological-no-schism"
+locked_spec_hash = "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50"
+scope_note = "Binary union closure prevents Pareto Schisms while J_ext-multiplicativity enables them"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:zero-giraud-representation"
+locked_spec_hash = "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e"
+scope_note = "Constructive 0-Giraud representation for (P1)+(P3)+(P4)+(P5) and Dogma/Casuistry banishment"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:zero-giraud-living-zone-zorn"
+locked_spec_hash = "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9"
+scope_note = "Crimson Zorn Living-Zone existence adjoining (P0) and (P2)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:p0-independent-of-p1-p5"
+locked_spec_hash = "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a"
+scope_note = "4-element join-semilattice separating (P0) from (P1)-(P5)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:def:operational-currencies"
+locked_spec_hash = "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea"
+scope_note = "Four CRM Operational Currency regimes"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+locked_spec_hash = "8ce93afe7afd8f93a7554814a4ceb6b00c858356603cf2532a2396f7b563cd81"
+scope_note = "Game-comonad hierarchy and coalgebra numbers kappa^E = td, kappa^P = tw + 1"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:morita-resource-interleaving"
+locked_spec_hash = "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480"
+scope_note = "Two-sided (a,b)/(a',b') Morita resource interleaving and k = infty invariance"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:russells-socks-levelwise-morita-failure"
+locked_spec_hash = "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32"
+scope_note = "Russell's Socks k=1 failure in T2 vs k=2 separation in T1"
 
 [grounding]
 primary_category = "Verified paraphrase container"

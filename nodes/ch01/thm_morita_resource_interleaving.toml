@@ -1,0 +1,207 @@
+id = "ch01:thm:morita-resource-interleaving"
+kind = "theorem"
+title = "Quasi-Isometric Morita Resource Interleaving Theorem"
+chapter = "ch01"
+section = "1.5"
+seq_order = 92
+axis = "meta_crm"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["abramsky2022", "abramsky_shah2021", "johnstone2002"]
+
+[spec]
+statement = "Across any syntactic pretopos bi-interpretation (I, J; eta, epsilon) between theories T1 and T2 with forward distortion (a, b) in N_{>=1} x N and backward distortion (a', b') in N_{>=1} x N, the descending game-comonad equivalence towers satisfy two-sided quasi-isometric resource interleaving: (equiv_{a*k+b}^{E,T1}) <= I*(equiv_k^{E,T2}), I*(equiv_{a'*m+b'}^{E,T2}) <= (equiv_m^{E,T1}), the floor-bound corollary I*(equiv_k^{E,T2}) <= (equiv_{floor((k-b')/a')}^{E,T1}) for k >= b', and exact k = infty invariance intersect_k equiv_k^{E,T1} = I*(intersect_k equiv_k^{E,T2})."
+hypotheses = [
+  "DescendingResourceTower tau_1 on Mod(T1) and DescendingResourceTower tau_2 on Mod(T2)",
+  "DistortedBiInterpretation B with forward distortion (a, b) (a >= 1) and backward distortion (a', b') (a' >= 1)",
+  "Unit isomorphism invariance eta_x : x ~= J(I(x)) at all resource depths"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.MoritaInterleaving"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.DescendingResourceTower",
+  "HomotopyCRM.Vol2.DescendingResourceTower.infEquiv",
+  "HomotopyCRM.Vol2.pullbackRel",
+  "HomotopyCRM.Vol2.DistortedBiInterpretation",
+  "HomotopyCRM.Vol2.morita_forward_interleaving",
+  "HomotopyCRM.Vol2.morita_backward_interleaving",
+  "HomotopyCRM.Vol2.morita_backward_floor_bound",
+  "HomotopyCRM.Vol2.morita_inf_invariance",
+  "HomotopyCRM.Vol2.morita_resource_interleaving"
+]
+expected_axioms = []
+lean_signature = """
+/-- Descending resource-indexed equivalence tower `(≡_k)_{k ∈ ℕ}` on a model carrier `M`. -/
+structure DescendingResourceTower (M : Type) where
+  /-- Level-`k` equivalence relation `x ≡_k y`. -/
+  equiv : Nat → M → M → Prop
+  /-- Reflexivity at every level `k`. -/
+  refl : ∀ k x, equiv k x x
+  /-- Symmetry at every level `k`. -/
+  symm : ∀ {k x y}, equiv k x y → equiv k y x
+  /-- Transitivity at every level `k`. -/
+  trans : ∀ {k x y z}, equiv k x y → equiv k y z → equiv k x z
+  /-- Antitonicity (descending filtration): `m ≤ k → (≡_k ⊆ ≡_m)`. -/
+  anti : ∀ {m k x y}, m ≤ k → equiv k x y → equiv m x y
+/-- Asymptotic `k = ∞` equivalence `⋂_{k ∈ ℕ} ≡_k`. -/
+def DescendingResourceTower.infEquiv {M : Type} (τ : DescendingResourceTower M)
+    (x y : M) : Prop := ∀ k : Nat, τ.equiv k x y
+/-- Pullback relation `I*(R)(x, y) := R (I x) (I y)`. -/
+def pullbackRel {M₁ M₂ : Type} (I : M₁ → M₂) (R : M₂ → M₂ → Prop)
+    (x y : M₁) : Prop := R (I x) (I y)
+/-- Two-sided distorted bi-interpretation `(I, J; η)` between descending resource towers. -/
+structure DistortedBiInterpretation {M₁ M₂ : Type}
+    (τ₁ : DescendingResourceTower M₁) (τ₂ : DescendingResourceTower M₂) where
+  /-- Forward model interpretation `I : Mod(T₁) → Mod(T₂)`. -/
+  I : M₁ → M₂
+  /-- Backward model interpretation `J : Mod(T₂) → Mod(T₁)`. -/
+  J : M₂ → M₁
+  /-- Forward multiplicative distortion `a ≥ 1`. -/
+  a : Nat
+  /-- Forward additive distortion `b`. -/
+  b : Nat
+  /-- Positivity of forward slope `a`. -/
+  ha : 0 < a
+  /-- Backward multiplicative distortion `a' ≥ 1`. -/
+  a' : Nat
+  /-- Backward additive distortion `b'`. -/
+  b' : Nat
+  /-- Positivity of backward slope `a'`. -/
+  ha' : 0 < a'
+  /-- Forward simulation bound: `x ≡_{a*k+b}^{T₁} y → I x ≡_k^{T₂} I y`. -/
+  forward_bound : ∀ k x y, τ₁.equiv (a * k + b) x y → τ₂.equiv k (I x) (I y)
+  /-- Backward simulation bound: `u ≡_{a'*m+b'}^{T₂} v → J u ≡_m^{T₁} J v`. -/
+  backward_bound : ∀ m u v, τ₂.equiv (a' * m + b') u v → τ₁.equiv m (J u) (J v)
+  /-- Unit isomorphism invariance `η_x : x ≅ J (I x)` at every resource level `m`. -/
+  unit_equiv : ∀ m x, τ₁.equiv m x (J (I x))
+private theorem morita_succ_sub_succ (m k : Nat) : (m + 1) - (k + 1) = m - k := by
+  induction k with | zero => rfl | succ _ ih => exact congrArg Nat.pred ih
+private theorem morita_sub_le (x y : Nat) : x - y ≤ x := by
+  induction y with
+  | zero => exact Nat.le_refl x | succ _ ih => exact Nat.le_trans (Nat.pred_le _) ih
+private theorem morita_sub_add_cancel {a b : Nat} (h : a ≤ b) : (b - a) + a = b := by
+  induction b generalizing a with
+  | zero => cases a with | zero => rfl | succ k => exact False.elim (Nat.not_lt_zero k h)
+  | succ m ih => cases a with | zero => rfl | succ k =>
+    rw [morita_succ_sub_succ m k]
+    change (m - k + k) + 1 = m + 1; rw [ih (Nat.le_of_succ_le_succ h)]
+private theorem morita_div_go_mul_le (y : Nat) (hy : 0 < y) :
+    ∀ (fuel x : Nat) (hfuel : x < fuel), y * Nat.div.go y hy fuel x hfuel ≤ x
+  | 0, _, hfuel => False.elim (Nat.not_lt_zero _ hfuel)
+  | fuel + 1, x, hfuel => by
+    rw [Nat.div.go.eq_def]; dsimp only; split
+    · next hle =>
+      have hlt : x - y < fuel := by
+        cases y with | zero => exact False.elim (Nat.lt_irrefl 0 hy) | succ y' => cases x with
+          | zero => exact False.elim (Nat.not_lt_zero y' hle)
+          | succ x' =>
+            rw [morita_succ_sub_succ]
+            exact Nat.lt_of_le_of_lt (morita_sub_le x' y') (Nat.lt_of_succ_lt_succ hfuel)
+      rw [Nat.mul_succ]
+      have h1 := Nat.add_le_add_right (morita_div_go_mul_le y hy fuel (x - y) hlt) y
+      rw [morita_sub_add_cancel hle] at h1; exact h1
+    · exact Nat.zero_le x
+private theorem morita_mul_div_le (a b : Nat) : a * (b / a) ≤ b := by
+  change a * Nat.div b a ≤ b; rw [Nat.div.eq_def]; split
+  · next ha => exact morita_div_go_mul_le a ha (b + 1) b (Nat.lt_succ_self b)
+  · exact Nat.zero_le b
+/-- Forward finite-level interleaving: `(≡_{a*k+b}^{T₁}) ⊆ I*(≡_k^{T₂})`. -/
+theorem morita_forward_interleaving {M₁ M₂ : Type} {τ₁ : DescendingResourceTower M₁}
+    {τ₂ : DescendingResourceTower M₂} (B : DistortedBiInterpretation τ₁ τ₂) (k : Nat) (x y : M₁) :
+    τ₁.equiv (B.a * k + B.b) x y → pullbackRel B.I (τ₂.equiv k) x y := B.forward_bound k x y
+/-- Backward finite-level interleaving: `I*(≡_{a'*m+b'}^{T₂}) ⊆ (≡_m^{T₁})`. -/
+theorem morita_backward_interleaving {M₁ M₂ : Type} {τ₁ : DescendingResourceTower M₁}
+    {τ₂ : DescendingResourceTower M₂} (B : DistortedBiInterpretation τ₁ τ₂) (m : Nat) (x y : M₁)
+    (h : pullbackRel B.I (τ₂.equiv (B.a' * m + B.b')) x y) : τ₁.equiv m x y :=
+  τ₁.trans (B.unit_equiv m x)
+    (τ₁.trans (B.backward_bound m (B.I x) (B.I y) h) (τ₁.symm (B.unit_equiv m y)))
+/-- Floor-bound corollary: for `k ≥ b'`, `I*(≡_k^{T₂}) ⊆ (≡_{⌊(k - b') / a'⌋}^{T₁})`. -/
+theorem morita_backward_floor_bound {M₁ M₂ : Type} {τ₁ : DescendingResourceTower M₁}
+    {τ₂ : DescendingResourceTower M₂} (B : DistortedBiInterpretation τ₁ τ₂) (k : Nat)
+    (hbk : B.b' ≤ k) (x y : M₁) (h : pullbackRel B.I (τ₂.equiv k) x y) :
+    τ₁.equiv ((k - B.b') / B.a') x y := by
+  have h2 := Nat.add_le_add_right (morita_mul_div_le B.a' (k - B.b')) B.b'
+  rw [morita_sub_add_cancel hbk] at h2
+  exact morita_backward_interleaving B ((k - B.b') / B.a') x y (τ₂.anti h2 h)
+/-- Asymptotic `k = ∞` invariance: `⋂_k ≡_k^{T₁} ↔ I*(⋂_k ≡_k^{T₂})`. -/
+theorem morita_inf_invariance {M₁ M₂ : Type} {τ₁ : DescendingResourceTower M₁}
+    {τ₂ : DescendingResourceTower M₂} (B : DistortedBiInterpretation τ₁ τ₂) (x y : M₁) :
+    τ₁.infEquiv x y ↔ pullbackRel B.I τ₂.infEquiv x y :=
+  ⟨fun h k ↦ morita_forward_interleaving B k x y (h (B.a * k + B.b)),
+   fun h m ↦ morita_backward_interleaving B m x y (h (B.a' * m + B.b'))⟩
+/-- **Quasi-Isometric Morita Resource Interleaving (Bundled Witness, Emerald):**
+    Certifies both finite-level interleaving bounds, the floor corollary, and exact
+    `k = ∞` invariance across any distorted bi-interpretation (zero axioms). -/
+theorem morita_resource_interleaving {M₁ M₂ : Type} {τ₁ : DescendingResourceTower M₁}
+    {τ₂ : DescendingResourceTower M₂} (B : DistortedBiInterpretation τ₁ τ₂) :
+    (∀ k x y, τ₁.equiv (B.a * k + B.b) x y → pullbackRel B.I (τ₂.equiv k) x y) ∧
+    (∀ m x y, pullbackRel B.I (τ₂.equiv (B.a' * m + B.b')) x y → τ₁.equiv m x y) ∧
+    (∀ k, B.b' ≤ k → ∀ x y,
+      pullbackRel B.I (τ₂.equiv k) x y → τ₁.equiv ((k - B.b') / B.a') x y) ∧
+    (∀ x y, τ₁.infEquiv x y ↔ pullbackRel B.I τ₂.infEquiv x y) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.morita_resource_interleaving' does not depend on any axioms -/\n#guard_msgs in\n#print axioms morita_resource_interleaving"
+]
+
+[body]
+lean_body = """
+  exact ⟨morita_forward_interleaving B, morita_backward_interleaving B,
+    morita_backward_floor_bound B, morita_inf_invariance B⟩
+"""
+tex = """
+\\begin{theorem}[Two-Sided Quasi-Isometric Morita Resource Interleaving]\\label{ch01:thm:morita-resource-interleaving}%
+\\uses{ch01:def:operational-currencies,ch01:claim:abramsky-arboreal-coalgebra-numbers}%
+Let $(I, J; \\eta, \\varepsilon)$ be a syntactic pretopos bi-interpretation between first-order theories $T_1$ and $T_2$~\\cite{johnstone2002} whose induced quotient/finite-product definitions have forward quantifier-rank distortion $(a, b) \\in \\mathbb{N}_{\\ge 1} \\times \\mathbb{N}$ and backward distortion $(a', b') \\in \\mathbb{N}_{\\ge 1} \\times \\mathbb{N}$ relative to the Ehrenfeucht--Fra\\\"iss\\'e game-comonad towers {{sym:ef-comonad}} of {{ref:ch01:claim:abramsky-arboreal-coalgebra-numbers}}. Then for all $k, m \\in \\mathbb{N}$:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Two-Sided Interleaving:}
+  \\[
+    (\\equiv_{a k + b}^{\\mathbb{E}, T_1}) \\;\\subseteq\\; I^*(\\equiv_k^{\\mathbb{E}, T_2}), \\qquad
+    I^*(\\equiv_{a' m + b'}^{\\mathbb{E}, T_2}) \\;\\subseteq\\; (\\equiv_m^{\\mathbb{E}, T_1}).
+  \\]
+  \\item \\textbf{Floor-Bound Corollary:} For every $k \\ge b'$, $I^*(\\equiv_k^{\\mathbb{E}, T_2}) \\subseteq (\\equiv_{\\lfloor (k - b')/a' \\rfloor}^{\\mathbb{E}, T_1})$.
+  \\item \\textbf{Exact $k = \\infty$ Invariance:} $\\bigcap_{k \\in \\mathbb{N}} \\equiv_k^{\\mathbb{E}, T_1} \\;=\\; I^*\\!\\Bigl(\\bigcap_{k \\in \\mathbb{N}} \\equiv_k^{\\mathbb{E}, T_2}\\Bigr)$.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+Each definable sort and relation of $T_2$ translates along $I$ into finite tuples and formulas over $T_1$ of bounded quantifier-rank overhead $(a, b)$, so any Spoiler $k$-round strategy between $I(M_1)$ and $I(M_2)$ unfolds to an $(ak + b)$-round Spoiler strategy between $M_1$ and $M_2$; contrapositively, $M_1 \\equiv_{ak+b}^{\\mathbb{E}, T_1} M_2 \\implies I(M_1) \\equiv_k^{\\mathbb{E}, T_2} I(M_2)$. Symmetrically, translating along $J$ with backward distortion $(a', b')$ gives $I(M_1) \\equiv_{a'm+b'}^{\\mathbb{E}, T_2} I(M_2) \\implies J(I(M_1)) \\equiv_m^{\\mathbb{E}, T_1} J(I(M_2))$, and the unit isomorphism $\\eta_{M} : M \\cong J(I(M))$ transfers this to $M_1 \\equiv_m^{\\mathbb{E}, T_1} M_2$. For $k \\ge b'$, setting $m := \\lfloor (k - b')/a' \\rfloor$ yields $a' m + b' \\le k$, so antitonicity of the descending filtration gives $I^*(\\equiv_k^{\\mathbb{E}, T_2}) \\subseteq I^*(\\equiv_{a' m + b'}^{\\mathbb{E}, T_2}) \\subseteq (\\equiv_m^{\\mathbb{E}, T_1})$. Taking the intersection over all $k \\in \\mathbb{N}$ yields exact $k = \\infty$ Morita invariance~\\cite{abramsky2022,abramsky_shah2021}.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = [
+  "ch01:def:operational-currencies",
+  "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+]
+lean_dep = ["ch01:def:operational-currencies"]
+curriculum = [
+  "ch01:def:operational-currencies",
+  "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Categorical Equivalence", "Conservation / Solvency", "Duality"]
+witness_scope = "DescendingResourceTower and DistortedBiInterpretation mechanize both finite-level (a,b)/(a',b') interleaving inclusions, the floor-bound corollary for k >= b', and exact k = infty invariance axiom-free (Emerald) in MoritaInterleaving.lean; deriving the syntactic distortion constants (a,b) and (a',b') from pretopos bi-interpretations of general first-order theories lives in the monograph proof."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch01:thm:morita-resource-interleaving"
+purpose = "Full syntactic pretopos bi-interpretation derivation of (a,b)/(a',b') quantifier-rank distortion"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.morita_resource_interleaving"
+purpose = "Axiom-free Emerald Lean 4 witness verifying two-sided interleaving, floor bound, and k = infty invariance"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "abramsky2022"
+locator = "§§3-6, pp. 6-20"
+purpose = "Ehrenfeucht-Fraisse game-comonad equivalence filtration"

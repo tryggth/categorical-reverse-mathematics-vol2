@@ -1,0 +1,65 @@
+id = "ch01:claim:abramsky-arboreal-coalgebra-numbers"
+kind = "inline_claim"
+title = "Abramsky-Reggio-Dawar-Jakl Game-Comonad Hierarchy and Coalgebra Numbers"
+chapter = "ch01"
+section = "1.5"
+seq_order = 88
+axis = "meta_crm"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = [
+  "abramsky2022",
+  "abramsky_reggio2021",
+  "dawar_jakl_reggio2021",
+  "reggio2021",
+  "abramsky_shah2021",
+  "abramsky_marsden2021"
+]
+
+[spec]
+statement = "By Abramsky (arXiv:2206.07393, §§3-6, pp. 6-20), Abramsky-Shah (JLC 31, 2021), Abramsky-Marsden (LICS 2021), Abramsky-Reggio (ICALP 2021, §§3-4), Dawar-Jakl-Reggio (LICS 2021, Thm. 11), and Reggio (arXiv:2110.11061, Thm. 4.6), finite-model-theoretic combinatorial games organize into a three-tier game-comonad hierarchy (Ehrenfeucht-Fraisse E_k, pebbling P_k, and modal/guarded/hybrid comonads) in arboreal and polyadic categories whose coalgebra numbers recover tree-depth kappa^E = td and tree-width kappa^P = tw + 1 and admit Lovasz-type homomorphism-counting probes."
+
+[body]
+tex = """
+\\begin{inlineclaim}[Game-Comonad Hierarchy, Coalgebra Numbers, and Polyadic Lov\\'asz Probes]\\label{ch01:claim:abramsky-arboreal-coalgebra-numbers}%
+\\uses{ch01:def:operational-currencies}%
+In Abramsky's Structure-and-Power program~\\cite[\\S\\S 3--6, pp.~6--20]{abramsky2022}, syntactic resource bounds correspond functorially to a three-tier game-comonad hierarchy---the Ehrenfeucht--Fra\\\"iss\\'e comonad {{sym:ef-comonad}} (quantifier rank), the pebble comonad {{sym:pebble-comonad}} (bounded variable width), and modal/guarded/hybrid fragment comonads~\\cite{abramsky_shah2021,abramsky_marsden2021}---inside arboreal categories~\\cite[\\S\\S 3--4]{abramsky_reggio2021}. Their coalgebra numbers recover exact combinatorial invariants, $\\kappa^{\\mathbb{E}}(A) = \\mathrm{td}(A)$ (tree-depth) and $\\kappa^{\\mathbb{P}}(A) = \\mathrm{tw}(A) + 1$ (tree-width plus one), while polyadic and arboreal Lov\\'asz-type theorems characterize resource-bounded equivalence via homomorphism-counting probe families~\\cite[Thm.~11]{dawar_jakl_reggio2021}\\cite[Thm.~4.6]{reggio2021}.
+\\end{inlineclaim}
+"""
+
+[edges]
+logical_dep = ["ch01:def:operational-currencies"]
+lean_dep = []
+curriculum = ["ch01:def:operational-currencies"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Duality", "Categorical Equivalence", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "abramsky2022"
+locator = "§§3-6, pp. 6-20"
+purpose = "Three-tier game-comonad hierarchy (E_k, P_k, modal) and coalgebra numbers td, tw + 1"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "abramsky_reggio2021"
+locator = "§§3-4 (ICALP 2021, LIPIcs 198, pp. 115:1-115:20)"
+purpose = "Arboreal categories axiomatizing resource-indexed comonadic coalgebras"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "dawar_jakl_reggio2021"
+locator = "Thm. 11 (LICS 2021, pp. 1-13)"
+purpose = "Lovasz-type homomorphism-counting characterization for game comonads"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "reggio2021"
+locator = "Thm. 4.6 (arXiv:2110.11061)"
+purpose = "Polyadic sets and homomorphism counting over finite relational probes"

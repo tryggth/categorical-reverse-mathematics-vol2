@@ -68,3 +68,38 @@ scope_note = "Front-door summary of Flow F4 split-polarity transport law"
 target_id = "ch01:rem:trident-mode3-2ltt-bootstrap"
 locked_spec_hash = "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369"
 scope_note = "Front-door summary of zero-Mathlib KernelArena 2LTT bootstrap"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:prop:topological-no-schism"
+locked_spec_hash = "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50"
+scope_note = "Front-door summary of Emerald Topological No-Schism under binary union closure"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:zero-giraud-representation"
+locked_spec_hash = "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e"
+scope_note = "Front-door summary of Emerald 0-Giraud representation and (P5) Dogma/Casuistry banishment"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:zero-giraud-living-zone-zorn"
+locked_spec_hash = "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9"
+scope_note = "Front-door summary of Crimson Zorn Living-Zone existence with (P0) and (P2)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:p0-independent-of-p1-p5"
+locked_spec_hash = "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a"
+scope_note = "Front-door summary of Emerald Fin 4 independence of (P0) from (P1)-(P5)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:def:operational-currencies"
+locked_spec_hash = "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea"
+scope_note = "Front-door summary of Emerald Four CRM Operational Currencies"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:thm:morita-resource-interleaving"
+locked_spec_hash = "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480"
+scope_note = "Front-door summary of Emerald two-sided (a,b)/(a',b') Morita resource interleaving"
+
+[[edges.prose_paraphrase]]
+target_id = "ch01:cex:russells-socks-levelwise-morita-failure"
+locked_spec_hash = "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32"
+scope_note = "Front-door summary of Emerald Russell's Socks k=1 failure vs k=2 separation"
