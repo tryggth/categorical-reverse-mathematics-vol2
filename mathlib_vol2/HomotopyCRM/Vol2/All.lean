@@ -1,4 +1,6 @@
 import HomotopyCRM.Vol2.DoctrinalFlows
+import HomotopyCRM.Vol2.MoritaInterleaving
 import HomotopyCRM.Vol2.ObstructionTrident
 import HomotopyCRM.Vol2.ProbeSuite
+import HomotopyCRM.Vol2.ZeroGiraud
 import HomotopyCRM.Vol2.CertChecks

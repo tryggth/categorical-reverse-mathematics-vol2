@@ -30,6 +30,72 @@
       ]
     },
     {
+      "id": "ch01:cex:p0-independent-of-p1-p5",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.p0CexMul",
+        "HomotopyCRM.Vol2.p0CexDomain",
+        "HomotopyCRM.Vol2.p0CexProblem",
+        "HomotopyCRM.Vol2.p0CexProbe",
+        "HomotopyCRM.Vol2.p0CexFamily",
+        "HomotopyCRM.Vol2.p0CexBoolExt",
+        "HomotopyCRM.Vol2.p0CexProbe_admissible",
+        "HomotopyCRM.Vol2.p0Cex_P2_decidable",
+        "HomotopyCRM.Vol2.p0Cex_P2_bool",
+        "HomotopyCRM.Vol2.p0_independent_of_p1_p5"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:cex:p0-independent-of-p1-p5",
+        "ch01:def:probe-suite",
+        "ch01:prop:topological-no-schism",
+        "ch01:thm:zero-giraud-living-zone-zorn",
+        "ch01:thm:zero-giraud-representation"
+      ]
+    },
+    {
+      "id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.SockModelT1",
+        "HomotopyCRM.Vol2.SockModelT2",
+        "HomotopyCRM.Vol2.sockI",
+        "HomotopyCRM.Vol2.sockJ",
+        "HomotopyCRM.Vol2.sockModelEquiv",
+        "HomotopyCRM.Vol2.SockModelT1.Sock",
+        "HomotopyCRM.Vol2.SockModelT1.E",
+        "HomotopyCRM.Vol2.SockModelT1.D",
+        "HomotopyCRM.Vol2.SockModelT2.Elem",
+        "HomotopyCRM.Vol2.SockModelT2.isSock",
+        "HomotopyCRM.Vol2.SockModelT2.isPair",
+        "HomotopyCRM.Vol2.SockModelT2.E",
+        "HomotopyCRM.Vol2.SockModelT2.D",
+        "HomotopyCRM.Vol2.SockModelT2.Gpi",
+        "HomotopyCRM.Vol2.SockModelT2.Mis",
+        "HomotopyCRM.Vol2.sockT2_mis_definable",
+        "HomotopyCRM.Vol2.PartialIsoT1",
+        "HomotopyCRM.Vol2.efGameT1",
+        "HomotopyCRM.Vol2.efEquivT1",
+        "HomotopyCRM.Vol2.PartialIsoT2",
+        "HomotopyCRM.Vol2.efGameT2",
+        "HomotopyCRM.Vol2.efEquivT2",
+        "HomotopyCRM.Vol2.matchedPair",
+        "HomotopyCRM.Vol2.mismatchedPair",
+        "HomotopyCRM.Vol2.russells_socks_t1_equiv_1",
+        "HomotopyCRM.Vol2.russells_socks_t2_not_equiv_1",
+        "HomotopyCRM.Vol2.russells_socks_t1_not_equiv_2",
+        "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:cex:russells-socks-levelwise-morita-failure",
+        "ch01:def:operational-currencies",
+        "ch01:thm:morita-resource-interleaving"
+      ]
+    },
+    {
       "id": "ch01:def:adm-pareto-frontier",
       "formal_pkg": "mathlib_vol2",
       "stratum": "emerald",
@@ -73,6 +139,24 @@
       "expected_axioms": [],
       "allowed_ancestors": [
         "ch01:def:essential-fiber-trident"
+      ]
+    },
+    {
+      "id": "ch01:def:operational-currencies",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.OperationalCurrency",
+        "HomotopyCRM.Vol2.OperationalCurrency.usesOracle",
+        "HomotopyCRM.Vol2.OperationalCurrency.toFin4",
+        "HomotopyCRM.Vol2.OperationalCurrency.ofFin4",
+        "HomotopyCRM.Vol2.CurrencyProfile",
+        "HomotopyCRM.Vol2.operationalCurrencyEquivFin4",
+        "HomotopyCRM.Vol2.operationalCurrency_oracle_partition"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:operational-currencies"
       ]
     },
     {
@@ -194,6 +278,21 @@
       ]
     },
     {
+      "id": "ch01:prop:topological-no-schism",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.InLivingZone",
+        "HomotopyCRM.Vol2.IsMaxLivingZone",
+        "HomotopyCRM.Vol2.IsBinaryUnionClosed",
+        "HomotopyCRM.Vol2.topological_no_schism"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:prop:topological-no-schism"
+      ]
+    },
+    {
       "id": "ch01:rem:trident-mode3-2ltt-bootstrap",
       "formal_pkg": "kernel_arena",
       "stratum": "emerald",
@@ -312,6 +411,27 @@
       ]
     },
     {
+      "id": "ch01:thm:morita-resource-interleaving",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DescendingResourceTower",
+        "HomotopyCRM.Vol2.DescendingResourceTower.infEquiv",
+        "HomotopyCRM.Vol2.pullbackRel",
+        "HomotopyCRM.Vol2.DistortedBiInterpretation",
+        "HomotopyCRM.Vol2.morita_forward_interleaving",
+        "HomotopyCRM.Vol2.morita_backward_interleaving",
+        "HomotopyCRM.Vol2.morita_backward_floor_bound",
+        "HomotopyCRM.Vol2.morita_inf_invariance",
+        "HomotopyCRM.Vol2.morita_resource_interleaving"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:operational-currencies",
+        "ch01:thm:morita-resource-interleaving"
+      ]
+    },
+    {
       "id": "ch01:thm:scotoma-pareto-trichotomy",
       "formal_pkg": "mathlib_vol2",
       "stratum": "crimson",
@@ -331,6 +451,56 @@
         "ch01:def:adm-pareto-frontier",
         "ch01:def:probe-suite",
         "ch01:thm:scotoma-pareto-trichotomy"
+      ]
+    },
+    {
+      "id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "decl_names": [
+        "HomotopyCRM.Vol2.mooreClosureOf",
+        "HomotopyCRM.Vol2.ZeroGiraudP0",
+        "HomotopyCRM.Vol2.ZeroGiraudP2",
+        "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "allowed_ancestors": [
+        "ch01:def:probe-suite",
+        "ch01:prop:topological-no-schism",
+        "ch01:thm:zero-giraud-living-zone-zorn",
+        "ch01:thm:zero-giraud-representation"
+      ]
+    },
+    {
+      "id": "ch01:thm:zero-giraud-representation",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DoctrinalDomain",
+        "HomotopyCRM.Vol2.NonTrivialProblem",
+        "HomotopyCRM.Vol2.AssertoricSet",
+        "HomotopyCRM.Vol2.OffCoreSet",
+        "HomotopyCRM.Vol2.IsMultiplicative",
+        "HomotopyCRM.Vol2.IsModalExact",
+        "HomotopyCRM.Vol2.IsOffCoreDiscerning",
+        "HomotopyCRM.Vol2.IsAdmissibleProbeFamily",
+        "HomotopyCRM.Vol2.GeneratedByProbes",
+        "HomotopyCRM.Vol2.ZeroGiraudP1",
+        "HomotopyCRM.Vol2.ZeroGiraudP3",
+        "HomotopyCRM.Vol2.ZeroGiraudP4",
+        "HomotopyCRM.Vol2.ZeroGiraudP5",
+        "HomotopyCRM.Vol2.zero_giraud_representation",
+        "HomotopyCRM.Vol2.p5_contrapositive",
+        "HomotopyCRM.Vol2.p5_banishes_dogma_and_casuistry"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch01:def:probe-suite",
+        "ch01:thm:zero-giraud-representation"
       ]
     }
   ]

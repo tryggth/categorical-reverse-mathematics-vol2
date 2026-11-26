@@ -7,13 +7,15 @@
   "emitted_modules": [
     "HomotopyCRM.Vol2.CertChecks",
     "HomotopyCRM.Vol2.DoctrinalFlows",
+    "HomotopyCRM.Vol2.MoritaInterleaving",
     "HomotopyCRM.Vol2.ObstructionTrident",
-    "HomotopyCRM.Vol2.ProbeSuite"
+    "HomotopyCRM.Vol2.ProbeSuite",
+    "HomotopyCRM.Vol2.ZeroGiraud"
   ],
   "cert_files": [
     "certs/ch01_bool_id_bootstrap.2ltt.json"
   ],
-  "formal_node_count": 14,
+  "formal_node_count": 21,
   "formal_nodes": [
     {
       "id": "ch01:def:essential-fiber-trident",
@@ -374,6 +376,186 @@
       "cert_path": null,
       "spec_hash": "8127e3cb8d1697e98da7c7c7bc999abfb4ebb554c3893c62b3b3d2ed9e8fac5f",
       "body_hash": "f25961e4e0e5b2a4a88ec1c7565775059499af5d95d9b70293907d34b333fdcc"
+    },
+    {
+      "id": "ch01:prop:topological-no-schism",
+      "kind": "proposition",
+      "title": "Topological No-Schism Principle Under Binary Union Closure",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.InLivingZone",
+        "HomotopyCRM.Vol2.IsMaxLivingZone",
+        "HomotopyCRM.Vol2.IsBinaryUnionClosed",
+        "HomotopyCRM.Vol2.topological_no_schism"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50",
+      "body_hash": "b448210deaaf8c31dfbefa7ed1c468e2c8a141e2fac36b2ddbd1ec1cff43724d"
+    },
+    {
+      "id": "ch01:thm:zero-giraud-representation",
+      "kind": "theorem",
+      "title": "Constructive 0-Giraud Representation Theorem and Banishment of Dogma and Immortal Casuistry",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DoctrinalDomain",
+        "HomotopyCRM.Vol2.NonTrivialProblem",
+        "HomotopyCRM.Vol2.AssertoricSet",
+        "HomotopyCRM.Vol2.OffCoreSet",
+        "HomotopyCRM.Vol2.IsMultiplicative",
+        "HomotopyCRM.Vol2.IsModalExact",
+        "HomotopyCRM.Vol2.IsOffCoreDiscerning",
+        "HomotopyCRM.Vol2.IsAdmissibleProbeFamily",
+        "HomotopyCRM.Vol2.GeneratedByProbes",
+        "HomotopyCRM.Vol2.ZeroGiraudP1",
+        "HomotopyCRM.Vol2.ZeroGiraudP3",
+        "HomotopyCRM.Vol2.ZeroGiraudP4",
+        "HomotopyCRM.Vol2.ZeroGiraudP5",
+        "HomotopyCRM.Vol2.zero_giraud_representation",
+        "HomotopyCRM.Vol2.p5_contrapositive",
+        "HomotopyCRM.Vol2.p5_banishes_dogma_and_casuistry"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e",
+      "body_hash": "2545bb0e7660b97e6f1f95391379fc3edc6af28d0c2a4ff0309046c5c1a39f52"
+    },
+    {
+      "id": "ch01:thm:zero-giraud-living-zone-zorn",
+      "kind": "theorem",
+      "title": "0-Giraud Living-Zone Existence Theorem via Zorn's Lemma",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.mooreClosureOf",
+        "HomotopyCRM.Vol2.ZeroGiraudP0",
+        "HomotopyCRM.Vol2.ZeroGiraudP2",
+        "HomotopyCRM.Vol2.zero_giraud_living_zone_zorn"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "cert_path": null,
+      "spec_hash": "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9",
+      "body_hash": "68b0a3b301afb7b113a4dd582b7d41f1e94e0506602552f329c94a439699df14"
+    },
+    {
+      "id": "ch01:cex:p0-independent-of-p1-p5",
+      "kind": "counterexample",
+      "title": "Independence of Core-Target Aperture (P0) from 0-Giraud Axioms (P1)-(P5)",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ZeroGiraud",
+      "decl_names": [
+        "HomotopyCRM.Vol2.p0CexMul",
+        "HomotopyCRM.Vol2.p0CexDomain",
+        "HomotopyCRM.Vol2.p0CexProblem",
+        "HomotopyCRM.Vol2.p0CexProbe",
+        "HomotopyCRM.Vol2.p0CexFamily",
+        "HomotopyCRM.Vol2.p0CexBoolExt",
+        "HomotopyCRM.Vol2.p0CexProbe_admissible",
+        "HomotopyCRM.Vol2.p0Cex_P2_decidable",
+        "HomotopyCRM.Vol2.p0Cex_P2_bool",
+        "HomotopyCRM.Vol2.p0_independent_of_p1_p5"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a",
+      "body_hash": "d799d62aa37a138205766147b03f5697a8336218c3c7a472b3c05f94d375a984"
+    },
+    {
+      "id": "ch01:def:operational-currencies",
+      "kind": "definition",
+      "title": "The Four CRM Operational Currency Regimes",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.MoritaInterleaving",
+      "decl_names": [
+        "HomotopyCRM.Vol2.OperationalCurrency",
+        "HomotopyCRM.Vol2.OperationalCurrency.usesOracle",
+        "HomotopyCRM.Vol2.OperationalCurrency.toFin4",
+        "HomotopyCRM.Vol2.OperationalCurrency.ofFin4",
+        "HomotopyCRM.Vol2.CurrencyProfile",
+        "HomotopyCRM.Vol2.operationalCurrencyEquivFin4",
+        "HomotopyCRM.Vol2.operationalCurrency_oracle_partition"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
+      "body_hash": "8b6306aa9849c6cada296d04649d97062509b987f71f8baa31875dfebc6c37b6"
+    },
+    {
+      "id": "ch01:thm:morita-resource-interleaving",
+      "kind": "theorem",
+      "title": "Quasi-Isometric Morita Resource Interleaving Theorem",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.MoritaInterleaving",
+      "decl_names": [
+        "HomotopyCRM.Vol2.DescendingResourceTower",
+        "HomotopyCRM.Vol2.DescendingResourceTower.infEquiv",
+        "HomotopyCRM.Vol2.pullbackRel",
+        "HomotopyCRM.Vol2.DistortedBiInterpretation",
+        "HomotopyCRM.Vol2.morita_forward_interleaving",
+        "HomotopyCRM.Vol2.morita_backward_interleaving",
+        "HomotopyCRM.Vol2.morita_backward_floor_bound",
+        "HomotopyCRM.Vol2.morita_inf_invariance",
+        "HomotopyCRM.Vol2.morita_resource_interleaving"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
+      "body_hash": "dda14cfcc32d36e71e841ad372b55365a4e669625cb1bef52696363a106e3ebe"
+    },
+    {
+      "id": "ch01:cex:russells-socks-levelwise-morita-failure",
+      "kind": "counterexample",
+      "title": "Russell's Socks Touchstone: Failure of Levelwise Morita Invariance at k = 1",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.MoritaInterleaving",
+      "decl_names": [
+        "HomotopyCRM.Vol2.SockModelT1",
+        "HomotopyCRM.Vol2.SockModelT2",
+        "HomotopyCRM.Vol2.sockI",
+        "HomotopyCRM.Vol2.sockJ",
+        "HomotopyCRM.Vol2.sockModelEquiv",
+        "HomotopyCRM.Vol2.SockModelT1.Sock",
+        "HomotopyCRM.Vol2.SockModelT1.E",
+        "HomotopyCRM.Vol2.SockModelT1.D",
+        "HomotopyCRM.Vol2.SockModelT2.Elem",
+        "HomotopyCRM.Vol2.SockModelT2.isSock",
+        "HomotopyCRM.Vol2.SockModelT2.isPair",
+        "HomotopyCRM.Vol2.SockModelT2.E",
+        "HomotopyCRM.Vol2.SockModelT2.D",
+        "HomotopyCRM.Vol2.SockModelT2.Gpi",
+        "HomotopyCRM.Vol2.SockModelT2.Mis",
+        "HomotopyCRM.Vol2.sockT2_mis_definable",
+        "HomotopyCRM.Vol2.PartialIsoT1",
+        "HomotopyCRM.Vol2.efGameT1",
+        "HomotopyCRM.Vol2.efEquivT1",
+        "HomotopyCRM.Vol2.PartialIsoT2",
+        "HomotopyCRM.Vol2.efGameT2",
+        "HomotopyCRM.Vol2.efEquivT2",
+        "HomotopyCRM.Vol2.matchedPair",
+        "HomotopyCRM.Vol2.mismatchedPair",
+        "HomotopyCRM.Vol2.russells_socks_t1_equiv_1",
+        "HomotopyCRM.Vol2.russells_socks_t2_not_equiv_1",
+        "HomotopyCRM.Vol2.russells_socks_t1_not_equiv_2",
+        "HomotopyCRM.Vol2.russells_socks_levelwise_morita_failure"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
+      "body_hash": "5767b46231b98abe3b0dce68f24eb9255d43f5c07c8b50718de85304520f9aea"
     }
   ]
 }
