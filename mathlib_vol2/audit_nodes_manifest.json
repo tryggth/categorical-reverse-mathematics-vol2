@@ -303,7 +303,13 @@
       "expected_axioms": [],
       "allowed_ancestors": [
         "ch01:rem:trident-mode3-2ltt-bootstrap"
-      ]
+      ],
+      "cert_strata_flags": {
+        "inner_univalence_V": false,
+        "inner_coalgebra_nu": false,
+        "outer_strict_eq": false,
+        "smallness_replacement": false
+      }
     },
     {
       "id": "ch01:thm:flow-f1-threshold-order",
@@ -796,6 +802,44 @@
         "ch03:thm:piset-transgression-exactness",
         "ch03:thm:two-valve-transgression-dichotomy"
       ]
+    },
+    {
+      "id": "ch09:prop:pure-kan-path-symmetry-cert",
+      "formal_pkg": "kernel_arena",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch09_prop_pure_kan_path_symmetry_cert",
+        "HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch09:prop:pure-kan-path-symmetry-cert"
+      ],
+      "cert_strata_flags": {
+        "inner_univalence_V": false,
+        "inner_coalgebra_nu": false,
+        "outer_strict_eq": false,
+        "smallness_replacement": false
+      }
+    },
+    {
+      "id": "ch09:thm:bool-univalence-holonomy-cert",
+      "formal_pkg": "kernel_arena",
+      "stratum": "sapphire",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch09_thm_bool_univalence_holonomy_cert",
+        "HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch09:thm:bool-univalence-holonomy-cert"
+      ],
+      "cert_strata_flags": {
+        "inner_univalence_V": true,
+        "inner_coalgebra_nu": false,
+        "outer_strict_eq": false,
+        "smallness_replacement": false
+      }
     }
   ]
 }

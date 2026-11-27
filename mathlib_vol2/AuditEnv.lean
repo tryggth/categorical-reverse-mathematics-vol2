@@ -9,6 +9,13 @@ open Lean
 
 namespace AuditEnv
 
+structure CertStrataFlags where
+  innerUnivalenceV : Bool := false
+  innerCoalgebraNu : Bool := false
+  outerStrictEq : Bool := false
+  smallnessReplacement : Bool := false
+  deriving Inhabited
+
 structure AuditNodeSpec where
   id : String
   formalPkg : String
@@ -16,12 +23,18 @@ structure AuditNodeSpec where
   declNames : List String
   expectedAxioms : List String
   allowedAncestors : List String
+  certStrataFlags : Option CertStrataFlags := none
   deriving Inhabited
 
 private def parseStringList (j : Json) : Except String (List String) := do
   let arr ← j.getArr?
   let xs ← arr.mapM Json.getStr?
   return xs.toList
+
+private def getOptBoolField (j : Json) (k : String) : Bool :=
+  match j.getObjVal? k with
+  | .ok v => match v.getBool? with | .ok b => b | .error _ => false
+  | .error _ => false
 
 instance : FromJson AuditNodeSpec where
   fromJson? j := do
@@ -31,6 +44,15 @@ instance : FromJson AuditNodeSpec where
     let declNames ← parseStringList (← j.getObjVal? "decl_names")
     let expectedAxioms ← parseStringList (← j.getObjVal? "expected_axioms")
     let allowedAncestors ← parseStringList (← j.getObjVal? "allowed_ancestors")
+    let certStrataFlags : Option CertStrataFlags :=
+      match j.getObjVal? "cert_strata_flags" with
+      | .ok cf => some {
+          innerUnivalenceV := getOptBoolField cf "inner_univalence_V"
+          innerCoalgebraNu := getOptBoolField cf "inner_coalgebra_nu"
+          outerStrictEq := getOptBoolField cf "outer_strict_eq"
+          smallnessReplacement := getOptBoolField cf "smallness_replacement"
+        }
+      | .error _ => none
     return {
       id := id
       formalPkg := formalPkg
@@ -38,6 +60,7 @@ instance : FromJson AuditNodeSpec where
       declNames := declNames
       expectedAxioms := expectedAxioms
       allowedAncestors := allowedAncestors
+      certStrataFlags := certStrataFlags
     }
 
 private def insertUniqueSorted (xs : List String) (x : String) : List String :=
@@ -56,6 +79,11 @@ private def assignStratum (axs : List String) : String :=
   if axs.contains "Classical.choice" then "crimson"
   else if axs.isEmpty then "emerald"
   else "amber"
+
+private def assignKernelArenaStratum (cf : CertStrataFlags) : String :=
+  if cf.innerUnivalenceV || cf.innerCoalgebraNu then "sapphire"
+  else if cf.outerStrictEq || cf.smallnessReplacement then "amber"
+  else "emerald"
 
 private def findOwner? (declOwners : Array (String × String)) (constStr : String) :
     Option String := Id.run do
@@ -174,7 +202,11 @@ unsafe def runAudit (manifestPath : System.FilePath) : IO UInt32 := do
     if actualAxioms != expectedSorted then
       nodeErrors := nodeErrors.push
         s!"AXIOM_MISMATCH: expected={expectedSorted} actual={actualAxioms}"
-    let computedStratum := assignStratum actualAxioms
+    let computedStratum :=
+      if !actualAxioms.isEmpty then assignStratum actualAxioms
+      else match spec.certStrataFlags with
+        | some cf => assignKernelArenaStratum cf
+        | none => assignStratum actualAxioms
     if computedStratum != spec.stratum then
       nodeErrors := nodeErrors.push
         s!"STRATUM_MISMATCH: expected={spec.stratum} computed={computedStratum}"

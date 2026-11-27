@@ -1,0 +1,176 @@
+{
+  "schema": "kernel-arena.2ltt.v1",
+  "decl_name": "TwoLTT.Rung1.boolF_ua_not_flips_false_to_true",
+  "universe_depth_k": 2,
+  "fuel_hint": 96,
+  "strata_flags": {
+    "inner_univalence_V": true,
+    "inner_coalgebra_nu": false,
+    "outer_strict_eq": false,
+    "smallness_replacement": false
+  },
+  "dim_contexts": [],
+  "nodes": [
+    {
+      "id": 0,
+      "op": "BoolF"
+    },
+    {
+      "id": 1,
+      "op": "TrueF"
+    },
+    {
+      "id": 2,
+      "op": "FalseF"
+    },
+    {
+      "id": 3,
+      "op": "Var",
+      "args": [
+        0
+      ]
+    },
+    {
+      "id": 4,
+      "op": "BoolElimF",
+      "args": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "op": "LamF",
+      "args": [
+        0,
+        4
+      ]
+    },
+    {
+      "id": 6,
+      "op": "AppF",
+      "args": [
+        5,
+        3
+      ]
+    },
+    {
+      "id": 7,
+      "op": "AppF",
+      "args": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "op": "PathType",
+      "args": [
+        0,
+        7,
+        3
+      ]
+    },
+    {
+      "id": 9,
+      "op": "PathLam",
+      "args": [
+        1
+      ]
+    },
+    {
+      "id": 10,
+      "op": "PathLam",
+      "args": [
+        2
+      ]
+    },
+    {
+      "id": 11,
+      "op": "BoolElimF",
+      "args": [
+        8,
+        9,
+        10,
+        3
+      ]
+    },
+    {
+      "id": 12,
+      "op": "LamF",
+      "args": [
+        0,
+        11
+      ]
+    },
+    {
+      "id": 13,
+      "op": "DimVar",
+      "args": [
+        0
+      ]
+    },
+    {
+      "id": 14,
+      "op": "VType",
+      "args": [
+        13,
+        0,
+        0,
+        5,
+        5,
+        12,
+        12
+      ]
+    },
+    {
+      "id": 15,
+      "op": "PathLam",
+      "args": [
+        14
+      ]
+    },
+    {
+      "id": 16,
+      "op": "PathApp",
+      "args": [
+        15,
+        0,
+        0,
+        13
+      ]
+    },
+    {
+      "id": 17,
+      "op": "Dim0"
+    },
+    {
+      "id": 18,
+      "op": "Dim1"
+    },
+    {
+      "id": 19,
+      "op": "Coe",
+      "args": [
+        17,
+        18,
+        16,
+        2
+      ]
+    },
+    {
+      "id": 20,
+      "op": "PathType",
+      "args": [
+        0,
+        19,
+        1
+      ]
+    }
+  ],
+  "goal_type_node": 20,
+  "proof_term_node": 9,
+  "sha256_arena": "67dddc420e5bf4563879accab9135ac9058f05208b9cf9f5874d63b6f3c1a1a5"
+}

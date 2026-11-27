@@ -14,6 +14,8 @@ It packages the complete, standalone Lean 4 (`leanprover/lean4:v4.28.0`) codebas
 lake --dir kernel_arena build
 lake --dir kernel_arena exe kernel-arena --self-test
 lake --dir kernel_arena exe kernel-arena verify certs/ch01_bool_id_bootstrap.2ltt.json
+lake --dir kernel_arena exe kernel-arena verify certs/tcb_r1_path_sym_kan.2ltt.json
+lake --dir kernel_arena exe kernel-arena verify certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json
 
 # 2. Mathlib Vol II build & AuditEnv (Four-Color Stratum + Hidden-Edge Gate)
 cd mathlib_vol2

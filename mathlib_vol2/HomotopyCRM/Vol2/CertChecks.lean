@@ -37,4 +37,101 @@ theorem check_ch01_rem_trident_mode3_2ltt_bootstrap :
 #print axioms check_ch01_rem_trident_mode3_2ltt_bootstrap
 -- END_NODE ch01:rem:trident-mode3-2ltt-bootstrap
 
+-- BEGIN_NODE ch09:prop:pure-kan-path-symmetry-cert [spec:5c019cc2 body:ce39a117]
+def cert_ch09_prop_pure_kan_path_symmetry_cert : KernelArena.Cert where
+  schema := "kernel-arena.2ltt.v1"
+  declName := "TwoLTT.Rung1.boolF_path_sym"
+  universeDepthK := 1
+  fuelHint := 96
+  strataFlags := {
+    innerUnivalenceV := false
+    innerCoalgebraNu := false
+    outerStrictEq := false
+    smallnessReplacement := false
+  }
+  dimContexts := []
+  nodes := #[
+    { id := 0, op := .boolF },
+    { id := 1, op := .var 2 },
+    { id := 2, op := .var 1 },
+    { id := 3, op := .var 0 },
+    { id := 4, op := .pathType 0 2 3 },
+    { id := 5, op := .pathType 0 2 1 },
+    { id := 6, op := .piF 4 5 },
+    { id := 7, op := .piF 0 6 },
+    { id := 8, op := .piF 0 7 },
+    { id := 9, op := .dim0 },
+    { id := 10, op := .dim1 },
+    { id := 11, op := .dimVar 0 },
+    { id := 12, op := .cofEq 11 9 },
+    { id := 13, op := .cofEq 11 10 },
+    { id := 14, op := .pathApp 3 1 2 11 },
+    { id := 15, op := .hcom 9 10 0 1 [(12, 14), (13, 1)] },
+    { id := 16, op := .pathLam 15 },
+    { id := 17, op := .lamF 4 16 },
+    { id := 18, op := .lamF 0 17 },
+    { id := 19, op := .lamF 0 18 }
+  ]
+  goalTypeNode := 8
+  proofTermNode := 19
+  sha256Arena := "7497146f45293a347b329b9661492878be6725a8ee916c4657640414dc3df57a"
+
+theorem check_ch09_prop_pure_kan_path_symmetry_cert :
+    KernelArena.Check.checkCert 96 cert_ch09_prop_pure_kan_path_symmetry_cert = true :=
+  rfl
+
+/-- info: 'HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert' does not depend on any axioms -/
+#guard_msgs in
+#print axioms check_ch09_prop_pure_kan_path_symmetry_cert
+-- END_NODE ch09:prop:pure-kan-path-symmetry-cert
+
+-- BEGIN_NODE ch09:thm:bool-univalence-holonomy-cert [spec:da782c71 body:d8519d14]
+def cert_ch09_thm_bool_univalence_holonomy_cert : KernelArena.Cert where
+  schema := "kernel-arena.2ltt.v1"
+  declName := "TwoLTT.Rung1.boolF_ua_not_flips_false_to_true"
+  universeDepthK := 2
+  fuelHint := 96
+  strataFlags := {
+    innerUnivalenceV := true
+    innerCoalgebraNu := false
+    outerStrictEq := false
+    smallnessReplacement := false
+  }
+  dimContexts := []
+  nodes := #[
+    { id := 0, op := .boolF },
+    { id := 1, op := .trueF },
+    { id := 2, op := .falseF },
+    { id := 3, op := .var 0 },
+    { id := 4, op := .boolElimF 0 2 1 3 },
+    { id := 5, op := .lamF 0 4 },
+    { id := 6, op := .appF 5 3 },
+    { id := 7, op := .appF 5 6 },
+    { id := 8, op := .pathType 0 7 3 },
+    { id := 9, op := .pathLam 1 },
+    { id := 10, op := .pathLam 2 },
+    { id := 11, op := .boolElimF 8 9 10 3 },
+    { id := 12, op := .lamF 0 11 },
+    { id := 13, op := .dimVar 0 },
+    { id := 14, op := .vType 13 0 0 5 5 12 12 },
+    { id := 15, op := .pathLam 14 },
+    { id := 16, op := .pathApp 15 0 0 13 },
+    { id := 17, op := .dim0 },
+    { id := 18, op := .dim1 },
+    { id := 19, op := .coe 17 18 16 2 },
+    { id := 20, op := .pathType 0 19 1 }
+  ]
+  goalTypeNode := 20
+  proofTermNode := 9
+  sha256Arena := "67dddc420e5bf4563879accab9135ac9058f05208b9cf9f5874d63b6f3c1a1a5"
+
+theorem check_ch09_thm_bool_univalence_holonomy_cert :
+    KernelArena.Check.checkCert 96 cert_ch09_thm_bool_univalence_holonomy_cert = true :=
+  rfl
+
+/-- info: 'HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert' does not depend on any axioms -/
+#guard_msgs in
+#print axioms check_ch09_thm_bool_univalence_holonomy_cert
+-- END_NODE ch09:thm:bool-univalence-holonomy-cert
+
 end HomotopyCRM.Vol2

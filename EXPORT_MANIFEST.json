@@ -18,9 +18,11 @@
     "HomotopyCRM.Vol2.ZeroGiraud"
   ],
   "cert_files": [
-    "certs/ch01_bool_id_bootstrap.2ltt.json"
+    "certs/ch01_bool_id_bootstrap.2ltt.json",
+    "certs/tcb_r1_path_sym_kan.2ltt.json",
+    "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json"
   ],
-  "formal_node_count": 33,
+  "formal_node_count": 35,
   "formal_nodes": [
     {
       "id": "ch01:def:essential-fiber-trident",
@@ -886,6 +888,38 @@
       "cert_path": null,
       "spec_hash": "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e",
       "body_hash": "2b34f0af515329445d9be931ebccf6bccbd9c86f30a7520e135ca54badd9f90d"
+    },
+    {
+      "id": "ch09:prop:pure-kan-path-symmetry-cert",
+      "kind": "proposition",
+      "title": "Pure Kan Path Symmetry on Fibrant Booleans (KernelArena Rung 1)",
+      "formal_pkg": "kernel_arena",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.CertChecks",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch09_prop_pure_kan_path_symmetry_cert",
+        "HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert"
+      ],
+      "expected_axioms": [],
+      "cert_path": "certs/tcb_r1_path_sym_kan.2ltt.json",
+      "spec_hash": "5c019cc2943968ea852f10e5c682fbdf4c9461df28707b2be0dc2fa05d0cd5ef",
+      "body_hash": "ce39a1176812dd53b39efab78291702e4ce684a821825820ea97c1862e63ab50"
+    },
+    {
+      "id": "ch09:thm:bool-univalence-holonomy-cert",
+      "kind": "theorem",
+      "title": "Boolean Univalence Holonomy via Regularity-Safe V-Types (Sapphire Certificate)",
+      "formal_pkg": "kernel_arena",
+      "stratum": "sapphire",
+      "module": "HomotopyCRM.Vol2.CertChecks",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch09_thm_bool_univalence_holonomy_cert",
+        "HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert"
+      ],
+      "expected_axioms": [],
+      "cert_path": "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json",
+      "spec_hash": "da782c71fc6e1c3018b755f8f67685e020b81681636fafc353ce64630c7545ec",
+      "body_hash": "d8519d14b86ad3d59e0cbe47724842429f1c9ad49159a93678610f84ff94894c"
     }
   ]
 }

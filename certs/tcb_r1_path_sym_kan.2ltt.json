@@ -1,0 +1,171 @@
+{
+  "schema": "kernel-arena.2ltt.v1",
+  "decl_name": "TwoLTT.Rung1.boolF_path_sym",
+  "universe_depth_k": 1,
+  "fuel_hint": 96,
+  "strata_flags": {
+    "inner_univalence_V": false,
+    "inner_coalgebra_nu": false,
+    "outer_strict_eq": false,
+    "smallness_replacement": false
+  },
+  "dim_contexts": [],
+  "nodes": [
+    {
+      "id": 0,
+      "op": "BoolF"
+    },
+    {
+      "id": 1,
+      "op": "Var",
+      "args": [
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "op": "Var",
+      "args": [
+        1
+      ]
+    },
+    {
+      "id": 3,
+      "op": "Var",
+      "args": [
+        0
+      ]
+    },
+    {
+      "id": 4,
+      "op": "PathType",
+      "args": [
+        0,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "op": "PathType",
+      "args": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "id": 6,
+      "op": "PiF",
+      "args": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 7,
+      "op": "PiF",
+      "args": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "op": "PiF",
+      "args": [
+        0,
+        7
+      ]
+    },
+    {
+      "id": 9,
+      "op": "Dim0"
+    },
+    {
+      "id": 10,
+      "op": "Dim1"
+    },
+    {
+      "id": 11,
+      "op": "DimVar",
+      "args": [
+        0
+      ]
+    },
+    {
+      "id": 12,
+      "op": "CofEq",
+      "args": [
+        11,
+        9
+      ]
+    },
+    {
+      "id": 13,
+      "op": "CofEq",
+      "args": [
+        11,
+        10
+      ]
+    },
+    {
+      "id": 14,
+      "op": "PathApp",
+      "args": [
+        3,
+        1,
+        2,
+        11
+      ]
+    },
+    {
+      "id": 15,
+      "op": "HCom",
+      "args": [
+        9,
+        10,
+        0,
+        1,
+        12,
+        14,
+        13,
+        1
+      ]
+    },
+    {
+      "id": 16,
+      "op": "PathLam",
+      "args": [
+        15
+      ]
+    },
+    {
+      "id": 17,
+      "op": "LamF",
+      "args": [
+        4,
+        16
+      ]
+    },
+    {
+      "id": 18,
+      "op": "LamF",
+      "args": [
+        0,
+        17
+      ]
+    },
+    {
+      "id": 19,
+      "op": "LamF",
+      "args": [
+        0,
+        18
+      ]
+    }
+  ],
+  "goal_type_node": 8,
+  "proof_term_node": 19,
+  "sha256_arena": "7497146f45293a347b329b9661492878be6725a8ee916c4657640414dc3df57a"
+}
