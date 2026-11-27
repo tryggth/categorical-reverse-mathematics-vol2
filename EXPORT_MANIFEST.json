@@ -8,8 +8,11 @@
     "HomotopyCRM.Vol2.CertChecks",
     "HomotopyCRM.Vol2.ClassSetAdjunction",
     "HomotopyCRM.Vol2.DoctrinalFlows",
+    "HomotopyCRM.Vol2.EquivSplittingGC",
+    "HomotopyCRM.Vol2.ForcingMembrane",
     "HomotopyCRM.Vol2.MoritaInterleaving",
     "HomotopyCRM.Vol2.ObstructionTrident",
+    "HomotopyCRM.Vol2.PiSetTransgression",
     "HomotopyCRM.Vol2.ProbeSuite",
     "HomotopyCRM.Vol2.VerticalKaleidoscope",
     "HomotopyCRM.Vol2.ZeroGiraud"
@@ -17,7 +20,7 @@
   "cert_files": [
     "certs/ch01_bool_id_bootstrap.2ltt.json"
   ],
-  "formal_node_count": 27,
+  "formal_node_count": 33,
   "formal_nodes": [
     {
       "id": "ch01:def:essential-fiber-trident",
@@ -750,6 +753,139 @@
       "cert_path": null,
       "spec_hash": "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa",
       "body_hash": "15c8c90873f825dd30baa06a0c012d548804e959043216e66dfdd9313f3d79ea"
+    },
+    {
+      "id": "ch03:thm:anafunctor-vs-functorial-gc-splitting",
+      "kind": "theorem",
+      "title": "Choiceless Saturated Anafunctoriality vs. Functorial Global Choice Splitting",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.EquivSplittingGC",
+      "decl_names": [
+        "HomotopyCRM.Vol2.EquipollenceSystem",
+        "HomotopyCRM.Vol2.AnafunctorInvSpan",
+        "HomotopyCRM.Vol2.IsSaturatedAnafunctorSpan",
+        "HomotopyCRM.Vol2.FunctorialSplitting",
+        "HomotopyCRM.Vol2.UniformFiberChoice",
+        "HomotopyCRM.Vol2.IsVerticalGaugeTorsor",
+        "HomotopyCRM.Vol2.anafunctor_vs_functorial_gc_splitting"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "a455dc71539bdb710e644c5dff310a2ccf1ab9359539a6b9a497d50cad5e0cb0",
+      "body_hash": "9c980f476d9a9884c901d7f9f703799588778609f6f50ca97c7f16d705f324b5"
+    },
+    {
+      "id": "ch03:prop:skeleton-quotient-choice-stratum",
+      "kind": "proposition",
+      "title": "Equipollence Quotient Stratum Calibration on Type u (Amber vs. Crimson)",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "module": "HomotopyCRM.Vol2.EquivSplittingGC",
+      "decl_names": [
+        "HomotopyCRM.Vol2.EquivSetoid",
+        "HomotopyCRM.Vol2.EquipollenceQuot",
+        "HomotopyCRM.Vol2.equipollenceClass",
+        "HomotopyCRM.Vol2.equipollenceClass_eq_iff",
+        "HomotopyCRM.Vol2.equipollenceClass_surjective",
+        "HomotopyCRM.Vol2.HasGlobalEquipollenceRep",
+        "HomotopyCRM.Vol2.skeleton_quotient_choice_stratum"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "cert_path": null,
+      "spec_hash": "14ea145dd77411fa7a212a7f924dbf023f524aa979857353a284414cbb508261",
+      "body_hash": "6fcbda488b6242d714427705c4f2706a3e7706ce3006ee52b877b641dcad3ef1"
+    },
+    {
+      "id": "ch03:thm:felgner-kappa-closed-membrane",
+      "kind": "theorem",
+      "title": "Felgner's kappa-Closed Forcing Membrane and NBG Conservativity Over ZFC",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ForcingMembrane",
+      "decl_names": [
+        "HomotopyCRM.Vol2.StratifiedForcingMembrane",
+        "HomotopyCRM.Vol2.RankExhaustive",
+        "HomotopyCRM.Vol2.SmallDenseIntersectionClosed",
+        "HomotopyCRM.Vol2.ZeroBoundedSubsetLeak",
+        "HomotopyCRM.Vol2.natRankMembrane",
+        "HomotopyCRM.Vol2.felgner_kappa_closed_membrane"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "e0286b4649858a2c1c185504c5b4d65465f2e5ffe7a68e499a62f8e87252aebf",
+      "body_hash": "0b8fcdbfd50d8b6962fa4e74b32214079072143e4018353512dce5a7dec826bb"
+    },
+    {
+      "id": "ch03:prop:glazer-hartogs-scott-surjection",
+      "kind": "proposition",
+      "title": "Hartogs-Scott Prewellordering Stages and Glazer's Small-Domain Surjection Over GBC_0 + GC",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.ForcingMembrane",
+      "decl_names": [
+        "HomotopyCRM.Vol2.HartogsPreWOSystem",
+        "HomotopyCRM.Vol2.GlazerSeparationSystem",
+        "HomotopyCRM.Vol2.GlobalCountableEnum",
+        "HomotopyCRM.Vol2.glazerCode",
+        "HomotopyCRM.Vol2.glazerSmallGraph",
+        "HomotopyCRM.Vol2.glazer_hartogs_scott_surjection"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "5a951a987721b2174c7d1d4e78ce56ba664d3404e82ba995c0f7e478c87a11a1",
+      "body_hash": "700b873806b853db5248f08a7b51f992f0db3a49cdd00453aa87b3e82968fb17"
+    },
+    {
+      "id": "ch03:thm:piset-transgression-exactness",
+      "kind": "theorem",
+      "title": "Lindenbaum-Stone Transgression Operator d_Set and Syntactic Pullback Exactness",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.PiSetTransgression",
+      "decl_names": [
+        "HomotopyCRM.Vol2.classExt",
+        "HomotopyCRM.Vol2.dSet",
+        "HomotopyCRM.Vol2.dSetEqBot",
+        "HomotopyCRM.Vol2.ULeak",
+        "HomotopyCRM.Vol2.IsSyntacticBaseChangePullback",
+        "HomotopyCRM.Vol2.piset_transgression_exactness"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "f3f02470f7d2438bb8f215ce45a276575846c5839e17fcc11221b21441acce87",
+      "body_hash": "33d29f1025a7c06abed75aebc1db7cc5dc32b6a7e8d9b52bde8ec39cae4af090"
+    },
+    {
+      "id": "ch03:thm:two-valve-transgression-dichotomy",
+      "kind": "theorem",
+      "title": "Two-Valve Base-Fiber Transgression Dichotomy Across (Replacement x Foundation)",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.PiSetTransgression",
+      "decl_names": [
+        "HomotopyCRM.Vol2.QuadSetTh",
+        "HomotopyCRM.Vol2.quadSetLe",
+        "HomotopyCRM.Vol2.quadSetSup",
+        "HomotopyCRM.Vol2.QuadClsTh",
+        "HomotopyCRM.Vol2.quadTraceSet",
+        "HomotopyCRM.Vol2.quadClsLe",
+        "HomotopyCRM.Vol2.quadrantClassSystem",
+        "HomotopyCRM.Vol2.quadrantBase",
+        "HomotopyCRM.Vol2.gcAxiom",
+        "HomotopyCRM.Vol2.notGlzLeakAtom",
+        "HomotopyCRM.Vol2.dcOrdLeakAtom",
+        "HomotopyCRM.Vol2.dSetGC",
+        "HomotopyCRM.Vol2.two_valve_transgression_dichotomy"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e",
+      "body_hash": "2b34f0af515329445d9be931ebccf6bccbd9c86f30a7520e135ca54badd9f90d"
     }
   ]
 }

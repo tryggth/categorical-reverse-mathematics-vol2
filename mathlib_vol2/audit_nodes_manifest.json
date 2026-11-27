@@ -678,6 +678,124 @@
       "allowed_ancestors": [
         "ch02:thm:williams-fixed-set-kaleidoscope"
       ]
+    },
+    {
+      "id": "ch03:prop:glazer-hartogs-scott-surjection",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.HartogsPreWOSystem",
+        "HomotopyCRM.Vol2.GlazerSeparationSystem",
+        "HomotopyCRM.Vol2.GlobalCountableEnum",
+        "HomotopyCRM.Vol2.glazerCode",
+        "HomotopyCRM.Vol2.glazerSmallGraph",
+        "HomotopyCRM.Vol2.glazer_hartogs_scott_surjection"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch03:prop:glazer-hartogs-scott-surjection"
+      ]
+    },
+    {
+      "id": "ch03:prop:skeleton-quotient-choice-stratum",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "decl_names": [
+        "HomotopyCRM.Vol2.EquivSetoid",
+        "HomotopyCRM.Vol2.EquipollenceQuot",
+        "HomotopyCRM.Vol2.equipollenceClass",
+        "HomotopyCRM.Vol2.equipollenceClass_eq_iff",
+        "HomotopyCRM.Vol2.equipollenceClass_surjective",
+        "HomotopyCRM.Vol2.HasGlobalEquipollenceRep",
+        "HomotopyCRM.Vol2.skeleton_quotient_choice_stratum"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "allowed_ancestors": [
+        "ch03:prop:skeleton-quotient-choice-stratum"
+      ]
+    },
+    {
+      "id": "ch03:thm:anafunctor-vs-functorial-gc-splitting",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.EquipollenceSystem",
+        "HomotopyCRM.Vol2.AnafunctorInvSpan",
+        "HomotopyCRM.Vol2.IsSaturatedAnafunctorSpan",
+        "HomotopyCRM.Vol2.FunctorialSplitting",
+        "HomotopyCRM.Vol2.UniformFiberChoice",
+        "HomotopyCRM.Vol2.IsVerticalGaugeTorsor",
+        "HomotopyCRM.Vol2.anafunctor_vs_functorial_gc_splitting"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch03:thm:anafunctor-vs-functorial-gc-splitting"
+      ]
+    },
+    {
+      "id": "ch03:thm:felgner-kappa-closed-membrane",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.StratifiedForcingMembrane",
+        "HomotopyCRM.Vol2.RankExhaustive",
+        "HomotopyCRM.Vol2.SmallDenseIntersectionClosed",
+        "HomotopyCRM.Vol2.ZeroBoundedSubsetLeak",
+        "HomotopyCRM.Vol2.natRankMembrane",
+        "HomotopyCRM.Vol2.felgner_kappa_closed_membrane"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch03:thm:felgner-kappa-closed-membrane"
+      ]
+    },
+    {
+      "id": "ch03:thm:piset-transgression-exactness",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.classExt",
+        "HomotopyCRM.Vol2.dSet",
+        "HomotopyCRM.Vol2.dSetEqBot",
+        "HomotopyCRM.Vol2.ULeak",
+        "HomotopyCRM.Vol2.IsSyntacticBaseChangePullback",
+        "HomotopyCRM.Vol2.piset_transgression_exactness"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch02:prop:syntactic-conservative-pullback",
+        "ch03:thm:piset-transgression-exactness"
+      ]
+    },
+    {
+      "id": "ch03:thm:two-valve-transgression-dichotomy",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.QuadSetTh",
+        "HomotopyCRM.Vol2.quadSetLe",
+        "HomotopyCRM.Vol2.quadSetSup",
+        "HomotopyCRM.Vol2.QuadClsTh",
+        "HomotopyCRM.Vol2.quadTraceSet",
+        "HomotopyCRM.Vol2.quadClsLe",
+        "HomotopyCRM.Vol2.quadrantClassSystem",
+        "HomotopyCRM.Vol2.quadrantBase",
+        "HomotopyCRM.Vol2.gcAxiom",
+        "HomotopyCRM.Vol2.notGlzLeakAtom",
+        "HomotopyCRM.Vol2.dcOrdLeakAtom",
+        "HomotopyCRM.Vol2.dSetGC",
+        "HomotopyCRM.Vol2.two_valve_transgression_dichotomy"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch02:prop:syntactic-conservative-pullback",
+        "ch03:thm:piset-transgression-exactness",
+        "ch03:thm:two-valve-transgression-dichotomy"
+      ]
     }
   ]
 }

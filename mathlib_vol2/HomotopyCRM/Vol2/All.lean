@@ -1,7 +1,10 @@
 import HomotopyCRM.Vol2.ClassSetAdjunction
 import HomotopyCRM.Vol2.DoctrinalFlows
+import HomotopyCRM.Vol2.EquivSplittingGC
+import HomotopyCRM.Vol2.ForcingMembrane
 import HomotopyCRM.Vol2.MoritaInterleaving
 import HomotopyCRM.Vol2.ObstructionTrident
+import HomotopyCRM.Vol2.PiSetTransgression
 import HomotopyCRM.Vol2.ProbeSuite
 import HomotopyCRM.Vol2.VerticalKaleidoscope
 import HomotopyCRM.Vol2.ZeroGiraud
