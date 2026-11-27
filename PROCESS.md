@@ -6,19 +6,19 @@ This document explains the machine-checked **single-network architecture** power
 
 All mathematical definitions, theorems, counterexamples, inline claims, prose blocks, summary tables, symbol registries, Volume I contracts, roadmap work items (`nodes/plan/*.toml`), and publication sinks (`nodes/pub/*.toml`) live as declarative TOML nodes compiled deterministically by `scripts/compile_db.py` into `build/vol2.duckdb` (`scripts/schema.sql`).
 
-Edges span **five orthogonal fibers** (currently `504` total directed edges):
+Edges span **five orthogonal fibers** (currently `538` total directed edges):
 
-1. **`logical_dep` (123 edges):** Mathematical and structural proof dependencies.
-2. **`lean_dep` (44 edges):** Formal Lean 4 module/declaration dependencies verified by the Hidden-Edge Gate.
-3. **`prose_paraphrase` (94 edges):** Spec-hash-locked paraphrasing links from formal/claim nodes into Cohort IV prose containers and `pub:doc:repo-frontdoor`.
-4. **`notation` (134 edges):** Automatic dependencies induced by `{{sym:...}}` and `{{ref:...}}` macros.
+1. **`logical_dep` (142 edges):** Mathematical and structural proof dependencies.
+2. **`lean_dep` (46 edges):** Formal Lean 4 module/declaration dependencies verified by the Hidden-Edge Gate.
+3. **`prose_paraphrase` (99 edges):** Spec-hash-locked paraphrasing links from formal/claim nodes into Cohort IV prose containers and `pub:doc:repo-frontdoor`.
+4. **`notation` (142 edges):** Automatic dependencies induced by `{{sym:...}}` and `{{ref:...}}` macros.
 5. **`curriculum` (109 edges):** Pedagogical dependencies used by `scripts/slice_course.py` to carve standalone Royal Octavo Course Packs.
 
 DuckDB enforces four structural SQL invariants on every compile:
 - **Per-Fiber & Structural-Union Acyclicity:** Terminating `WITH RECURSIVE` CTE cycle checks across each fiber individually and across their union.
 - **Pinned Volume I Boundary:** Every `vol1_external` contract has in-degree `0`.
 - **Two-Package TCB Isolation:** Zero `lean_dep` edges may cross between `mathlib_vol2` and `kernel_arena`.
-- **Publication Sink Discipline:** Every `pub_target` has out-degree `0` across all five fibers.
+- **Publication Sink Discipline:** No edge from a `pub_target` may target a non-`pub_target` node (`0` core pollution, `0` cycles); acyclic `pub_target -> pub_target` endpoint-provider edges are permitted so `pub:doc:repo-frontdoor` tracks published `gh-pages` endpoints.
 
 ## 2. Two-Hash Taint Isolation (`spec_hash`, `body_hash`, `grounding_hash`) & `harvest_body.py`
 
@@ -48,7 +48,7 @@ Every Cohort IV prose container (`prose_block`, `summary_table`) and `pub:doc:re
 | Stratum | Kernel Axioms | Semantics |
 |---|---|---|
 | **Emerald** | `[]` | Purely constructive, axiom-free Lean 4 or zero-axiom `KernelArena` kernel reduction |
-| **Sapphire** | Safe 2LTT | Two-level type-theoretic extension (`innerUnivalenceV`, `innerCoalgebraNu`, `outerStrictEq`, `smallnessReplacement`) inside `KernelArena` |
+| **Sapphire** | Safe 2LTT | Constructive two-level type-theoretic extensions (`inner_univalence_V`, `inner_coalgebra_nu`) inside zero-`Mathlib` `KernelArena` |
 | **Amber** | `propext`, `Quot.sound` | Propositional extensionality and/or quotient soundness without choice |
 | **Crimson** | `Classical.choice` (+ `propext`, `Quot.sound`) | Classical choice-dependent theorems |
 

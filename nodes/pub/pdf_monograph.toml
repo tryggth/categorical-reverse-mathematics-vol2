@@ -12,6 +12,7 @@ stratum = "none"
 [pub]
 channel = "gh_pages"
 sensitivity = "spec_and_body"
+published_paths = ["pdfs/crm_vol2_monograph.pdf"]
 outputs = [
   "build/tex/crm_vol2_monograph.pdf",
   "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
@@ -25,7 +26,9 @@ logical_dep = [
   "ch02:prose:part1-ch02-roadmap",
   "ch02:tab:vertical-class-spectrum",
   "ch03:prose:ch03-transgression-roadmap",
-  "ch03:tab:piset-four-quadrant-ledger"
+  "ch03:tab:piset-four-quadrant-ledger",
+  "ch09:prose:ch09-tcb-r1-roadmap",
+  "ch09:thm:bool-univalence-holonomy-cert"
 ]
 lean_dep = []
 curriculum = []

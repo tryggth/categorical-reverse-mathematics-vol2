@@ -12,6 +12,7 @@ stratum = "none"
 [pub]
 channel = "gh_pages"
 sensitivity = "spec_and_body"
+published_paths_source = "build/course_pack_manifest.json"
 outputs = [
   "build/tex/course_pack_ch01_probe_calibration.pdf",
   "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf",

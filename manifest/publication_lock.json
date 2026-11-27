@@ -1,22 +1,23 @@
 {
   "schema": "vol2.publication_lock.v1",
-  "updated_at_utc": "2026-11-27T02:38:53.006750+00:00",
+  "updated_at_utc": "2026-11-27T13:50:31.165038+00:00",
   "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
   "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
-  "lean_export_commit": "23ac7ab9afa8e6e802c17eb5d88250dee2715152",
+  "lean_export_commit": "8575128ac4f1efda1339421d0e6ec94c7c00bcfc",
   "pub_targets": {
     "pub:branch:lean-export": {
-      "cone_hash": "7ed86eb3f19be6d48125463f2c8ce569bff7a6c8a1663edb07c1eed11450adb9",
+      "cone_hash": "48a3185a7fedaa31dbd048f472c72558c2fc7e9b21d86d6e858a1a12128e106a",
       "channel": "lean_export",
       "sensitivity": "lean_only",
       "outputs": [
         "refs/heads/lean-export",
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     },
     "pub:doc:repo-frontdoor": {
-      "cone_hash": "844ff3f148dbfc802d12eede7e5510dcb553b203283ac9f748fb042bef7db694",
+      "cone_hash": "dcbd5f26b4b708a002c81b09c9c964583027699cca65f63b118d49bdd59fba87",
       "channel": "main_docs",
       "sensitivity": "spec_and_metrics",
       "outputs": [
@@ -25,30 +26,35 @@
         "ROADMAP.md",
         "CITATION.cff"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     },
     "pub:gh:issues-board": {
-      "cone_hash": "40b734c5c20be9087d6562d37ed5a02c633951ef61271da3b32c07281a1740b5",
+      "cone_hash": "5d49b0aba7644d1fccf650f6bb04a7a6f197f0981674f3ff9aa0d4c1fd36ad52",
       "channel": "gh_issues",
       "sensitivity": "plan_and_problems",
       "outputs": [
         "github:milestones",
         "github:issues"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     },
     "pub:pdf:claims-ledger": {
-      "cone_hash": "5daa68433a7c5255547d9d29513d15bbe3e3c339a805a3026fae7c7cab9384a2",
+      "cone_hash": "eb193cdb1fc6cc2baeb1eaedd655b9495edfabd6ae4607c188c30127952ae90b",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
         "build/tex/crm_vol2_claims_ledger.pdf",
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [
+        "pdfs/crm_vol2_claims_ledger.pdf"
+      ],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     },
     "pub:pdf:course-packs": {
-      "cone_hash": "16102b3bc676fbbca9add34643a37b1d3767aa4eff73058ab3e7941e24805aab",
+      "cone_hash": "96c19f20067913a3403f48766c5fce67759795a097566cd95728e6ac40af4f34",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
@@ -59,20 +65,28 @@
         "build/tex/course_pack_ch03_piset_transgression.pdf",
         "build/gh_pages/pdfs/course_pack_ch03_piset_transgression.pdf"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [
+        "pdfs/course_pack_ch01_probe_calibration.pdf",
+        "pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
+        "pdfs/course_pack_ch03_piset_transgression.pdf"
+      ],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     },
     "pub:pdf:monograph": {
-      "cone_hash": "3a155e5d627a573d980c9bf51c6f6f124ceba86ddd1f04287d565bd8932acd07",
+      "cone_hash": "48a2ebca0c85bf895487c1f627b5f5fbe17140540b8082c1a15ec9d345a6ca0e",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
         "build/tex/crm_vol2_monograph.pdf",
         "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [
+        "pdfs/crm_vol2_monograph.pdf"
+      ],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     },
     "pub:web:observatory": {
-      "cone_hash": "cd1880155c8aa8bfb2b6449c66be9031f06240ad7421f14d9c2bfd2016048402",
+      "cone_hash": "9ec9c8057fa007cf2fcc6436b168a21bcb63a54f83aa13d41584c1db9f14adbd",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
@@ -82,7 +96,11 @@
         "build/gh_pages/data/network.json",
         "build/gh_pages/.nojekyll"
       ],
-      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
+      "published_paths": [
+        "index.html",
+        "data/network.json"
+      ],
+      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
     }
   },
   "milestones": {
@@ -98,17 +116,6 @@
     "TCB: KernelArena 2LTT": 10
   },
   "issues": {
-    "plan:tcb-rung1-cubical-kan": {
-      "number": 4,
-      "title": "[TCB Rung 1] TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not)",
-      "state": "OPEN",
-      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4",
-      "milestone": "TCB: KernelArena 2LTT",
-      "labels": [
-        "slice:active",
-        "tcb:kernel-arena"
-      ]
-    },
     "plan:ch04-smallness-and-schemes": {
       "number": 5,
       "title": "[Ch. 4] Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum",
@@ -116,7 +123,7 @@
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5",
       "milestone": "Chapter 4: Smallness Valves & Scheme Residuum",
       "labels": [
-        "slice:planned"
+        "slice:active"
       ]
     },
     "plan:ch05-borel-unraveling": {
@@ -237,6 +244,16 @@
       "state": "CLOSED",
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3",
       "milestone": "Chapter 3: Leray Transgression Along pi_Set",
+      "labels": [
+        "slice:verified"
+      ]
+    },
+    "plan:tcb-rung1-cubical-kan": {
+      "number": 4,
+      "title": "[TCB Rung 1] TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not)",
+      "state": "CLOSED",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4",
+      "milestone": "TCB: KernelArena 2LTT",
       "labels": [
         "slice:verified"
       ]

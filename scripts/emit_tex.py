@@ -50,6 +50,11 @@ CHAPTER_HEADERS = {
         r"\chapterepigraph{Sometimes I have had the task to write reviews of articles, where set theoretic notions and theorems are used without any explanation of what kind of set theory is meant. It is a disagreeable job to write reviews in such cases. One does not know what the author really means.}{Thoralf Skolem, \emph{A Critical Remark on Foundational Research} (1955)}",
         "",
     ],
+    "ch09": [
+        r"\part{Two-Level Type Theory, KernelArena, and Constructive Limits}\label{part:2ltt-tcb}",
+        r"\chapter{Cartesian Cubical 2LTT, \texorpdfstring{$\mathsf{V}$}{V}-Univalence, and \texorpdfstring{\texttt{KernelArena}}{KernelArena} Rung~1}\label{ch:tcb-rung1-2ltt}",
+        "",
+    ],
 }
 
 SECTION_TITLES = {
@@ -104,6 +109,10 @@ SECTION_TITLES = {
     "3.4": (
         "The Two-Valve Base--Fiber Dichotomy, Morleyized Topoi, and Part~I Synthesis",
         "sec:two-valve-dichotomy",
+    ),
+    "9.1": (
+        r"Cartesian Cubical 2LTT, Univalent Transport, and \texorpdfstring{\texttt{KernelArena}}{KernelArena} Rung~1",
+        "sec:tcb-rung1-2ltt",
     ),
 }
 
@@ -170,7 +179,12 @@ def tex_escape(s: str) -> str:
         "Ω": r"$\Omega$",
         "Σ": r"$\Sigma$",
         "Φ": r"$\Phi$",
+        "Ψ": r"$\Psi$",
+        "φ": r"$\varphi$",
+        "ψ": r"$\psi$",
         "κ": r"$\kappa$",
+        "ℓ": r"$\ell$",
+        "≡": r"$\equiv$",
         "₀": r"\textsubscript{0}",
         "₁": r"\textsubscript{1}",
         "₂": r"\textsubscript{2}",
@@ -416,13 +430,24 @@ def render_node_tex(
     elif node["formal_pkg"] == "kernel_arena":
         cert_rel = node.get("cert_path", "")
         decls = ", ".join(node["decl_names"])
+        stratum = node.get("stratum", "emerald")
+        color_macro, base_label = STRATUM_STYLES.get(
+            stratum, ("CRMEmerald", "Emerald (Axiom-Free)")
+        )
+        short_name = base_label.split(" (", 1)[0]
         if bp_tier == "twoltt_witness":
+            badge_label = f"{short_name} (2LTT Witness)"
             lines.append(f"\\twoltt{{{decls}}}\\twolttwitness")
-            lines.append("\\stratumbadge{CRMEmerald}{Emerald (2LTT Witness)}")
+            lines.append(f"\\stratumbadge{{{color_macro}}}{{{badge_label}}}")
             lines.append(f"\\formalrefline{{2LTT Witness}}{{{tex_escape(cert_rel)}}}")
         else:
+            badge_label = (
+                "Sapphire (Safe 2LTT Kernel Arena)"
+                if stratum == "sapphire"
+                else f"{short_name} (2LTT Kernel Arena)"
+            )
             lines.append(f"\\twoltt{{{decls}}}\\twolttok")
-            lines.append("\\stratumbadge{CRMEmerald}{Emerald (2LTT Kernel Arena)}")
+            lines.append(f"\\stratumbadge{{{color_macro}}}{{{badge_label}}}")
             lines.append(f"\\formalrefline{{2LTT Cert}}{{{tex_escape(cert_rel)}}}")
 
     lines.append(expanded_tex)

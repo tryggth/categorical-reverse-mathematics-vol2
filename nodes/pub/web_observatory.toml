@@ -12,6 +12,7 @@ stratum = "none"
 [pub]
 channel = "gh_pages"
 sensitivity = "spec_body_and_grounding"
+published_paths = ["index.html", "data/network.json"]
 outputs = [
   "build/gh_pages/index.html",
   "build/gh_pages/styles.css",
@@ -25,7 +26,10 @@ logical_dep = [
   "ch01:prose:meta-crm-roadmap",
   "ch01:tab:epistemic-probe-regimes",
   "plan:ch01-p1a",
-  "plan:ch09-cic-vs-2ltt-horizons"
+  "plan:tcb-rung1-cubical-kan",
+  "plan:ch09-cic-vs-2ltt-horizons",
+  "ch09:prose:ch09-tcb-r1-roadmap",
+  "ch09:thm:bool-univalence-holonomy-cert"
 ]
 lean_dep = []
 curriculum = [

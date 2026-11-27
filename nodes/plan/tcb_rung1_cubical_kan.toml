@@ -15,13 +15,19 @@ milestone_num = 10
 slice_code = "TCB Rung 1"
 target_modules = [
   "KernelArena.AST",
+  "KernelArena.Cofib",
+  "KernelArena.ShiftSubst",
+  "KernelArena.Whnf",
   "KernelArena.Check",
+  "KernelArena.Cert",
   "HomotopyCRM.Vol2.CertChecks"
 ]
 deliverable_nodes = [
-  "tcb:tool:arena-builder-dsl",
-  "tcb:cert:cubical-coe-hcom",
-  "tcb:cert:v-univalence-ua-not"
+  "sym:cubical-2ltt",
+  "ch09:prose:ch09-tcb-r1-roadmap",
+  "ch09:def:cartesian-2ltt-cofibration-calculus",
+  "ch09:prop:pure-kan-path-symmetry-cert",
+  "ch09:thm:bool-univalence-holonomy-cert"
 ]
 guardrails = []
 summary = "Implement scripts/arena_builder.py high-level DSL and extend zero-Mathlib kernel_arena/ with Cartesian interval Psi, union-find cofibrations F, Path types, coe/hcom Kan operations, and V-Univalence certificate ua(not)."

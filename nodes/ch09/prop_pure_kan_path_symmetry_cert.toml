@@ -1,0 +1,70 @@
+id = "ch09:prop:pure-kan-path-symmetry-cert"
+kind = "proposition"
+title = "Pure Kan Path Symmetry on Fibrant Booleans (KernelArena Rung 1)"
+chapter = "ch09"
+section = "9.1"
+seq_order = 915
+axis = "2ltt_tcb"
+grounding_tier = "twoltt_ok"
+formal_pkg = "kernel_arena"
+stratum = "emerald"
+cite_keys = ["abcfhl2021"]
+
+[spec]
+cert_path = "certs/tcb_r1_path_sym_kan.2ltt.json"
+statement = "In the zero-Mathlib Cartesian cubical KernelArena TCB (universe depth k = 1, all strata flags false), every inner path p : Path (_. 2^f) x y over x, y : 2^f admits an explicit Kan-constructed inverse path sym p := <j> hcom 0 1 2^f [(j=0, i. p @ i), (j=1, _. x)] x : Path (_. 2^f) y x with verified boundary checks (sym p) @ 0 === y and (sym p) @ 1 === x."
+hypotheses = ["Cartesian cofibration union-find entailment and pure Kan hcom rules without V-types."]
+
+[spec.kernel_arena]
+decl_names = [
+  "HomotopyCRM.Vol2.cert_ch09_prop_pure_kan_path_symmetry_cert",
+  "HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert"
+]
+expected_axioms = []
+cert_const_short = "cert_ch09_prop_pure_kan_path_symmetry_cert"
+check_thm_short = "check_ch09_prop_pure_kan_path_symmetry_cert"
+
+[body]
+tex = """
+\\begin{proposition}[Pure Kan Path Symmetry Certificate on $2^f$]\\label{ch09:prop:pure-kan-path-symmetry-cert}%
+Over the Cartesian cubical kernel {{ref:ch09:def:cartesian-2ltt-cofibration-calculus}} at universe depth $k = 1$ with all univalence, coalgebra, strict-equality, and replacement flags disabled, the zero-\\texttt{Mathlib} checker verifies
+\\[
+  \\mathsf{boolF\\_path\\_sym} :
+  \\Pi^f (x\\,y : 2^f)\\,(p : \\mathsf{Path}_{\\_.2^f}(x,y)),\\; \\mathsf{Path}_{\\_.2^f}(y,x)
+\\]
+by pure homogeneous Kan composition {{sym:kan-hcom}} without {{sym:vtype}}-types \\cite{abcfhl2021}.
+\\end{proposition}
+\\begin{proof}
+Construct the path abstraction
+\\[
+  \\mathrm{sym}(x,y,p) := \\langle j \\rangle\\,{{sym:kan-hcom}}^{0\\to 1}_{2^f}\\bigl[(j=0,\\; i.\\, p \\mathbin{@} i),\\; (j=1,\\; \\_.\\, x)\\bigr]\\,x.
+\\]
+Along the face $j = 0$, the first tube evaluates at $i = 0$ to $x$, matching the base $x$, and evaluates at $i = 1$ to $p \\mathbin{@} 1 \\equiv y$. Along $j = 1$, the second tube is constant at $x$, matching both the base at $i = 0$ and the endpoint $x$ at $i = 1$. On the overlap $j = 0 \\wedge j = 1$, union-find cofibration entailment detects inconsistency ($0 = 1$), discharging tube agreement vacuously. Certificate \\texttt{certs/tcb\\_r1\\_path\\_sym\\_kan.2ltt.json} checks deterministically in \\texttt{KernelArena} and via kernel \\texttt{rfl} in \\texttt{HomotopyCRM.Vol2.CertChecks}.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by 2LTT certificate"
+blueprint_tier = "twoltt_ok"
+characterization_types = ["Homotopy Type / Classifying Space", "Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "twoltt_cert"
+ref = "certs/tcb_r1_path_sym_kan.2ltt.json"
+purpose = "20-node KernelArena Rung 1 DAG certificate verified by KernelArena and rfl in Emerald stratum"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "abcfhl2021"
+locator = "Sec. 3.2, pp. 441--444"
+purpose = "Standard Cartesian hcom path-inversion box construction"
+
+[edges]
+logical_dep = [
+  "ch01:rem:trident-mode3-2ltt-bootstrap",
+  "ch09:def:cartesian-2ltt-cofibration-calculus"
+]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

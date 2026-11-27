@@ -164,14 +164,61 @@ def parse_bib_keys(bib_path: Path) -> set[str]:
     return set(BIB_ENTRY_RE.findall(text))
 
 
+def kernel_arena_expected_stratum(strata_flags: dict[str, Any]) -> str:
+    if strata_flags.get("inner_univalence_V") or strata_flags.get("inner_coalgebra_nu"):
+        return "sapphire"
+    if strata_flags.get("outer_strict_eq") or strata_flags.get("smallness_replacement"):
+        return "amber"
+    return "emerald"
+
+
+def resolve_published_paths(pub: dict[str, Any]) -> list[str]:
+    src = pub.get("published_paths_source")
+    if src:
+        src_path = REPO_ROOT / str(src)
+        if src_path.exists():
+            try:
+                data = json.loads(src_path.read_text(encoding="utf-8"))
+                packs = data.get("packs")
+                if isinstance(packs, dict) and packs:
+                    return sorted(
+                        f"pdfs/{entry['stem']}.pdf"
+                        for entry in packs.values()
+                        if isinstance(entry, dict) and entry.get("stem")
+                    )
+            except (OSError, json.JSONDecodeError, TypeError):
+                pass
+        return [
+            out.removeprefix("build/gh_pages/")
+            for out in pub.get("outputs", [])
+            if isinstance(out, str) and out.startswith("build/gh_pages/")
+        ]
+    raw = pub.get("published_paths", [])
+    return [str(p) for p in raw]
+
+
 def expand_cert_ast(nodes_by_id: dict[int, dict[str, Any]], node_id: int) -> Any:
     """Build a canonical, ID-free AST subtree from a certificate node DAG."""
     node = nodes_by_id[node_id]
     op = node["op"]
     args = node.get("args", [])
-    if op in ("UnivS", "UnivF", "Var"):
+    if op in ("UnivS", "UnivF", "Var", "DimVar"):
         return {"op": op, "val": args[0]}
-    if op in ("BoolS", "BoolF", "TrueF", "FalseF"):
+    if op in (
+        "BoolS",
+        "BoolF",
+        "TrueF",
+        "FalseF",
+        "Dim0",
+        "Dim1",
+        "CofTop",
+        "CofBot",
+        "UnitS",
+        "StarS",
+        "EmptyF",
+        "UnitF",
+        "StarF",
+    ):
         return {"op": op}
     return {
         "op": op,
@@ -460,6 +507,14 @@ def compile_network() -> dict[str, Any]:
             decl_names = ka_spec.get("decl_names", [])
             expected_axioms = ka_spec.get("expected_axioms", [])
             cert_path = spec.get("cert_path") or node.get("cert_path")
+            if cert_path:
+                cert_obj = load_cert_data(cert_path)
+                exp_stratum = kernel_arena_expected_stratum(cert_obj.get("strata_flags", {}))
+                if node.get("stratum", "none") != exp_stratum:
+                    honesty_violations.append(
+                        f"HONESTY_KA_STRATUM: {nid} declares stratum='{node.get('stratum')}' "
+                        f"but cert strata_flags require '{exp_stratum}'"
+                    )
         else:
             module = None
             decl_names = []
@@ -778,13 +833,15 @@ def compile_network() -> dict[str, Any]:
         """
     ).fetchall()
 
-    # Gate (d): Publication sink out-degree == 0 across all fibers
+    # Gate (d): Publication sink out-degree == 0 to non-pub_target nodes
     pub_outdegree_violations = con.execute(
         """
-        SELECT e.src_id, e.dst_id, e.fiber
+        SELECT e.src_id, e.dst_id, e.fiber, dst.kind
         FROM edges e
-        JOIN nodes n ON e.src_id = n.id
-        WHERE n.kind = 'pub_target'
+        JOIN nodes src ON e.src_id = src.id
+        JOIN nodes dst ON e.dst_id = dst.id
+        WHERE src.kind = 'pub_target'
+          AND dst.kind <> 'pub_target'
         """
     ).fetchall()
 
@@ -1072,6 +1129,7 @@ def compile_network() -> dict[str, Any]:
             "vol1_pinned_head",
             "vol1_zenodo_doi",
             "github_repo",
+            "pages_base_url",
             "citation_date",
             "phase",
             "active_slice",
@@ -1080,6 +1138,9 @@ def compile_network() -> dict[str, Any]:
     issues_meta = pub_lock_full.get("issues", {})
     lean_tool_hashes = compute_tracked_lean_hashes() if pub_target_nodes else []
 
+    pub_resolved_paths: dict[str, list[str]] = {
+        n["id"]: resolve_published_paths(n.get("pub", {})) for n in pub_target_nodes
+    }
     pub_targets_report: dict[str, Any] = {}
     pub_tainted_nodes: list[str] = []
     pub_dirty_nodes: list[str] = []
@@ -1091,6 +1152,7 @@ def compile_network() -> dict[str, Any]:
         channel = pub.get("channel", "")
         sensitivity = pub.get("sensitivity", "")
         outputs = pub.get("outputs", [])
+        published_paths = pub_resolved_paths.get(nid, [])
 
         if nid == "pub:pdf:course-packs":
             cone_sql = """
@@ -1233,6 +1295,26 @@ def compile_network() -> dict[str, Any]:
                 ],
             }
 
+        pub_providers = [
+            {
+                "id": r[0],
+                "spec_hash": nodes_by_id[r[0]]["_spec_hash"],
+                "published_paths": pub_resolved_paths.get(r[0], []),
+            }
+            for r in con.execute(
+                """
+                SELECT DISTINCT e.src_id
+                FROM edges e
+                JOIN nodes src ON e.src_id = src.id
+                WHERE e.dst_id = ? AND src.kind = 'pub_target'
+                ORDER BY e.src_id
+                """,
+                [nid],
+            ).fetchall()
+        ]
+        if pub_providers:
+            cone_payload["pub_providers"] = pub_providers
+
         cone_hash = hashlib.sha256(
             b"VOL2_PUB_CONE_V1\x00" + canonical_json(cone_payload).encode("utf-8")
         ).hexdigest()
@@ -1250,6 +1332,9 @@ def compile_network() -> dict[str, Any]:
             )
         else:
             upstream_tainted = in_cone_tainted
+        prov_tainted = [p["id"] for p in pub_providers if p["id"] in pub_prose_mismatches]
+        if prov_tainted:
+            upstream_tainted = sorted(set(upstream_tainted) | set(prov_tainted))
 
         if nid in pub_prose_mismatches:
             pub_status = "TAINTED"
@@ -1269,12 +1354,13 @@ def compile_network() -> dict[str, Any]:
             pub_clean_nodes.append(nid)
 
         con.execute(
-            "INSERT INTO pub_targets VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pub_targets VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 nid,
                 channel,
                 sensitivity,
                 json.dumps(outputs),
+                json.dumps(published_paths),
                 cone_hash,
                 locked_cone_hash,
                 pub_status,
@@ -1291,6 +1377,7 @@ def compile_network() -> dict[str, Any]:
             "channel": channel,
             "sensitivity": sensitivity,
             "outputs": outputs,
+            "published_paths": published_paths,
             "cone_hash": cone_hash,
             "locked_cone_hash": locked_cone_hash,
             "pub_status": pub_status,
@@ -1335,19 +1422,23 @@ def compile_network() -> dict[str, Any]:
         if node["formal_pkg"] == "mathlib_vol2":
             decl_names = spec.get("mathlib", {}).get("decl_names", [])
             exp_axioms = spec.get("mathlib", {}).get("expected_axioms", [])
+            ka_flags = None
         else:
             decl_names = spec.get("kernel_arena", {}).get("decl_names", [])
             exp_axioms = spec.get("kernel_arena", {}).get("expected_axioms", [])
-        audit_nodes.append(
-            {
-                "id": nid,
-                "formal_pkg": node["formal_pkg"],
-                "stratum": node.get("stratum", "emerald"),
-                "decl_names": decl_names,
-                "expected_axioms": sorted(exp_axioms),
-                "allowed_ancestors": allowed,
-            }
-        )
+            cpath = spec.get("cert_path") or node.get("cert_path")
+            ka_flags = load_cert_data(cpath).get("strata_flags", {}) if cpath else None
+        audit_entry: dict[str, Any] = {
+            "id": nid,
+            "formal_pkg": node["formal_pkg"],
+            "stratum": node.get("stratum", "emerald"),
+            "decl_names": decl_names,
+            "expected_axioms": sorted(exp_axioms),
+            "allowed_ancestors": allowed,
+        }
+        if ka_flags is not None:
+            audit_entry["cert_strata_flags"] = ka_flags
+        audit_nodes.append(audit_entry)
 
     AUDIT_MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
     AUDIT_MANIFEST_PATH.write_text(

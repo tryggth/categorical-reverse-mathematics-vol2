@@ -164,6 +164,11 @@ def emit_node_op_lean(node: dict[str, Any]) -> str:
     nid = node["id"]
     op = node["op"]
     args = node.get("args", [])
+
+    def _hcom_str(a: list[int]) -> str:
+        tubes = ", ".join(f"({a[i]}, {a[i + 1]})" for i in range(4, len(a), 2))
+        return f".hcom {a[0]} {a[1]} {a[2]} {a[3]} [{tubes}]"
+
     mapping = {
         "UnivS": lambda a: f".univS {a[0]}",
         "UnivF": lambda a: f".univF {a[0]}",
@@ -183,6 +188,40 @@ def emit_node_op_lean(node: dict[str, Any]) -> str:
         "InnerCoalgebraNu": lambda a: f".innerCoalgebraNu {a[0]}",
         "OuterStrictEq": lambda a: f".outerStrictEq {a[0]} {a[1]}",
         "SmallnessReplacement": lambda a: f".smallnessReplacement {a[0]}",
+        "Dim0": lambda _: ".dim0",
+        "Dim1": lambda _: ".dim1",
+        "DimVar": lambda a: f".dimVar {a[0]}",
+        "CofTop": lambda _: ".cofTop",
+        "CofBot": lambda _: ".cofBot",
+        "CofEq": lambda a: f".cofEq {a[0]} {a[1]}",
+        "CofAnd": lambda a: f".cofAnd {a[0]} {a[1]}",
+        "CofOr": lambda a: f".cofOr {a[0]} {a[1]}",
+        "UnitS": lambda _: ".unitS",
+        "StarS": lambda _: ".starS",
+        "SigmaS": lambda a: f".sigmaS {a[0]} {a[1]}",
+        "PairS": lambda a: f".pairS {a[0]} {a[1]}",
+        "FstS": lambda a: f".fstS {a[0]}",
+        "SndS": lambda a: f".sndS {a[0]}",
+        "EqS": lambda a: f".eqS {a[0]} {a[1]} {a[2]}",
+        "ReflS": lambda a: f".reflS {a[0]}",
+        "UIPS": lambda a: f".uipS {a[0]} {a[1]} {a[2]} {a[3]} {a[4]}",
+        "EmptyF": lambda _: ".emptyF",
+        "EmptyElimF": lambda a: f".emptyElimF {a[0]} {a[1]}",
+        "UnitF": lambda _: ".unitF",
+        "StarF": lambda _: ".starF",
+        "BoolElimF": lambda a: f".boolElimF {a[0]} {a[1]} {a[2]} {a[3]}",
+        "SigmaF": lambda a: f".sigmaF {a[0]} {a[1]}",
+        "PairF": lambda a: f".pairF {a[0]} {a[1]}",
+        "FstF": lambda a: f".fstF {a[0]}",
+        "SndF": lambda a: f".sndF {a[0]}",
+        "PathType": lambda a: f".pathType {a[0]} {a[1]} {a[2]}",
+        "PathLam": lambda a: f".pathLam {a[0]}",
+        "PathApp": lambda a: f".pathApp {a[0]} {a[1]} {a[2]} {a[3]}",
+        "Coe": lambda a: f".coe {a[0]} {a[1]} {a[2]} {a[3]}",
+        "HCom": _hcom_str,
+        "VType": lambda a: f".vType {a[0]} {a[1]} {a[2]} {a[3]} {a[4]} {a[5]} {a[6]}",
+        "VIn": lambda a: f".vIn {a[0]} {a[1]} {a[2]}",
+        "VProj": lambda a: f".vProj {a[0]} {a[1]} {a[2]} {a[3]} {a[4]}",
     }
     return f"{{ id := {nid}, op := {mapping[op](args)} }}"
 

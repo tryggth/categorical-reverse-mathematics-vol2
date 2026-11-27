@@ -5,7 +5,7 @@
 > **Live Royal Octavo PDFs:** [Monograph PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_monograph.pdf) · [4-Part Master Claims Ledger PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_claims_ledger.pdf) · [Ch. 1 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf) · [Ch. 2 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) · [Ch. 3 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch03_piset_transgression.pdf)  
 > **Synced Engineering & Open-Problem Backlog:** [GitHub Issues](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues) · [Milestones](https://github.com/tryggth/categorical-reverse-mathematics-vol2/milestones)
 
-> **Glass-Box 5-Fiber Formalization & Monograph Network (`Phase 3`)**  
+> **Glass-Box 5-Fiber Formalization & Monograph Network (`Phase 4`)**  
 > **Author:** James F. Walters (Port Townsend, Washington) · **License:** CC BY 4.0 · **Working Title Locked:** `false`  
 > **Companion to Volume I:** `../categorical-reverse-mathematics (HEAD b849be75)` · Zenodo Concept DOI [`10.5281/zenodo.24238086`](https://doi.org/10.5281/zenodo.24238086)
 
@@ -21,6 +21,7 @@ flowchart LR
   TCB --> PDFS
   TCB --> SMAIN["pub:doc:* -> main (README, PROCESS, ROADMAP)"]
   PDFS --> SPAGES["pub:web/pdf:* -> gh-pages (Observatory + PDFs)"]
+  SPAGES --> SMAIN
   TCB --> SLEAN["pub:branch:lean-export -> lean-export (Standalone Lean 4)"]
   DB --> SISS["pub:gh:issues-board -> GitHub Issues & Milestones"]
 ```
@@ -47,12 +48,12 @@ flowchart LR
 
 ## Current Verification Telemetry
 
-- **Core Mathematical, Prose, & Symbol Nodes:** `62` (`62` CLEAN, `0` TAINTED across `504` directed edges)
-- **14-Slice Blueprint (`nodes/plan/*.toml`):** `5 VERIFIED`, `1 ACTIVE`, `8 PLANNED` — active slice: `plan:tcb-rung1-cubical-kan` (TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not))
-- **Publication Sinks (`nodes/pub/*.toml`):** `7` out-degree-0 sinks (`main_docs`, `gh_pages`, `lean_export`, `gh_issues`)
-- **Two-Package TCB (`leanprover/lean4:v4.28.0`):** `388` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `1` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)
-- **Four-Color Stratum Spectrometer:** Emerald=37, Sapphire=0, Amber=1, Crimson=3, Prose/Symbol=21
-- **Four-Part Grounding Cohorts:** Cohort I=26, Cohort II=22, Cohort III=7, Cohort IV=7
+- **Core Mathematical, Prose, & Symbol Nodes:** `67` (`67` CLEAN, `0` TAINTED across `538` directed edges)
+- **14-Slice Blueprint (`nodes/plan/*.toml`):** `6 VERIFIED`, `1 ACTIVE`, `7 PLANNED` — active slice: `plan:ch04-smallness-and-schemes` (Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum)
+- **Publication Sinks (`nodes/pub/*.toml`):** `7` sinks (`main_docs`, `gh_pages`, `lean_export`, `gh_issues`) with `0` edges into core/plan nodes (`pub_target -> pub_target` endpoint links allowed)
+- **Two-Package TCB (`leanprover/lean4:v4.28.0`):** `392` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `3` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)
+- **Four-Color Stratum Spectrometer:** Emerald=38, Sapphire=1, Amber=1, Crimson=3, Prose/Symbol=24
+- **Four-Part Grounding Cohorts:** Cohort I=28, Cohort II=24, Cohort III=7, Cohort IV=8
 
 ## Headline Verified Nodes (Locked via `prose_paraphrase`)
 
@@ -81,6 +82,8 @@ flowchart LR
 | `ch03:thm:anafunctor-vs-functorial-gc-splitting` | Choiceless Saturated Anafunctoriality vs. Functorial Global Choice Splitting | Emerald (Axiom-Free) | `lean_ok` | `a455dc71` |
 | `ch03:thm:piset-transgression-exactness` | Lindenbaum-Stone Transgression Operator d_Set and Syntactic Pullback Exactness | Emerald (Axiom-Free) | `lean_ok` | `f3f02470` |
 | `ch03:thm:two-valve-transgression-dichotomy` | Two-Valve Base-Fiber Transgression Dichotomy Across (Replacement x Foundation) | Emerald (Axiom-Free) | `lean_witness` | `081b56a7` |
+| `ch09:prop:pure-kan-path-symmetry-cert` | Pure Kan Path Symmetry on Fibrant Booleans (KernelArena Rung 1) | Emerald (Axiom-Free) | `twoltt_ok` | `5c019cc2` |
+| `ch09:thm:bool-univalence-holonomy-cert` | Boolean Univalence Holonomy via Regularity-Safe V-Types (Sapphire Certificate) | Sapphire (Safe 2LTT) | `twoltt_ok` | `da782c71` |
 
 ## Quickstart & Local Verification
 
@@ -96,6 +99,8 @@ python3 scripts/emit_lean.py
 lake --dir kernel_arena build
 lake --dir kernel_arena exe kernel-arena --self-test
 lake --dir kernel_arena exe kernel-arena verify certs/ch01_bool_id_bootstrap.2ltt.json
+lake --dir kernel_arena exe kernel-arena verify certs/tcb_r1_path_sym_kan.2ltt.json
+lake --dir kernel_arena exe kernel-arena verify certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json
 
 # 4. Build Mathlib Vol II modules and run AuditEnv axiom/stratum/hidden-edge checks
 (cd mathlib_vol2 && lake exe cache get && lake build HomotopyCRM audit_env && lake exe audit_env ../build/audit_nodes_manifest.json)

@@ -1,5 +1,5 @@
 /-
-Pure-Init recursive-descent JSON parser for `kernel-arena.2ltt.v1` certificates.
+Pure-Init recursive-descent JSON parser for `kernel-arena.2ltt.v1` certificates (Phase 0 + Rung 1).
 Zero `partial`, zero external dependencies.
 -/
 import KernelArena.AST
@@ -199,6 +199,14 @@ private def parseStrataFlags (v : JsonVal) : Except CheckError StrataFlags := do
     smallnessReplacement := b4
   }
 
+private def pairUpNats : List Nat → Option (List (Nat × Nat))
+  | [] => some []
+  | p :: u :: rest =>
+    match pairUpNats rest with
+    | some ps => some ((p, u) :: ps)
+    | none => none
+  | _ => none
+
 private def parseNodeOp (opStr : String) (args : Array Nat) : Except CheckError NodeOp :=
   match opStr, args.toList with
   | "UnivS", [l] => .ok (.univS l)
@@ -219,6 +227,43 @@ private def parseNodeOp (opStr : String) (args : Array Nat) : Except CheckError 
   | "InnerCoalgebraNu", [a] => .ok (.innerCoalgebraNu a)
   | "OuterStrictEq", [l, r] => .ok (.outerStrictEq l r)
   | "SmallnessReplacement", [a] => .ok (.smallnessReplacement a)
+  | "Dim0", [] => .ok .dim0
+  | "Dim1", [] => .ok .dim1
+  | "DimVar", [idx] => .ok (.dimVar idx)
+  | "CofTop", [] => .ok .cofTop
+  | "CofBot", [] => .ok .cofBot
+  | "CofEq", [r1, r2] => .ok (.cofEq r1 r2)
+  | "CofAnd", [c1, c2] => .ok (.cofAnd c1 c2)
+  | "CofOr", [c1, c2] => .ok (.cofOr c1 c2)
+  | "UnitS", [] => .ok .unitS
+  | "StarS", [] => .ok .starS
+  | "SigmaS", [d, c] => .ok (.sigmaS d c)
+  | "PairS", [a, b] => .ok (.pairS a b)
+  | "FstS", [p] => .ok (.fstS p)
+  | "SndS", [p] => .ok (.sndS p)
+  | "EqS", [ty, l, r] => .ok (.eqS ty l r)
+  | "ReflS", [a] => .ok (.reflS a)
+  | "UIPS", [ty, l, r, p, q] => .ok (.uipS ty l r p q)
+  | "EmptyF", [] => .ok .emptyF
+  | "EmptyElimF", [m, s] => .ok (.emptyElimF m s)
+  | "UnitF", [] => .ok .unitF
+  | "StarF", [] => .ok .starF
+  | "BoolElimF", [m, t, f, s] => .ok (.boolElimF m t f s)
+  | "SigmaF", [d, c] => .ok (.sigmaF d c)
+  | "PairF", [a, b] => .ok (.pairF a b)
+  | "FstF", [p] => .ok (.fstF p)
+  | "SndF", [p] => .ok (.sndF p)
+  | "PathType", [ty, a0, a1] => .ok (.pathType ty a0 a1)
+  | "PathLam", [b] => .ok (.pathLam b)
+  | "PathApp", [p, a0, a1, r] => .ok (.pathApp p a0 a1 r)
+  | "Coe", [r, r', ty, m] => .ok (.coe r r' ty m)
+  | "HCom", r :: r' :: ty :: u0 :: rest =>
+    match pairUpNats rest with
+    | some tubes => .ok (.hcom r r' ty u0 tubes)
+    | none => .error (.eParseError "HCom requires an even number of tube (cof, term) args")
+  | "VType", [r, a, b, f, g, sec, ret] => .ok (.vType r a b f g sec ret)
+  | "VIn", [r, a, b] => .ok (.vIn r a b)
+  | "VProj", [r, a, b, f, v] => .ok (.vProj r a b f v)
   | _, _ => .error (.eParseError s!"unknown or malformed NodeOp '{opStr}' with {args.size} args")
 
 private def parseNode (v : JsonVal) : Except CheckError ArenaNode := do

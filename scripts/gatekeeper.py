@@ -17,7 +17,7 @@ from typing import Any
 
 import duckdb
 
-from compile_db import LOCK_PATH, PUB_LOCK_PATH, REPO_ROOT, compile_network
+from compile_db import LOCK_PATH, PUB_LOCK_PATH, REPO_ROOT, compile_network, kernel_arena_expected_stratum
 from emit_lean import emit_all, parse_and_map_lean_diagnostics
 from emit_public_docs import check_docs_fresh
 from emit_tex import BUILD_TEX_DIR, emit_claims_ledger, emit_monograph, load_context, resolve_tex_error
@@ -76,7 +76,7 @@ def run_logged(
 def run_kernel_arena_checks(compile_report: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     con = duckdb.connect(str(BUILD_DIR / "vol2.duckdb"), read_only=True)
     rows = con.execute(
-        "SELECT id, cert_path FROM nodes WHERE formal_pkg = 'kernel_arena' ORDER BY id"
+        "SELECT id, cert_path, stratum FROM nodes WHERE formal_pkg = 'kernel_arena' ORDER BY id"
     ).fetchall()
     con.close()
 
@@ -84,25 +84,109 @@ def run_kernel_arena_checks(compile_report: dict[str, Any]) -> tuple[bool, dict[
         [LAKE_BIN, "--dir", str(KERNEL_ARENA_DIR), "build"],
         LOGS_DIR / "gate_kernel_arena_build.log",
     )
-    results: dict[str, Any] = {"build_ok": build_rc == 0, "certs": {}}
-    all_ok = build_rc == 0
-    for nid, cert_rel in rows:
+    self_rc, self_out = run_logged(
+        [LAKE_BIN, "--dir", str(KERNEL_ARENA_DIR), "exe", "kernel-arena", "--self-test"],
+        LOGS_DIR / "gate_kernel_arena_selftest.log",
+    )
+    results: dict[str, Any] = {
+        "build_ok": build_rc == 0,
+        "selftest_ok": self_rc == 0,
+        "selftest_output": self_out.strip(),
+        "certs": {},
+    }
+    all_ok = (build_rc == 0) and (self_rc == 0)
+    for nid, cert_rel, decl_stratum in rows:
         abs_cert = str((REPO_ROOT / cert_rel).resolve())
         slug = nid.replace(":", "_")
         rc, out = run_logged(
             [LAKE_BIN, "--dir", str(KERNEL_ARENA_DIR), "exe", "kernel-arena", "verify", abs_cert],
             LOGS_DIR / f"gate_ka_{slug}.log",
         )
-        cert_sha = json.loads((REPO_ROOT / cert_rel).read_text(encoding="utf-8"))["sha256_arena"]
+        cert_obj = json.loads((REPO_ROOT / cert_rel).read_text(encoding="utf-8"))
+        cert_sha = cert_obj["sha256_arena"]
+        strata_flags = cert_obj.get("strata_flags", {})
+        exp_stratum = kernel_arena_expected_stratum(strata_flags)
+        stratum_ok = decl_stratum == exp_stratum
+        passed = (rc == 0) and stratum_ok
         results["certs"][nid] = {
             "cert_path": cert_rel,
             "sha256_arena": cert_sha,
-            "passed": rc == 0,
+            "stratum": decl_stratum,
+            "expected_stratum": exp_stratum,
+            "stratum_ok": stratum_ok,
+            "strata_flags": strata_flags,
+            "passed": passed,
             "output": out.strip(),
         }
-        if rc != 0:
+        if not passed:
             all_ok = False
     return all_ok, results
+
+
+def check_published_endpoint_links(manifest: dict[str, Any]) -> tuple[bool, list[str], list[dict[str, str]]]:
+    """Parse every pages_base_url/... link in README/PROCESS/ROADMAP and verify file exists under build/gh_pages/."""
+    gh_pages_dir = BUILD_DIR / "gh_pages"
+    base_url = str(manifest.get("pages_base_url") or "").strip().rstrip("/")
+    if not base_url:
+        return False, [], [{"source": "manifest.toml", "url": "", "reason": "MISSING_PAGES_BASE_URL"}]
+
+    url_re = re.compile(re.escape(base_url) + r"(?:/([^\s\)\]>\"'`,;]*))?")
+    checked_urls: set[str] = set()
+    dead_links: list[dict[str, str]] = []
+
+    for doc_name in ("README.md", "PROCESS.md", "ROADMAP.md"):
+        doc_path = REPO_ROOT / doc_name
+        if not doc_path.exists():
+            dead_links.append({"source": doc_name, "url": "", "reason": "MISSING_DOC"})
+            continue
+        text = doc_path.read_text(encoding="utf-8")
+        for m in url_re.finditer(text):
+            raw_rel = m.group(1) or ""
+            rel = raw_rel.split("#", 1)[0].split("?", 1)[0].strip().lstrip("/")
+            full_url = f"{base_url}/{rel}" if rel else f"{base_url}/"
+            checked_urls.add(full_url)
+            rel_path = Path(rel) if rel else Path("index.html")
+            if rel_path.is_absolute() or ".." in rel_path.parts:
+                dead_links.append({"source": doc_name, "url": full_url, "reason": "UNSAFE_REL_PATH"})
+                continue
+            target_file = gh_pages_dir / rel_path
+            if not target_file.is_file():
+                dead_links.append(
+                    {
+                        "source": doc_name,
+                        "url": full_url,
+                        "reason": f"MISSING_FILE({target_file.relative_to(REPO_ROOT)})",
+                    }
+                )
+
+    con = duckdb.connect(str(BUILD_DIR / "vol2.duckdb"), read_only=True)
+    gh_rows = con.execute(
+        "SELECT node_id, published_paths_json FROM pub_targets WHERE channel = 'gh_pages' ORDER BY node_id"
+    ).fetchall()
+    con.close()
+    for pid, pjson in gh_rows:
+        for rp in json.loads(pjson):
+            rel = str(rp).strip().lstrip("/")
+            target_file = gh_pages_dir / rel
+            if not target_file.is_file():
+                dead_links.append(
+                    {
+                        "source": pid,
+                        "url": f"{base_url}/{rel}",
+                        "reason": f"MISSING_PUBLISHED_PATH({target_file.relative_to(REPO_ROOT)})",
+                    }
+                )
+            if pid.startswith("pub:pdf:") and f"{base_url}/{rel}" not in checked_urls:
+                dead_links.append(
+                    {
+                        "source": "README.md",
+                        "url": f"{base_url}/{rel}",
+                        "reason": f"UNLINKED_PDF_FROM_{pid}",
+                    }
+                )
+
+    ok = len(checked_urls) > 0 and len(dead_links) == 0
+    return ok, sorted(checked_urls), dead_links
 
 
 def run_mathlib_build_and_audit() -> tuple[bool, list[dict[str, Any]], dict[str, Any] | None]:
@@ -291,6 +375,12 @@ def write_sync_digest(compile_report: dict[str, Any], gate_report: dict[str, Any
             f"- **GitHub Pages Observatory:** {pages_url}" if pages_url else "- **GitHub Pages Observatory:** pending",
             f"- **`lean-export` Commit SHA:** `{lean_export_sha}`",
             f"- **Front-Door Docs Freshness (`emit_public_docs.py --check`):** `{'PASS' if gate_report.get('docs_fresh_ok') else 'FAIL'}`",
+            (
+                f"- **Published Endpoint Dead-Link Gate (`build/gh_pages/`):** "
+                f"`{'PASS' if gate_report.get('published_endpoint_links_ok') else 'FAIL'}` "
+                f"({len(gate_report.get('published_endpoint_urls', []))} URLs checked, "
+                f"{len(gate_report.get('published_dead_links', []))} dead)"
+            ),
         ]
     )
     for pid, pinfo in sorted(compile_report.get("pub_targets", {}).items()):
@@ -356,6 +446,9 @@ def main() -> int:
     )
     fence_ok = fence_rc == 0
     docs_fresh_ok, docs_stale = check_docs_fresh()
+    with MANIFEST_PATH.open("rb") as fh:
+        manifest_cfg = tomllib.load(fh)
+    links_ok, checked_urls, dead_links = check_published_endpoint_links(manifest_cfg)
 
     audit_by_id = {n["id"]: n for n in (audit_json or {}).get("nodes", [])}
     prose_mismatch_consumers = {m["consumer_id"] for m in compile_report["prose_lock_mismatches"]}
@@ -375,6 +468,9 @@ def main() -> int:
             "audit_env": audit_json,
             "docs_fresh_ok": docs_fresh_ok,
             "docs_stale": docs_stale,
+            "published_endpoint_links_ok": links_ok,
+            "published_endpoint_urls": checked_urls,
+            "published_dead_links": dead_links,
             "prose_lock_mismatches": compile_report["prose_lock_mismatches"],
             "tainted_nodes": compile_report["tainted_nodes"],
             "body_dirty_nodes": compile_report["body_dirty_nodes"],
@@ -522,6 +618,7 @@ def main() -> int:
         and lean_ok
         and all_pdfs_ok
         and docs_fresh_ok
+        and (links_ok if args.publish else True)
         and len(compile_report["tainted_nodes"]) == 0
         and len(compile_report["body_dirty_nodes"]) == 0
         and len(compile_report["grounding_dirty_nodes"]) == 0
@@ -537,7 +634,10 @@ def main() -> int:
         pub_lock_full["updated_at_utc"] = now_iso
         pub_lock_full.setdefault("github_repo", manifest.get("github_repo", ""))
         gh_repo = pub_lock_full["github_repo"]
-        if gh_repo and "/" in gh_repo and not pub_lock_full.get("pages_url"):
+        base_pages = (manifest.get("pages_base_url") or "").strip().rstrip("/")
+        if base_pages:
+            pub_lock_full["pages_url"] = f"{base_pages}/"
+        elif gh_repo and "/" in gh_repo and not pub_lock_full.get("pages_url"):
             owner, rname = gh_repo.split("/", 1)
             pub_lock_full["pages_url"] = f"https://{owner}.github.io/{rname}/"
         pub_lock_full.setdefault("lean_export_commit", "")
@@ -549,6 +649,7 @@ def main() -> int:
                 "channel": pinfo["channel"],
                 "sensitivity": pinfo["sensitivity"],
                 "outputs": pinfo["outputs"],
+                "published_paths": pinfo.get("published_paths", []),
                 "locked_at_utc": now_iso,
             }
             for pid, pinfo in sorted(compile_report.get("pub_targets", {}).items())
@@ -578,6 +679,9 @@ def main() -> int:
         "audit_env": audit_json,
         "docs_fresh_ok": docs_fresh_ok,
         "docs_stale": docs_stale,
+        "published_endpoint_links_ok": links_ok,
+        "published_endpoint_urls": checked_urls,
+        "published_dead_links": dead_links,
         "pdfs": pdfs,
         "tainted_nodes": compile_report["tainted_nodes"],
         "body_dirty_nodes": compile_report["body_dirty_nodes"],

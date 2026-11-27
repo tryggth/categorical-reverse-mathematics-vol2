@@ -96,6 +96,7 @@ CREATE TABLE pub_targets (
   channel VARCHAR NOT NULL,
   sensitivity VARCHAR NOT NULL,
   outputs_json VARCHAR NOT NULL,
+  published_paths_json VARCHAR NOT NULL,
   cone_hash VARCHAR NOT NULL,
   locked_cone_hash VARCHAR,
   pub_status VARCHAR NOT NULL,

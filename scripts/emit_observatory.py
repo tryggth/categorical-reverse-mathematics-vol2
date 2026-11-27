@@ -54,7 +54,7 @@ def build_network_payload() -> dict[str, Any]:
     vol1_default = manifest.get("vol1_root_default", "../categorical-reverse-mathematics")
     gh_repo = pub_lock.get("github_repo") or manifest.get("github_repo", "tryggth/categorical-reverse-mathematics-vol2")
     owner, rname = gh_repo.split("/", 1) if "/" in gh_repo else ("tryggth", gh_repo)
-    pages_url = pub_lock.get("pages_url") or f"https://{owner}.github.io/{rname}/"
+    pages_url = (manifest.get("pages_base_url") or pub_lock.get("pages_url") or f"https://{owner}.github.io/{rname}").rstrip("/") + "/"
 
     con = duckdb.connect(str(DB_PATH), read_only=True)
     node_rows = con.execute(
@@ -88,7 +88,7 @@ def build_network_payload() -> dict[str, Any]:
     pub_rows = con.execute(
         """
         SELECT p.node_id, n.title, p.channel, p.sensitivity, p.outputs_json,
-               p.cone_hash, p.locked_cone_hash, p.pub_status, p.pub_reason
+               p.cone_hash, p.locked_cone_hash, p.pub_status, p.pub_reason, p.published_paths_json
         FROM pub_targets p
         JOIN nodes n ON n.id = p.node_id
         ORDER BY n.seq_order, p.node_id
@@ -206,6 +206,7 @@ def build_network_payload() -> dict[str, Any]:
             "locked_cone_hash": r[6] or "",
             "pub_status": r[7],
             "pub_reason": r[8],
+            "published_paths": json.loads(r[9]),
         }
         for r in pub_rows
     ]
@@ -1521,8 +1522,8 @@ def render_index_html(payload: dict[str, Any]) -> str:
     </div>
     <div class="metric-card">
       <div class="metric-label">Four-Color Strata</div>
-      <div class="metric-value">{metrics['strata'].get('emerald', 0)} Emerald · {metrics['strata'].get('amber', 0)} Amber · {metrics['strata'].get('crimson', 0)} Crimson</div>
-      <div class="metric-sub">{metrics['strata'].get('none', 0)} prose/symbol · {metrics['strata'].get('sapphire', 0)} sapphire</div>
+      <div class="metric-value">{metrics['strata'].get('emerald', 0)} Emerald · {metrics['strata'].get('sapphire', 0)} Sapphire · {metrics['strata'].get('amber', 0)} Amber</div>
+      <div class="metric-sub">{metrics['strata'].get('crimson', 0)} Crimson · {metrics['strata'].get('none', 0)} prose/symbol</div>
     </div>
     <div class="metric-card">
       <div class="metric-label">Disjoint Ownership</div>
@@ -1715,7 +1716,7 @@ def render_index_html(payload: dict[str, Any]) -> str:
               <text x="22" y="72" font-size="11" fill="#166534">spec_hash (VOL2_SPEC_V1)</text>
               <text x="22" y="92" font-size="11" fill="#1d4ed8">body_hash (VOL2_BODY_V1)</text>
               <text x="22" y="112" font-size="11" fill="#b45309">grounding_hash</text>
-              <text x="22" y="135" font-size="10" fill="#475569">nodes/ch01-03, sym, vol1, plan, pub</text>
+              <text x="22" y="135" font-size="10" fill="#475569">nodes/ch01-03, ch09, sym, plan, pub</text>
 
               <line x1="175" y1="90" x2="220" y2="90" stroke="#1b365d" stroke-width="1.8" marker-end="url(#proc-arrow)"/>
 

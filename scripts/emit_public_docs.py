@@ -66,10 +66,19 @@ def load_public_doc_context() -> dict[str, Any]:
     ).fetchall()
     pub_rows = con.execute(
         """
-        SELECT p.node_id, n.title, p.channel, p.sensitivity, p.outputs_json
+        SELECT p.node_id, n.title, p.channel, p.sensitivity, p.outputs_json, p.published_paths_json
         FROM pub_targets p
         JOIN nodes n ON n.id = p.node_id
         ORDER BY n.seq_order, p.node_id
+        """
+    ).fetchall()
+    frontdoor_prov_rows = con.execute(
+        """
+        SELECT DISTINCT e.src_id
+        FROM edges e
+        JOIN nodes src ON e.src_id = src.id
+        WHERE e.dst_id = 'pub:doc:repo-frontdoor' AND src.kind = 'pub_target'
+        ORDER BY e.src_id
         """
     ).fetchall()
     edge_counts = con.execute(
@@ -137,9 +146,12 @@ def load_public_doc_context() -> dict[str, Any]:
             "channel": r[2],
             "sensitivity": r[3],
             "outputs": json.loads(r[4]),
+            "published_paths": json.loads(r[5]),
         }
         for r in pub_rows
     ]
+    pub_targets_by_id = {p["id"]: p for p in pub_targets}
+    frontdoor_providers = [r[0] for r in frontdoor_prov_rows]
     headlines = [
         {
             "id": r[0],
@@ -158,11 +170,29 @@ def load_public_doc_context() -> dict[str, Any]:
         "core_nodes": core_nodes,
         "work_items": work_items,
         "pub_targets": pub_targets,
+        "pub_targets_by_id": pub_targets_by_id,
+        "frontdoor_providers": frontdoor_providers,
         "edge_counts": {r[0]: r[1] for r in edge_counts},
         "total_edges": total_edges,
         "decl_counts": {r[0]: r[1] for r in decl_counts},
         "headlines": headlines,
     }
+
+
+def _pdf_link_labels(rel_path: str) -> tuple[str, str, str]:
+    fname = Path(rel_path).name
+    known = {
+        "crm_vol2_monograph.pdf": ("Monograph PDF", "Royal Octavo Monograph PDF"),
+        "crm_vol2_claims_ledger.pdf": ("4-Part Master Claims Ledger PDF", "4-Part Master Claims & Grounding Ledger PDF"),
+        "course_pack_ch01_probe_calibration.pdf": ("Ch. 1 Course Pack PDF", "Standalone Ch. 1 Course Pack PDF"),
+        "course_pack_ch02_class_set_kaleidoscope.pdf": ("Ch. 2 Course Pack PDF", "Standalone Ch. 2 Course Pack PDF"),
+        "course_pack_ch03_piset_transgression.pdf": ("Ch. 3 Course Pack PDF", "Standalone Ch. 3 Course Pack PDF"),
+    }
+    if fname in known:
+        short_lbl, surface_lbl = known[fname]
+        return short_lbl, surface_lbl, fname
+    stem_lbl = fname.removesuffix(".pdf").replace("_", " ").title()
+    return stem_lbl, f"{stem_lbl} PDF", fname
 
 
 def render_readme(ctx: dict[str, Any]) -> str:
@@ -171,8 +201,37 @@ def render_readme(ctx: dict[str, Any]) -> str:
     gh_repo = pub_lock.get("github_repo") or m.get("github_repo", "tryggth/categorical-reverse-mathematics-vol2")
     repo_url = f"https://github.com/{gh_repo}"
     owner, rname = gh_repo.split("/", 1) if "/" in gh_repo else ("tryggth", gh_repo)
-    pages_url = pub_lock.get("pages_url") or f"https://{owner}.github.io/{rname}/"
+    pages_base_raw = (m.get("pages_base_url") or pub_lock.get("pages_url") or f"https://{owner}.github.io/{rname}").rstrip("/")
+    pages_url = f"{pages_base_raw}/"
     lean_export_url = f"{repo_url}/tree/lean-export"
+
+    pub_by_id = ctx.get("pub_targets_by_id", {})
+    provider_ids = ctx.get("frontdoor_providers") or [
+        pid for pid in ("pub:web:observatory", "pub:pdf:monograph", "pub:pdf:claims-ledger", "pub:pdf:course-packs") if pid in pub_by_id
+    ]
+    web_prov = pub_by_id.get("pub:web:observatory", {})
+    web_paths = web_prov.get("published_paths", ["index.html"])
+    obs_href = pages_url if "index.html" in web_paths else f"{pages_base_raw}/{web_paths[0].lstrip('/')}"
+
+    pdf_rel_paths: list[str] = []
+    for pid in ("pub:pdf:monograph", "pub:pdf:claims-ledger", "pub:pdf:course-packs"):
+        if pid in provider_ids or pid in pub_by_id:
+            for rp in pub_by_id.get(pid, {}).get("published_paths", []):
+                if rp not in pdf_rel_paths:
+                    pdf_rel_paths.append(rp)
+    for pid in provider_ids:
+        if pid.startswith("pub:pdf:") and pid not in ("pub:pdf:monograph", "pub:pdf:claims-ledger", "pub:pdf:course-packs"):
+            for rp in pub_by_id.get(pid, {}).get("published_paths", []):
+                if rp not in pdf_rel_paths:
+                    pdf_rel_paths.append(rp)
+
+    inline_pdf_links = " · ".join(
+        f"[{_pdf_link_labels(rp)[0]}]({pages_base_raw}/{rp.lstrip('/')})" for rp in pdf_rel_paths
+    )
+    table_pdf_rows = [
+        f"| **{_pdf_link_labels(rp)[1]}** | Observatory PDF | [{_pdf_link_labels(rp)[2]}]({pages_base_raw}/{rp.lstrip('/')}) |"
+        for rp in pdf_rel_paths
+    ]
 
     core = ctx["core_nodes"]
     wis = ctx["work_items"]
@@ -189,8 +248,8 @@ def render_readme(ctx: dict[str, Any]) -> str:
         f"# {m['working_title']}",
         f"### *{m['working_subtitle']}*",
         "",
-        f"> **[Live Interactive Glass-Box Observatory (GitHub Pages)]({pages_url})** · **[How This Book Is Built (`PROCESS.md`)](PROCESS.md)** · **[14-Slice Project Plan (`ROADMAP.md`)](ROADMAP.md)**  ",
-        f"> **Live Royal Octavo PDFs:** [Monograph PDF]({pages_url}pdfs/crm_vol2_monograph.pdf) · [4-Part Master Claims Ledger PDF]({pages_url}pdfs/crm_vol2_claims_ledger.pdf) · [Ch. 1 Course Pack PDF]({pages_url}pdfs/course_pack_ch01_probe_calibration.pdf) · [Ch. 2 Course Pack PDF]({pages_url}pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) · [Ch. 3 Course Pack PDF]({pages_url}pdfs/course_pack_ch03_piset_transgression.pdf)  ",
+        f"> **[Live Interactive Glass-Box Observatory (GitHub Pages)]({obs_href})** · **[How This Book Is Built (`PROCESS.md`)](PROCESS.md)** · **[14-Slice Project Plan (`ROADMAP.md`)](ROADMAP.md)**  ",
+        f"> **Live Royal Octavo PDFs:** {inline_pdf_links}  ",
         f"> **Synced Engineering & Open-Problem Backlog:** [GitHub Issues]({repo_url}/issues) · [Milestones]({repo_url}/milestones)",
         "",
         f"> **Glass-Box 5-Fiber Formalization & Monograph Network (`{m['phase']}`)**  ",
@@ -209,6 +268,7 @@ def render_readme(ctx: dict[str, Any]) -> str:
         "  TCB --> PDFS",
         "  TCB --> SMAIN[\"pub:doc:* -> main (README, PROCESS, ROADMAP)\"]",
         "  PDFS --> SPAGES[\"pub:web/pdf:* -> gh-pages (Observatory + PDFs)\"]",
+        "  SPAGES --> SMAIN",
         "  TCB --> SLEAN[\"pub:branch:lean-export -> lean-export (Standalone Lean 4)\"]",
         "  DB --> SISS[\"pub:gh:issues-board -> GitHub Issues & Milestones\"]",
         "```",
@@ -223,13 +283,9 @@ def render_readme(ctx: dict[str, Any]) -> str:
         "| Surface | Channel | Location |",
         "|---|---|---|",
         f"| **Source Repository (`main`)** | GitHub | [{gh_repo}]({repo_url}) |",
-        f"| **Glass-Box Interactive Observatory** | `gh-pages` | [{pages_url}]({pages_url}) |",
+        f"| **Glass-Box Interactive Observatory** | `gh-pages` | [{obs_href}]({obs_href}) |",
         f"| **Standalone Lean 4 + KernelArena Workspace** | `lean-export` | [branch `lean-export`]({lean_export_url}) |",
-        f"| **Royal Octavo Monograph PDF** | Observatory PDF | [crm_vol2_monograph.pdf]({pages_url}pdfs/crm_vol2_monograph.pdf) |",
-        f"| **4-Part Master Claims & Grounding Ledger PDF** | Observatory PDF | [crm_vol2_claims_ledger.pdf]({pages_url}pdfs/crm_vol2_claims_ledger.pdf) |",
-        f"| **Standalone Ch. 1 Course Pack PDF** | Observatory PDF | [course_pack_ch01_probe_calibration.pdf]({pages_url}pdfs/course_pack_ch01_probe_calibration.pdf) |",
-        f"| **Standalone Ch. 2 Course Pack PDF** | Observatory PDF | [course_pack_ch02_class_set_kaleidoscope.pdf]({pages_url}pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) |",
-        f"| **Standalone Ch. 3 Course Pack PDF** | Observatory PDF | [course_pack_ch03_piset_transgression.pdf]({pages_url}pdfs/course_pack_ch03_piset_transgression.pdf) |",
+        *table_pdf_rows,
         "| **Glass-Box Methodology & Taint Engine Guide** | Repository Doc | [PROCESS.md](PROCESS.md) |",
         "| **14-Slice Volume II Project Plan** | Repository Doc | [ROADMAP.md](ROADMAP.md) |",
         "",
@@ -238,7 +294,7 @@ def render_readme(ctx: dict[str, Any]) -> str:
         f"- **Core Mathematical, Prose, & Symbol Nodes:** `{len(core)}` (`{clean_count}` CLEAN, `{tainted_count}` TAINTED across `{ctx['total_edges']}` directed edges)",
         f"- **14-Slice Blueprint (`nodes/plan/*.toml`):** `{wi_counts.get('VERIFIED', 0)} VERIFIED`, `{wi_counts.get('ACTIVE', 0)} ACTIVE`, `{wi_counts.get('PLANNED', 0)} PLANNED`"
         + (f" — active slice: `{active_wi['id']}` ({active_wi['title']})" if active_wi else ""),
-        f"- **Publication Sinks (`nodes/pub/*.toml`):** `{len(ctx['pub_targets'])}` out-degree-0 sinks (`main_docs`, `gh_pages`, `lean_export`, `gh_issues`)",
+        f"- **Publication Sinks (`nodes/pub/*.toml`):** `{len(ctx['pub_targets'])}` sinks (`main_docs`, `gh_pages`, `lean_export`, `gh_issues`) with `0` edges into core/plan nodes (`pub_target -> pub_target` endpoint links allowed)",
         f"- **Two-Package TCB (`{m['lean_toolchain']}`):** `{lean_decls}` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `{certs_count}` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)",
         (
             f"- **Four-Color Stratum Spectrometer:** "
@@ -283,6 +339,8 @@ def render_readme(ctx: dict[str, Any]) -> str:
             "lake --dir kernel_arena build",
             "lake --dir kernel_arena exe kernel-arena --self-test",
             "lake --dir kernel_arena exe kernel-arena verify certs/ch01_bool_id_bootstrap.2ltt.json",
+            "lake --dir kernel_arena exe kernel-arena verify certs/tcb_r1_path_sym_kan.2ltt.json",
+            "lake --dir kernel_arena exe kernel-arena verify certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json",
             "",
             "# 4. Build Mathlib Vol II modules and run AuditEnv axiom/stratum/hidden-edge checks",
             "(cd mathlib_vol2 && lake exe cache get && lake build HomotopyCRM audit_env && lake exe audit_env ../build/audit_nodes_manifest.json)",
@@ -322,7 +380,7 @@ def render_process(ctx: dict[str, Any]) -> str:
         "- **Per-Fiber & Structural-Union Acyclicity:** Terminating `WITH RECURSIVE` CTE cycle checks across each fiber individually and across their union.",
         "- **Pinned Volume I Boundary:** Every `vol1_external` contract has in-degree `0`.",
         "- **Two-Package TCB Isolation:** Zero `lean_dep` edges may cross between `mathlib_vol2` and `kernel_arena`.",
-        "- **Publication Sink Discipline:** Every `pub_target` has out-degree `0` across all five fibers.",
+        "- **Publication Sink Discipline:** No edge from a `pub_target` may target a non-`pub_target` node (`0` core pollution, `0` cycles); acyclic `pub_target -> pub_target` endpoint-provider edges are permitted so `pub:doc:repo-frontdoor` tracks published `gh-pages` endpoints.",
         "",
         "## 2. Two-Hash Taint Isolation (`spec_hash`, `body_hash`, `grounding_hash`) & `harvest_body.py`",
         "",
@@ -352,7 +410,7 @@ def render_process(ctx: dict[str, Any]) -> str:
         "| Stratum | Kernel Axioms | Semantics |",
         "|---|---|---|",
         "| **Emerald** | `[]` | Purely constructive, axiom-free Lean 4 or zero-axiom `KernelArena` kernel reduction |",
-        "| **Sapphire** | Safe 2LTT | Two-level type-theoretic extension (`innerUnivalenceV`, `innerCoalgebraNu`, `outerStrictEq`, `smallnessReplacement`) inside `KernelArena` |",
+        "| **Sapphire** | Safe 2LTT | Constructive two-level type-theoretic extensions (`inner_univalence_V`, `inner_coalgebra_nu`) inside zero-`Mathlib` `KernelArena` |",
         "| **Amber** | `propext`, `Quot.sound` | Propositional extensionality and/or quotient soundness without choice |",
         "| **Crimson** | `Classical.choice` (+ `propext`, `Quot.sound`) | Classical choice-dependent theorems |",
         "",

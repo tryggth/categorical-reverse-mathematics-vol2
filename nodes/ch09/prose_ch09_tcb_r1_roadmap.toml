@@ -1,0 +1,55 @@
+id = "ch09:prose:ch09-tcb-r1-roadmap"
+kind = "prose_block"
+title = "Section 9.1 Roadmap: Cartesian Cubical 2LTT Kernel and Sapphire Stratum"
+chapter = "ch09"
+section = "9.1"
+seq_order = 905
+axis = "2ltt_tcb"
+grounding_tier = "expository"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["abcfhl2021", "orton_pitts2018", "acks2023", "voevodsky_hts2013"]
+
+[spec]
+statement = "Expository roadmap for Section 9.1 introducing Cartesian cubical 2LTT, union-find cofibration entailment, Emerald Kan composition, and Sapphire V-univalence holonomy."
+
+[body]
+tex = """
+Section~9.1 launches Part~IV of the monograph by upgrading the zero-\\texttt{Mathlib} 2LTT kernel \\texttt{KernelArena} from the Phase~0 boolean bootstrap ({{ref:ch01:rem:trident-mode3-2ltt-bootstrap}}) to Rung~1 (slice \\texttt{plan:tcb-rung1-cubical-kan}). Rather than adding Lean axioms, the upgraded TCB keeps \\texttt{KernelArena.Check.checkCert} completely axiom-free while deciding Cartesian cofibration lattices {{sym:cofib-lat}} by pure union-find partition refinement, checking strict equality and $\\mathsf{UIP}^s$ in {{sym:univ-s}}, verifying homogeneous Kan composition {{sym:kan-hcom}} and coercion {{sym:kan-coe}} in {{sym:univ-f}}, and enabling Voevodsky-style {{sym:vtype}}-univalence \\cite{abcfhl2021,orton_pitts2018,acks2023,voevodsky_hts2013}.
+
+Concretely, Definition~\\ref{ch09:def:cartesian-2ltt-cofibration-calculus} specifies the Rung~1 signature and regularity-safe $\\mathsf{V}$-coercion rule; Proposition~\\ref{ch09:prop:pure-kan-path-symmetry-cert} exhibits a pure Kan \\textbf{Emerald} certificate for boolean path inversion; and Theorem~\\ref{ch09:thm:bool-univalence-holonomy-cert} activates the \\textbf{Sapphire} stratum for the first time by computationally transporting $\\mathsf{false}^f$ to $\\mathsf{true}^f$ around the $\\mathbb{Z}/2\\mathbb{Z}$ univalent loop $\\mathsf{ua}(\\mathsf{not})$.
+"""
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "acks2023"
+locator = "Sec. 1--2, pp. 688--697"
+purpose = "Role of two-level type theory in isolating strict vs. univalent universes"
+
+[edges]
+logical_dep = [
+  "ch01:rem:trident-mode3-2ltt-bootstrap"
+]
+lean_dep = []
+curriculum = []
+
+[[edges.prose_paraphrase]]
+target_id = "ch09:def:cartesian-2ltt-cofibration-calculus"
+locked_spec_hash = "7444c7c4b9ac18de381c19382f9c5d813c3c1f441c6aff88c2fe0a73f0e33f0f"
+scope_note = "Specifies Cartesian dimension/cofibration calculus and U^s vs. U^f partition"
+
+[[edges.prose_paraphrase]]
+target_id = "ch09:prop:pure-kan-path-symmetry-cert"
+locked_spec_hash = "5c019cc2943968ea852f10e5c682fbdf4c9461df28707b2be0dc2fa05d0cd5ef"
+scope_note = "Summarizes Emerald pure-Kan boolean path inversion certificate"
+
+[[edges.prose_paraphrase]]
+target_id = "ch09:thm:bool-univalence-holonomy-cert"
+locked_spec_hash = "da782c71fc6e1c3018b755f8f67685e020b81681636fafc353ce64630c7545ec"
+scope_note = "Summarizes Sapphire V-univalence ua(not) boolean transport theorem"

@@ -1,13 +1,13 @@
 # Volume II Project Roadmap — 14-Slice Blueprint (`ROADMAP.md`)
 
-Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `manifest/publication_lock.json` for **Categorical Reverse Mathematics — Volume II** (`Phase 3`).
+Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `manifest/publication_lock.json` for **Categorical Reverse Mathematics — Volume II** (`Phase 4`).
 
 ## Progress Summary
 
 - **Total Slices:** `14` (Chapters 1–9 + 3 `KernelArena` 2LTT TCB Rungs)
-- **Verified (`VERIFIED`):** `5` (all listed `deliverable_nodes` exist and are `CLEAN` in `vol2.duckdb`)
+- **Verified (`VERIFIED`):** `6` (all listed `deliverable_nodes` exist and are `CLEAN` in `vol2.duckdb`)
 - **Active (`ACTIVE`):** `1` (lowest `seq_order` unverified slice)
-- **Planned (`PLANNED`):** `8`
+- **Planned (`PLANNED`):** `7`
 
 ## 14-Slice Master Schedule
 
@@ -18,8 +18,8 @@ Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `m
 | 3 | `Phase 1B` (`plan:ch01-p1b`) | Chapter 1: Epistemic Probe Calibration & Meta-CRM Residuum | `VERIFIED` | `11/11` | `HomotopyCRM.Vol2.ZeroGiraud`, `HomotopyCRM.Vol2.MoritaInterleaving` | `ltt_eff_muchnik_meets` | [#1](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/1) |
 | 4 | `Ch. 2` (`plan:ch02-class-set-adjunction`) | Chapter 2: Class-Set Adjunction & Mod(GB_0) | `VERIFIED` | `14/14` | `HomotopyCRM.Vol2.ClassSetAdjunction`, `HomotopyCRM.Vol2.VerticalKaleidoscope` | — | [#2](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2) |
 | 5 | `Ch. 3` (`plan:ch03-piset-transgression`) | Chapter 3: Leray Transgression Along pi_Set | `VERIFIED` | `15/15` | `HomotopyCRM.Vol2.EquivSplittingGC`, `HomotopyCRM.Vol2.ForcingMembrane`, `HomotopyCRM.Vol2.PiSetTransgression` | `global_section_dc` | [#3](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3) |
-| 6 | `TCB Rung 1` (`plan:tcb-rung1-cubical-kan`) | TCB: KernelArena 2LTT | `ACTIVE` | `0/3` | `KernelArena.AST`, `KernelArena.Check`, `HomotopyCRM.Vol2.CertChecks` | — | [#4](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4) |
-| 7 | `Ch. 4` (`plan:ch04-smallness-and-schemes`) | Chapter 4: Smallness Valves & Scheme Residuum | `PLANNED` | `0/4` | `HomotopyCRM.Vol2.SmallnessValves`, `HomotopyCRM.Vol2.SchemeResiduum` | `cumulative_hierarchy_strict_inclusion` | [#5](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5) |
+| 6 | `TCB Rung 1` (`plan:tcb-rung1-cubical-kan`) | TCB: KernelArena 2LTT | `VERIFIED` | `5/5` | `KernelArena.AST`, `KernelArena.Cofib`, `KernelArena.ShiftSubst`, `KernelArena.Whnf`, `KernelArena.Check`, `KernelArena.Cert`, `HomotopyCRM.Vol2.CertChecks` | — | [#4](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4) |
+| 7 | `Ch. 4` (`plan:ch04-smallness-and-schemes`) | Chapter 4: Smallness Valves & Scheme Residuum | `ACTIVE` | `0/4` | `HomotopyCRM.Vol2.SmallnessValves`, `HomotopyCRM.Vol2.SchemeResiduum` | `cumulative_hierarchy_strict_inclusion` | [#5](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5) |
 | 8 | `Ch. 5` (`plan:ch05-borel-unraveling`) | Chapter 5: Arboreal Comonads & Borel Unraveling | `PLANNED` | `0/3` | `HomotopyCRM.Vol2.ArborealGameComonads`, `HomotopyCRM.Vol2.BorelUnraveling` | — | [#6](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/6) |
 | 9 | `Ch. 6` (`plan:ch06-large-doctrines-vopenka`) | Chapter 6: Large Doctrines & Vopenka Localization Wall | `PLANNED` | `0/3` | `HomotopyCRM.Vol2.LargeDoctrines`, `HomotopyCRM.Vol2.VopenkaLocalizationWall` | — | [#7](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/7) |
 | 10 | `Ch. 7` (`plan:ch07-inf-inf-calibration`) | Chapter 7: Class-Theoretic Calibration of the (infty,infty)-Ladder | `PLANNED` | `0/3` | `HomotopyCRM.Vol2.InfInfLadder`, `HomotopyCRM.Vol2.CatOmegaStabilization` | `ordinal_rank_base` | [#8](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/8) |
@@ -71,15 +71,15 @@ Generated deterministically from `build/vol2.duckdb` (`work_items` table) and `m
 - **Scope:** Formulate Leray spectral transgression along pi_Set and the Card -> Set splitting, separating Felgner's 1971 global-choice conservation membrane from Glazer (2023) and Felgner (1976) DC_Ord leakage under Guardrail 4.
 
 ### 6. TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not) (`plan:tcb-rung1-cubical-kan`)
-- **Status:** `ACTIVE` (`0/3` deliverables `CLEAN`) · Issue [#4](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4)
+- **Status:** `VERIFIED` (`5/5` deliverables `CLEAN`) · Issue [#4](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4)
 - **Milestone 10:** TCB: KernelArena 2LTT (`TCB Rung 1`)
-- **Target Modules:** `KernelArena.AST`, `KernelArena.Check`, `HomotopyCRM.Vol2.CertChecks`
-- **Deliverable Nodes:** `tcb:tool:arena-builder-dsl`, `tcb:cert:cubical-coe-hcom`, `tcb:cert:v-univalence-ua-not`
+- **Target Modules:** `KernelArena.AST`, `KernelArena.Cofib`, `KernelArena.ShiftSubst`, `KernelArena.Whnf`, `KernelArena.Check`, `KernelArena.Cert`, `HomotopyCRM.Vol2.CertChecks`
+- **Deliverable Nodes:** `sym:cubical-2ltt`, `ch09:prose:ch09-tcb-r1-roadmap`, `ch09:def:cartesian-2ltt-cofibration-calculus`, `ch09:prop:pure-kan-path-symmetry-cert`, `ch09:thm:bool-univalence-holonomy-cert`
 - **Guardrails:** None
 - **Scope:** Implement scripts/arena_builder.py high-level DSL and extend zero-Mathlib kernel_arena/ with Cartesian interval Psi, union-find cofibrations F, Path types, coe/hcom Kan operations, and V-Univalence certificate ua(not).
 
 ### 7. Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum (`plan:ch04-smallness-and-schemes`)
-- **Status:** `PLANNED` (`0/4` deliverables `CLEAN`) · Issue [#5](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5)
+- **Status:** `ACTIVE` (`0/4` deliverables `CLEAN`) · Issue [#5](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5)
 - **Milestone 4:** Chapter 4: Smallness Valves & Scheme Residuum (`Ch. 4`)
 - **Target Modules:** `HomotopyCRM.Vol2.SmallnessValves`, `HomotopyCRM.Vol2.SchemeResiduum`
 - **Deliverable Nodes:** `ch04:def:joyal-moerdijk-cs-valve`, `ch04:prop:h-aleph1-czf-subobject-stratification`, `ch04:thm:mathias-mac-strict-zc`, `ch04:thm:waterhouse-fpqc-smallness-escape`

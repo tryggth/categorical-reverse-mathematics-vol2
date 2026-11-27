@@ -20,7 +20,12 @@ logical_dep = [
   "plan:ch01-p1a",
   "plan:ch01-p1b",
   "plan:ch02-class-set-adjunction",
-  "plan:ch03-piset-transgression"
+  "plan:ch03-piset-transgression",
+  "plan:tcb-rung1-cubical-kan",
+  "pub:web:observatory",
+  "pub:pdf:monograph",
+  "pub:pdf:claims-ledger",
+  "pub:pdf:course-packs"
 ]
 lean_dep = []
 curriculum = []
@@ -139,3 +144,13 @@ scope_note = "Front-door summary of Emerald Lindenbaum-Stone transgression d_Set
 target_id = "ch03:thm:two-valve-transgression-dichotomy"
 locked_spec_hash = "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e"
 scope_note = "Front-door summary of Two-Valve Base-Fiber Transgression Dichotomy across (Replacement x Foundation)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch09:prop:pure-kan-path-symmetry-cert"
+locked_spec_hash = "5c019cc2943968ea852f10e5c682fbdf4c9461df28707b2be0dc2fa05d0cd5ef"
+scope_note = "Front-door summary of Emerald pure-Kan boolean path symmetry certificate (KernelArena Rung 1)"
+
+[[edges.prose_paraphrase]]
+target_id = "ch09:thm:bool-univalence-holonomy-cert"
+locked_spec_hash = "da782c71fc6e1c3018b755f8f67685e020b81681636fafc353ce64630c7545ec"
+scope_note = "Front-door summary of Sapphire V-univalence boolean holonomy ua(not) transport theorem"

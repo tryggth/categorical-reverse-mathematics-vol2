@@ -1,0 +1,81 @@
+id = "ch09:thm:bool-univalence-holonomy-cert"
+kind = "theorem"
+title = "Boolean Univalence Holonomy via Regularity-Safe V-Types (Sapphire Certificate)"
+chapter = "ch09"
+section = "9.1"
+seq_order = 920
+axis = "2ltt_tcb"
+grounding_tier = "twoltt_ok"
+formal_pkg = "kernel_arena"
+stratum = "sapphire"
+cite_keys = ["abcfhl2021", "acks2023", "voevodsky_hts2013"]
+
+[spec]
+cert_path = "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json"
+statement = "At universe depth k = 2 inside KernelArena Rung 1 with inner_univalence_V = true (Sapphire stratum), forming the involution equivalence not : 2^f ~^f 2^f via dependent BoolElim^f and the univalent path uaNot := <i> V_i(2^f, 2^f, notEquiv) : Path (_. U^f_0) 2^f 2^f yields an explicit computational holonomy witness refl_true : Path (_. 2^f) (coe 0 1 (i. uaNot @ i) false^f) true^f."
+hypotheses = ["V-univalence rules enabled (inner_univalence_V = true); regularity-safe V-coercion rule avoids non-regularity traps."]
+
+[spec.kernel_arena]
+decl_names = [
+  "HomotopyCRM.Vol2.cert_ch09_thm_bool_univalence_holonomy_cert",
+  "HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert"
+]
+expected_axioms = []
+cert_const_short = "cert_ch09_thm_bool_univalence_holonomy_cert"
+check_thm_short = "check_ch09_thm_bool_univalence_holonomy_cert"
+
+[body]
+tex = """
+\\begin{theorem}[Boolean Univalence Holonomy Witness]\\label{ch09:thm:bool-univalence-holonomy-cert}%
+Over {{ref:ch09:def:cartesian-2ltt-cofibration-calculus}} and building on the Kan path infrastructure {{ref:ch09:prop:pure-kan-path-symmetry-cert}} at universe depth $k = 2$, let $\\mathsf{not} : 2^f \\to 2^f$ exchange $\\mathsf{true}^f$ and $\\mathsf{false}^f$, with involution section and retraction $\\Pi^f(b : 2^f),\\,\\mathsf{Path}_{\\_.2^f}(\\mathsf{not}(\\mathsf{not}\\,b), b)$ given by dependent $\\mathsf{BoolElim}^f$. Forming the {{sym:vtype}}-path
+\\[
+  \\mathsf{uaNot} := \\langle i \\rangle\\, {{sym:vtype}}_i(2^f, 2^f, \\mathsf{not}, \\mathsf{not}, s, s)
+  : \\mathsf{Path}_{\\_.{{sym:univ-f}}_0}(2^f, 2^f),
+\\]
+its coercion on $\\mathsf{false}^f$ reduces by WHNF directly to $\\mathsf{true}^f$:
+\\[
+  \\langle j \\rangle\\,\\mathsf{true}^f :
+  \\mathsf{Path}_{\\_.2^f}\\!\\bigl({{sym:kan-coe}}^{0\\to 1}_{i.\\,\\mathsf{uaNot} \\mathbin{@} i}(\\mathsf{false}^f),\\; \\mathsf{true}^f\\bigr),
+\\]
+activating the \\textbf{Sapphire} ($\\mathsf{V}$-univalence) TCB stratum \\cite{abcfhl2021,acks2023,voevodsky_hts2013}.
+\\end{theorem}
+\\begin{proof}
+At boundary $i=0$, $\\mathsf{V}_0(2^f, 2^f, \\dots) \\equiv 2^f$, and at $i=1$, $\\mathsf{V}_1(2^f, 2^f, \\dots) \\equiv 2^f$, validating the endpoints of $\\mathsf{uaNot}$ in {{sym:univ-f}}$_0$. Under $\\beta$-reduction of path application, $\\mathsf{uaNot} \\mathbin{@} i \\leadsto \\mathsf{V}_i(2^f, 2^f, \\dots)$; the regularity-safe $0\\to 1$ coercion rule then unfolds to
+\\[
+  {{sym:kan-hcom}}^{0\\to 1}_{2^f}\\bigl([],\\, {{sym:kan-coe}}^{0\\to 1}_{\\_.2^f}(\\mathsf{not}\\;\\mathsf{false}^f)\\bigr),
+\\]
+which flat-discrete Kan reduction collapses through $\\mathsf{not}\\;\\mathsf{false}^f \\leadsto \\mathsf{true}^f$ in $3$ fuel steps. Thus the reflexivity term $\\langle j \\rangle\\,\\mathsf{true}^f$ is definitionally equal at its left endpoint to the coerced transport. Certificate \\texttt{certs/tcb\\_r1\\_univ\\_bool\\_ua\\_not\\_holonomy.2ltt.json} (21 DAG nodes, \\texttt{inner\\_univalence\\_V = true}) checks in \\texttt{KernelArena} and bridges cleanly via \\texttt{rfl} in \\texttt{HomotopyCRM.Vol2.CertChecks} with zero Lean axioms.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by 2LTT certificate"
+blueprint_tier = "twoltt_ok"
+characterization_types = ["Homotopy Type / Classifying Space"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "twoltt_cert"
+ref = "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json"
+purpose = "21-node Sapphire KernelArena Rung 1 univalence holonomy certificate (ua(not) flips false^f to true^f)"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "abcfhl2021"
+locator = "Sec. 4, pp. 446--456"
+purpose = "Cartesian V-type univalence rules and coercion computation"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "acks2023"
+locator = "Sec. 2.3, pp. 697--703"
+purpose = "Inner fibrant univalence inside a two-level system"
+
+[edges]
+logical_dep = [
+  "ch09:def:cartesian-2ltt-cofibration-calculus",
+  "ch09:prop:pure-kan-path-symmetry-cert"
+]
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
