@@ -1,0 +1,52 @@
+id = "ch03:claim:mathias-gb0-nonconservative-over-mac"
+kind = "inline_claim"
+title = "Mathias's Boundary: Unbounded GB_0 Separation Breaks Conservativity Over Mac = ETCS"
+chapter = "ch03"
+section = "3.2"
+seq_order = 345
+axis = "class_set"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["mathias2001", "cole1973", "osius1974"]
+
+[spec]
+statement = "By the Cole-Mitchell-Osius bi-interpretation (Cole 1973, pp. 351-399; Osius 1974, §§3-5, pp. 79-119), Lawvere's ETCS is bi-interpretable with Delta_0-bounded Mac Lane set theory (Mac), not full Zermelo ZC. By Mathias (2001, §§3-6, pp. 142-198), adjoining GB_0's unbounded first-order Subclass Separation already breaks L_in-conservativity over Mac (yielding strictly greater consistency strength) prior to adjoining Global Choice GC, scoping pure GC-transgression strictly to full-Separation ZC."
+
+[body]
+tex = """
+\\begin{inlineclaim}[Mathias's Boundary: Unbounded {{sym:gb0}} Separation Over $\\mathsf{Mac} \\simeq \\mathsf{ETCS}$]\\label{ch03:claim:mathias-gb0-nonconservative-over-mac}%
+\\uses{vol1:thm:glazer-nonconservativity,ch03:prop:glazer-hartogs-scott-surjection}%
+By the Cole--Mitchell--Osius equivalence~\\cite{cole1973,osius1974}, Lawvere's $\\mathsf{ETCS}$ is bi-interpretable with $\\Delta_0$-bounded Mac~Lane set theory ($\\mathsf{Mac}$), rather than full Zermelo set theory $\\mathsf{ZC}$. As Mathias proved~\\cite[\\S\\S 3--6, pp.~142--198]{mathias2001}, adjoining {{sym:gb0}}'s unbounded first-order Subclass Separation already breaks $\\mathcal{L}_\\in$-conservativity over $\\mathsf{Mac}$ (and increases consistency strength strictly above $\\mathsf{Mac} \\simeq \\mathsf{ETCS}$) \\emph{prior} to adjoining Global Choice $\\mathsf{GC}$---scoping the pure $\\mathsf{GC}$ horizontal transgression of Theorem~\\ref{vol1:thm:glazer-nonconservativity} and Proposition~\\ref{ch03:prop:glazer-hartogs-scott-surjection} strictly to full-Separation $\\mathsf{ZC}$.
+\\end{inlineclaim}
+"""
+
+[edges]
+logical_dep = ["vol1:thm:glazer-nonconservativity", "ch03:prop:glazer-hartogs-scott-surjection"]
+lean_dep = []
+curriculum = ["ch03:prop:glazer-hartogs-scott-surjection"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Metamathematical Principle"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "mathias2001"
+locator = "§§3–6, pp. 142–198"
+purpose = "Strict consistency-strength and L_in-non-conservativity separation between Mac (Delta_0-Sep) and full ZC / GB_0"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "cole1973"
+locator = "pp. 351–399"
+purpose = "Bi-interpretation of bounded Zermelo set theory Mac with categorical set theory ETCS"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "osius1974"
+locator = "§§3–5, pp. 79–119"
+purpose = "Categorical characterization of Mac / ETCS inside elementary topoi"

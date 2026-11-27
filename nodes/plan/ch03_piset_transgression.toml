@@ -14,14 +14,26 @@ milestone = "Chapter 3: Leray Transgression Along pi_Set"
 milestone_num = 3
 slice_code = "Ch. 3"
 target_modules = [
-  "HomotopyCRM.Vol2.PiSetTransgression",
-  "HomotopyCRM.Vol2.FelgnerMembrane"
+  "HomotopyCRM.Vol2.EquivSplittingGC",
+  "HomotopyCRM.Vol2.ForcingMembrane",
+  "HomotopyCRM.Vol2.PiSetTransgression"
 ]
 deliverable_nodes = [
-  "ch03:thm:leray-transgression-pi-set",
-  "ch03:prop:card-to-set-splitting",
-  "ch03:thm:felgner-1971-membrane",
-  "ch03:cex:glazer-felgner-dc-ord-leak"
+  "vol1:prop:large-equiv-splitting",
+  "vol1:thm:glazer-nonconservativity",
+  "vol1:thm:quantitative-conservation",
+  "sym:piset-transgression",
+  "ch03:prose:ch03-transgression-roadmap",
+  "ch03:thm:anafunctor-vs-functorial-gc-splitting",
+  "ch03:prop:skeleton-quotient-choice-stratum",
+  "ch03:thm:felgner-kappa-closed-membrane",
+  "ch03:prop:glazer-hartogs-scott-surjection",
+  "ch03:claim:mathias-gb0-nonconservative-over-mac",
+  "ch03:claim:felgner76-foundation-free-dc-ord-leak",
+  "ch03:thm:piset-transgression-exactness",
+  "ch03:thm:two-valve-transgression-dichotomy",
+  "ch03:prob:morleyized-classifying-topos-transgression",
+  "ch03:tab:piset-four-quadrant-ledger"
 ]
 guardrails = ["global_section_dc"]
 summary = "Formulate Leray spectral transgression along pi_Set and the Card -> Set splitting, separating Felgner's 1971 global-choice conservation membrane from Glazer (2023) and Felgner (1976) DC_Ord leakage under Guardrail 4."

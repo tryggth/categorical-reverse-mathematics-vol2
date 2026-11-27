@@ -1,0 +1,46 @@
+id = "vol1:prop:large-equiv-splitting"
+kind = "vol1_external"
+title = "Large Equivalence-Splitting Calibrates Global Choice (Volume I)"
+chapter = "ch03"
+section = "3.1"
+seq_order = 301
+axis = "class_set"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["makkai1996", "easton1970"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:53"
+vol1_label = "prop:large-equiv-splitting"
+vol1_lean_symbol = "HomotopyCRM.SetsResiduum.card_split_iff_global_choice, HomotopyCRM.SetsResiduum.type_equiv_splitting_global_choice"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Over GBC in a class-set model (M, C), the full inclusion I : Card >-> Set of skeletal von Neumann cardinals is a weak categorical equivalence whose quasi-inverse splitting F : Set -> Card with eta : Id_Set ~> I o F is strictly equivalent over GBC to Global Choice (NBG := GBC + GC). Whenever M |= ZFC + forall p (V != HOD({p})) via homogeneous tail Easton forcing, (M, Def(M)) violates GC and leaves I unsplit, whereas L[c] (M |= V != HOD but V = HOD({c})) still splits I.
+"""
+
+[body]
+tex = """
+\\begin{proposition}[Volume~I Grounding Contract: Large Equivalence-Splitting Calibrates Global Choice]\\label{vol1:prop:large-equiv-splitting}%
+Pinned read-only to Volume~I (\\texttt{prop:large-equiv-splitting}, \\texttt{docs/ch07\\_sets\\_residuum.tex:53}, Lean witnesses \\texttt{HomotopyCRM.\\allowbreak{}SetsResiduum.\\allowbreak{}card\\_split\\_iff\\_global\\_choice} and \\texttt{type\\_equiv\\_splitting\\_global\\_choice}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{makkai1996,easton1970}. Over $\\mathsf{GBC}$, the skeletal inclusion $I : \\mathbf{Card} \\hookrightarrow \\mathbf{Set}$ is a weak categorical equivalence; the existence of a class quasi-inverse $F : \\mathbf{Set} \\to \\mathbf{Card}$ with $\\eta : \\mathrm{Id}_{\\mathbf{Set}} \\xrightarrow{\\sim} I \\circ F$ is equivalent over $\\mathsf{GBC}$ to Global Choice ($\\mathsf{NBG} := \\mathsf{GBC} + \\mathsf{GC}$), and fails in $(M, \\mathrm{Def}(M))$ when $M \\models \\mathsf{ZFC} + \\forall p\\,(V \\neq \\mathrm{HOD}(\\{p\\}))$.
+\\end{proposition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Choice Calibration", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:large-equiv-splitting"
+locator = "docs/ch07_sets_residuum.tex:53"
+purpose = "Pinned read-only Volume I equivalence between Card >-> Set splitting and Global Choice"

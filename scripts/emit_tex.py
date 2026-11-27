@@ -21,6 +21,8 @@ SOURCEMAPS_DIR = REPO_ROOT / "build" / "sourcemaps"
 
 SYM_RE = re.compile(r"\{\{sym:([A-Za-z0-9_.:-]+)\}\}")
 REF_RE = re.compile(r"\{\{ref:([A-Za-z0-9_.:-]+)\}\}")
+RAW_REF_RE = re.compile(r"\\ref\{([A-Za-z0-9_.:-]+)\}")
+USES_PROVES_RE = re.compile(r"\\(uses|proves)\{([^}]*)\}")
 
 STRATUM_STYLES = {
     "emerald": ("CRMEmerald", "Emerald (Axiom-Free)"),
@@ -41,6 +43,11 @@ CHAPTER_HEADERS = {
         r"\part{The Class--Set Adjunction and Base-Change Transgression}\label{part:class-set-adjunction}",
         r"\chapter{Minimal Definability, Fixed-Set Kaleidoscopes, and \texorpdfstring{$\mathrm{Def} \dashv \pi_{\mathrm{Set}}$}{Def -| pi\_Set}}\label{ch:class-set-adjunction}",
         r"\chapterepigraph{The inequalities in the world are like the combinations in a kaleidoscope; at every turn a fresh picture strikes the eye; and yet, in reality, you see only the same bits of glass as you saw before.}{Arthur Schopenhauer, \emph{Counsels and Maxims}, \S 47}",
+        "",
+    ],
+    "ch03": [
+        r"\chapter{Leray Transgression Along \texorpdfstring{$\pi_{\mathrm{Set}}$}{pi\_Set} and Horizontal Conservativity Breakdown}\label{ch:piset-transgression}",
+        r"\chapterepigraph{Sometimes I have had the task to write reviews of articles, where set theoretic notions and theorems are used without any explanation of what kind of set theory is meant. It is a disagreeable job to write reviews in such cases. One does not know what the author really means.}{Thoralf Skolem, \emph{A Critical Remark on Foundational Research} (1955)}",
         "",
     ],
 }
@@ -82,6 +89,22 @@ SECTION_TITLES = {
         "Transfinite Class Recursion, Kelley--Morse Barriers, and the Vertical Class Spectrum",
         "sec:vertical-class-spectrum",
     ),
+    "3.1": (
+        "Large Anafunctors, Functorial Global Choice Splitting, and the Equipollence Quotient",
+        "sec:anafunctor-gc-splitting",
+    ),
+    "3.2": (
+        r"Felgner's \texorpdfstring{$\kappa$}{kappa}-Closed Membrane, Glazer's Hartogs--Scott Valve, and Foundation-Free Leaks",
+        "sec:felgner-glazer-leaks",
+    ),
+    "3.3": (
+        r"Lindenbaum--Stone Transgression \texorpdfstring{$d_{\mathrm{Set}}$}{d\_Set} and Syntactic Pullback Exactness",
+        "sec:piset-transgression-exactness",
+    ),
+    "3.4": (
+        "The Two-Valve Base--Fiber Dichotomy, Morleyized Topoi, and Part~I Synthesis",
+        "sec:two-valve-dichotomy",
+    ),
 }
 
 
@@ -106,6 +129,8 @@ def tex_escape(s: str) -> str:
         "⇔": r"$\Leftrightarrow$",
         "⊣": r"$\dashv$",
         "↪": r"$\hookrightarrow$",
+        "↠": r"$\twoheadrightarrow$",
+        "⇀": r"$\rightharpoonup$",
         "×": r"$\times$",
         "∈": r"$\in$",
         "∉": r"$\notin$",
@@ -115,6 +140,7 @@ def tex_escape(s: str) -> str:
         "⊂": r"$\subset$",
         "∪": r"$\cup$",
         "∩": r"$\cap$",
+        "⊔": r"$\sqcup$",
         "∖": r"$\setminus$",
         "∧": r"$\wedge$",
         "∨": r"$\vee$",
@@ -122,6 +148,8 @@ def tex_escape(s: str) -> str:
         "∀": r"$\forall$",
         "∃": r"$\exists$",
         "∅": r"$\emptyset$",
+        "⊥": r"$\bot$",
+        "⊤": r"$\top$",
         "≅": r"$\cong$",
         "≃": r"$\simeq$",
         "⊢": r"$\vdash$",
@@ -133,8 +161,12 @@ def tex_escape(s: str) -> str:
         "ω": r"$\omega$",
         "λ": r"$\lambda$",
         "α": r"$\alpha$",
+        "θ": r"$\theta$",
+        "τ": r"$\tau$",
+        "σ": r"$\sigma$",
         "Π": r"$\Pi$",
         "ℕ": r"$\mathbb{N}$",
+        "ℤ": r"$\mathbb{Z}$",
         "Ω": r"$\Omega$",
         "Σ": r"$\Sigma$",
         "Φ": r"$\Phi$",
@@ -191,12 +223,30 @@ def expand_tex_macros(
         if nid not in nodes_meta:
             raise KeyError(f"Unknown node reference: {nid}")
         if allowed_ids is not None and nid not in allowed_ids:
-            title = nodes_meta[nid]["title"]
+            title = tex_escape(nodes_meta[nid]["title"])
             return f"\\emph{{{title}}} (full monograph)"
         return f"\\ref{{{nid}}}"
 
     out = SYM_RE.sub(_rep_sym, text)
     out = REF_RE.sub(_rep_ref, out)
+    if allowed_ids is not None:
+        def _filter_uses(m: re.Match[str]) -> str:
+            cmd = m.group(1)
+            items = [x.strip() for x in m.group(2).split(",") if x.strip()]
+            kept = [x for x in items if x not in nodes_meta or x in allowed_ids]
+            if not kept:
+                return ""
+            return f"\\{cmd}{{{','.join(kept)}}}"
+
+        def _rep_raw_ref(m: re.Match[str]) -> str:
+            nid = m.group(1)
+            if nid in nodes_meta and nid not in allowed_ids:
+                title = tex_escape(nodes_meta[nid]["title"])
+                return f"\\emph{{{title}}} (full monograph)"
+            return m.group(0)
+
+        out = USES_PROVES_RE.sub(_filter_uses, out)
+        out = RAW_REF_RE.sub(_rep_raw_ref, out)
     return out
 
 

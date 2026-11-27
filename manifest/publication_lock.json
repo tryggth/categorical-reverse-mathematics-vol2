@@ -1,22 +1,22 @@
 {
   "schema": "vol2.publication_lock.v1",
-  "updated_at_utc": "2026-11-26T21:24:41.099082+00:00",
+  "updated_at_utc": "2026-11-27T02:38:53.006750+00:00",
   "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
   "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
-  "lean_export_commit": "4deca947f3df44f9a1a43af652022aaaab476996",
+  "lean_export_commit": "23ac7ab9afa8e6e802c17eb5d88250dee2715152",
   "pub_targets": {
     "pub:branch:lean-export": {
-      "cone_hash": "efd8fdc26192c9a74d5a687a168d4f017f75b8275b6261da393a996d957d6545",
+      "cone_hash": "7ed86eb3f19be6d48125463f2c8ce569bff7a6c8a1663edb07c1eed11450adb9",
       "channel": "lean_export",
       "sensitivity": "lean_only",
       "outputs": [
         "refs/heads/lean-export",
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     },
     "pub:doc:repo-frontdoor": {
-      "cone_hash": "0b0608ca301a804ddd26c94b64da79a26334d511a1d7827e1e4b48886ded9a62",
+      "cone_hash": "844ff3f148dbfc802d12eede7e5510dcb553b203283ac9f748fb042bef7db694",
       "channel": "main_docs",
       "sensitivity": "spec_and_metrics",
       "outputs": [
@@ -25,52 +25,54 @@
         "ROADMAP.md",
         "CITATION.cff"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     },
     "pub:gh:issues-board": {
-      "cone_hash": "acbed20a64a3aafb5f4e9e2f6b130aa91fbf1294aa1a12850fb0557062a5a177",
+      "cone_hash": "40b734c5c20be9087d6562d37ed5a02c633951ef61271da3b32c07281a1740b5",
       "channel": "gh_issues",
       "sensitivity": "plan_and_problems",
       "outputs": [
         "github:milestones",
         "github:issues"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     },
     "pub:pdf:claims-ledger": {
-      "cone_hash": "0fbbf15485fbdd33eaa9e3d7c61394702974afbbbb1987e2cda983418b8298b6",
+      "cone_hash": "5daa68433a7c5255547d9d29513d15bbe3e3c339a805a3026fae7c7cab9384a2",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
         "build/tex/crm_vol2_claims_ledger.pdf",
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     },
     "pub:pdf:course-packs": {
-      "cone_hash": "815401442f2e92a2570f99e3840e1fffc483c456b18ae5c995ea7859fc12b326",
+      "cone_hash": "16102b3bc676fbbca9add34643a37b1d3767aa4eff73058ab3e7941e24805aab",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
         "build/tex/course_pack_ch01_probe_calibration.pdf",
         "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf",
         "build/tex/course_pack_ch02_class_set_kaleidoscope.pdf",
-        "build/gh_pages/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf"
+        "build/gh_pages/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
+        "build/tex/course_pack_ch03_piset_transgression.pdf",
+        "build/gh_pages/pdfs/course_pack_ch03_piset_transgression.pdf"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     },
     "pub:pdf:monograph": {
-      "cone_hash": "34665d0bec73c00a6678e94e4442157b276aedc5e9db08cb12543f0cb303938e",
+      "cone_hash": "3a155e5d627a573d980c9bf51c6f6f124ceba86ddd1f04287d565bd8932acd07",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
         "build/tex/crm_vol2_monograph.pdf",
         "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     },
     "pub:web:observatory": {
-      "cone_hash": "3d4831734c83e31c45d36662350911c90f60b854d27a04eb03a88db8e6d2dc91",
+      "cone_hash": "cd1880155c8aa8bfb2b6449c66be9031f06240ad7421f14d9c2bfd2016048402",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
@@ -80,7 +82,7 @@
         "build/gh_pages/data/network.json",
         "build/gh_pages/.nojekyll"
       ],
-      "locked_at_utc": "2026-11-26T21:24:41.099082+00:00"
+      "locked_at_utc": "2026-11-27T02:38:53.006750+00:00"
     }
   },
   "milestones": {
@@ -96,16 +98,6 @@
     "TCB: KernelArena 2LTT": 10
   },
   "issues": {
-    "plan:ch03-piset-transgression": {
-      "number": 3,
-      "title": "[Ch. 3] Ch. 3 (Part I): Leray Transgression Along pi_Set & Felgner vs. DC_Ord",
-      "state": "OPEN",
-      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3",
-      "milestone": "Chapter 3: Leray Transgression Along pi_Set",
-      "labels": [
-        "slice:active"
-      ]
-    },
     "plan:tcb-rung1-cubical-kan": {
       "number": 4,
       "title": "[TCB Rung 1] TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not)",
@@ -113,7 +105,7 @@
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/4",
       "milestone": "TCB: KernelArena 2LTT",
       "labels": [
-        "slice:planned",
+        "slice:active",
         "tcb:kernel-arena"
       ]
     },
@@ -209,6 +201,16 @@
         "horizon:open-problem"
       ]
     },
+    "ch03:prob:morleyized-classifying-topos-transgression": {
+      "number": 14,
+      "title": "[Open Problem] Sheaf-Cohomological Upgrade of d_Set via Sigma^1_0-Morleyized Classifying Topoi",
+      "state": "OPEN",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/14",
+      "milestone": "",
+      "labels": [
+        "horizon:open-problem"
+      ]
+    },
     "plan:ch01-p1b": {
       "number": 1,
       "title": "[Phase 1B] Phase 1B: Ch. 1 \u00a7\u00a71.4\u20131.5 Zero-Giraud Axioms, Currencies, & Morita Interleaving",
@@ -225,6 +227,16 @@
       "state": "CLOSED",
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/2",
       "milestone": "Chapter 2: Class-Set Adjunction & Mod(GB_0)",
+      "labels": [
+        "slice:verified"
+      ]
+    },
+    "plan:ch03-piset-transgression": {
+      "number": 3,
+      "title": "[Ch. 3] Ch. 3 (Part I): Leray Transgression Along pi_Set & Felgner vs. DC_Ord",
+      "state": "CLOSED",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3",
+      "milestone": "Chapter 3: Leray Transgression Along pi_Set",
       "labels": [
         "slice:verified"
       ]

@@ -15,7 +15,13 @@ sensitivity = "spec_and_metrics"
 outputs = ["README.md", "PROCESS.md", "ROADMAP.md", "CITATION.cff"]
 
 [edges]
-logical_dep = ["plan:ch00-bootstrap", "plan:ch01-p1a", "plan:ch01-p1b", "plan:ch02-class-set-adjunction"]
+logical_dep = [
+  "plan:ch00-bootstrap",
+  "plan:ch01-p1a",
+  "plan:ch01-p1b",
+  "plan:ch02-class-set-adjunction",
+  "plan:ch03-piset-transgression"
+]
 lean_dep = []
 curriculum = []
 
@@ -118,3 +124,18 @@ scope_note = "Front-door summary of Emerald Def -| pi_Set adjunction and corefle
 target_id = "ch02:thm:williams-fixed-set-kaleidoscope"
 locked_spec_hash = "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa"
 scope_note = "Front-door summary of Williams Fixed-Set Kaleidoscope and Independent-Generator order embedding"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:anafunctor-vs-functorial-gc-splitting"
+locked_spec_hash = "a455dc71539bdb710e644c5dff310a2ccf1ab9359539a6b9a497d50cad5e0cb0"
+scope_note = "Front-door summary of Emerald choiceless saturated anafunctors vs. functorial Global Choice splitting"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:piset-transgression-exactness"
+locked_spec_hash = "f3f02470f7d2438bb8f215ce45a276575846c5839e17fcc11221b21441acce87"
+scope_note = "Front-door summary of Emerald Lindenbaum-Stone transgression d_Set exactness and pullback equivalence"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:two-valve-transgression-dichotomy"
+locked_spec_hash = "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e"
+scope_note = "Front-door summary of Two-Valve Base-Fiber Transgression Dichotomy across (Replacement x Foundation)"

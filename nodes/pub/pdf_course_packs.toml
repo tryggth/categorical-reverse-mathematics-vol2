@@ -1,6 +1,6 @@
 id = "pub:pdf:course-packs"
 kind = "pub_target"
-title = "Publication Sink: Standalone Chapter Course Pack PDFs (Ch. 1 & Ch. 2)"
+title = "Publication Sink: Standalone Chapter Course Pack PDFs (Ch. 1, Ch. 2, & Ch. 3)"
 chapter = "ch00"
 section = "PUB.5"
 seq_order = 905
@@ -16,11 +16,17 @@ outputs = [
   "build/tex/course_pack_ch01_probe_calibration.pdf",
   "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf",
   "build/tex/course_pack_ch02_class_set_kaleidoscope.pdf",
-  "build/gh_pages/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf"
+  "build/gh_pages/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
+  "build/tex/course_pack_ch03_piset_transgression.pdf",
+  "build/gh_pages/pdfs/course_pack_ch03_piset_transgression.pdf"
 ]
 
 [edges]
 logical_dep = []
 lean_dep = []
-curriculum = ["ch01:tab:epistemic-probe-regimes", "ch02:tab:vertical-class-spectrum"]
+curriculum = [
+  "ch01:tab:epistemic-probe-regimes",
+  "ch02:tab:vertical-class-spectrum",
+  "ch03:tab:piset-four-quadrant-ledger"
+]
 prose_paraphrase = []

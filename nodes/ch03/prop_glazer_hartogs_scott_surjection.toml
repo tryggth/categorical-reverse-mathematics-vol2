@@ -1,0 +1,161 @@
+id = "ch03:prop:glazer-hartogs-scott-surjection"
+kind = "proposition"
+title = "Hartogs-Scott Prewellordering Stages and Glazer's Small-Domain Surjection Over GBC_0 + GC"
+chapter = "ch03"
+section = "3.2"
+seq_order = 340
+axis = "class_set"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["glazer2023"]
+
+[spec]
+statement = "Over Replacement-free GB_0 + GC (without von Neumann ordinals above omega + omega), (1) global well-ordering induces an injective section W^+(A) >-> WO(A) splitting the canonical small-domain surjection WO(A) ->> W^+(A) from well-orderings of A <= P(A x A) onto the Hartogs/Scott prewellordering stage W^+(A) <= P^2(A x A); (2) over GBC_0 + GC, Global Choice selects uniform enumerations f_n : omega ->> X_n across Glazer's psi_fnd family, enabling G4 projection and Subclass Separation on P(omega x omega) x W_2 in S to manufacture a small partial surjection P(omega x omega) -> W_2 (equivalently P(omega) ->> W_2), refuting CH and Glazer's theta_Glz."
+hypotheses = [
+  "H : HartogsPreWOSystem modeling WO(A) ->> W^+(A) with globalSelect",
+  "G : GlazerSeparationSystem, E : GlobalCountableEnum G modeling f_n : omega ->> X_n and G4 small graph"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ForcingMembrane"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.HartogsPreWOSystem",
+  "HomotopyCRM.Vol2.GlazerSeparationSystem",
+  "HomotopyCRM.Vol2.GlobalCountableEnum",
+  "HomotopyCRM.Vol2.glazerCode",
+  "HomotopyCRM.Vol2.glazerSmallGraph",
+  "HomotopyCRM.Vol2.glazer_hartogs_scott_surjection"
+]
+expected_axioms = []
+lean_signature = """
+/-- Abstract Hartogs–Scott prewellordering stage `W^+(A)` over small well-orderings
+    `WO(A) ⊆ P(A × A)` equipped with a global well-order representative selector. -/
+structure HartogsPreWOSystem : Type 1 where
+  /-- Small well-orderings `WO`, Hartogs–Scott stage `WPlus`, order type, and selector. -/
+  WO : Type
+  WPlus : Type
+  ordType : WO → WPlus
+  ordType_surj : ∀ w : WPlus, ∃ r : WO, ordType r = w
+  globalSelect : ∀ w : WPlus, { r : WO // ordType r = w }
+
+/-- Abstract Glazer separation system over `GBC₀ + GC`: class `A`, `ω`-indexed countable sets
+    `X n`, separating relation `R` on `⋃_n X_n`, small target `W₂`, and class surjection `P₂`. -/
+structure GlazerSeparationSystem : Type 1 where
+  /-- Class `A`, stages `X n`, separating relation `R`, target `W₂`, and surjection `P₂`. -/
+  A : Type
+  X : Nat → Type
+  R : (Σ n : Nat, X n) → A → Prop
+  W2 : Type
+  P2 : A → W2
+  P2_surj : ∀ w : W2, ∃ a : A, P2 a = w
+  R_separates : ∀ a₁ a₂ : A,
+    (∀ (n : Nat) (x : X n), R ⟨n, x⟩ a₁ ↔ R ⟨n, x⟩ a₂) → a₁ = a₂
+
+/-- Uniform Global Choice witness choosing surjections `enum n : Nat ↠ X n` for all `n`. -/
+structure GlobalCountableEnum (G : GlazerSeparationSystem) : Type where
+  /-- Simultaneous countable enumerations `ω ↠ X_n` across all `n : Nat`. -/
+  enum : ∀ n : Nat, Nat → G.X n
+  enum_surj : ∀ (n : Nat) (x : G.X n), ∃ m : Nat, enum n m = x
+
+/-- Small-domain code in `P(ω × ω)` assigned to `a : G.A` via `E.enum`. -/
+def glazerCode (G : GlazerSeparationSystem) (E : GlobalCountableEnum G) (a : G.A) :
+    Nat × Nat → Prop :=
+  fun mn ↦ G.R ⟨mn.2, E.enum mn.2 mn.1⟩ a
+
+/-- G4-projected small-set graph `Φ ⊆ P(ω × ω) × W₂` carved out by Subclass Separation. -/
+def glazerSmallGraph (G : GlazerSeparationSystem) (E : GlobalCountableEnum G)
+    (S : Nat × Nat → Prop) (w : G.W2) : Prop :=
+  ∃ a : G.A, (∀ mn, S mn ↔ glazerCode G E a mn) ∧ G.P2 a = w
+
+/-- **Algebraic Hartogs–Scott & Glazer Small-Domain Surjection Witness (Emerald, Axiom-Free):**
+    (1) Over `HartogsPreWOSystem`, `globalSelect` splits `WO ↠ WPlus` via an injective section;
+    (2) Over `GlazerSeparationSystem` + `GlobalCountableEnum`, `glazerCode` separates elements of
+        `A` inside `P(ω × ω)`, making `glazerSmallGraph` a single-valued small-domain partial
+        surjection `P(ω × ω) ⇀ W₂` (refuting `CH` when `W₂` has order type `ω₂`). -/
+theorem glazer_hartogs_scott_surjection :
+    (∀ H : HartogsPreWOSystem,
+      ∃ s : H.WPlus → H.WO,
+        (∀ w, H.ordType (s w) = w) ∧
+        (∀ w₁ w₂, s w₁ = s w₂ → w₁ = w₂) ∧
+        (∀ w, ∃ r : H.WO, H.ordType r = w)) ∧
+    (∀ (G : GlazerSeparationSystem) (E : GlobalCountableEnum G),
+      (∀ a₁ a₂ : G.A, (∀ mn, glazerCode G E a₁ mn ↔ glazerCode G E a₂ mn) → a₁ = a₂) ∧
+      (∀ (S : Nat × Nat → Prop) (w₁ w₂ : G.W2),
+        glazerSmallGraph G E S w₁ → glazerSmallGraph G E S w₂ → w₁ = w₂) ∧
+      (∀ w : G.W2, ∃ S : Nat × Nat → Prop, glazerSmallGraph G E S w)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.glazer_hartogs_scott_surjection' does not depend on any axioms -/\n#guard_msgs in\n#print axioms glazer_hartogs_scott_surjection"
+]
+
+[body]
+lean_body = """
+  refine ⟨fun H ↦ ⟨fun w ↦ (H.globalSelect w).1, fun w ↦ (H.globalSelect w).2,
+      fun w₁ w₂ heq ↦ ?_, H.ordType_surj⟩,
+    fun G E ↦ ?_⟩
+  · calc
+      w₁ = H.ordType (H.globalSelect w₁).1 := (H.globalSelect w₁).2.symm
+      _ = H.ordType (H.globalSelect w₂).1 := congrArg H.ordType heq
+      _ = w₂ := (H.globalSelect w₂).2
+  · have hInj : ∀ a₁ a₂ : G.A,
+        (∀ mn, glazerCode G E a₁ mn ↔ glazerCode G E a₂ mn) → a₁ = a₂ := by
+      intro a₁ a₂ hcode
+      refine G.R_separates a₁ a₂ fun n x ↦ ?_
+      rcases E.enum_surj n x with ⟨m, rfl⟩
+      exact hcode (m, n)
+    refine ⟨hInj, ?_, ?_⟩
+    · rintro S w₁ w₂ ⟨a₁, hS₁, hw₁⟩ ⟨a₂, hS₂, hw₂⟩
+      have ha : a₁ = a₂ := hInj a₁ a₂ fun mn ↦ (hS₁ mn).symm.trans (hS₂ mn)
+      exact hw₁.symm.trans ((congrArg G.P2 ha).trans hw₂)
+    · intro w
+      rcases G.P2_surj w with ⟨a, rfl⟩
+      exact ⟨glazerCode G E a, a, fun _ ↦ Iff.rfl, rfl⟩
+"""
+tex = """
+\\begin{proposition}[Hartogs--Scott Prewellordering Stages and Glazer's Surjection Over {{sym:gbc0}} + $\\mathsf{GC}$]\\label{ch03:prop:glazer-hartogs-scott-surjection}%
+\\uses{vol1:thm:glazer-nonconservativity,ch02:def:gb0-model-category}%
+Work over Replacement-free {{sym:gb0}} (and {{sym:gbc0}}) augmented with Global Choice $\\mathsf{GC}$, requiring neither Class Replacement nor von Neumann ordinals above $\\omega + \\omega$:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Hartogs--Scott Prewellordering Stage:} For any small set $A \\in \\mathcal{S}$, let $\\mathrm{WO}(A) \\subseteq \\mathcal{P}(A \\times A)$ be the small set of well-orderings of subsets of $A$, and let $W^+(A) := \\mathrm{WO}(A)/{\\cong} \\subseteq \\mathcal{P}^2(A \\times A)$ be its canonical Hartogs--Scott quotient stage of order types. Global Choice induces an injective section $W^+(A) \\hookrightarrow \\mathrm{WO}(A)$ splitting the small-domain surjection $\\mathrm{WO}(A) \\twoheadrightarrow W^+(A)$.
+  \\item \\textbf{Glazer's Small-Domain Compression:} Given the class witness $\\psi_{\\mathrm{fnd}}$ of Volume~I (Theorem~\\ref{vol1:thm:glazer-nonconservativity}, comprising an $\\omega$-indexed sequence $\\langle X_n \\rangle_{n < \\omega}$ of nonempty countable sets, a class $A$ separated by $R \\subseteq (\\bigcup_{n<\\omega} X_n) \\times A$, and a class surjection $P_2 : A \\twoheadrightarrow W_2$ onto $W_2 \\in \\mathcal{P}^5(\\omega)$ of order type $\\omega_2$)~\\cite{glazer2023}, $\\mathsf{GC}$ selects uniform enumerations $f_n : \\omega \\twoheadrightarrow X_n$ for all $n < \\omega$, injecting $A$ into $\\mathcal{P}(\\omega \\times \\omega)$ so that \\textbf{G4} domain projection and Subclass Separation carve out a small partial surjection $\\mathcal{P}(\\omega \\times \\omega) \\rightharpoonup W_2$ (hence $\\mathcal{P}(\\omega) \\twoheadrightarrow W_2$), refuting $\\mathsf{CH}$ and $\\theta_{\\mathrm{Glz}}$.
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+For~(1), because $\\mathrm{WO}(A)$ is a small set of well-orderings closed under isomorphism equivalence classes inside $\\mathcal{P}(A \\times A)$, the quotient $W^+(A) := \\mathrm{WO}(A)/{\\cong}$ embeds into $\\mathcal{P}^2(A \\times A)$ via Scott's equivalence classes without invoking Replacement; $\\mathsf{GC}$ applied to the small equivalence classes picks one representative $s(w) \\in \\mathrm{WO}(A)$ per $w \\in W^+(A)$, yielding an injective right inverse $s : W^+(A) \\hookrightarrow \\mathrm{WO}(A)$. For~(2), over {{sym:gbc0}} + $\\mathsf{GC}$ (where $W_2 \\subseteq W^+(W^+(\\omega))$ sits cleanly inside $\\mathcal{P}^5(\\omega)$ without requiring $\\omega_2 \\in \\mathrm{Ord}$), $\\mathsf{GC}$ simultaneously chooses surjections $f_n : \\omega \\twoheadrightarrow X_n$ from the nonempty sets of enumerations $\\{\\mathrm{Surj}(\\omega, X_n)\\}_{n < \\omega}$. Defining the class code $\\mathrm{code}(a) := \\{(m, n) \\in \\omega \\times \\omega \\mid f_n(m) \\mathrel{R} a\\} \\in \\mathcal{P}(\\omega \\times \\omega)$ makes $a \\mapsto \\mathrm{code}(a)$ injective because $R$ separates points of $A$ and every $x \\in X_n$ lies in $\\mathrm{ran}(f_n)$. By \\textbf{G1--G8} (Definition~\\ref{ch02:def:gb0-model-category}), the class relation
+\\[
+  \\Phi := \\{(S, w) \\in \\mathcal{P}(\\omega \\times \\omega) \\times W_2 \\mid \\exists a \\in A\\,(S = \\mathrm{code}(a) \\wedge P_2(a) = w)\\}
+\\]
+is formed by \\textbf{G4} domain projection over the unbounded existential quantifier $a \\in A$; since $\\Phi \\subseteq \\mathcal{P}(\\omega \\times \\omega) \\times W_2 \\in \\mathcal{S}$, Subclass Separation forces $\\Phi$ to be a small set, and injectivity of $\\mathrm{code}$ makes $\\Phi$ single-valued and surjective onto $W_2$. Transporting along $\\omega \\times \\omega \\cong \\omega$ yields a small surjection $\\mathcal{P}(\\omega) \\twoheadrightarrow W_2$, refuting $\\mathsf{CH}$ and therefore proving ${{sym:gbc0}} + \\mathsf{GC} \\vdash \\neg\\theta_{\\mathrm{Glz}}$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:thm:glazer-nonconservativity", "ch02:def:gb0-model-category"]
+lean_dep = []
+curriculum = ["vol1:thm:glazer-nonconservativity"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Choice Calibration", "Conservation / Solvency", "Counterexample / Disproof"]
+witness_scope = "HartogsPreWOSystem and GlazerSeparationSystem mechanize axiom-free (Emerald) in ForcingMembrane.lean the injective section splitting WO(A) ↠ W^+(A), pointwise injectivity of glazerCode into P(ℕ × ℕ), and single-valuedness + surjectivity of the G4-projected small graph glazerSmallGraph : P(ℕ × ℕ) ⇀ W₂; the symmetric-extension consistency of ZC + theta_Glz and set-theoretic construction of W₂ in P^5(ω) live in the monograph proof and Glazer (2023)."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch03:prop:glazer-hartogs-scott-surjection"
+purpose = "Full proof over GBC_0 + GC deriving P(omega) ->> W_2 via G4 domain projection and Subclass Separation"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.glazer_hartogs_scott_surjection"
+purpose = "Axiom-free Emerald Lean 4 witness for HartogsPreWOSystem splitting and GlazerSeparationSystem small graph"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "glazer2023"
+locator = "Main Theorem, §2, arXiv:2312.11902"
+purpose = "Primary reference for Glazer's non-conservativity of GC over ZC"

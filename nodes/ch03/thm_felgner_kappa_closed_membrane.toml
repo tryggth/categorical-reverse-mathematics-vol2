@@ -1,0 +1,187 @@
+id = "ch03:thm:felgner-kappa-closed-membrane"
+kind = "theorem"
+title = "Felgner's kappa-Closed Forcing Membrane and NBG Conservativity Over ZFC"
+chapter = "ch03"
+section = "3.2"
+seq_order = 330
+axis = "class_set"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["felgner1971", "easton1970"]
+
+[spec]
+statement = "Over ZFC, NBG := GBC + GC is syntactically L_in-conservative over ZFC (Felgner 1971, Thm. 1, pp. 45-56). Specifically, Felgner's class forcing poset P of set-sized injective partial enumerations p : alpha >-> V relies on two load-bearing ground axioms: (1) Foundation (V = U_{alpha in Ord} V_alpha) so Easton/Felgner rank stages exhaust all sets, and (2) Replacement so every small kappa-indexed family of dense open conditions compresses into a single master extension, rendering P <kappa-distributive for every cardinal kappa and yielding zero new bounded subsets of any ground set."
+hypotheses = [
+  "F : StratifiedForcingMembrane with RankExhaustive F and SmallDenseIntersectionClosed F",
+  "natRankMembrane : StratifiedForcingMembrane concrete inhabited witness"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.ForcingMembrane"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.StratifiedForcingMembrane",
+  "HomotopyCRM.Vol2.RankExhaustive",
+  "HomotopyCRM.Vol2.SmallDenseIntersectionClosed",
+  "HomotopyCRM.Vol2.ZeroBoundedSubsetLeak",
+  "HomotopyCRM.Vol2.natRankMembrane",
+  "HomotopyCRM.Vol2.felgner_kappa_closed_membrane"
+]
+expected_axioms = []
+lean_signature = """
+/-- Abstract stratified class-forcing poset `(Cond, le)` over sets `SetObj`, rank stages `Rank`,
+    and bounded subset names `Name`, isolating Foundation (`RankExhaustive`) and Replacement
+    (`SmallDenseIntersectionClosed`) in Felgner's (1971) `κ`-closed membrane. -/
+structure StratifiedForcingMembrane : Type 1 where
+  /-- Set universe, rank stages, forcing conditions, names, membership, and forcing relations. -/
+  SetObj : Type
+  Rank : Type
+  Cond : Type
+  Name : Type
+  mem : SetObj → SetObj → Prop
+  inStage : SetObj → Rank → Prop
+  le : Cond → Cond → Prop
+  le_refl : ∀ p, le p p
+  le_trans : ∀ {p q r}, le p q → le q r → le p r
+  forcesMem : Cond → Name → SetObj → Prop
+  forcesNotMem : Cond → Name → SetObj → Prop
+  forcesMem_mono : ∀ {p q} {τ : Name} {x : SetObj}, le q p → forcesMem p τ x → forcesMem q τ x
+  forcesNotMem_mono : ∀ {p q} {τ : Name} {x : SetObj},
+    le q p → forcesNotMem p τ x → forcesNotMem q τ x
+  forces_consistent : ∀ p τ x, ¬ (forcesMem p τ x ∧ forcesNotMem p τ x)
+  decide_dense : ∀ p τ x, ∃ q, le q p ∧ (forcesMem q τ x ∨ forcesNotMem q τ x)
+  ground_sep : ∀ (A : SetObj) (r : Rank), inStage A r →
+    ∀ (p : Cond) (τ : Name),
+      (∀ x, mem x A → forcesMem p τ x ∨ forcesNotMem p τ x) →
+      ∃ B : SetObj, ∀ x, mem x B ↔ (mem x A ∧ forcesMem p τ x)
+
+/-- Foundation hypothesis: every set object lies in a cumulative rank stage `V_α`. -/
+def RankExhaustive (F : StratifiedForcingMembrane) : Prop :=
+  ∀ A : F.SetObj, ∃ r : F.Rank, F.inStage A r
+
+/-- Replacement + `<κ`-closure hypothesis: every rank-bounded set `A` compresses an `A`-indexed
+    family of dense open condition classes into a single master condition `q ≤ p`. -/
+def SmallDenseIntersectionClosed (F : StratifiedForcingMembrane) : Prop :=
+  ∀ (A : F.SetObj) (r : F.Rank), F.inStage A r →
+    ∀ (D : F.SetObj → F.Cond → Prop),
+      (∀ x, F.mem x A → ∀ p, ∃ q, F.le q p ∧ D x q) →
+      (∀ x p q, F.le q p → D x p → D x q) →
+      ∀ p, ∃ q, F.le q p ∧ ∀ x, F.mem x A → D x q
+
+/-- Zero Bounded Subset Leak (`<κ`-distributivity): every name `τ` for a subset of `A` is forced
+    below `p` to coincide with an existing ground-model set `B`. -/
+def ZeroBoundedSubsetLeak (F : StratifiedForcingMembrane) : Prop :=
+  ∀ (A : F.SetObj) (p : F.Cond) (τ : F.Name),
+    ∃ (q : F.Cond) (B : F.SetObj), F.le q p ∧
+      ∀ x, F.mem x A →
+        ((F.mem x B → F.forcesMem q τ x) ∧ (¬ F.mem x B → F.forcesNotMem q τ x))
+
+/-- Concrete inhabited witness of `StratifiedForcingMembrane` over `Nat`-ranked subsets. -/
+@[reducible] def natRankMembrane : StratifiedForcingMembrane where
+  SetObj := Nat → Bool
+  Rank := Nat
+  Cond := Unit
+  Name := Nat → Bool
+  mem x A := A (if x 0 then 1 else 0) = true
+  inStage _ _ := True
+  le _ _ := True
+  le_refl _ := trivial
+  le_trans _ _ := trivial
+  forcesMem _ τ x := τ (if x 0 then 1 else 0) = true
+  forcesNotMem _ τ x := τ (if x 0 then 1 else 0) = false
+  forcesMem_mono _ h := h
+  forcesNotMem_mono _ h := h
+  forces_consistent _ _ _ h := Bool.noConfusion (h.1.symm.trans h.2)
+  decide_dense _ τ x :=
+    ⟨(), trivial, by
+      cases h : τ (if x 0 then 1 else 0)
+      · exact Or.inr rfl
+      · exact Or.inl rfl⟩
+  ground_sep A _ _ _ τ _ :=
+    ⟨fun n ↦ A n && τ n, fun x ↦ by
+      dsimp only
+      cases hA : A (if x 0 then 1 else 0) <;> cases hτ : τ (if x 0 then 1 else 0)
+      · exact ⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h.1⟩
+      · exact ⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h.1⟩
+      · exact ⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h.2⟩
+      · exact ⟨fun _ ↦ ⟨rfl, rfl⟩, fun _ ↦ rfl⟩⟩
+
+/-- **Felgner `κ`-Closed Membrane Witness (Emerald, Axiom-Free):**
+    In any `StratifiedForcingMembrane`, `RankExhaustive ∧ SmallDenseIntersectionClosed` implies
+    `ZeroBoundedSubsetLeak`, and `natRankMembrane` concretely inhabits the hypotheses. -/
+theorem felgner_kappa_closed_membrane :
+    (∀ F : StratifiedForcingMembrane,
+      RankExhaustive F → SmallDenseIntersectionClosed F → ZeroBoundedSubsetLeak F) ∧
+    (RankExhaustive natRankMembrane ∧ SmallDenseIntersectionClosed natRankMembrane ∧
+      ZeroBoundedSubsetLeak natRankMembrane) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.felgner_kappa_closed_membrane' does not depend on any axioms -/\n#guard_msgs in\n#print axioms felgner_kappa_closed_membrane"
+]
+
+[body]
+lean_body = """
+  have hMain : ∀ F : StratifiedForcingMembrane,
+      RankExhaustive F → SmallDenseIntersectionClosed F → ZeroBoundedSubsetLeak F := by
+    intro F hReg hRep A p τ
+    rcases hReg A with ⟨r, hr⟩
+    let D : F.SetObj → F.Cond → Prop := fun x q ↦ F.forcesMem q τ x ∨ F.forcesNotMem q τ x
+    have hDense : ∀ x, F.mem x A → ∀ p₀, ∃ q, F.le q p₀ ∧ D x q :=
+      fun x _ p₀ ↦ F.decide_dense p₀ τ x
+    have hOpen : ∀ x p₀ q₀, F.le q₀ p₀ → D x p₀ → D x q₀ := fun x _ _ hle hD ↦
+      hD.elim (fun hm ↦ Or.inl (F.forcesMem_mono hle hm))
+        (fun hnm ↦ Or.inr (F.forcesNotMem_mono hle hnm))
+    rcases hRep A r hr D hDense hOpen p with ⟨q, hqp, hDec⟩
+    rcases F.ground_sep A r hr q τ hDec with ⟨B, hB⟩
+    refine ⟨q, B, hqp, fun x hx ↦ ⟨fun hBx ↦ ((hB x).mp hBx).2, fun hNBx ↦ ?_⟩⟩
+    rcases hDec x hx with hm | hnm
+    · exact False.elim (hNBx ((hB x).mpr ⟨hx, hm⟩))
+    · exact hnm
+  have hRegNat : RankExhaustive natRankMembrane := fun _ ↦ ⟨(0 : Nat), trivial⟩
+  have hRepNat : SmallDenseIntersectionClosed natRankMembrane := fun A _ _ D hD _ _ ↦
+    ⟨(), trivial, fun x hx ↦ let ⟨_, _, hdx⟩ := hD x hx (); hdx⟩
+  exact ⟨hMain, hRegNat, hRepNat, hMain natRankMembrane hRegNat hRepNat⟩
+"""
+tex = """
+\\begin{theorem}[Felgner's $\\kappa$-Closed Forcing Membrane and {{sym:nbg}} Conservativity]\\label{ch03:thm:felgner-kappa-closed-membrane}%
+\\uses{vol1:prop:large-equiv-splitting,ch02:def:gb0-model-category}%
+Over $\\mathsf{ZFC}$, von Neumann--Bernays--G\\\"odel class theory {{sym:nbg}} ($= {{sym:gbc}} + \\mathsf{GC}$) is syntactically $\\mathcal{L}_\\in$-conservative over $\\mathsf{ZFC}$~\\cite[Thm.~1, pp.~45--56]{felgner1971}. Isolating the two load-bearing set axioms inside Felgner's class forcing $\\mathbb{P}$ of set-sized injective partial functions $p : \\alpha \\hookrightarrow V$ ordered by reverse inclusion:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Foundation Insulation:} Stratifying $V = \\bigcup_{\\alpha \\in \\mathrm{Ord}} V_\\alpha$ guarantees that Easton-style rank stages cover every set $x \\in V$ via dense extension sets $D_x := \\{p \\in \\mathbb{P} \\mid x \\in \\mathrm{ran}(p)\\}$~\\cite{easton1970}.
+  \\item \\textbf{Replacement Membrane ($<\\kappa$-Distributivity):} For every cardinal $\\kappa$, Replacement compresses any $\\kappa$-indexed family of dense open conditions $\\langle D_\\xi \\rangle_{\\xi < \\kappa}$ into a single master condition $q \\le p$ inside $\\bigcap_{\\xi < \\kappa} D_\\xi$, ensuring zero new bounded subsets of any ground set $A$ and preserving all first-order $\\mathcal{L}_\\in$-truth.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+Let $\\varphi$ be a first-order $\\mathcal{L}_\\in$-sentence such that $\\mathsf{NBG} \\vdash \\varphi$, and assume for contradiction that $\\mathsf{ZFC} + \\neg\\varphi$ has a countable transitive model $M$ (via Reflection and L\\\"owenheim--Skolem for the finite fragment used in the proof). Work in $(M, \\mathrm{Def}(M)) \\models {{sym:gbc}}$. Define the Easton-style class forcing poset $\\mathbb{P} \\in \\mathrm{Def}(M)$ whose conditions are set-sized well-orderings $p \\in M$ (specifically injective maps $p : \\alpha \\hookrightarrow M$ for $\\alpha \\in \\mathrm{Ord}^M$) ordered by reverse inclusion $q \\le p \\iff q \\supseteq p$. Under Foundation in $M$, $M = \\bigcup_{\\alpha \\in \\mathrm{Ord}^M} V_\\alpha^M$, so for each $x \\in M$ the dense class $D_x := \\{p \\in \\mathbb{P} \\mid x \\in \\mathrm{ran}(p)\\}$ meets every condition (extending $p$ by placing $x$ at $\\mathrm{dom}(p)$ if $x \\notin \\mathrm{ran}(p)$). Crucially, for any regular cardinal $\\kappa \\in \\mathrm{Ord}^M$ and any $p \\in \\mathbb{P}$, any set-sized sequence $\\langle \\Delta_\\xi \\rangle_{\\xi < \\kappa}$ of dense open subclasses of $\\mathbb{P}$ admits a descending chain $p = p_0 \\supseteq p_1 \\supseteq \\cdots \\supseteq p_\\xi \\supseteq \\cdots$ ($\\xi < \\kappa$) defined inside $M$ via Replacement and $\\mathrm{AC}$, whose union $q := \\bigcup_{\\xi < \\kappa} p_\\xi$ belongs to $M$ (by Replacement) and forces every $x \\in A$ for $|A| < \\kappa$; hence $\\mathbb{P}$ is $<\\kappa$-distributive for every cardinal $\\kappa$ of $M$. By transfinite rank induction over $V_\\alpha^M$ (and the fact that $\\mathbb{P}$ is definable over $M$), adjoining a generic class well-ordering $G \\subseteq \\mathbb{P}$ adds zero new sets to $M$, so $(M, \\mathcal{C}[G]) \\models {{sym:nbg}}$ preserves all first-order $\\mathcal{L}_\\in$-sentences of $M$, yielding $(M, \\mathcal{C}[G]) \\models \\neg\\varphi$---contradicting $\\mathsf{NBG} \\vdash \\varphi$. In \\texttt{ForcingMembrane.lean}, \\texttt{felgner\\_kappa\\_closed\\_membrane} mechanizes the abstract implication $\\mathrm{RankExhaustive} \\wedge \\mathrm{SmallDenseIntersectionClosed} \\implies \\mathrm{ZeroBoundedSubsetLeak}$ and its concrete witness \\texttt{natRankMembrane} axiom-free.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:prop:large-equiv-splitting", "ch02:def:gb0-model-category"]
+lean_dep = []
+curriculum = ["vol1:prop:large-equiv-splitting"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Conservation / Solvency", "Model-Theoretic Amalgamation"]
+witness_scope = "StratifiedForcingMembrane mechanizes the axiom-free (Emerald) implication RankExhaustive ∧ SmallDenseIntersectionClosed → ZeroBoundedSubsetLeak and its concrete inhabited witness natRankMembrane in ForcingMembrane.lean; full ZFC class forcing definability, Easton/Felgner transfinite recursion of length kappa, and proof-theoretic NBG-over-ZFC conservativity (Felgner 1971, Thm. 1, pp. 45-56) live in the monograph proof."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch03:thm:felgner-kappa-closed-membrane"
+purpose = "Complete monograph forcing proof isolating Foundation and Replacement in Felgner (1971)"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.felgner_kappa_closed_membrane"
+purpose = "Axiom-free Emerald Lean 4 witness for RankExhaustive ∧ SmallDenseIntersectionClosed → ZeroBoundedSubsetLeak"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "felgner1971"
+locator = "Thm. 1, pp. 45–56"
+purpose = "Original proof of L_in-conservativity of NBG over ZFC via class forcing"

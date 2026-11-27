@@ -1,0 +1,52 @@
+id = "vol1:thm:glazer-nonconservativity"
+kind = "vol1_external"
+title = "Syntactic L_in-Non-Conservativity of Global Choice Over ZC (Volume I)"
+chapter = "ch03"
+section = "3.1"
+seq_order = 302
+axis = "class_set"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["glazer2023", "mathias2001"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:116"
+vol1_label = "thm:glazer-nonconservativity"
+vol1_lean_symbol = ""
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Glazer (2023) Main Theorem: Global Choice is not syntactically L_in-conservative over full Zermelo set theory with Choice (ZC, scoped strictly to full-Separation ZC vs. GBC_0 + GC). Explicitly, theta_Glz := (CH /\\ psi_fnd) is consistent with ZC (via symmetric extensions satisfying GCH), whereas GBC_0 + GC refutes theta_Glz by choosing uniform enumerations f_n : omega ->> X_n to project a small partial surjection P(omega x omega) ->> W_2 onto the canonical prewellordering W_2 in P^5(omega) of order type omega_2.
+"""
+
+[body]
+tex = """
+\\begin{theorem}[Volume~I Grounding Contract: Glazer's $\\mathcal{L}_\\in$-Non-Conservativity of $\\mathsf{GC}$ Over $\\mathsf{ZC}$]\\label{vol1:thm:glazer-nonconservativity}%
+Pinned read-only to Volume~I (\\texttt{thm:glazer-nonconservativity}, \\texttt{docs/ch07\\_sets\\_residuum.tex:116}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{glazer2023,mathias2001}. Scoped strictly to full-Separation $\\mathsf{ZC}$ versus $\\mathsf{GBC}_0 + \\mathsf{GC}$ (distinct from $\\mathsf{GB}_0$ over $\\Delta_0$-bounded $\\mathsf{Mac}$~\\cite{mathias2001}), Glazer's explicit first-order sentence $\\theta_{\\mathrm{Glz}} := (\\mathsf{CH} \\wedge \\psi_{\\mathrm{fnd}})$ is consistent with $\\mathsf{ZC}$ yet refuted by $\\mathsf{GBC}_0 + \\mathsf{GC} \\vdash \\neg\\theta_{\\mathrm{Glz}}$ via a small-domain partial surjection $\\mathcal{P}(\\omega \\times \\omega) \\rightharpoonup W_2$ onto the prewellordering $W_2 \\in \\mathcal{P}^5(\\omega)$ of order type $\\omega_2$.
+\\end{theorem}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Choice Calibration"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "thm:glazer-nonconservativity"
+locator = "docs/ch07_sets_residuum.tex:116"
+purpose = "Pinned read-only Volume I contract for Glazer's L_in-non-conservativity of GC over ZC"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "glazer2023"
+locator = "Main Theorem, arXiv:2312.11902"
+purpose = "Primary reference proving ZC + theta_Glz consistency and GBC_0 + GC |- ~theta_Glz"

@@ -1,0 +1,60 @@
+id = "sym:piset-transgression"
+kind = "symbol"
+title = "Pi_Set Transgression and Weak-Base Notation Registry"
+chapter = "ch03"
+section = "3.1"
+seq_order = 304
+axis = "class_set"
+grounding_tier = "conceptual"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = []
+
+[spec]
+[[spec.exports]]
+key = "card-cat"
+latex = "\\ensuremath{\\mathbf{Card}}"
+description = "Skeletal category of small cardinal representatives"
+
+[[spec.exports]]
+key = "dset"
+latex = "\\ensuremath{d_{\\mathrm{Set}}}"
+description = "Horizontal leakage / transgression operator along pi_Set"
+
+[[spec.exports]]
+key = "uleak"
+latex = "\\ensuremath{U_{\\mathrm{leak}}}"
+description = "Open leakage locus in the Lindenbaum/Stone frame"
+
+[[spec.exports]]
+key = "dc-ord"
+latex = "\\ensuremath{\\mathsf{DC}_{\\mathrm{Ord}}}"
+description = "Ordinal-length transfinite Dependent Choice schema"
+
+[[spec.exports]]
+key = "gbc0"
+latex = "\\ensuremath{\\mathsf{GBC}_0}"
+description = "Replacement-free Bernays-Godel class theory with set-level Choice"
+
+[[spec.exports]]
+key = "zfc-noreg"
+latex = "\\ensuremath{\\mathsf{ZFC}_{\\neg\\mathrm{Reg}}}"
+description = "Foundation-free ZFC set theory (with Collection)"
+
+[[spec.exports]]
+key = "nbg-noreg"
+latex = "\\ensuremath{\\mathsf{NBG}_{\\neg\\mathrm{Reg}}}"
+description = "Foundation-free NBG class theory with Global Choice"
+
+[body]
+tex = """
+\\begin{remark}[Notation Registry: $\\pi_{\\mathrm{Set}}$ Transgression and Weak-Base Theories]\\label{sym:piset-transgression}%
+This registry exports the closed-world Chapter~3 macros for the skeletal cardinal category {{sym:card-cat}}, the horizontal transgression operator {{sym:dset}}, the Lindenbaum/Stone open leakage locus {{sym:uleak}}, ordinal-length Dependent Choice {{sym:dc-ord}}, Replacement-free class theory with set Choice {{sym:gbc0}}, Foundation-free set theory {{sym:zfc-noreg}}, and Foundation-free {{sym:nbg-noreg}}.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

@@ -1,0 +1,171 @@
+id = "ch03:thm:piset-transgression-exactness"
+kind = "theorem"
+title = "Lindenbaum-Stone Transgression Operator d_Set and Syntactic Pullback Exactness"
+chapter = "ch03"
+section = "3.3"
+seq_order = 360
+axis = "class_set"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["giraud1971", "felgner1971"]
+
+[spec]
+statement = "Over any two-sorted syntactic base-class extension system (SetTh, ClsTh, Def_syn, Tr_set) with Def_syn -| Tr_set and Tr_set(Def_syn(T)) <= T, define the Horizontal Leakage / Transgression Operator d_Set(T, tau) := Tr_set(Def_syn(T) sup tau) (and open leakage locus U_leak(T, tau) := {X <= d_Set(T, tau) | not (X <= T)}). Then: (1) Exactness Criterion: Def_syn(T) sup tau is L_in-conservative over T iff d_Set(T, tau) = bot_T (equivalently U_leak(T, tau) = empty); (2) Pullback Cartesianness Equivalence: d_Set(T_0, tau) = bot_{T_0} iff every syntactic base-change square along T_0 <= T_1 is a genuine pullback against minimal expansions Def_syn(X); (3) Base-Strengthening Absorption: strengthening T_0 <= T_1 to absorb d_Set(T_0, tau) absorbs U_leak(T_0, tau) and forces d_Set(T_1, tau) = bot_{T_1} under trace-absorption stability (such as T_1 |- Rep /\\ Reg)."
+hypotheses = [
+  "Sys : SyntacticClassSystem (from ch02:prop:syntactic-conservative-pullback)"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.PiSetTransgression"
+imports = ["HomotopyCRM.Vol2.ClassSetAdjunction"]
+decl_names = [
+  "HomotopyCRM.Vol2.classExt",
+  "HomotopyCRM.Vol2.dSet",
+  "HomotopyCRM.Vol2.dSetEqBot",
+  "HomotopyCRM.Vol2.ULeak",
+  "HomotopyCRM.Vol2.IsSyntacticBaseChangePullback",
+  "HomotopyCRM.Vol2.piset_transgression_exactness"
+]
+expected_axioms = []
+lean_signature = """
+/-- Syntactic class extension `Def_syn(T) ⊔ τ` over a base theory `T` in `SyntacticClassSystem`. -/
+def classExt (Sys : SyntacticClassSystem) (T : Sys.SetTh.T) (τ : Sys.ClsTh.T) : Sys.ClsTh.T :=
+  Sys.ClsTh.sup (Sys.defSyn T) τ
+
+/-- Horizontal Leakage / Transgression Operator `d_Set(T, τ) := Tr_set(Def_syn(T) ⊔ τ)`,
+    evaluated modulo the base floor `T` in the Lindenbaum slice `[T, ⊤]`. -/
+def dSet (Sys : SyntacticClassSystem) (T : Sys.SetTh.T) (τ : Sys.ClsTh.T) : Sys.SetTh.T :=
+  Sys.traceSet (classExt Sys T τ)
+
+/-- Vanishing criterion `d_Set(T, τ) = ⊥_T`: every `L_∈`-consequence of `Def_syn(T) ⊔ τ` is
+    already entailed by `T`. -/
+def dSetEqBot (Sys : SyntacticClassSystem) (T : Sys.SetTh.T) (τ : Sys.ClsTh.T) : Prop :=
+  ∀ X : Sys.SetTh.T, Sys.SetTh.le X (dSet Sys T τ) → Sys.SetTh.le X T
+
+/-- Open leakage locus `U_leak(T, τ)` in the Lindenbaum/Stone frame of `T`: first-order set
+    theories `X ≤ Tr_set(Def_syn(T) ⊔ τ)` strictly exceeding `T`. -/
+def ULeak (Sys : SyntacticClassSystem) (T : Sys.SetTh.T) (τ : Sys.ClsTh.T) : Sys.SetTh.T → Prop :=
+  fun X ↦ Sys.SetTh.le X (dSet Sys T τ) ∧ ¬ Sys.SetTh.le X T
+
+/-- Syntactic base-change pullback property along `T₀ ≤ T₁` against minimal expansions. -/
+def IsSyntacticBaseChangePullback (Sys : SyntacticClassSystem)
+    (T₀ T₁ : Sys.SetTh.T) (τ : Sys.ClsTh.T) : Prop :=
+  ∀ X : Sys.SetTh.T,
+    (Sys.ClsTh.le (Sys.defSyn X) (classExt Sys T₀ τ) ∧
+      Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₁)) ↔
+    Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₀)
+
+/-- **Horizontal Transgression Exactness Theorem (Emerald, Axiom-Free):**
+    Wired to Chapter 2's `syntactic_conservative_pullback`, proves:
+    (1) Exactness: `IsConservativeExt Sys (classExt Sys T τ) T ↔ dSetEqBot Sys T τ`
+        (and vanishing kills `ULeak`);
+    (2) Pullback Cartesianness Equivalence: `dSetEqBot Sys T₀ τ` holds iff every base-change
+        square along `T₀ ≤ T₁` is a genuine pullback against `Def_syn(X)`;
+    (3) Base-Strengthening Absorption: strengthening `T₀ ≤ T₁` to absorb `dSet Sys T₀ τ`
+        absorbs all of `ULeak Sys T₀ τ`, and kills `dSetEqBot Sys T₁ τ` whenever `T₁` is
+        trace-absorption-stable (`dSet Sys T₁ τ ≤ T₁ ⊔ dSet Sys T₀ τ`). -/
+theorem piset_transgression_exactness (Sys : SyntacticClassSystem) :
+    (∀ (T : Sys.SetTh.T) (τ : Sys.ClsTh.T),
+      (IsConservativeExt Sys (classExt Sys T τ) T ↔ dSetEqBot Sys T τ) ∧
+      (dSetEqBot Sys T τ → ∀ X, ¬ ULeak Sys T τ X)) ∧
+    (∀ (T₀ : Sys.SetTh.T) (τ : Sys.ClsTh.T),
+      dSetEqBot Sys T₀ τ ↔
+        ∀ T₁ : Sys.SetTh.T, Sys.SetTh.le T₀ T₁ → IsSyntacticBaseChangePullback Sys T₀ T₁ τ) ∧
+    (∀ (T₀ T₁ : Sys.SetTh.T) (τ : Sys.ClsTh.T),
+      Sys.SetTh.le T₀ T₁ → Sys.SetTh.le (dSet Sys T₀ τ) T₁ →
+      (∀ X, ULeak Sys T₀ τ X → Sys.SetTh.le X T₁) ∧
+      (Sys.SetTh.le (dSet Sys T₁ τ) (Sys.SetTh.sup T₁ (dSet Sys T₀ τ)) →
+        dSetEqBot Sys T₁ τ ∧ ∀ X, ¬ ULeak Sys T₁ τ X)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.piset_transgression_exactness' does not depend on any axioms -/\n#guard_msgs in\n#print axioms piset_transgression_exactness"
+]
+
+[body]
+lean_body = """
+  have hBaseLeDSet : ∀ T τ, Sys.SetTh.le T (dSet Sys T τ) :=
+    fun T τ ↦ (Sys.defSyn_le_iff T (classExt Sys T τ)).mp (Sys.ClsTh.le_sup_left _ _)
+  have hExact : ∀ T τ, IsConservativeExt Sys (classExt Sys T τ) T ↔ dSetEqBot Sys T τ := by
+    intro T τ
+    constructor
+    · intro hCons X hX
+      exact Sys.SetTh.le_trans hX hCons.1
+    · intro hBot
+      exact ⟨hBot (dSet Sys T τ) (Sys.SetTh.le_refl _), hBaseLeDSet T τ⟩
+  refine ⟨fun T τ ↦ ⟨hExact T τ, fun hBot X hU ↦ hU.2 (hBot X hU.1)⟩, ?_, ?_⟩
+  · intro T₀ τ
+    constructor
+    · intro hBot T₁ hT
+      have hCons : IsConservativeExt Sys (classExt Sys T₀ τ) T₀ := (hExact T₀ τ).mpr hBot
+      have hPush : Sys.ClsTh.Equiv (classExt Sys T₁ τ)
+          (Sys.ClsTh.sup (Sys.defSyn T₁) (classExt Sys T₀ τ)) :=
+        ⟨Sys.ClsTh.sup_le (Sys.ClsTh.le_sup_left _ _)
+            (Sys.ClsTh.le_trans (Sys.ClsTh.le_sup_right _ _) (Sys.ClsTh.le_sup_right _ _)),
+          Sys.ClsTh.sup_le (Sys.ClsTh.le_sup_left _ _)
+            (Sys.ClsTh.sup_le (Sys.ClsTh.le_trans (Sys.defSyn_mono hT) (Sys.ClsTh.le_sup_left _ _))
+              (Sys.ClsTh.le_sup_right _ _))⟩
+      exact (syntactic_conservative_pullback Sys T₀ T₁ (classExt Sys T₀ τ)
+        (classExt Sys T₁ τ) hT hCons hPush).2.1
+    · intro hPB X hX
+      have hPB' := hPB (dSet Sys T₀ τ) (hBaseLeDSet T₀ τ) X
+      have hLeft : Sys.ClsTh.le (Sys.defSyn X) (classExt Sys T₀ τ) :=
+        (Sys.defSyn_le_iff X (classExt Sys T₀ τ)).mpr hX
+      have hRight : Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn (dSet Sys T₀ τ)) :=
+        Sys.defSyn_mono hX
+      have hDefT0 : Sys.ClsTh.le (Sys.defSyn X) (Sys.defSyn T₀) := hPB'.mp ⟨hLeft, hRight⟩
+      exact Sys.SetTh.le_trans
+        ((Sys.defSyn_le_iff X (Sys.defSyn T₀)).mp hDefT0) (Sys.defSyn_cons T₀)
+  · intro T₀ T₁ τ _ hAbs
+    refine ⟨fun X hU ↦ Sys.SetTh.le_trans hU.1 hAbs, fun hStab ↦ ?_⟩
+    have hBot1 : dSetEqBot Sys T₁ τ := fun X hX ↦
+      Sys.SetTh.le_trans hX
+        (Sys.SetTh.le_trans hStab (Sys.SetTh.sup_le (Sys.SetTh.le_refl T₁) hAbs))
+    exact ⟨hBot1, fun X hU ↦ hU.2 (hBot1 X hU.1)⟩
+"""
+tex = """
+\\begin{theorem}[Lindenbaum--Stone Transgression Operator {{sym:dset}} and Pullback Exactness]\\label{ch03:thm:piset-transgression-exactness}%
+\\uses{vol1:thm:quantitative-conservation,ch02:prop:syntactic-conservative-pullback}%
+Let $\\mathrm{Sys} = (\\mathbf{Th}_{\\mathrm{Set}}, \\mathbf{Th}_{\\mathrm{Cls}}, {{sym:def-functor}}_{\\mathrm{syn}} \\dashv \\mathrm{Tr}_{\\mathrm{Set}})$ be a syntactic base--class system as in Proposition~\\ref{ch02:prop:syntactic-conservative-pullback} (satisfying $\\mathrm{Tr}_{\\mathrm{Set}}({{sym:def-functor}}_{\\mathrm{syn}}(T)) \\le T$). Mirroring the quantitative Giraud--Leray transgression $d_2$ of Volume~I (Theorem~\\ref{vol1:thm:quantitative-conservation})~\\cite{giraud1971}, define for any base set theory $T_{\\mathrm{base}}$ and class extension $\\tau \\in \\mathbf{Th}_{\\mathrm{Cls}}$ the \\textbf{Horizontal Leakage / Transgression Operator}
+\\[
+  {{sym:dset}}(T_{\\mathrm{base}}, \\tau) \\;:=\\; \\mathrm{Tr}_{\\mathrm{Set}}\\bigl({{sym:def-functor}}_{\\mathrm{syn}}(T_{\\mathrm{base}}) \\sqcup \\tau\\bigr)
+\\]
+together with its open leakage locus ${{sym:uleak}}(T_{\\mathrm{base}}, \\tau) := \\{X \\le {{sym:dset}}(T_{\\mathrm{base}}, \\tau) \\mid X \\not\\le T_{\\mathrm{base}}\\}$ in the Lindenbaum/Stone frame of $T_{\\mathrm{base}}$ (writing ${{sym:dset}}(T_{\\mathrm{base}}, \\tau) = \\bot_{T_{\\mathrm{base}}}$ when $\\forall X \\le {{sym:dset}}(T_{\\mathrm{base}}, \\tau),\\; X \\le T_{\\mathrm{base}}$). Then:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Exactness Criterion:} ${{sym:def-functor}}_{\\mathrm{syn}}(T_{\\mathrm{base}}) \\sqcup \\tau$ is $\\mathcal{L}_\\in$-conservative over $T_{\\mathrm{base}}$ if and only if ${{sym:dset}}(T_{\\mathrm{base}}, \\tau) = \\bot_{T_{\\mathrm{base}}}$ (equivalently, ${{sym:uleak}}(T_{\\mathrm{base}}, \\tau) = \\emptyset$).
+  \\item \\textbf{Pullback Cartesianness Equivalence:} ${{sym:dset}}(T_0, \\tau) = \\bot_{T_0}$ if and only if for every extension $T_0 \\le T_1$, the opcartesian square connecting ${{sym:def-functor}}_{\\mathrm{syn}}(T_0)$, ${{sym:def-functor}}_{\\mathrm{syn}}(T_1)$, ${{sym:def-functor}}_{\\mathrm{syn}}(T_0) \\sqcup \\tau$, and ${{sym:def-functor}}_{\\mathrm{syn}}(T_1) \\sqcup \\tau$ is a genuine pullback against minimal expansions ${{sym:def-functor}}_{\\mathrm{syn}}(X)$.
+  \\item \\textbf{Base-Strengthening Absorption:} Whenever $T_0 \\le T_1$ absorbs ${{sym:dset}}(T_0, \\tau) \\le T_1$ (for instance, adjoining Replacement and Foundation over $\\mathsf{ZC}_{\\neg\\mathrm{Reg}}$~\\cite{felgner1971}), every open leak $X \\in {{sym:uleak}}(T_0, \\tau)$ is absorbed into $T_1$; if moreover $T_1$ is trace-absorption-stable (${{sym:dset}}(T_1, \\tau) \\le T_1 \\sqcup {{sym:dset}}(T_0, \\tau)$), then ${{sym:dset}}(T_1, \\tau) = \\bot_{T_1}$ and ${{sym:uleak}}(T_1, \\tau) = \\emptyset$.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+By the syntactic adjunction ${{sym:def-functor}}_{\\mathrm{syn}}(T) \\le {{sym:def-functor}}_{\\mathrm{syn}}(T) \\sqcup \\tau$, we unconditionally have $T \\le {{sym:dset}}(T, \\tau)$; hence $\\mathrm{Tr}_{\\mathrm{Set}}({{sym:def-functor}}_{\\mathrm{syn}}(T) \\sqcup \\tau) \\equiv T \\iff {{sym:dset}}(T, \\tau) \\le T \\iff {{sym:dset}}(T, \\tau) = \\bot_T$, proving~(1). For~(2), if ${{sym:dset}}(T_0, \\tau) = \\bot_{T_0}$, then $E_0 := {{sym:def-functor}}_{\\mathrm{syn}}(T_0) \\sqcup \\tau$ is $\\mathcal{L}_\\in$-conservative over $T_0$, so Proposition~\\ref{ch02:prop:syntactic-conservative-pullback}(1) guarantees the pullback universal property along every $T_0 \\le T_1$. Conversely, testing the pullback property at $T_1 := {{sym:dset}}(T_0, \\tau) \\ge T_0$ and $X := {{sym:dset}}(T_0, \\tau)$ gives ${{sym:def-functor}}_{\\mathrm{syn}}(X) \\le {{sym:def-functor}}_{\\mathrm{syn}}(T_0)$, whence adjunction and $\\mathcal{L}_\\in$-conservativity of ${{sym:def-functor}}_{\\mathrm{syn}}(T_0)$ force $X \\le T_0$, i.e.\\ ${{sym:dset}}(T_0, \\tau) = \\bot_{T_0}$. Part~(3) follows immediately from transitivity and the join universal property on $T_1 \\sqcup {{sym:dset}}(T_0, \\tau) \\le T_1$.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:thm:quantitative-conservation", "ch02:prop:syntactic-conservative-pullback"]
+lean_dep = ["ch02:prop:syntactic-conservative-pullback"]
+curriculum = [
+  "vol1:thm:quantitative-conservation",
+  "ch03:thm:felgner-kappa-closed-membrane",
+  "ch03:prop:glazer-hartogs-scott-surjection"
+]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Conservation / Solvency", "Cohomological / Spectral Obstruction", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.piset_transgression_exactness"
+purpose = "Axiom-free Emerald Lean 4 proof of d_Set exactness, syntactic pullback equivalence, and base-strengthening absorption"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "thm:quantitative-conservation"
+locator = "docs/categorical_reverse_mathematics.tex:1543"
+purpose = "Pinned Volume I Leray transgression d_2 baseline"

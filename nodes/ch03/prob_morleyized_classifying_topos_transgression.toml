@@ -1,0 +1,50 @@
+id = "ch03:prob:morleyized-classifying-topos-transgression"
+kind = "problem"
+title = "Sheaf-Cohomological Upgrade of d_Set via Sigma^1_0-Morleyized Classifying Topoi"
+chapter = "ch03"
+section = "3.4"
+seq_order = 380
+axis = "class_set"
+grounding_tier = "open_problem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["giraud1971", "felgner1971", "felgner1976", "glazer2023"]
+
+[spec]
+statement = "Scoping the remaining sheaf-cohomological half of Volume I Horizon VIII Problem 17a (prob:open-17): determine intrinsic axioms and constructive topos-theoretic hypotheses under which the deductive Lindenbaum/Stone open leakage locus U_leak(GC) (Theorem ch03:thm:piset-transgression-exactness) upgrades to a genuine Giraud torsor-gerbe transgression differential d_2 or compactly supported cohomology class in H^0_c(U_leak; Z) along a geometric morphism gamma_I : E[T_Class] -> E[T_Set] between Sigma^1_0-Morleyized classifying Grothendieck topoi, coupled to internal AST class-forcing sheaves, without invoking metatheoretic Replacement circularity."
+
+[body]
+tex = """
+\\begin{problem}[Sheaf-Cohomological Upgrade of {{sym:dset}} Over $\\Sigma^1_0$-Morleyized Classifying Topoi]\\label{ch03:prob:morleyized-classifying-topos-transgression}%
+\\uses{vol1:thm:quantitative-conservation,ch03:thm:piset-transgression-exactness,ch03:thm:two-valve-transgression-dichotomy}%
+Resolving the remaining sheaf-cohomological half of Volume~I Horizon~VIII Problem~17a (\\texttt{prob:open-17}) without metatheoretic Replacement circularity: characterize precisely when the deductive Lindenbaum/Stone open leakage locus ${{sym:uleak}}(\\mathsf{GC})$ and transgression operator ${{sym:dset}}(\\mathsf{GC})$ of Theorems~\\ref{ch03:thm:piset-transgression-exactness}--\\ref{ch03:thm:two-valve-transgression-dichotomy} upgrade to a genuine Giraud torsor--gerbe differential $d_2$ (mirroring Theorem~\\ref{vol1:thm:quantitative-conservation}~\\cite{giraud1971}) or compactly supported cohomology invariant $H^0_c({{sym:uleak}}; \\mathbb{Z})$ along a geometric morphism $\\gamma_I : \\mathcal{E}[\\mathbb{T}_{\\mathrm{Class}}] \\to \\mathcal{E}[\\mathbb{T}_{\\mathrm{Set}}]$ between $\\Sigma^1_0$-Morleyized classifying Grothendieck topoi, coupled to internal $\\mathsf{AST}$ class-forcing sheaves isolating Glazer's $\\mathsf{ZC}$ leak~\\cite{glazer2023} and Felgner's {{sym:zfc-noreg}} leak~\\cite{felgner1976} against the $\\mathsf{ZFC}$ membrane~\\cite{felgner1971}.
+\\end{problem}
+"""
+
+[edges]
+logical_dep = [
+  "vol1:thm:quantitative-conservation",
+  "ch03:thm:piset-transgression-exactness",
+  "ch03:thm:two-valve-transgression-dichotomy"
+]
+lean_dep = []
+curriculum = ["ch03:thm:two-valve-transgression-dichotomy"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Open problem"
+blueprint_tier = "none"
+characterization_types = ["Open Problem", "Cohomological / Spectral Obstruction", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "giraud1971"
+locator = "Chs. IV–V, pp. 191–336"
+purpose = "Non-abelian Giraud torsor-gerbe transgression sequence framework"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prob:open-17"
+locator = "docs/categorical_reverse_mathematics.tex:3126"
+purpose = "Pinned Volume I Horizon VIII Problem 17a origin for Morleyized classifying-topos transgression"

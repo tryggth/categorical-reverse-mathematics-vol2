@@ -1,0 +1,56 @@
+id = "vol1:thm:quantitative-conservation"
+kind = "vol1_external"
+title = "Quantitative Base-Fiber Conservation and Leray Transgression (Volume I)"
+chapter = "ch03"
+section = "3.1"
+seq_order = 303
+axis = "class_set"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["giraud1971"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/categorical_reverse_mathematics.tex:1543"
+vol1_label = "thm:quantitative-conservation"
+vol1_lean_symbol = "HomotopyCRM.commutator_sl2_f5_eq_top, HomotopyCRM.sl2_f5_leray_transgression_injective"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+For any bounded geometric morphism gamma : E -> S between elementary topoi and internal abelian sheaf A in Ab(E), Giraud's injective-free torsor-gerbe exact sequence 0 -> H^1(S; gamma_* A) -> H^1(E; A) -> Gamma_S(R^1 gamma_* A) -> H^2(S; gamma_* A) yields H^1(E; A) = 0 iff H^1(S; gamma_* A) = 0 and the Leray transgression d_2 : Gamma_S(R^1 gamma_* A) -> H^2(S; gamma_* A) is injective, with transgressive cancellation witnessed on 1 -> {+-I} -> SL_2(F_5) -> A_5 -> 1 (rem:leray-transgressive-cancellation at line 1588).
+"""
+
+[body]
+tex = """
+\\begin{theorem}[Volume~I Grounding Contract: Quantitative Base--Fiber Conservation and Leray Transgression]\\label{vol1:thm:quantitative-conservation}%
+Pinned read-only to Volume~I (\\texttt{thm:quantitative-conservation}, \\texttt{docs/categorical\\_reverse\\_mathematics.tex:1543}, together with \\texttt{rem:leray-transgressive-cancellation} at line~\\texttt{1588}, Lean witnesses \\texttt{HomotopyCRM.\\allowbreak{}commutator\\_sl2\\_f5\\_eq\\_top} and \\texttt{HomotopyCRM.\\allowbreak{}sl2\\_f5\\_leray\\_transgression\\_injective}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{giraud1971}. Along any bounded geometric morphism $\\gamma : \\mathcal{E} \\to \\mathcal{S}$ and $A \\in \\mathbf{Ab}(\\mathcal{E})$, Giraud's injective-free exact sequence
+\\[
+  0 \\longrightarrow H^1(\\mathcal{S}; \\gamma_* A) \\xrightarrow{\\;\\gamma^*\\;} H^1(\\mathcal{E}; A) \\xrightarrow{\\;\\beta\\;} \\Gamma_{\\mathcal{S}}(R^1\\gamma_* A) \\xrightarrow{\\;d_2\\;} H^2(\\mathcal{S}; \\gamma_* A)
+\\]
+partitions total torsor obstructions into base $H^1$ and $\\ker(d_2)$, with transgressive cancellation into base $H^2$ witnessed by the central extension $1 \\to \\{\\pm I\\} \\to \\mathrm{SL}_2(\\mathbb{F}_5) \\to A_5 \\to 1$.
+\\end{theorem}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Cohomological / Spectral Obstruction", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "thm:quantitative-conservation"
+locator = "docs/categorical_reverse_mathematics.tex:1543"
+purpose = "Pinned Volume I Giraud torsor-gerbe four-term exact sequence and d_2 transgression"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "rem:leray-transgressive-cancellation"
+locator = "docs/categorical_reverse_mathematics.tex:1588"
+purpose = "Pinned Volume I SL_2(F_5) -> A_5 Schur cover Leray transgression injectivity witness"

@@ -1,0 +1,221 @@
+id = "ch03:thm:anafunctor-vs-functorial-gc-splitting"
+kind = "theorem"
+title = "Choiceless Saturated Anafunctoriality vs. Functorial Global Choice Splitting"
+chapter = "ch03"
+section = "3.1"
+seq_order = 310
+axis = "class_set"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["makkai1996", "felgner1971"]
+
+[spec]
+statement = "Over any equipollence groupoid projection skel : S -> C surjective up to internal equivalences Eqv s1 s2, (1) Makkai's relational/anafunctor inverse span R(c, s) := (skel s = c) is unconditionally total, equipollence-saturated, single-orbit fiber-transitive, and base-coherent with zero choice hypothesis (staying inside GBC); (2) Functorial splitting (sec : C -> S with coherent transport eta : Eqv (sec (skel s)) s) is bi-definably equivalent to uniform fiberwise Global Choice; and (3) Any two splittings differ by a unique vertical gauge torsor of fiberwise automorphisms."
+hypotheses = [
+  "E : EquipollenceSystem.{u, v} with skel : S -> C, groupoid Eqv s1 s2, surjectivity skel_surj, and skel_eq_iff_eqv"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.EquivSplittingGC"
+imports = ["Mathlib.Logic.Equiv.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.EquipollenceSystem",
+  "HomotopyCRM.Vol2.AnafunctorInvSpan",
+  "HomotopyCRM.Vol2.IsSaturatedAnafunctorSpan",
+  "HomotopyCRM.Vol2.FunctorialSplitting",
+  "HomotopyCRM.Vol2.UniformFiberChoice",
+  "HomotopyCRM.Vol2.IsVerticalGaugeTorsor",
+  "HomotopyCRM.Vol2.anafunctor_vs_functorial_gc_splitting"
+]
+expected_axioms = []
+lean_signature = """
+/-- Abstract groupoid / equipollence projection `skel : S → C` surjective onto `C` up to
+    internal groupoid equivalences `Eqv s₁ s₂`. -/
+structure EquipollenceSystem.{u, v} : Type (max (u + 1) (v + 1)) where
+  /-- Objects, skeletal cardinal base, projection `skel`, and groupoid equivalences `Eqv`. -/
+  S : Type u
+  C : Type v
+  skel : S → C
+  Eqv : S → S → Type u
+  refl : ∀ s, Eqv s s
+  symm : ∀ {s₁ s₂}, Eqv s₁ s₂ → Eqv s₂ s₁
+  trans : ∀ {s₁ s₂ s₃}, Eqv s₁ s₂ → Eqv s₂ s₃ → Eqv s₁ s₃
+  trans_refl_left : ∀ {s₁ s₂} (e : Eqv s₁ s₂), trans (refl s₁) e = e
+  trans_refl_right : ∀ {s₁ s₂} (e : Eqv s₁ s₂), trans e (refl s₂) = e
+  trans_assoc : ∀ {s₁ s₂ s₃ s₄} (e₁ : Eqv s₁ s₂) (e₂ : Eqv s₂ s₃) (e₃ : Eqv s₃ s₄),
+    trans (trans e₁ e₂) e₃ = trans e₁ (trans e₂ e₃)
+  trans_symm_left : ∀ {s₁ s₂} (e : Eqv s₁ s₂), trans (symm e) e = refl s₂
+  trans_symm_right : ∀ {s₁ s₂} (e : Eqv s₁ s₂), trans e (symm e) = refl s₁
+  skel_surj : ∀ c : C, ∃ s : S, skel s = c
+  skel_eq_iff_eqv : ∀ s₁ s₂ : S, skel s₁ = skel s₂ ↔ Nonempty (Eqv s₁ s₂)
+
+/-- Makkai relational / anafunctor inverse span `R(c, s) := (skel s = c)`. -/
+def AnafunctorInvSpan.{u, v} (E : EquipollenceSystem.{u, v}) (c : E.C) (s : E.S) : Prop :=
+  E.skel s = c
+
+/-- Totality, equipollence-saturation, single-orbit fiber transitivity, and base coherence of
+    the anafunctor inverse span `R(c, s) := (skel s = c)`. -/
+def IsSaturatedAnafunctorSpan.{u, v} (E : EquipollenceSystem.{u, v}) : Prop :=
+  (∀ c : E.C, ∃ s : E.S, AnafunctorInvSpan E c s) ∧
+  (∀ c s₁ s₂, AnafunctorInvSpan E c s₁ → Nonempty (E.Eqv s₁ s₂) → AnafunctorInvSpan E c s₂) ∧
+  (∀ c s₁ s₂, AnafunctorInvSpan E c s₁ → AnafunctorInvSpan E c s₂ → Nonempty (E.Eqv s₁ s₂)) ∧
+  (∀ c₁ c₂ s, AnafunctorInvSpan E c₁ s → AnafunctorInvSpan E c₂ s → c₁ = c₂)
+
+/-- Functorial splitting of `skel : S → C`: a section `sec : C → S` together with coherent
+    transport equivalences `eta s : Eqv (sec (skel s)) s` and induced groupoid action `map`. -/
+structure FunctorialSplitting.{u, v} (E : EquipollenceSystem.{u, v}) : Type (max u v) where
+  /-- Object section `sec : C → S`, section identity, coherent transport `eta`, and functor map. -/
+  sec : E.C → E.S
+  skel_sec : ∀ c : E.C, E.skel (sec c) = c
+  eta : ∀ s : E.S, E.Eqv (sec (E.skel s)) s
+  map : ∀ {s₁ s₂ : E.S}, E.Eqv s₁ s₂ → E.Eqv (sec (E.skel s₁)) (sec (E.skel s₂))
+  map_id : ∀ s : E.S, map (E.refl s) = E.refl (sec (E.skel s))
+  map_comp : ∀ {s₁ s₂ s₃ : E.S} (f : E.Eqv s₁ s₂) (g : E.Eqv s₂ s₃),
+    map (E.trans f g) = E.trans (map f) (map g)
+  naturality : ∀ {s₁ s₂ : E.S} (f : E.Eqv s₁ s₂),
+    E.trans (map f) (eta s₂) = E.trans (eta s₁) f
+
+/-- Uniform Global Choice selector across all `skel`-fibers and equipollence-hom fibers. -/
+structure UniformFiberChoice.{u, v} (E : EquipollenceSystem.{u, v}) : Type (max u v) where
+  /-- Uniform object selector on each `skel`-fiber and uniform equipollence selector. -/
+  pickObj : ∀ c : E.C, { s : E.S // E.skel s = c }
+  pickEqv : ∀ s₁ s₂ : E.S, E.skel s₁ = E.skel s₂ → E.Eqv s₁ s₂
+
+/-- Vertical gauge transformation between two functorial splittings `F₁, F₂`: a fiberwise section
+    isomorphism `g c : Eqv (F₁.sec c) (F₂.sec c)` coupled to fiberwise automorphisms `v s`. -/
+def IsVerticalGaugeTorsor.{u, v} {E : EquipollenceSystem.{u, v}}
+    (F₁ F₂ : FunctorialSplitting E) (g : ∀ c : E.C, E.Eqv (F₁.sec c) (F₂.sec c))
+    (v : ∀ s : E.S, E.Eqv s s) : Prop :=
+  ∀ s : E.S, E.trans (g (E.skel s)) (F₂.eta s) = E.trans (F₁.eta s) (v s)
+
+/-- **Anafunctoriality vs. Functorial Global Choice Splitting (Emerald, Axiom-Free):**
+    (1) `R(c, s) := (skel s = c)` is unconditionally total and saturated with zero choice;
+    (2) Functorial splitting is bi-definably equivalent to uniform fiberwise Global Choice;
+    (3) Any two splittings differ by a unique vertical gauge torsor of fiberwise automorphisms. -/
+theorem anafunctor_vs_functorial_gc_splitting.{u, v} (E : EquipollenceSystem.{u, v}) :
+    IsSaturatedAnafunctorSpan E ∧
+    (Nonempty (FunctorialSplitting E) ↔ Nonempty (UniformFiberChoice E)) ∧
+    (∀ F₁ F₂ : FunctorialSplitting E,
+      ∃ g : ∀ c : E.C, E.Eqv (F₁.sec c) (F₂.sec c),
+        ∃ v : ∀ s : E.S, E.Eqv s s,
+          IsVerticalGaugeTorsor F₁ F₂ g v ∧
+          ∀ w : ∀ s : E.S, E.Eqv s s, IsVerticalGaugeTorsor F₁ F₂ g w → ∀ s, w s = v s) ∧
+    (∀ (F₁ F₂ : FunctorialSplitting E) (hsec : F₁.sec = F₂.sec),
+      ∃ v : ∀ s : E.S, E.Eqv s s,
+        (∀ s, E.trans (F₁.eta s) (v s) = hsec ▸ F₂.eta s) ∧
+        ∀ w : ∀ s : E.S, E.Eqv s s,
+          (∀ s, E.trans (F₁.eta s) (w s) = hsec ▸ F₂.eta s) → ∀ s, w s = v s) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.anafunctor_vs_functorial_gc_splitting' does not depend on any axioms -/\n#guard_msgs in\n#print axioms anafunctor_vs_functorial_gc_splitting"
+]
+
+[body]
+lean_body = """
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · refine ⟨E.skel_surj, fun c s₁ s₂ h₁ he ↦ ?_, fun c s₁ s₂ h₁ h₂ ↦ ?_, fun _ _ _ h₁ h₂ ↦ ?_⟩
+    · exact ((E.skel_eq_iff_eqv s₁ s₂).mpr he).symm.trans h₁
+    · exact (E.skel_eq_iff_eqv s₁ s₂).mp (h₁.trans h₂.symm)
+    · exact h₁.symm.trans h₂
+  · constructor
+    · rintro ⟨F⟩
+      refine ⟨{
+        pickObj := fun c ↦ ⟨F.sec c, F.skel_sec c⟩
+        pickEqv := fun s₁ s₂ h ↦ E.trans (E.symm (F.eta s₁)) (h ▸ F.eta s₂)
+      }⟩
+    · rintro ⟨G⟩
+      let sec : E.C → E.S := fun c ↦ (G.pickObj c).1
+      let skel_sec : ∀ c, E.skel (sec c) = c := fun c ↦ (G.pickObj c).2
+      let eta : ∀ s, E.Eqv (sec (E.skel s)) s := fun s ↦ G.pickEqv (sec (E.skel s)) s (skel_sec _)
+      let map : ∀ {s₁ s₂ : E.S}, E.Eqv s₁ s₂ → E.Eqv (sec (E.skel s₁)) (sec (E.skel s₂)) :=
+        fun {s₁ s₂} f ↦ E.trans (eta s₁) (E.trans f (E.symm (eta s₂)))
+      refine ⟨{
+        sec := sec
+        skel_sec := skel_sec
+        eta := eta
+        map := map
+        map_id := fun s ↦ by
+          change E.trans (eta s) (E.trans (E.refl s) (E.symm (eta s))) = E.refl (sec (E.skel s))
+          rw [E.trans_refl_left, E.trans_symm_right]
+        map_comp := fun {s₁ s₂ s₃} f g ↦ by
+          change E.trans (eta s₁) (E.trans (E.trans f g) (E.symm (eta s₃))) =
+            E.trans (E.trans (eta s₁) (E.trans f (E.symm (eta s₂))))
+              (E.trans (eta s₂) (E.trans g (E.symm (eta s₃))))
+          rw [E.trans_assoc (eta s₁) (E.trans f (E.symm (eta s₂))),
+            E.trans_assoc f (E.symm (eta s₂)),
+            ← E.trans_assoc (E.symm (eta s₂)) (eta s₂),
+            E.trans_symm_left, E.trans_refl_left, E.trans_assoc f g]
+        naturality := fun {s₁ s₂} f ↦ by
+          change E.trans (E.trans (eta s₁) (E.trans f (E.symm (eta s₂)))) (eta s₂) =
+            E.trans (eta s₁) f
+          rw [E.trans_assoc (eta s₁), E.trans_assoc f, E.trans_symm_left, E.trans_refl_right]
+      }⟩
+  · intro F₁ F₂
+    let g : ∀ c : E.C, E.Eqv (F₁.sec c) (F₂.sec c) :=
+      fun c ↦ Eq.rec (motive := fun c' _ ↦ E.Eqv (F₁.sec c') (F₂.sec c))
+        (F₁.eta (F₂.sec c)) (F₂.skel_sec c)
+    let v : ∀ s : E.S, E.Eqv s s :=
+      fun s ↦ E.trans (E.symm (F₁.eta s)) (E.trans (g (E.skel s)) (F₂.eta s))
+    refine ⟨g, v, fun s ↦ ?_, fun w hw s ↦ ?_⟩
+    · change E.trans (g (E.skel s)) (F₂.eta s) =
+        E.trans (F₁.eta s) (E.trans (E.symm (F₁.eta s)) (E.trans (g (E.skel s)) (F₂.eta s)))
+      rw [← E.trans_assoc, E.trans_symm_right, E.trans_refl_left]
+    · calc
+        w s = E.trans (E.refl s) (w s) := (E.trans_refl_left (w s)).symm
+        _ = E.trans (E.trans (E.symm (F₁.eta s)) (F₁.eta s)) (w s) := by rw [E.trans_symm_left]
+        _ = E.trans (E.symm (F₁.eta s)) (E.trans (F₁.eta s) (w s)) := E.trans_assoc _ _ _
+        _ = E.trans (E.symm (F₁.eta s)) (E.trans (g (E.skel s)) (F₂.eta s)) := by rw [← hw s]
+  · intro F₁ F₂ hsec
+    cases F₁ with | mk sec₁ skel₁ eta₁ map₁ mid₁ mcomp₁ nat₁ =>
+    cases F₂ with | mk sec₂ skel₂ eta₂ map₂ mid₂ mcomp₂ nat₂ =>
+    dsimp only at hsec
+    subst hsec
+    let v : ∀ s : E.S, E.Eqv s s := fun s ↦ E.trans (E.symm (eta₁ s)) (eta₂ s)
+    refine ⟨v, fun s ↦ ?_, fun w hw s ↦ ?_⟩
+    · change E.trans (eta₁ s) (E.trans (E.symm (eta₁ s)) (eta₂ s)) = eta₂ s
+      rw [← E.trans_assoc, E.trans_symm_right, E.trans_refl_left]
+    · calc
+        w s = E.trans (E.refl s) (w s) := (E.trans_refl_left (w s)).symm
+        _ = E.trans (E.trans (E.symm (eta₁ s)) (eta₁ s)) (w s) := by rw [E.trans_symm_left]
+        _ = E.trans (E.symm (eta₁ s)) (E.trans (eta₁ s) (w s)) := E.trans_assoc _ _ _
+        _ = E.trans (E.symm (eta₁ s)) (eta₂ s) := by rw [hw s]
+"""
+tex = """
+\\begin{theorem}[Choiceless Saturated Anafunctoriality vs.\\ Functorial Global Choice Splitting]\\label{ch03:thm:anafunctor-vs-functorial-gc-splitting}%
+\\uses{vol1:prop:large-equiv-splitting,ch02:claim:easton-hod-unsplit-card}%
+Let $\\mathrm{skel} : \\mathcal{S} \\to C$ be an equipollence groupoid projection onto a skeletal base $C$ (such as $\\mathrm{skel}(X) = |X| \\in {{sym:card-cat}}$ over {{sym:gbc}} in Proposition~\\ref{vol1:prop:large-equiv-splitting} and Claim~\\ref{ch02:claim:easton-hod-unsplit-card}) equipped with internal groupoid equivalences $\\mathrm{Eqv}(s_1, s_2)$ satisfying $\\mathrm{skel}(s_1) = \\mathrm{skel}(s_2) \\iff \\exists e : \\mathrm{Eqv}(s_1, s_2)$ and surjectivity onto $C$~\\cite{makkai1996}. Then:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Choiceless Saturated Anafunctoriality:} The relational anafunctor inverse span $R(c, s) := (\\mathrm{skel}(s) = c)$ is unconditionally total, equipollence-saturated, single-orbit fiber-transitive, and base-coherent with zero choice axioms---explaining why anafunctorial large category theory operates entirely within {{sym:gbc}}.
+  \\item \\textbf{Bi-Definability of Functorial Splitting and Global Choice:} Constructing a functorial section $\\mathrm{sec} : C \\to \\mathcal{S}$ paired with coherent transport equivalences $\\eta_s : \\mathrm{Eqv}(\\mathrm{sec}(\\mathrm{skel}(s)), s)$ and functorial morphism transport is constructively equivalent to a uniform Global Choice selector $(\\mathrm{pickObj}, \\mathrm{pickEqv})$ across all $\\mathrm{skel}$-fibers (climbing to {{sym:nbg}}~\\cite{felgner1971}).
+  \\item \\textbf{Vertical Gauge Torsor Uniqueness:} Any two functorial splittings $F_1, F_2$ differ by a unique vertical gauge torsor $(g_c, v_s)$ of section transitions and fiberwise automorphisms $v_s \\in \\mathrm{Aut}(s)$ satisfying $g_{\\mathrm{skel}(s)} \\cdot \\eta^{(2)}_s = \\eta^{(1)}_s \\cdot v_s$.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+For~(1), totality is $\\mathrm{skel\\_surj}$, saturation and fiber transitivity follow directly from $\\mathrm{skel}(s_1) = \\mathrm{skel}(s_2) \\iff \\mathrm{Nonempty}(\\mathrm{Eqv}(s_1, s_2))$, and base coherence is transitivity of equality. For~(2), a functorial splitting $(F.\\mathrm{sec}, F.\\eta)$ yields $\\mathrm{pickObj}(c) := F.\\mathrm{sec}(c)$ and $\\mathrm{pickEqv}(s_1, s_2) := (F.\\eta_{s_1})^{-1} \\cdot F.\\eta_{s_2}$ across matching fibers; conversely, $(\\mathrm{pickObj}, \\mathrm{pickEqv})$ defines $\\eta_s := \\mathrm{pickEqv}(\\mathrm{sec}(\\mathrm{skel}(s)), s)$ and conjugates groupoid arrows via $\\mathrm{map}(f) := \\eta_{s_1} \\cdot f \\cdot \\eta_{s_2}^{-1}$, where groupoid associativity and unit laws immediately verify functoriality and naturality without any choice axiom. For~(3), setting $g_c := F_1.\\eta_{F_2.\\mathrm{sec}(c)}$ and $v_s := (F_1.\\eta_s)^{-1} \\cdot g_{\\mathrm{skel}(s)} \\cdot F_2.\\eta_s$ solves $g_{\\mathrm{skel}(s)} \\cdot F_2.\\eta_s = F_1.\\eta_s \\cdot v_s$, and left-cancellation by $F_1.\\eta_s$ proves uniqueness of $v_s$ (which collapses to a free simply transitive torsor whenever $F_1.\\mathrm{sec} = F_2.\\mathrm{sec}$).
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:prop:large-equiv-splitting", "ch02:claim:easton-hod-unsplit-card"]
+lean_dep = []
+curriculum = ["vol1:prop:large-equiv-splitting"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Choice Calibration", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.anafunctor_vs_functorial_gc_splitting"
+purpose = "Axiom-free Emerald Lean 4 proof of saturated anafunctoriality, Global Choice bi-definability, and vertical gauge torsors"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:large-equiv-splitting"
+locator = "docs/ch07_sets_residuum.tex:53"
+purpose = "Pinned Volume I large equivalence-splitting calibration"

@@ -28,7 +28,13 @@ lean_dep = [
   "ch02:thm:def-left-adjoint-coreflection",
   "ch02:prop:syntactic-conservative-pullback",
   "ch02:prop:los-unbundling-independence",
-  "ch02:thm:williams-fixed-set-kaleidoscope"
+  "ch02:thm:williams-fixed-set-kaleidoscope",
+  "ch03:thm:anafunctor-vs-functorial-gc-splitting",
+  "ch03:prop:skeleton-quotient-choice-stratum",
+  "ch03:thm:felgner-kappa-closed-membrane",
+  "ch03:prop:glazer-hartogs-scott-surjection",
+  "ch03:thm:piset-transgression-exactness",
+  "ch03:thm:two-valve-transgression-dichotomy"
 ]
 curriculum = []
 prose_paraphrase = []

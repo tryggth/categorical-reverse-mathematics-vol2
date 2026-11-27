@@ -11,7 +11,7 @@ from typing import Any
 
 import duckdb
 
-from emit_tex import BUILD_TEX_DIR, DB_PATH, REPO_ROOT, SOURCEMAPS_DIR, load_context, render_node_tex
+from emit_tex import BUILD_TEX_DIR, DB_PATH, REPO_ROOT, SOURCEMAPS_DIR, load_context, render_node_tex, tex_escape
 
 COURSE_PACKS: dict[str, dict[str, str]] = {
     "ch01:tab:epistemic-probe-regimes": {
@@ -29,6 +29,14 @@ COURSE_PACKS: dict[str, dict[str, str]] = {
         "chapter_label": "ch:course-ch02-kaleidoscope",
         "section_title": r"Curriculum Cone and Vertical Class Spectrum",
         "extra_note": r" (sliced directly from Table~2.1 across \S\S 2.1--2.4)",
+    },
+    "ch03:tab:piset-four-quadrant-ledger": {
+        "stem": "course_pack_ch03_piset_transgression",
+        "subtitle": r"Standalone Course Pack: Chapter~3 Leray Transgression Along $\pi_{\mathrm{Set}}$ \& Two-Valve Dichotomy",
+        "chapter_title": r"Leray Transgression Along \texorpdfstring{$\pi_{\mathrm{Set}}$}{pi\_Set} and Horizontal Conservativity Breakdown (Standalone Course Pack)",
+        "chapter_label": "ch:course-ch03-transgression",
+        "section_title": r"Curriculum Cone and Four-Quadrant Transgression Ledger",
+        "extra_note": r" (sliced directly from Table~3.1 across \S\S 3.1--3.4)",
     },
 }
 
@@ -106,7 +114,7 @@ def emit_course_pack(target_id: str) -> Path:
         b"VOL2_COURSE_CONE_V1\x00" + json.dumps(cone_payload, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     ).hexdigest()
 
-    target_title = nodes_meta[target_id]["title"]
+    target_title = tex_escape(nodes_meta[target_id]["title"])
     target_tex = target_id.replace("_", "\\_")
     lines: list[str] = [
         r"\documentclass[10pt,twoside,openany]{book}",

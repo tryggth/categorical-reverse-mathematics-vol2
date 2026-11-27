@@ -1,0 +1,327 @@
+id = "ch03:thm:two-valve-transgression-dichotomy"
+kind = "theorem"
+title = "Two-Valve Base-Fiber Transgression Dichotomy Across (Replacement x Foundation)"
+chapter = "ch03"
+section = "3.4"
+seq_order = 370
+axis = "class_set"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["felgner1971", "felgner1976", "glazer2023", "mathias2001"]
+
+[spec]
+statement = "Over (ZC_{~Reg}, GBC_{0,~Reg}), adjoining Global Choice (GC) exhibits a sharp Two-Valve Base-Fiber Dichotomy across all four (Replacement, Foundation) quadrants: (1,1) ZFC closes both valves so d_Set(GC) = bot (Felgner's kappa-closed membrane); (0,1) ZC opens only the Hartogs/Scott valve so d_Set(GC) contains ~theta_Glz != bot (distinct from Mathias's Mac/GB_0 boundary); (1,0) ZFC_{~Reg} + Collection opens only the ill-founded valve so d_Set(GC) contains DC_Ord-leak != bot (Felgner 1976); and (0,0) ZC_{~Reg} activates both independent leakage channels simultaneously."
+hypotheses = [
+  "quadrantClassSystem : SyntacticClassSystem modeling the 4-generator Lindenbaum frame over (Rep, Reg, ~theta_Glz, sigma_Fel)"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.PiSetTransgression"
+imports = ["HomotopyCRM.Vol2.ClassSetAdjunction"]
+decl_names = [
+  "HomotopyCRM.Vol2.QuadSetTh",
+  "HomotopyCRM.Vol2.quadSetLe",
+  "HomotopyCRM.Vol2.quadSetSup",
+  "HomotopyCRM.Vol2.QuadClsTh",
+  "HomotopyCRM.Vol2.quadTraceSet",
+  "HomotopyCRM.Vol2.quadClsLe",
+  "HomotopyCRM.Vol2.quadrantClassSystem",
+  "HomotopyCRM.Vol2.quadrantBase",
+  "HomotopyCRM.Vol2.gcAxiom",
+  "HomotopyCRM.Vol2.notGlzLeakAtom",
+  "HomotopyCRM.Vol2.dcOrdLeakAtom",
+  "HomotopyCRM.Vol2.dSetGC",
+  "HomotopyCRM.Vol2.two_valve_transgression_dichotomy"
+]
+expected_axioms = []
+lean_signature = """
+/-- Deductively closed base theory in the 4-generator Lindenbaum frame over `ZC_{¬Reg}`:
+    `Rep ⊢ ¬θ_Glz` (Replacement closes Glazer's valve) and `Reg ⊢ σ_Fel` (Foundation closes
+    Felgner's ill-founded `DC_Ord` valve). -/
+structure QuadSetTh : Type where
+  /-- Flags for `Rep`, `Reg`, Glazer's `¬θ_Glz`, and Felgner's `DC_Ord` leak, with closure laws. -/
+  hasRep : Bool
+  hasReg : Bool
+  hasNotGlz : Bool
+  hasDCOrd : Bool
+  rep_imp_notGlz : hasRep = true → hasNotGlz = true
+  reg_imp_dcOrd : hasReg = true → hasDCOrd = true
+
+private def boolLe (a b : Bool) : Prop := a = true → b = true
+
+private theorem boolLe_or_left (a b : Bool) : boolLe a (a || b) := by
+  cases a <;> cases b <;> intro h <;> first | rfl | exact Bool.noConfusion h
+
+private theorem boolLe_or_right (a b : Bool) : boolLe b (a || b) := by
+  cases a <;> cases b <;> intro h <;> first | rfl | exact Bool.noConfusion h
+
+private theorem boolOr_le {a b c : Bool} (ha : boolLe a c) (hb : boolLe b c) :
+    boolLe (a || b) c := by
+  cases a
+  · exact hb
+  · intro _; exact ha rfl
+
+private theorem boolOr_false_le (a : Bool) : boolLe (a || false) a := by
+  cases a
+  · intro h; exact Bool.noConfusion h
+  · intro _; rfl
+
+/-- Deductive inclusion on `QuadSetTh`. -/
+def quadSetLe (a b : QuadSetTh) : Prop :=
+  boolLe a.hasRep b.hasRep ∧ boolLe a.hasReg b.hasReg ∧
+  boolLe a.hasNotGlz b.hasNotGlz ∧ boolLe a.hasDCOrd b.hasDCOrd
+
+/-- Deductive join `a ⊔ b` on `QuadSetTh`. -/
+def quadSetSup (a b : QuadSetTh) : QuadSetTh where
+  hasRep := a.hasRep || b.hasRep
+  hasReg := a.hasReg || b.hasReg
+  hasNotGlz := a.hasNotGlz || b.hasNotGlz
+  hasDCOrd := a.hasDCOrd || b.hasDCOrd
+  rep_imp_notGlz h := by
+    cases ha : a.hasRep
+    · rw [ha, Bool.false_or] at h
+      exact boolLe_or_right _ _ (b.rep_imp_notGlz h)
+    · exact boolLe_or_left _ _ (a.rep_imp_notGlz ha)
+  reg_imp_dcOrd h := by
+    cases ha : a.hasReg
+    · rw [ha, Bool.false_or] at h
+      exact boolLe_or_right _ _ (b.reg_imp_dcOrd h)
+    · exact boolLe_or_left _ _ (a.reg_imp_dcOrd ha)
+
+/-- Two-sorted class theory `(base, hasGC)` over `QuadSetTh`. -/
+structure QuadClsTh : Type where
+  /-- Base set theory component and Global Choice toggle `hasGC`. -/
+  base : QuadSetTh
+  hasGC : Bool
+
+/-- First-order `L_∈`-trace `Tr_set(base, hasGC)`: adjoining `GC` proves both `¬θ_Glz` and
+    `σ_Fel` (`DC_Ord`-leak). -/
+def quadTraceSet (S : QuadClsTh) : QuadSetTh where
+  hasRep := S.base.hasRep
+  hasReg := S.base.hasReg
+  hasNotGlz := S.base.hasNotGlz || S.hasGC
+  hasDCOrd := S.base.hasDCOrd || S.hasGC
+  rep_imp_notGlz h := boolLe_or_left _ _ (S.base.rep_imp_notGlz h)
+  reg_imp_dcOrd h := boolLe_or_left _ _ (S.base.reg_imp_dcOrd h)
+
+/-- Deductive inclusion on `QuadClsTh` aligned with `Tr_set`. -/
+def quadClsLe (S₁ S₂ : QuadClsTh) : Prop :=
+  boolLe S₁.hasGC S₂.hasGC ∧ quadSetLe S₁.base (quadTraceSet S₂)
+
+/-- Concrete 4-quadrant Lindenbaum-frame `SyntacticClassSystem`. -/
+def quadrantClassSystem : SyntacticClassSystem where
+  SetTh :=
+    { T := QuadSetTh
+      le := quadSetLe
+      le_refl := fun _ ↦ ⟨id, id, id, id⟩
+      le_trans := fun h₁ h₂ ↦
+        ⟨fun h ↦ h₂.1 (h₁.1 h), fun h ↦ h₂.2.1 (h₁.2.1 h),
+         fun h ↦ h₂.2.2.1 (h₁.2.2.1 h), fun h ↦ h₂.2.2.2 (h₁.2.2.2 h)⟩
+      sup := quadSetSup
+      le_sup_left := fun _ _ ↦ ⟨boolLe_or_left _ _, boolLe_or_left _ _,
+        boolLe_or_left _ _, boolLe_or_left _ _⟩
+      le_sup_right := fun _ _ ↦ ⟨boolLe_or_right _ _, boolLe_or_right _ _,
+        boolLe_or_right _ _, boolLe_or_right _ _⟩
+      sup_le := fun h₁ h₂ ↦ ⟨boolOr_le h₁.1 h₂.1, boolOr_le h₁.2.1 h₂.2.1,
+        boolOr_le h₁.2.2.1 h₂.2.2.1, boolOr_le h₁.2.2.2 h₂.2.2.2⟩ }
+  ClsTh :=
+    { T := QuadClsTh
+      le := quadClsLe
+      le_refl := fun _ ↦ ⟨id, id, id, boolLe_or_left _ _, boolLe_or_left _ _⟩
+      le_trans := fun h₁ h₂ ↦
+        ⟨fun h ↦ h₂.1 (h₁.1 h), h₂.2.1 ∘ h₁.2.1, h₂.2.2.1 ∘ h₁.2.2.1,
+          fun h ↦ boolOr_le h₂.2.2.2.1 (fun hg ↦ boolLe_or_right _ _ (h₂.1 hg)) (h₁.2.2.2.1 h),
+          fun h ↦ boolOr_le h₂.2.2.2.2 (fun hg ↦ boolLe_or_right _ _ (h₂.1 hg)) (h₁.2.2.2.2 h)⟩
+      sup := fun a b ↦ ⟨quadSetSup a.base b.base, a.hasGC || b.hasGC⟩
+      le_sup_left := fun _ _ ↦
+        ⟨boolLe_or_left _ _, boolLe_or_left _ _, boolLe_or_left _ _,
+          fun h ↦ boolLe_or_left _ _ (boolLe_or_left _ _ h),
+          fun h ↦ boolLe_or_left _ _ (boolLe_or_left _ _ h)⟩
+      le_sup_right := fun _ _ ↦
+        ⟨boolLe_or_right _ _, boolLe_or_right _ _, boolLe_or_right _ _,
+          fun h ↦ boolLe_or_left _ _ (boolLe_or_right _ _ h),
+          fun h ↦ boolLe_or_left _ _ (boolLe_or_right _ _ h)⟩
+      sup_le := fun h₁ h₂ ↦
+        ⟨boolOr_le h₁.1 h₂.1, boolOr_le h₁.2.1 h₂.2.1, boolOr_le h₁.2.2.1 h₂.2.2.1,
+          boolOr_le h₁.2.2.2.1 h₂.2.2.2.1, boolOr_le h₁.2.2.2.2 h₂.2.2.2.2⟩ }
+  defSyn := fun T ↦ ⟨T, false⟩
+  traceSet := quadTraceSet
+  defSyn_mono := fun h ↦
+    ⟨fun hf ↦ Bool.noConfusion hf, h.1, h.2.1,
+      fun x ↦ boolLe_or_left _ _ (h.2.2.1 x), fun x ↦ boolLe_or_left _ _ (h.2.2.2 x)⟩
+  traceSet_mono := fun h ↦
+    ⟨h.2.1, h.2.2.1,
+      boolOr_le h.2.2.2.1 (fun hg ↦ boolLe_or_right _ _ (h.1 hg)),
+      boolOr_le h.2.2.2.2 (fun hg ↦ boolLe_or_right _ _ (h.1 hg))⟩
+  defSyn_le_iff := fun _ _ ↦
+    ⟨fun h ↦ h.2, fun h ↦ ⟨fun hf ↦ Bool.noConfusion hf, h⟩⟩
+  defSyn_cons := fun T ↦
+    ⟨id, id, boolOr_false_le T.hasNotGlz, boolOr_false_le T.hasDCOrd⟩
+
+/-- Base theory for each `(rep, reg)` quadrant: `(1,1)=ZFC`, `(0,1)=ZC`,
+    `(1,0)=ZFC_{¬Reg}`, `(0,0)=ZC_{¬Reg}`. -/
+def quadrantBase (rep reg : Bool) : QuadSetTh where
+  hasRep := rep
+  hasReg := reg
+  hasNotGlz := rep
+  hasDCOrd := reg
+  rep_imp_notGlz := id
+  reg_imp_dcOrd := id
+
+/-- Pure Global Choice class axiom `τ = GC`. -/
+def gcAxiom : QuadClsTh := ⟨quadrantBase false false, true⟩
+
+/-- Glazer leakage generator `¬θ_Glz`. -/
+def notGlzLeakAtom : QuadSetTh :=
+  ⟨false, false, true, false, fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h⟩
+
+/-- Felgner 1976 ill-founded leakage generator `σ_Fel` (`DC_Ord`-leak). -/
+def dcOrdLeakAtom : QuadSetTh :=
+  ⟨false, false, false, true, fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h⟩
+
+/-- Transgression vanishing predicate `dSetGC rep reg` across the four `(Rep, Reg)` quadrants. -/
+def dSetGC (rep reg : Bool) : Prop :=
+  dSetEqBot quadrantClassSystem (quadrantBase rep reg) gcAxiom
+
+/-- **Two-Valve Base–Fiber Dichotomy Witness (Emerald, Axiom-Free):**
+    Across the 4-quadrant Lindenbaum frame `quadrantClassSystem`:
+    (1) `dSetGC rep reg ↔ (rep = true ∧ reg = true)`;
+    (2) `(0, 1)` (`ZC`) leaks `¬θ_Glz` but not `σ_Fel`;
+    (3) `(1, 0)` (`ZFC_{¬Reg}`) leaks `σ_Fel` but not `¬θ_Glz`;
+    (4) `(0, 0)` (`ZC_{¬Reg}`) activates both independent leakage generators. -/
+theorem two_valve_transgression_dichotomy :
+    (∀ rep reg : Bool, dSetGC rep reg ↔ (rep = true ∧ reg = true)) ∧
+    (ULeak quadrantClassSystem (quadrantBase false true) gcAxiom notGlzLeakAtom ∧
+      ¬ ULeak quadrantClassSystem (quadrantBase false true) gcAxiom dcOrdLeakAtom) ∧
+    (ULeak quadrantClassSystem (quadrantBase true false) gcAxiom dcOrdLeakAtom ∧
+      ¬ ULeak quadrantClassSystem (quadrantBase true false) gcAxiom notGlzLeakAtom) ∧
+    (ULeak quadrantClassSystem (quadrantBase false false) gcAxiom notGlzLeakAtom ∧
+      ULeak quadrantClassSystem (quadrantBase false false) gcAxiom dcOrdLeakAtom ∧
+      ¬ quadSetLe notGlzLeakAtom dcOrdLeakAtom ∧
+      ¬ quadSetLe dcOrdLeakAtom notGlzLeakAtom) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.two_valve_transgression_dichotomy' does not depend on any axioms -/\n#guard_msgs in\n#print axioms two_valve_transgression_dichotomy"
+]
+
+[body]
+lean_body = """
+  have hQuad : ∀ rep reg : Bool, dSetGC rep reg ↔ (rep = true ∧ reg = true) := by
+    intro rep reg
+    cases rep <;> cases reg
+    · constructor
+      · intro hBot
+        have hle := hBot notGlzLeakAtom
+          ⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+           fun _ ↦ by decide, fun h ↦ Bool.noConfusion h⟩
+        exact False.elim (Bool.noConfusion (hle.2.2.1 rfl))
+      · rintro ⟨h, _⟩; exact Bool.noConfusion h
+    · constructor
+      · intro hBot
+        have hle := hBot notGlzLeakAtom
+          ⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+           fun _ ↦ by decide, fun h ↦ Bool.noConfusion h⟩
+        exact False.elim (Bool.noConfusion (hle.2.2.1 rfl))
+      · rintro ⟨h, _⟩; exact Bool.noConfusion h
+    · constructor
+      · intro hBot
+        have hle := hBot dcOrdLeakAtom
+          ⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+           fun h ↦ Bool.noConfusion h, fun _ ↦ by decide⟩
+        exact False.elim (Bool.noConfusion (hle.2.2.2 rfl))
+      · rintro ⟨_, h⟩; exact Bool.noConfusion h
+    · constructor
+      · intro _; exact ⟨rfl, rfl⟩
+      · intro _ X _
+        exact ⟨fun _ ↦ rfl, fun _ ↦ rfl, fun _ ↦ rfl, fun _ ↦ rfl⟩
+  refine ⟨hQuad, ?_, ?_, ?_⟩
+  · refine ⟨⟨⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+        fun _ ↦ by decide, fun h ↦ Bool.noConfusion h⟩,
+      fun h ↦ Bool.noConfusion (h.2.2.1 rfl)⟩,
+      fun h ↦ h.2 ⟨fun h0 ↦ Bool.noConfusion h0, fun h0 ↦ Bool.noConfusion h0,
+        fun h0 ↦ Bool.noConfusion h0, fun _ ↦ rfl⟩⟩
+  · refine ⟨⟨⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+        fun h ↦ Bool.noConfusion h, fun _ ↦ by decide⟩,
+      fun h ↦ Bool.noConfusion (h.2.2.2 rfl)⟩,
+      fun h ↦ h.2 ⟨fun h0 ↦ Bool.noConfusion h0, fun h0 ↦ Bool.noConfusion h0,
+        fun _ ↦ rfl, fun h0 ↦ Bool.noConfusion h0⟩⟩
+  · refine ⟨⟨⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+        fun _ ↦ by decide, fun h ↦ Bool.noConfusion h⟩,
+      fun h ↦ Bool.noConfusion (h.2.2.1 rfl)⟩,
+      ⟨⟨fun h ↦ Bool.noConfusion h, fun h ↦ Bool.noConfusion h,
+        fun h ↦ Bool.noConfusion h, fun _ ↦ by decide⟩,
+      fun h ↦ Bool.noConfusion (h.2.2.2 rfl)⟩,
+      fun h ↦ Bool.noConfusion (h.2.2.1 rfl),
+      fun h ↦ Bool.noConfusion (h.2.2.2 rfl)⟩
+"""
+tex = """
+\\begin{theorem}[Two-Valve Base--Fiber Transgression Dichotomy]\\label{ch03:thm:two-valve-transgression-dichotomy}%
+\\uses{ch03:thm:felgner-kappa-closed-membrane,ch03:prop:glazer-hartogs-scott-surjection,ch03:claim:mathias-gb0-nonconservative-over-mac,ch03:claim:felgner76-foundation-free-dc-ord-leak,ch03:thm:piset-transgression-exactness}%
+Over $(\\mathsf{ZC}_{\\neg\\mathrm{Reg}}, \\mathsf{GBC}_{0,\\neg\\mathrm{Reg}})$, adjoining Global Choice $\\mathsf{GC}$ induces an exact $2 \\times 2$ classification across all four $(\\mathrm{Replacement}, \\mathrm{Foundation})$ quadrants for the horizontal transgression operator {{sym:dset}} of Theorem~\\ref{ch03:thm:piset-transgression-exactness}:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Quadrant $(1, 1)$ ($\\mathsf{ZFC}$ / {{sym:nbg}}):} Both insulation valves are closed; Felgner's $\\kappa$-closed forcing membrane (Theorem~\\ref{ch03:thm:felgner-kappa-closed-membrane}~\\cite{felgner1971}) enforces ${{sym:dset}}(\\mathsf{GC}) = \\bot$.
+  \\item \\textbf{Quadrant $(0, 1)$ ($\\mathsf{ZC}$ / ${{sym:gbc0}} + \\mathsf{GC}$):} Dropping Replacement opens the Hartogs--Scott compression valve (Proposition~\\ref{ch03:prop:glazer-hartogs-scott-surjection}~\\cite{glazer2023}), placing $\\neg\\theta_{\\mathrm{Glz}} \\in {{sym:uleak}}(\\mathsf{GC})$ so ${{sym:dset}}(\\mathsf{GC}) \\neq \\bot$ (precisely scoped above Mathias's~\\cite{mathias2001} $\\mathsf{Mac}$/${{sym:gb0}}$ boundary of Claim~\\ref{ch03:claim:mathias-gb0-nonconservative-over-mac}).
+  \\item \\textbf{Quadrant $(1, 0)$ ({{sym:zfc-noreg}} + $\\mathrm{Collection}$ / {{sym:nbg-noreg}}):} Dropping Foundation opens the ill-founded rank valve (Claim~\\ref{ch03:claim:felgner76-foundation-free-dc-ord-leak}~\\cite{felgner1976}), placing ${{sym:dc-ord}} \\in {{sym:uleak}}(\\mathsf{GC})$ so ${{sym:dset}}(\\mathsf{GC}) \\neq \\bot$.
+  \\item \\textbf{Quadrant $(0, 0)$ ($\\mathsf{ZC}_{\\neg\\mathrm{Reg}}$ / $\\mathsf{GBC}_{0,\\neg\\mathrm{Reg}} + \\mathsf{GC}$):} Both independent leakage channels $\\neg\\theta_{\\mathrm{Glz}}$ and ${{sym:dc-ord}}$ are simultaneously active in ${{sym:uleak}}(\\mathsf{GC})$.
+\\end{enumerate}
+In particular, ${{sym:dset}}(\\mathsf{GC}) = \\bot \\iff (\\mathrm{Replacement} \\wedge \\mathrm{Foundation})$ holds across the four-quadrant base matrix.
+\\end{theorem}
+\\begin{proof}
+Combining Theorem~\\ref{ch03:thm:piset-transgression-exactness}(1) with the four-quadrant separation results: in Quadrant~$(1, 1)$, Theorem~\\ref{ch03:thm:felgner-kappa-closed-membrane} eliminates every $\\mathcal{L}_\\in$-leak so ${{sym:dset}}(\\mathsf{ZFC}, \\mathsf{GC}) = \\bot_{\\mathsf{ZFC}}$. In Quadrant~$(0, 1)$, Glazer's symmetric model satisfies $\\mathsf{ZC} + \\theta_{\\mathrm{Glz}}$ while Proposition~\\ref{ch03:prop:glazer-hartogs-scott-surjection} proves ${{sym:gbc0}} + \\mathsf{GC} \\vdash \\neg\\theta_{\\mathrm{Glz}}$; hence $\\neg\\theta_{\\mathrm{Glz}} \\in {{sym:uleak}}(\\mathsf{ZC}, \\mathsf{GC})$ and ${{sym:dset}}(\\mathsf{ZC}, \\mathsf{GC}) \\neq \\bot$, whereas $\\mathsf{ZFC} \\vdash \\neg\\theta_{\\mathrm{Glz}}$ absorbs the leak in Quadrant~$(1, 1)$ by Theorem~\\ref{ch03:thm:piset-transgression-exactness}(3). In Quadrant~$(1, 0)$, Claim~\\ref{ch03:claim:felgner76-foundation-free-dc-ord-leak} shows ${{sym:nbg-noreg}} \\vdash {{sym:dc-ord}}$ while Fraenkel--Mostowski / Rieger--Bernays constructions leave {{sym:dc-ord}} unprovable in {{sym:zfc-noreg}} + $\\mathrm{Collection}$, so ${{sym:dc-ord}} \\in {{sym:uleak}}({{sym:zfc-noreg}}, \\mathsf{GC})$ while Foundation absorbs the leak in Quadrant~$(1, 1)$. In Quadrant~$(0, 0)$, both independent generators inhabit ${{sym:uleak}}(\\mathsf{ZC}_{\\neg\\mathrm{Reg}}, \\mathsf{GC})$. Finally, \\texttt{two\\_valve\\_transgression\\_dichotomy} in \\texttt{PiSetTransgression.lean} mechanizes the exact four-quadrant Lindenbaum frame \\texttt{quadrantClassSystem} axiom-free, certifying $\\mathrm{dSetGC}(r, f) \\iff (r = \\mathrm{true} \\wedge f = \\mathrm{true})$ and mutual independence of both leakage atoms.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = [
+  "ch03:thm:felgner-kappa-closed-membrane",
+  "ch03:prop:glazer-hartogs-scott-surjection",
+  "ch03:claim:mathias-gb0-nonconservative-over-mac",
+  "ch03:claim:felgner76-foundation-free-dc-ord-leak",
+  "ch03:thm:piset-transgression-exactness"
+]
+lean_dep = [
+  "ch02:prop:syntactic-conservative-pullback",
+  "ch03:thm:piset-transgression-exactness"
+]
+curriculum = [
+  "ch03:thm:piset-transgression-exactness",
+  "ch03:claim:mathias-gb0-nonconservative-over-mac",
+  "ch03:claim:felgner76-foundation-free-dc-ord-leak"
+]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Conservation / Solvency", "Cohomological / Spectral Obstruction", "Choice Calibration"]
+witness_scope = "quadrantClassSystem instantiates SyntacticClassSystem as an axiom-free (Emerald) 4-quadrant Lindenbaum-frame witness in PiSetTransgression.lean certifying dSetGC rep reg <-> (rep = true ∧ reg = true), single-valve activation in (0,1) and (1,0), and mutual independence of notGlzLeakAtom and dcOrdLeakAtom in (0,0); the full first-order set-theoretic separation proofs across ZFC, ZC, ZFC_{~Reg}, and ZC_{~Reg} combine Felgner (1971, 1976) and Glazer (2023) in the monograph proof."
+
+[[grounding.dual_pillars]]
+kind = "monograph_proof"
+ref = "ch03:thm:two-valve-transgression-dichotomy"
+purpose = "Full two-valve base-fiber dichotomy proof across ZFC, ZC, ZFC_{~Reg}, and ZC_{~Reg}"
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.two_valve_transgression_dichotomy"
+purpose = "Axiom-free Emerald Lean 4 witness on the 4-quadrant Lindenbaum frame quadrantClassSystem"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "felgner1971"
+locator = "Thm. 1, pp. 45–56"
+purpose = "Well-founded Replacement-closed conservation in quadrant (1,1)"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "glazer2023"
+locator = "Main Theorem, arXiv:2312.11902"
+purpose = "Hartogs/Scott Replacement-free leak in quadrant (0,1)"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "felgner1976"
+locator = "§§2–3, pp. 217–255"
+purpose = "Foundation-free DC_Ord leak in quadrant (1,0)"

@@ -1,0 +1,104 @@
+id = "ch03:prose:ch03-transgression-roadmap"
+kind = "prose_block"
+title = "Chapter 3 Roadmap and Part I Closing Synthesis: Leray Transgression on pi_Set"
+chapter = "ch03"
+section = "3.1"
+seq_order = 305
+axis = "class_set"
+grounding_tier = "expository"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["felgner1971", "felgner1976", "glazer2023", "mathias2001", "giraud1971", "makkai1996", "cole1973", "osius1974"]
+
+[body]
+tex = """
+Chapter~3 closes Part~I by pairing the vertical fiber calculus of Chapter~2 with the horizontal conservativity and base-change transgression analysis along {{sym:piset}}. Building on Volume~I's quantitative Giraud--Leray conservation sequence ({{ref:vol1:thm:quantitative-conservation}})~\\cite{giraud1971} and Chapter~2's syntactic base-change adjunction ({{ref:ch02:prop:syntactic-conservative-pullback}}), Section~3.1 sharpens Makkai's equivalence-splitting calibration ({{ref:vol1:prop:large-equiv-splitting}})~\\cite{makkai1996}: Theorem~\\ref{ch03:thm:anafunctor-vs-functorial-gc-splitting} proves axiom-free that saturated anafunctorial spans operate unconditionally inside {{sym:gbc}}, whereas functorial splittings of $\\mathrm{skel} : \\mathcal{S} \\to {{sym:card-cat}}$ are bi-definably equivalent to Global Choice (differing by a unique vertical gauge torsor), and Proposition~\\ref{ch03:prop:skeleton-quotient-choice-stratum} calibrates the jump from Amber equipollence quotients to Crimson representative extraction via \\texttt{Quotient.out}.
+
+Section~3.2 then dissects the set-theoretic membrane separating vertical harmlessness from horizontal leakage. Theorem~\\ref{ch03:thm:felgner-kappa-closed-membrane} isolates Foundation and Replacement inside Felgner's (1971) $\\kappa$-closed forcing membrane~\\cite{felgner1971}, whereas Proposition~\\ref{ch03:prop:glazer-hartogs-scott-surjection} explains how {{sym:gbc0}} + $\\mathsf{GC}$ activates Hartogs--Scott prewellorderings and \\textbf{G4} Subclass Separation to refute Glazer's $\\theta_{\\mathrm{Glz}}$ ({{ref:vol1:thm:glazer-nonconservativity}})~\\cite{glazer2023}. Claims~\\ref{ch03:claim:mathias-gb0-nonconservative-over-mac} and~\\ref{ch03:claim:felgner76-foundation-free-dc-ord-leak} lock down the two remaining boundaries: Mathias's theorem~\\cite{mathias2001,cole1973,osius1974} showing that {{sym:gb0}} already leaks over $\\Delta_0$-bounded $\\mathsf{Mac} \\simeq \\mathsf{ETCS}$ prior to $\\mathsf{GC}$, and Felgner's (1976) proof~\\cite{felgner1976} that {{sym:nbg-noreg}} forces {{sym:dc-ord}} over {{sym:zfc-noreg}}.
+
+Sections~3.3--3.4 unify these phenomena in the Lindenbaum/Stone transgression operator {{sym:dset}} and open leakage locus {{sym:uleak}}: Theorem~\\ref{ch03:thm:piset-transgression-exactness} proves that syntactic conservativity and pullback Cartesianness hold if and only if ${{sym:dset}}(\\tau) = \\bot$ (and vanish monotonically under base absorption), while Theorem~\\ref{ch03:thm:two-valve-transgression-dichotomy} resolves the exact $2 \\times 2$ $(\\mathrm{Replacement} \\times \\mathrm{Foundation})$ dichotomy across $\\mathsf{ZFC}$, $\\mathsf{ZC}$, {{sym:zfc-noreg}}, and $\\mathsf{ZC}_{\\neg\\mathrm{Reg}}$, summarized in Table~\\ref{ch03:tab:piset-four-quadrant-ledger} and opening onto Problem~\\ref{ch03:prob:morleyized-classifying-topos-transgression}.
+"""
+
+[edges]
+logical_dep = [
+  "vol1:prop:large-equiv-splitting",
+  "vol1:thm:glazer-nonconservativity",
+  "vol1:thm:quantitative-conservation"
+]
+lean_dep = []
+curriculum = [
+  "vol1:prop:large-equiv-splitting",
+  "vol1:thm:glazer-nonconservativity",
+  "vol1:thm:quantitative-conservation"
+]
+
+[[edges.prose_paraphrase]]
+target_id = "vol1:thm:quantitative-conservation"
+locked_spec_hash = "abc46f1050ac937bf97bf9cadc8620b6c50ce2f57ffa0d0ee506901c49f7c504"
+scope_note = "Ch. 3 roadmap summary of Giraud-Leray conservation sequence"
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:prop:syntactic-conservative-pullback"
+locked_spec_hash = "d6d4d5347f5d2065b2cc170037e786422da3ec39b9b561576e33c6f991fc69ad"
+scope_note = "Ch. 3 roadmap summary of syntactic base-change pullback baseline"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:anafunctor-vs-functorial-gc-splitting"
+locked_spec_hash = "a455dc71539bdb710e644c5dff310a2ccf1ab9359539a6b9a497d50cad5e0cb0"
+scope_note = "Ch. 3 roadmap summary of saturated anafunctors vs. functorial GC splitting"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:prop:skeleton-quotient-choice-stratum"
+locked_spec_hash = "14ea145dd77411fa7a212a7f924dbf023f524aa979857353a284414cbb508261"
+scope_note = "Ch. 3 roadmap summary of Amber quotient vs. Crimson representative splitting"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:felgner-kappa-closed-membrane"
+locked_spec_hash = "e0286b4649858a2c1c185504c5b4d65465f2e5ffe7a68e499a62f8e87252aebf"
+scope_note = "Ch. 3 roadmap summary of Felgner (1971) kappa-closed forcing membrane"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:prop:glazer-hartogs-scott-surjection"
+locked_spec_hash = "5a951a987721b2174c7d1d4e78ce56ba664d3404e82ba995c0f7e478c87a11a1"
+scope_note = "Ch. 3 roadmap summary of Hartogs-Scott prewellordering and Glazer surjection"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:claim:mathias-gb0-nonconservative-over-mac"
+locked_spec_hash = "f17a07851988eaf43996e36edb0615908396fc2a788c32a4c76805ca29e58c29"
+scope_note = "Ch. 3 roadmap summary of Mathias's Mac/ETCS vs. GB_0 boundary"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:claim:felgner76-foundation-free-dc-ord-leak"
+locked_spec_hash = "99dc356a233c03152d0425bd8e4c61a4013bb43aa930a5b884838fe8e144fc64"
+scope_note = "Ch. 3 roadmap summary of Felgner (1976) NBG_{~Reg} DC_Ord leak"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:piset-transgression-exactness"
+locked_spec_hash = "f3f02470f7d2438bb8f215ce45a276575846c5839e17fcc11221b21441acce87"
+scope_note = "Ch. 3 roadmap summary of d_Set transgression exactness and absorption"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:two-valve-transgression-dichotomy"
+locked_spec_hash = "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e"
+scope_note = "Ch. 3 roadmap summary of Two-Valve Base-Fiber Dichotomy"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:prob:morleyized-classifying-topos-transgression"
+locked_spec_hash = "0980128e81f33cbb9874def61ee61289c8f1982fe93e637fddef8b80ba01e502"
+scope_note = "Ch. 3 roadmap summary of Open Problem 3.1 Morleyized classifying-topos upgrade"
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Metamathematical Principle"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch03:thm:piset-transgression-exactness"
+purpose = "Chapter 3 roadmap summary of d_Set transgression exactness"
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch03:thm:two-valve-transgression-dichotomy"
+purpose = "Chapter 3 roadmap summary of Two-Valve Base-Fiber Dichotomy"

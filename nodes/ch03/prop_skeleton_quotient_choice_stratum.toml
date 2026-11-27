@@ -1,0 +1,127 @@
+id = "ch03:prop:skeleton-quotient-choice-stratum"
+kind = "proposition"
+title = "Equipollence Quotient Stratum Calibration on Type u (Amber vs. Crimson)"
+chapter = "ch03"
+section = "3.1"
+seq_order = 320
+axis = "class_set"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "crimson"
+cite_keys = ["makkai1996"]
+
+[spec]
+statement = "On Type u, the equipollence quotient EquipollenceQuot := Quotient EquivSetoid projects every type canonically to its cardinal class equipollenceClass alpha in the Amber quotient stratum ([propext, Quot.sound]) with choice-free surjectivity, whereas extracting a global representative section rep : EquipollenceQuot -> Type u satisfying equipollenceClass (rep q) = q together with uniform equivalences alpha ~= rep (equipollenceClass alpha) calibrates the Crimson Classical.choice stratum (previewing Chapter 9 Obstruction 2b)."
+hypotheses = [
+  "EquivSetoid.{u} on Type u defined by Nonempty (alpha ~= beta)"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.EquivSplittingGC"
+imports = ["Mathlib.Logic.Equiv.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.EquivSetoid",
+  "HomotopyCRM.Vol2.EquipollenceQuot",
+  "HomotopyCRM.Vol2.equipollenceClass",
+  "HomotopyCRM.Vol2.equipollenceClass_eq_iff",
+  "HomotopyCRM.Vol2.equipollenceClass_surjective",
+  "HomotopyCRM.Vol2.HasGlobalEquipollenceRep",
+  "HomotopyCRM.Vol2.skeleton_quotient_choice_stratum"
+]
+expected_axioms = ["Classical.choice", "Quot.sound", "propext"]
+lean_signature = """
+/-- Equipollence setoid on `Type u`: `α ≈ β ↔ Nonempty (α ≃ β)`. -/
+def EquivSetoid.{u} : Setoid (Type u) where
+  r α β := Nonempty (α ≃ β)
+  iseqv :=
+    { refl := fun α ↦ ⟨Equiv.refl α⟩
+      symm := fun ⟨e⟩ ↦ ⟨e.symm⟩
+      trans := fun ⟨e₁⟩ ⟨e₂⟩ ↦ ⟨e₁.trans e₂⟩ }
+
+/-- Cardinality / equipollence quotient `EquipollenceQuot := Quotient EquivSetoid` on `Type u`. -/
+def EquipollenceQuot.{u} : Type (u + 1) := Quotient EquivSetoid.{u}
+
+/-- Canonical projection sending each type `α : Type u` to its equipollence class. -/
+def equipollenceClass.{u} (α : Type u) : EquipollenceQuot.{u} := Quotient.mk EquivSetoid.{u} α
+
+/-- Amber quotient soundness (`[propext, Quot.sound]` without choice): two types share the same
+    equipollence class iff they are equipollent. -/
+theorem equipollenceClass_eq_iff.{u} (α β : Type u) :
+    equipollenceClass α = equipollenceClass β ↔ Nonempty (α ≃ β) :=
+  Quotient.eq
+
+/-- Choice-free surjectivity of the equipollence quotient projection. -/
+theorem equipollenceClass_surjective.{u} :
+    ∀ q : EquipollenceQuot.{u}, ∃ α : Type u, equipollenceClass α = q :=
+  fun q ↦ Quotient.ind (motive := fun q' ↦ ∃ α : Type u, equipollenceClass α = q')
+    (fun α ↦ ⟨α, rfl⟩) q
+
+/-- Existence of a global representative map `rep : EquipollenceQuot → Type u` splitting `mk`. -/
+def HasGlobalEquipollenceRep.{u} : Prop :=
+  ∃ rep : EquipollenceQuot.{u} → Type u, ∀ q : EquipollenceQuot.{u}, equipollenceClass (rep q) = q
+
+/-- **Skeleton Quotient Choice Stratum (Crimson):**
+    (1) `equipollenceClass` projects every type canonically to `EquipollenceQuot` with Amber
+        soundness (`[propext, Quot.sound]`);
+    (2) Extracting a global representative section `rep : EquipollenceQuot → Type u` with
+        `∀ q, equipollenceClass (rep q) = q` and uniform equivalences `α ≃ rep [α]` inhabits the
+        Crimson `Classical.choice` stratum (previewing Chapter 9 Obstruction 2b). -/
+theorem skeleton_quotient_choice_stratum.{u} :
+    (∀ α β : Type u, equipollenceClass α = equipollenceClass β ↔ Nonempty (α ≃ β)) ∧
+    (∀ q : EquipollenceQuot.{u}, ∃ α : Type u, equipollenceClass α = q) ∧
+    HasGlobalEquipollenceRep.{u} ∧
+    ∃ rep : EquipollenceQuot.{u} → Type u,
+      (∀ q : EquipollenceQuot.{u}, equipollenceClass (rep q) = q) ∧
+      Nonempty (∀ α : Type u, α ≃ rep (equipollenceClass α)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.equipollenceClass_eq_iff' depends on axioms: [propext, Quot.sound] -/\n#guard_msgs in\n#print axioms equipollenceClass_eq_iff",
+  "/-- info: 'HomotopyCRM.Vol2.skeleton_quotient_choice_stratum' depends on axioms: [propext, Classical.choice, Quot.sound] -/\n#guard_msgs in\n#print axioms skeleton_quotient_choice_stratum"
+]
+
+[body]
+lean_body = """
+  let rep : EquipollenceQuot.{u} → Type u := Quotient.out
+  have hrep : ∀ q : EquipollenceQuot.{u}, equipollenceClass (rep q) = q := Quotient.out_eq
+  have hbij : Nonempty (∀ α : Type u, α ≃ rep (equipollenceClass α)) :=
+    ⟨fun α ↦ Classical.choice ((equipollenceClass_eq_iff α (rep (equipollenceClass α))).mp
+      (hrep (equipollenceClass α)).symm)⟩
+  exact ⟨equipollenceClass_eq_iff, equipollenceClass_surjective, ⟨rep, hrep⟩, ⟨rep, hrep, hbij⟩⟩
+"""
+tex = """
+\\begin{proposition}[Equipollence Quotient Stratum Calibration on $\\mathrm{Type}\\,u$]\\label{ch03:prop:skeleton-quotient-choice-stratum}%
+\\uses{vol1:prop:large-equiv-splitting,ch03:thm:anafunctor-vs-functorial-gc-splitting}%
+Let $\\mathrm{EquipollenceQuot} := \\mathrm{Type}\\,u / {\\approx}$ be the Lean~4 quotient by equipollence $\\alpha \\approx \\beta \\iff \\mathrm{Nonempty}(\\alpha \\simeq \\beta)$. Then:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Amber Quotient Stratum:} The canonical projection $\\mathrm{equipollenceClass} : \\mathrm{Type}\\,u \\to \\mathrm{EquipollenceQuot}$ satisfies $\\mathrm{equipollenceClass}(\\alpha) = \\mathrm{equipollenceClass}(\\beta) \\iff \\mathrm{Nonempty}(\\alpha \\simeq \\beta)$ and surjectivity $\\forall q,\\,\\exists\\alpha,\\,[\\alpha]=q$ purely in the \\textbf{Amber} stratum (\\texttt{[propext, Quot.sound]}, zero choice axioms)~\\cite{makkai1996}.
+  \\item \\textbf{Crimson Representative Splitting:} Extracting a global representative map $\\mathrm{rep} : \\mathrm{EquipollenceQuot} \\to \\mathrm{Type}\\,u$ with $\\forall q,\\,\\mathrm{equipollenceClass}(\\mathrm{rep}(q)) = q$ and uniform equivalences $\\alpha \\simeq \\mathrm{rep}([\\alpha])$ (via \\texttt{Quotient.out}) strictly crosses into the \\textbf{Crimson} stratum (\\texttt{[propext, Classical.choice, Quot.sound]}), directly calibrating the universe-level Choice collapse analyzed in Chapter~9 (Obstruction~2b).
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+Part~(1) uses \\texttt{Quotient.eq} and \\texttt{Quotient.ind} without invoking choice. Part~(2) applies \\texttt{Quotient.out} and \\texttt{Quotient.out\\_eq} to construct the global section $\\mathrm{rep}$, then applies \\texttt{Classical.choice} pointwise to extract coherent transport equivalences $\\alpha \\simeq \\mathrm{rep}([\\alpha])$ across every fiber.
+\\end{proof}
+"""
+
+[edges]
+logical_dep = ["vol1:prop:large-equiv-splitting", "ch03:thm:anafunctor-vs-functorial-gc-splitting"]
+lean_dep = []
+curriculum = ["ch03:thm:anafunctor-vs-functorial-gc-splitting"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Choice Calibration", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.skeleton_quotient_choice_stratum"
+purpose = "Crimson Lean 4 calibration of Quotient.out representative splitting vs. Amber quotient exactness"
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:large-equiv-splitting"
+locator = "docs/ch07_sets_residuum.tex:53"
+purpose = "Pinned Volume I large equivalence-splitting origin"

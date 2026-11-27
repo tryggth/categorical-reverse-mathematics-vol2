@@ -1,0 +1,119 @@
+id = "ch03:tab:piset-four-quadrant-ledger"
+kind = "summary_table"
+title = "Table 3.1: Four-Quadrant (Replacement x Foundation) Transgression Ledger Along pi_Set"
+chapter = "ch03"
+section = "3.4"
+seq_order = 390
+axis = "class_set"
+grounding_tier = "expository"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["felgner1971", "felgner1976", "glazer2023", "mathias2001", "cole1973", "osius1974", "giraud1971"]
+
+[body]
+tex = """
+\\begin{table}[htbp]
+\\centering
+\\scriptsize
+\\setlength{\\tabcolsep}{2.4pt}
+\\renewcommand{\\arraystretch}{1.14}
+\\begin{tabularx}{\\textwidth}{@{}P{0.16\\textwidth}P{0.14\\textwidth}P{0.18\\textwidth}YY@{}}
+\\toprule
+\\textbf{(Rep, Reg) Base} & \\textbf{Class Fiber} & \\textbf{Transgression {{sym:dset}}(\\textsf{GC})} & \\textbf{Active Valve / Operational Currency} & \\textbf{Key Reference} \\\\
+\\midrule
+$(1, 1)$ $\\mathsf{ZFC}$ & {{sym:nbg}} ($\\mathsf{LoS} \\iff \\mathrm{Rep} \\wedge \\mathsf{GC}$) & ${{sym:dset}}(\\mathsf{GC}) = \\bot$ (conservative~\\cite{felgner1971}) & Felgner $\\kappa$-closed membrane; Oracle Cost ({{ref:ch01:def:operational-currencies}}) & {{ref:ch02:prop:los-unbundling-independence}}, {{ref:ch03:thm:anafunctor-vs-functorial-gc-splitting}}, {{ref:ch03:prop:skeleton-quotient-choice-stratum}}, {{ref:ch03:thm:felgner-kappa-closed-membrane}} \\\\
+$(0, 1)$ $\\mathsf{ZC}$ ($V_{\\omega+\\omega}$) & ${{sym:gbc0}} + \\mathsf{GC}$ & ${{sym:dset}}(\\mathsf{GC}) \\ni \\neg\\theta_{\\mathrm{Glz}} \\neq \\bot$~\\cite{glazer2023} & Hartogs/Scott valve ($\\mathcal{P}(\\omega) \\twoheadrightarrow W_2$); Rank-Compression failure & {{ref:ch03:prop:glazer-hartogs-scott-surjection}}, {{ref:ch03:thm:two-valve-transgression-dichotomy}} \\\\
+$(1, 0)$ {{sym:zfc-noreg}} + $\\mathrm{Coll}$ & {{sym:nbg-noreg}} & ${{sym:dset}}(\\mathsf{GC}) \\supseteq {{sym:dc-ord}} \\neq \\bot$~\\cite{felgner1976} & Ill-founded valve (Scott rank blocked; Guardrail~4 {{sym:dc-ord}} leak) & {{ref:ch03:claim:felgner76-foundation-free-dc-ord-leak}}, {{ref:ch03:thm:two-valve-transgression-dichotomy}} \\\\
+$(0, 0)$ $\\mathsf{ZC}_{\\neg\\mathrm{Reg}}$ & $\\mathsf{GBC}_{0,\\neg\\mathrm{Reg}} + \\mathsf{GC}$ & ${{sym:uleak}} \\supseteq \\{\\neg\\theta_{\\mathrm{Glz}}, {{sym:dc-ord}}\\} \\neq \\bot$ & Both independent valves active; pullback square breaks & {{ref:ch03:thm:piset-transgression-exactness}}, {{ref:ch03:thm:two-valve-transgression-dichotomy}} \\\\
+Sub-$\\mathsf{ZC}$: $\\mathsf{Mac} \\simeq \\mathsf{ETCS}$ ($\\Delta_0$) & {{sym:gb0}} (no $\\mathsf{GC}$ needed) & Already non-conservative over $\\mathsf{Mac}$~\\cite{mathias2001,cole1973,osius1974} & Unbounded Subclass Separation boundary; $\\Sigma^1_0$-Morleyized $d_2$ horizon~\\cite{giraud1971} & {{ref:ch03:claim:mathias-gb0-nonconservative-over-mac}}, {{ref:ch03:prob:morleyized-classifying-topos-transgression}} \\\\
+\\bottomrule
+\\end{tabularx}
+\\caption{Four-quadrant $(\\mathrm{Replacement} \\times \\mathrm{Foundation})$ transgression ledger along ${{sym:piset}}$, integrating $\\mathsf{LoS}$ unbundling, Mathias's $\\mathsf{Mac}$ boundary, {{sym:dset}}(\\textsf{GC}), and Operational Currencies.}
+\\label{ch03:tab:piset-four-quadrant-ledger}
+\\end{table}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = [
+  "vol1:prop:large-equiv-splitting",
+  "vol1:thm:glazer-nonconservativity",
+  "vol1:thm:quantitative-conservation",
+  "ch03:prose:ch03-transgression-roadmap",
+  "ch03:thm:anafunctor-vs-functorial-gc-splitting",
+  "ch03:prop:skeleton-quotient-choice-stratum",
+  "ch03:thm:felgner-kappa-closed-membrane",
+  "ch03:prop:glazer-hartogs-scott-surjection",
+  "ch03:claim:mathias-gb0-nonconservative-over-mac",
+  "ch03:claim:felgner76-foundation-free-dc-ord-leak",
+  "ch03:thm:piset-transgression-exactness",
+  "ch03:thm:two-valve-transgression-dichotomy",
+  "ch03:prob:morleyized-classifying-topos-transgression"
+]
+
+[[edges.prose_paraphrase]]
+target_id = "ch02:prop:los-unbundling-independence"
+locked_spec_hash = "76e42f76458dfc406a5dc866fd88e9cdafa08510ae66a62419566b6a11229fc5"
+scope_note = "Table 3.1 (1,1) row: LoS <=> Rep /\\ GC unbundling"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:anafunctor-vs-functorial-gc-splitting"
+locked_spec_hash = "a455dc71539bdb710e644c5dff310a2ccf1ab9359539a6b9a497d50cad5e0cb0"
+scope_note = "Table 3.1 (1,1) row: anafunctoriality vs. functorial GC splitting"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:prop:skeleton-quotient-choice-stratum"
+locked_spec_hash = "14ea145dd77411fa7a212a7f924dbf023f524aa979857353a284414cbb508261"
+scope_note = "Table 3.1 (1,1) row: Amber quotient vs. Crimson representative choice"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:felgner-kappa-closed-membrane"
+locked_spec_hash = "e0286b4649858a2c1c185504c5b4d65465f2e5ffe7a68e499a62f8e87252aebf"
+scope_note = "Table 3.1 (1,1) row: Felgner kappa-closed forcing membrane"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:prop:glazer-hartogs-scott-surjection"
+locked_spec_hash = "5a951a987721b2174c7d1d4e78ce56ba664d3404e82ba995c0f7e478c87a11a1"
+scope_note = "Table 3.1 (0,1) row: Hartogs-Scott valve and Glazer P(omega) ->> W_2"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:claim:mathias-gb0-nonconservative-over-mac"
+locked_spec_hash = "f17a07851988eaf43996e36edb0615908396fc2a788c32a4c76805ca29e58c29"
+scope_note = "Table 3.1 sub-ZC row: Mathias's Mac/ETCS vs. GB_0 boundary"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:claim:felgner76-foundation-free-dc-ord-leak"
+locked_spec_hash = "99dc356a233c03152d0425bd8e4c61a4013bb43aa930a5b884838fe8e144fc64"
+scope_note = "Table 3.1 (1,0) row: Felgner (1976) Foundation-free DC_Ord leak"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:piset-transgression-exactness"
+locked_spec_hash = "f3f02470f7d2438bb8f215ce45a276575846c5839e17fcc11221b21441acce87"
+scope_note = "Table 3.1 (0,0) row: d_Set transgression exactness and U_leak"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:thm:two-valve-transgression-dichotomy"
+locked_spec_hash = "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e"
+scope_note = "Table 3.1 matrix: Two-Valve Base-Fiber Transgression Dichotomy"
+
+[[edges.prose_paraphrase]]
+target_id = "ch03:prob:morleyized-classifying-topos-transgression"
+locked_spec_hash = "0980128e81f33cbb9874def61ee61289c8f1982fe93e637fddef8b80ba01e502"
+scope_note = "Table 3.1 horizon row: Open Problem 3.1 Morleyized classifying-topos d_2 upgrade"
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Choice Calibration", "Cohomological / Spectral Obstruction"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch03:thm:piset-transgression-exactness"
+purpose = "Table 3.1 exactness and absorption summary"
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch03:thm:two-valve-transgression-dichotomy"
+purpose = "Table 3.1 four-quadrant transgression ledger"

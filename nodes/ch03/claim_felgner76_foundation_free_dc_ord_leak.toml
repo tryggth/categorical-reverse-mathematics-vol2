@@ -1,0 +1,46 @@
+id = "ch03:claim:felgner76-foundation-free-dc-ord-leak"
+kind = "inline_claim"
+title = "Felgner's 1976 Foundation-Free Leak: NBG_{~Reg} Forces DC_Ord Over ZFC_{~Reg}"
+chapter = "ch03"
+section = "3.2"
+seq_order = 350
+axis = "class_set"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["felgner1976", "felgner1971"]
+
+[spec]
+statement = "Over Foundation-free set theory ZFC_{~Reg} + Collection (where V != U_{alpha in Ord} V_alpha), adjoining Global Choice (NBG_{~Reg}) breaks L_in-conservativity by implying proper-length transfinite Dependent Choice DC_Ord (formulated via Guardrail 4 epic first projections pr_1 : R ->> X across ill-founded classes outside the well-founded spine), whereas ZFC_{~Reg} admits Fraenkel-Mostowski / Rieger-Bernays models refuting DC_Ord (Felgner 1976, pp. 217-255; contrast Felgner 1971)."
+
+[body]
+tex = """
+\\begin{inlineclaim}[Felgner's 1976 Foundation-Free Leak: {{sym:nbg-noreg}} Forces {{sym:dc-ord}} Over {{sym:zfc-noreg}}]\\label{ch03:claim:felgner76-foundation-free-dc-ord-leak}%
+\\uses{ch03:thm:felgner-kappa-closed-membrane}%
+When Foundation fails ($V \\neq \\bigcup_{\\alpha \\in \\mathrm{Ord}} V_\\alpha$), Scott's minimal-rank reduction in Theorem~\\ref{ch03:thm:felgner-kappa-closed-membrane} is blocked: Felgner~\\cite[\\S\\S 2--3, pp.~217--255]{felgner1976} (contrasting~\\cite{felgner1971}) proved that over Foundation-free {{sym:zfc-noreg}} + Collection, adjoining Global Choice ({{sym:nbg-noreg}}) breaks $\\mathcal{L}_\\in$-conservativity by forcing proper-length transfinite Dependent Choice {{sym:dc-ord}} across ill-founded classes (every total relation $\\mathrm{pr}_1 : R \\twoheadrightarrow X$ admits an $\\mathrm{Ord}$-chain in the sense of Guardrail~4), whereas {{sym:zfc-noreg}} itself leaves {{sym:dc-ord}} unprovable.
+\\end{inlineclaim}
+"""
+
+[edges]
+logical_dep = ["ch03:thm:felgner-kappa-closed-membrane"]
+lean_dep = []
+curriculum = ["ch03:thm:felgner-kappa-closed-membrane"]
+prose_paraphrase = []
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Choice Calibration"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "felgner1976"
+locator = "§§2–3, pp. 217–255"
+purpose = "Foundation-free NBG_{~Reg} forces DC_Ord over ZFC_{~Reg} + Collection, breaking L_in-conservativity"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "felgner1971"
+locator = "Thm. 1, pp. 45–56"
+purpose = "Contrast with well-founded NBG-over-ZFC conservativity membrane"
