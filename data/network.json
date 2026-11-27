@@ -31,7 +31,7 @@
       "PLANNED": 7
     },
     "pub_targets_total": 7,
-    "pub_targets_clean": 4,
+    "pub_targets_clean": 7,
     "total_edges": 538,
     "edges_by_fiber": {
       "curriculum": 109,
@@ -4749,8 +4749,8 @@
       "spec_hash": "fccb83a028d798902b9bf10c894daee46757aa15e2fe4219a01a6c106e381210",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/doc_repo_frontdoor.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -4797,8 +4797,8 @@
       "spec_hash": "5bdc35b89cc296cd6fea472a6e999f0ee1212ecddcfca9b7694c59ef33fb2d8f",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/web_observatory.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -4938,8 +4938,8 @@
       "spec_hash": "0b6eaa566942ecafdac0c7f0e4dd44a3a7df8c928e459acb0e58e55f453b3e18",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/pdf_claims_ledger.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -9674,9 +9674,9 @@
         "CITATION.cff"
       ],
       "cone_hash": "dcbd5f26b4b708a002c81b09c9c964583027699cca65f63b118d49bdd59fba87",
-      "locked_cone_hash": "a7fbb1588fd2b08e04d3006d503b1364013a8d4acd2a5a7b5771979286689816",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "dcbd5f26b4b708a002c81b09c9c964583027699cca65f63b118d49bdd59fba87",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": []
     },
     {
@@ -9692,9 +9692,9 @@
         "build/gh_pages/.nojekyll"
       ],
       "cone_hash": "9ec9c8057fa007cf2fcc6436b168a21bcb63a54f83aa13d41584c1db9f14adbd",
-      "locked_cone_hash": "6bc66367f948a446221e396136ed0f1c9ed09e6bc8c8c68b644b4adc4d9cf008",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "9ec9c8057fa007cf2fcc6436b168a21bcb63a54f83aa13d41584c1db9f14adbd",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": [
         "index.html",
         "data/network.json"
@@ -9727,9 +9727,9 @@
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
       "cone_hash": "eb193cdb1fc6cc2baeb1eaedd655b9495edfabd6ae4607c188c30127952ae90b",
-      "locked_cone_hash": "7628bb2081dbe144f607e91a732ab36755cdb468d659cf8412e24ff21d24f7e0",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "eb193cdb1fc6cc2baeb1eaedd655b9495edfabd6ae4607c188c30127952ae90b",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": [
         "pdfs/crm_vol2_claims_ledger.pdf"
       ]
