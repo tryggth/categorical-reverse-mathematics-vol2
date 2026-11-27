@@ -11,48 +11,49 @@
     "vol1_root_display": "../categorical-reverse-mathematics",
     "vol1_pinned_head": "b849be75",
     "vol1_zenodo_doi": "10.5281/zenodo.24238086",
-    "phase": "Phase 3",
-    "active_slice": "Part I Complete \u2014 Ch. 3 Closed (v0.3.0-part1)",
+    "phase": "Phase 4",
+    "active_slice": "TCB Rung 1 Complete \u2014 Sapphire Live (v0.4.0-tcb-r1)",
     "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
     "repo_url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2",
     "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
     "lean_export_branch_url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/tree/lean-export",
-    "lean_export_commit": "23ac7ab9afa8e6e802c17eb5d88250dee2715152"
+    "lean_export_commit": "8575128ac4f1efda1339421d0e6ec94c7c00bcfc"
   },
   "metrics": {
-    "total_nodes": 83,
-    "core_nodes": 62,
-    "core_clean": 62,
+    "total_nodes": 88,
+    "core_nodes": 67,
+    "core_clean": 67,
     "core_tainted": 0,
     "work_items_total": 14,
     "work_items_counts": {
-      "VERIFIED": 5,
+      "VERIFIED": 6,
       "ACTIVE": 1,
-      "PLANNED": 8
+      "PLANNED": 7
     },
     "pub_targets_total": 7,
     "pub_targets_clean": 7,
-    "total_edges": 504,
+    "total_edges": 538,
     "edges_by_fiber": {
       "curriculum": 109,
-      "lean_dep": 44,
-      "logical_dep": 123,
-      "notation": 134,
-      "prose_paraphrase": 94
+      "lean_dep": 46,
+      "logical_dep": 142,
+      "notation": 142,
+      "prose_paraphrase": 99
     },
     "strata": {
-      "emerald": 37,
-      "none": 21,
+      "emerald": 38,
+      "none": 24,
       "amber": 1,
-      "crimson": 3
+      "crimson": 3,
+      "sapphire": 1
     },
     "cohorts": {
-      "Cohort II": 22,
-      "Cohort IV": 7,
-      "Cohort I": 26,
+      "Cohort II": 24,
+      "Cohort IV": 8,
+      "Cohort I": 28,
       "Cohort III": 7
     },
-    "decl_ownership_count": 389
+    "decl_ownership_count": 395
   },
   "nodes": [
     {
@@ -138,7 +139,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "262565cd6aa5e2be3467bf68fb4f54b3dff521a4fd07a3e152ef209a05afcad7",
       "body_hash": "77e83a26fda9d61aee3ae11882bda7921c0e034d68fff7351ef4e425f7bbf38a",
       "grounding_hash": "c5b1e6d62146eb83d43977a2c2ffd1a20beac8dec59cce7d2b0fc4ac21b61811",
@@ -264,7 +265,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "9ff295bdb5acb85cafe47dd55e997635827a14ff3a2b04b12a6ba1bc03f9d9f7",
       "body_hash": "38e0ec8ca4ffa865c49cef682ef92343e7111c2194e9417e54465db6a65fe2b4",
       "grounding_hash": "97f7f3d03d611e436b6ddb01757c90720b00b20dc2dc2bd52cbc8c7ba3465ff9",
@@ -392,7 +393,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "09d24ff7151fdf8dcf72d650fe8de2d4772cd0be225308d8b05c656fa3021b1c",
       "body_hash": "c42951e28ab2735b023390a88155bf68dc13e1e5501edda99c88ed291fd65b28",
       "grounding_hash": "036c238644f1be2d67be9a2a3cc0f625a5d33050ec5636fe5ebce38ee23fe3cc",
@@ -593,7 +594,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "fc35682a0b76a0aee7ff0432e30229c4f54c0bafbc4794d0b414600743d08b7f",
       "body_hash": "4744e088b3e29f000d3d94cca2c9f1bb61adbb296263ff8fb51e19e0c374cce5",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -633,11 +634,11 @@
       "cert_path": "",
       "cert_sha256": "",
       "verified_at_utc": "",
-      "spec_hash": "2a3ac191ec832af690ede065d65d6b7930bfeec8b38c48d62a74db505ab171df",
+      "spec_hash": "61b1c1d3f38cdafef7c5765d082f98f53b40ab4cdc8bfc937fd71306501f3a97",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ACTIVE",
-      "taint_reason": "0/3 deliverables CLEAN",
+      "taint_status": "VERIFIED",
+      "taint_reason": "5/5 deliverables CLEAN",
       "file_path": "nodes/plan/tcb_rung1_cubical_kan.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -654,13 +655,19 @@
         "slice_code": "TCB Rung 1",
         "target_modules": [
           "KernelArena.AST",
+          "KernelArena.Cofib",
+          "KernelArena.ShiftSubst",
+          "KernelArena.Whnf",
           "KernelArena.Check",
+          "KernelArena.Cert",
           "HomotopyCRM.Vol2.CertChecks"
         ],
         "deliverable_nodes": [
-          "tcb:tool:arena-builder-dsl",
-          "tcb:cert:cubical-coe-hcom",
-          "tcb:cert:v-univalence-ua-not"
+          "sym:cubical-2ltt",
+          "ch09:prose:ch09-tcb-r1-roadmap",
+          "ch09:def:cartesian-2ltt-cofibration-calculus",
+          "ch09:prop:pure-kan-path-symmetry-cert",
+          "ch09:thm:bool-univalence-holonomy-cert"
         ],
         "guardrails": [],
         "summary": "Implement scripts/arena_builder.py high-level DSL and extend zero-Mathlib kernel_arena/ with Cartesian interval Psi, union-find cofibrations F, Path types, coe/hcom Kan operations, and V-Univalence certificate ua(not)."
@@ -697,7 +704,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "b84ffd78c1fbe763829bd7e6718fd3cfa912306b11982e4372698e429dd63f49",
       "body_hash": "7f4facec629d58b957bf701e7259a26c79d27b0c109b19b73be01a8a6952cda2",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -740,7 +747,7 @@
       "spec_hash": "03604a89afe2890d6e19671d9c234f9e4dee9b6d0db32c8dc7b188f243efd20d",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "PLANNED",
+      "taint_status": "ACTIVE",
       "taint_reason": "0/4 deliverables CLEAN",
       "file_path": "nodes/plan/ch04_smallness_and_schemes.toml",
       "primary_category": "",
@@ -928,7 +935,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "fb0698d74023061d1e0a1db475d93a7f125160c317426b0914f5522964fc69d2",
       "body_hash": "bff34689946ce615434a811484994715c77e2fd4f4a53ef2af4cb8787079c631",
       "grounding_hash": "89900586ad529db5f91c5951824c721a6059c25d210634f4b1192aa348a97cf9",
@@ -1123,7 +1130,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "fc557e8aa356c416f152ee890928ce785545f35e469a8941f28ffa38786c9390",
       "body_hash": "3b22c32f4d7cd7d4186f8701b0ca5c91a2cd0f3f42eb0cd22a6950df6e8e441b",
       "grounding_hash": "685af69e27e7c873db2f81a95de21c21d88b1dad7e2b47a6d4dee1059582ec1d",
@@ -1396,7 +1403,7 @@
       ],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "8dbdf07012c533f003e59016c17f2721ef72022eb23334cbb58ee76b1682dd39",
       "body_hash": "086fe2f83bdea12e14dcef330988c111f121ee7ab7e9a0761ca59427031ccacc",
       "grounding_hash": "9e24b8d2c0afc055be32e96dfd9106ab62a7a970d650d1fa6e8f595de2b79cb1",
@@ -1448,7 +1455,7 @@
       "actual_axioms": [],
       "cert_path": "certs/ch01_bool_id_bootstrap.2ltt.json",
       "cert_sha256": "8b67ff241b25764b1640553b174a523816a2c221d4a14ddf115c9a87f3eb0c0c",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "789da10e1a6b5029d58e7815925233f059fb4f79fe97a82fb2c408f6784d0369",
       "body_hash": "01b987f24d637b6cb7111c3465b401be264dcdec18b419dadf88c435a0214b73",
       "grounding_hash": "11ffe4a8751ea49f3c4d8156c3585d3278c25dbe23cc576601183488f5431980",
@@ -1503,7 +1510,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "069b4c14ccf72941ebf4d343136bb113105d4d8540ed0b9dab8dfa777efb5769",
       "body_hash": "83a39fa9a9a74ab498e6157060c7543486aabd4f6066d5e53781cd99f1c4e328",
       "grounding_hash": "2383988ba37eaad9a49e674c995024e95c9d8abce849c097e2a4c467578cbeeb",
@@ -1563,7 +1570,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "c4f63751392bc419219648b7581d835b066eda107c1e29119a8094a78b886dfa",
       "body_hash": "034d11d72a0054b56fa9bd497d39808fbb40b3255e44e3479e728fd50fa4fc18",
       "grounding_hash": "fbfd6e7ff30f793c61513df412731290445b8c8402d28e87a17f0207fa7ef2a0",
@@ -1625,7 +1632,7 @@
       ],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "73d0580b8dfec86cca711b79a3255f80d4e086b2df7cdaad7274c0a873cff4ea",
       "body_hash": "1836c35a3195888dd2650f9b1a3ada0394f4224df1c8599053868dd92f729c76",
       "grounding_hash": "d538863f3cd18515c67225fcdb2c987c680c8d85518676c8013bcde65ea6c0dd",
@@ -1684,7 +1691,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "d8f9b2fdbc17447986fc1fe34718d6515fc3a43a2f54fad7248074defd0808b9",
       "body_hash": "824ec50af90c9bbde13f6dc01a06c9bf9e977922c1fbb9f164f8107fb8cdde99",
       "grounding_hash": "00f451d548218a0fd92a429619117e819f489962b116f576981be0b697841cdf",
@@ -1748,7 +1755,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "08bfdee115f719228c9d87ebd728f698531f7c67a058e0aef4377a1653829c21",
       "body_hash": "1672d2ba58b8150daf1c4e8365c492949e61960cab43ed6957d99b6659cb48a1",
       "grounding_hash": "18d5e8f6f3779e19748b39dce25ea128e2ebaf085e5a4bbfb05a36238ebc73b2",
@@ -1796,7 +1803,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "1ec9487c74270afe6f6188736def6b99e20da6329cf06d7d7e9539b452053b4b",
       "body_hash": "b93fbd2c854ad650ac35257ecdaa9bb06d9e4d79c386a0e902303259085b60da",
       "grounding_hash": "ed935fc3c7a32c9e7e971b84ad4922e3b5e789942e69875c280e1b997317e214",
@@ -1868,7 +1875,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "8e07cdaa128d354efde82f032d98e1c351630facbb1b3929d21c3a9b582e4e80",
       "body_hash": "93327c447354898e7b16cd95737346dc9cd9c5ce8122659709e647bebc365322",
       "grounding_hash": "90906f2bf549f50dc190ee48807c1a5863b1f6723418630fd6740f1af9cb3a0e",
@@ -1931,7 +1938,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "910761a9cf0c7ba5b1407f774c0b601ceec98daa88a7e9fb05aea5c9f34be81b",
       "body_hash": "b60de2ccf7cb1f40d73af70f5ab43d92d475d615be0b0efccaedd700697f5cae",
       "grounding_hash": "85ef9aa436b907c0c70a254eb57fca4c32f14bb84011ab939203b49769a1563a",
@@ -1985,7 +1992,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "4b3414ced6ff8d14405e4be7e912c6d58eeda1af627f76ba6e1d454d3449d3fb",
       "body_hash": "f1108022ece939d02a3fdf99d301de5fe814205a0c9d904d4f0f1e7007488598",
       "grounding_hash": "2204773812644aad8e91ec5c22c4cac8a9f6de5b9a5e99eeac5ab021d418cc62",
@@ -2059,7 +2066,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "ad78ce8e47623580b2b8401129aed14d7d113c7bbb151b30d4ca7453c08d2f56",
       "body_hash": "cfb6d2f051c5d8fd5bc3806698d3532045b75620ca665db2dc3a2b4fd487fe0b",
       "grounding_hash": "1ae7f19fb3f9182882688a75e47bf9ba59dfb1b0d2db4698685e3e7999e0da9d",
@@ -2119,7 +2126,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "7d8f3b09d9eb173b9e8d91399177ecdaece4b080208dab85c32a30fd5faa32d3",
       "body_hash": "fc7d8ff10d8a23dd5a970bb36f1a82bc6a7df22db4d8f90d032c458b8ce310df",
       "grounding_hash": "d8e5d0940821b2611e6df1db19cdd6af0edb71284f4bbad33d23bf143c808084",
@@ -2198,7 +2205,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "20719a8594b088431c3018c217e6a7a13ff3d7eb5a2853b8ad73b024a0f2d188",
       "body_hash": "e9f1db3db3dd1b98db4c220db8a10f13c3d625dc2a8cac9252c93c2757a34689",
       "grounding_hash": "f851818569847fa4cb9e644745973b2ec1689fe0a7600230412e21dbe97cbdc6",
@@ -2270,7 +2277,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "8127e3cb8d1697e98da7c7c7bc999abfb4ebb554c3893c62b3b3d2ed9e8fac5f",
       "body_hash": "f25961e4e0e5b2a4a88ec1c7565775059499af5d95d9b70293907d34b333fdcc",
       "grounding_hash": "c6d8ed91533a5af4da6a080834cb042b8ddc10350960abc326c8ab94ce9e930c",
@@ -2324,7 +2331,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "b66f697610ac454d85fc838a7d8be5c360a4b8eb946faed2756746bdaa5e632e",
       "body_hash": "399415f47b46f0b7a6d1cb62d853893ed2aa98b7ad7e3c78e29ab7c50c72e599",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -2368,7 +2375,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "05485242da580d39241942a503888b1927b1ad94252036634a7f06dba72e0e50",
       "body_hash": "b448210deaaf8c31dfbefa7ed1c468e2c8a141e2fac36b2ddbd1ec1cff43724d",
       "grounding_hash": "d3bc7455f012ccd307feb0ba4aa3fd85e7d2600c489f77b79436cd47b3b1c0f7",
@@ -2433,7 +2440,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "af254dbfa502f23f81df026ab8957350468b8ff9048c7584e7c96e16dc89997e",
       "body_hash": "2545bb0e7660b97e6f1f95391379fc3edc6af28d0c2a4ff0309046c5c1a39f52",
       "grounding_hash": "bed12b68f8201818bb9454c3aeeb7383bede7795eca953e64234f3b4ef4f089d",
@@ -2494,7 +2501,7 @@
       ],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "8bfdda6e7c3bd9cf776a2e2209359ea25a7196b9e580f8150c1548f841f501d9",
       "body_hash": "68b0a3b301afb7b113a4dd582b7d41f1e94e0506602552f329c94a439699df14",
       "grounding_hash": "df690d0449b8569ffcce42b6829c363af3a2d7ef9c84f94d7e920e953ba88112",
@@ -2553,7 +2560,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "50684198f43d32a566951d07faa3703dd76ab310b256b0b38ac60ef9d14ecf3a",
       "body_hash": "d799d62aa37a138205766147b03f5697a8336218c3c7a472b3c05f94d375a984",
       "grounding_hash": "197a90aadfaf988c9e2d5ae827a5a8c76213c9835d72697f0cf41574420713e1",
@@ -2601,7 +2608,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "edd573bcbc06de36aab4af22af4a62f151cadb55ce67a5ed0dbf54e0df9c913f",
       "body_hash": "9be946ead625655065f27fcc132255ecef00955f2fd6e7befb95ad9f4dc3b1d5",
       "grounding_hash": "59c99863abe59b2216a2e9e9f17435cda45aeb1de95ba9e0647ab77fe5711f57",
@@ -2680,7 +2687,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "a127c15046ab71079b31e1123d72f98e2855e0af14db8549628bc4d1a902fdea",
       "body_hash": "8b6306aa9849c6cada296d04649d97062509b987f71f8baa31875dfebc6c37b6",
       "grounding_hash": "1588a2b8a41ea5c438522fde0046e907c22ab279137a50bf36b68f24db7e7590",
@@ -2728,7 +2735,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "8ce93afe7afd8f93a7554814a4ceb6b00c858356603cf2532a2396f7b563cd81",
       "body_hash": "e8b38f6cdf2a07994c5237560f9f227fb802844a4a2443e23ecff18b41284df8",
       "grounding_hash": "f9c21ec7c94b1d4f85dadf7ffc3f88251389800f8e54a86edd4f3759d3eac885",
@@ -2806,7 +2813,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "b120a3e9ace7518ef503485e16f387288e1941cab64946841471f67866a67480",
       "body_hash": "dda14cfcc32d36e71e841ad372b55365a4e669625cb1bef52696363a106e3ebe",
       "grounding_hash": "99e2e0c6d265c484ab03ecdfbd31854d5129fd1cc6a5b5c93b73d122ac7c5cc4",
@@ -2895,7 +2902,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "c177cab6ffb550a2839742487e9250980d8f2533e7af63a6d063055c09e47c32",
       "body_hash": "5767b46231b98abe3b0dce68f24eb9255d43f5c07c8b50718de85304520f9aea",
       "grounding_hash": "a8da153051607fe93f7cbbe55730b9ebc29a8fd07f696b3035e62baf7ab50b04",
@@ -2943,7 +2950,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "cb660a706ce4dd92ace6458540cfaa187e44cc294489be8ea3c0a6340f7d50b6",
       "body_hash": "51246e1e0b49a63f3473e625e0c4fbb01014dd8346c0043e34ca71ae622414cd",
       "grounding_hash": "eaefa8668d16478847adda5a3611cfbc142d82ae51006e4c45c913d9e1945a8e",
@@ -2996,7 +3003,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "4b661ec146eb241ffdebf6b68628ca37ee0db7278c8be0d5f9126e5c19182757",
       "body_hash": "634861b976bdee4e151cadf93c5f47b6b146b908f85d868b3fef669e67b3ea80",
       "grounding_hash": "b30f0fd650a4715ec4567618ac6c8b1d263b9f9d3b79702c8027081472761c82",
@@ -3045,7 +3052,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "b8ddc6f4859abd3cabadecbb8bc53a7baf6801a687b45880e8dc5855132d5402",
       "body_hash": "7430677799f30afaf669b8da3afdb1107989f23954916b55edc61a65065d30c4",
       "grounding_hash": "6d7d372436a26aa40f313f18a2e258f3947ed6799fe3791c7aa198566e8a7f80",
@@ -3094,7 +3101,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "aded454773f3ae890522fcdd1eced0d18558d02fc5c121f3fd45c73000fd22f8",
       "body_hash": "0f89092cf5812989d993dbf1c86fb714dc6f218500ba7ccadf0fe386c3f48247",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -3133,7 +3140,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "14a253b93ebabaf49dc36fa4376fd6854ec4cfc11d78326d3077ca4dfeefaf2e",
       "body_hash": "1f932db3f8a63fd8cb0c23c2034e154cd1a3cb4737cbf46a72d70ffd9254155d",
       "grounding_hash": "ed77bf87af491a831396028ea11806c1d0d448a5186e5f2cec4b439c5a2e9e99",
@@ -3216,7 +3223,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "865bbb4013d18cb87ccc3a4601ba6a010a677f45b67fe450e8dfedb023bbe9b8",
       "body_hash": "d26462b11cc241d238ac250ba9b4943819f931dfdd91dc0659e5e3c82a376716",
       "grounding_hash": "9ab3a3548c5533ceb44909325ecff064aa451ecde4ca1597dcba2d1697174d8c",
@@ -3297,7 +3304,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "afa92d116adde8db848a81dc4323e11d0fceb9afe6e26078e3530d2bac97ac2e",
       "body_hash": "1f2d94c4deaa987b4244e6dc39af2839b017cbf0271767d43924f231d9d6b50d",
       "grounding_hash": "c7d637c725fb8050e0d3499a5f6652d5ff9386c35622fe0cba6d7a83eb996855",
@@ -3361,7 +3368,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "57ef42522900fc9bce187a5f63f183d9df817281f98e9931bdff9a72a7edc833",
       "body_hash": "8fec717983c48f7caee76d2c922f2d2670b9e820f7c7114754f1a8e4fd070afd",
       "grounding_hash": "45810136c96a0752bb2102b4efb80c2dd631de175ee0208a12477e9d8e9d5ce1",
@@ -3415,7 +3422,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "d6d4d5347f5d2065b2cc170037e786422da3ec39b9b561576e33c6f991fc69ad",
       "body_hash": "b0240b2d963747e0d6c2635e684ff243f7a45326aeaed3254244d661ef67ba19",
       "grounding_hash": "68a3c3d90640c68660937f3b168ca1e481e2668cc53d4e3db1a676cbb39b04ce",
@@ -3485,7 +3492,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "76e42f76458dfc406a5dc866fd88e9cdafa08510ae66a62419566b6a11229fc5",
       "body_hash": "c9f7808b40d986ff83b16115eb1ec3d88738053dc678d8d1021f16cdb1aa51f7",
       "grounding_hash": "2b5cfb3d34f87ab629a835867e21732d989b4ec4a6242e27f12aa09656e26fd2",
@@ -3545,7 +3552,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "618067851cfbe9070fd35b4c55f77e44db15434c81851c9a8a306c4a528662b3",
       "body_hash": "4b064543ea6e79495d91cd41e9741eef561fd4876e1b315045b5df3b7e07fcef",
       "grounding_hash": "ceb2001cb1214b5e4d4040730a073e7f8ac29d33188dbd02c07d9d6da0946119",
@@ -3618,7 +3625,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "a3c7fbe25b9d836a818e0eacb4682066a672628f6889d7da6415f975a4da7bfa",
       "body_hash": "15c8c90873f825dd30baa06a0c012d548804e959043216e66dfdd9313f3d79ea",
       "grounding_hash": "edc1db47779d2637cafb60735809b941b7d4abd48ffaf2af7cddbe7e1776f87d",
@@ -3677,7 +3684,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "c5d45830c1ca53420d4f057a814d98c88d937c1626e3a473b3a5e4fdcf65e7e8",
       "body_hash": "5e499090ad18d92846d737624b6db264edca24aee4ec82831b0af036bc061b59",
       "grounding_hash": "95d0f61cdf85c689f0e762ff717c03dd3c4e8d34387417cd452a789c1464922c",
@@ -3732,7 +3739,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "7bc4d67805db42b59d0a1a45e58bd9e7eed708380fc2e7be8cb1fc3b940b7e7c",
       "body_hash": "0a9d49adb4f65456347ec43fe384848564092f2cf200cf3a36ab98bb28ad772a",
       "grounding_hash": "4dfcab61748544a994097b9a0dfa36eacfeccd4ab27e167838a16518c162989f",
@@ -3787,7 +3794,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "7e799cb74763b9614cfda413bd7562f3305ea7e4d6b3d65e1c8a6dcdddd7f8dd",
       "body_hash": "47f3e2d3dec911e8e4ca1692c72bfd49a99a0e019a0ea9c30cd02fc4441b9cfc",
       "grounding_hash": "7e34e23d801ade70696a707928ac6db3772d65e432ffe2f7aabd00f75d9764ed",
@@ -3841,7 +3848,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "a8b32f7a859dedd081b9d037125c8dc4b44d37f08650298211f19c8fa243c94a",
       "body_hash": "7d595ca6059413eec4d0c16924d900f3fd14085da9cbb42bde763482c1ad538f",
       "grounding_hash": "1eadfc73623fe6cc531718876747457e6db9b86b735a47bae77ade0594be4d43",
@@ -3890,7 +3897,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "69093535796c6c0343a49280ae1e958557490d51796c7e435cb7e84bafbf6307",
       "body_hash": "d680c34ab250a443ebd8e2151bc6e7a9a3ac717823d9a287e3fc205692b2ef0f",
       "grounding_hash": "c68b5668ed9f4e5dc8c8c37666cf6415a1344103efad4044f646a0f7f82cca05",
@@ -3945,7 +3952,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "abc46f1050ac937bf97bf9cadc8620b6c50ce2f57ffa0d0ee506901c49f7c504",
       "body_hash": "f2ce4b9dc76caccdbc7fc1a9d4917a43475d9d729ffd9f76829ac29a290c9241",
       "grounding_hash": "c4e9bea0fdcf6900148f4302a8e5e08077be8c8e1530d9a7321f7d23d0daa713",
@@ -4000,7 +4007,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "b24dba821c9aaac43c2b378e9b8900d0d98796daa13d650c756f0220b43f0d81",
       "body_hash": "b0de2e199c147981050c709a87df6bbb54cecd88ee109e41a00dbf28bc60719b",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
@@ -4039,7 +4046,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "2becd9214916ce919b73118c7f8b456127abd1e83d21a27033f2c196936ab098",
       "body_hash": "43af4dfd015fde95f50099504f84ca0206a3473087256fdc0e4eef4a7c08b182",
       "grounding_hash": "ec96195c17d0aed90d317c3d96e5fe01799401d9ebf70999a0e8490e3396a09a",
@@ -4099,7 +4106,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "a455dc71539bdb710e644c5dff310a2ccf1ab9359539a6b9a497d50cad5e0cb0",
       "body_hash": "9c980f476d9a9884c901d7f9f703799588778609f6f50ca97c7f16d705f324b5",
       "grounding_hash": "4ee7cc4f7b38ec135ae439e91ef1478211f3494726c66baa837c709d1d718e5a",
@@ -4169,7 +4176,7 @@
       ],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "14ea145dd77411fa7a212a7f924dbf023f524aa979857353a284414cbb508261",
       "body_hash": "6fcbda488b6242d714427705c4f2706a3e7706ce3006ee52b877b641dcad3ef1",
       "grounding_hash": "5debd3c7ec45275ee69b6e79fdef10e154a121253cd969d31792ef2dccc03f48",
@@ -4230,7 +4237,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "e0286b4649858a2c1c185504c5b4d65465f2e5ffe7a68e499a62f8e87252aebf",
       "body_hash": "0b8fcdbfd50d8b6962fa4e74b32214079072143e4018353512dce5a7dec826bb",
       "grounding_hash": "69e8b46c648477fd760209cf59fcdfd90b0a75b5edc468bea35fe627874952f1",
@@ -4296,7 +4303,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "5a951a987721b2174c7d1d4e78ce56ba664d3404e82ba995c0f7e478c87a11a1",
       "body_hash": "700b873806b853db5248f08a7b51f992f0db3a49cdd00453aa87b3e82968fb17",
       "grounding_hash": "b72cf0e96aef1c2a3801e6a2af6c7807c0c9a981cee391f6ccc0b3022d9e9e8c",
@@ -4356,7 +4363,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "f17a07851988eaf43996e36edb0615908396fc2a788c32a4c76805ca29e58c29",
       "body_hash": "01159d3a1d29207ffc64cd9c2620ce9014dbd0dc29ed45d53b93306d78434a31",
       "grounding_hash": "04fe9b4251e86fd88c97deb0c8be7e559bb8b330b4abf00c06b1f17b518bac6e",
@@ -4417,7 +4424,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "99dc356a233c03152d0425bd8e4c61a4013bb43aa930a5b884838fe8e144fc64",
       "body_hash": "3ba20227f0ca017cbab7cfd0c7f691dbe85377db1e4ad5d45dd421b01711aa3f",
       "grounding_hash": "7f4f37d30074a228c5927000f9ebca35dd1ddb8a69f64ddb0ea6e0678ff4486c",
@@ -4479,7 +4486,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "f3f02470f7d2438bb8f215ce45a276575846c5839e17fcc11221b21441acce87",
       "body_hash": "33d29f1025a7c06abed75aebc1db7cc5dc32b6a7e8d9b52bde8ec39cae4af090",
       "grounding_hash": "d9e768527e7405545c2c5d2bb798b9817522c475c74b5651bb43d6513fd43200",
@@ -4548,7 +4555,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e",
       "body_hash": "2b34f0af515329445d9be931ebccf6bccbd9c86f30a7520e135ca54badd9f90d",
       "grounding_hash": "6102ad764035873b7ba6a02ca14eb9fd8f4bcb412ff1349da0f81305fbfb03b9",
@@ -4620,7 +4627,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "0980128e81f33cbb9874def61ee61289c8f1982fe93e637fddef8b80ba01e502",
       "body_hash": "9224a03759cfb4f959389781c28a9c658cd2bbeb565788045913533812fb1b62",
       "grounding_hash": "64d900dba557d9f91c577ea9d592e02b7e18a361cad72f44585193b8a5143ab4",
@@ -4685,7 +4692,7 @@
       "actual_axioms": [],
       "cert_path": "",
       "cert_sha256": "",
-      "verified_at_utc": "2026-11-27T00:45:42.199547+00:00",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
       "spec_hash": "201253252650a84c7fe6cc52a0a0bba4ca63cecdb2df576cc8bf6f34d230f699",
       "body_hash": "920fae398ae42a93c9f9d7721528af7785056f0b2007b7a449d904353a708dcd",
       "grounding_hash": "e39347c81a9972e4b4f1872c988cafedf8b4cdb25d36474d29fa7cc896ac47bf",
@@ -4788,7 +4795,7 @@
       "cert_path": "",
       "cert_sha256": "",
       "verified_at_utc": "",
-      "spec_hash": "298bc125918b796a130bb4a3bd25ba93b5e11415bfc28a8b81c143ea4baaa9a7",
+      "spec_hash": "5bdc35b89cc296cd6fea472a6e999f0ee1212ecddcfca9b7694c59ef33fb2d8f",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
       "taint_status": "CLEAN",
@@ -4807,6 +4814,10 @@
       "pub": {
         "channel": "gh_pages",
         "sensitivity": "spec_body_and_grounding",
+        "published_paths": [
+          "index.html",
+          "data/network.json"
+        ],
         "outputs": [
           "build/gh_pages/index.html",
           "build/gh_pages/styles.css",
@@ -4815,6 +4826,45 @@
           "build/gh_pages/.nojekyll"
         ]
       },
+      "issue": null
+    },
+    {
+      "id": "sym:cubical-2ltt",
+      "kind": "symbol",
+      "is_core": true,
+      "cohort": "Cohort II",
+      "title": "Cartesian Cubical Two-Level Type Theory Notation Registry",
+      "chapter": "ch09",
+      "section": "9.1",
+      "seq_order": 902,
+      "axis": "2ltt_tcb",
+      "grounding_tier": "conceptual",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
+      "spec_hash": "359f08264f3b2d8c2c3672aff72a03586d96a0c5feb88347920401bdfc9046ba",
+      "body_hash": "6e42faf4ac5d4fd18da80d13ce3086b31030be03ec8e4688dd5ed2e669968b2a",
+      "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/sym/cubical_2ltt.toml",
+      "primary_category": "",
+      "blueprint_tier": "none",
+      "characterization_types": [],
+      "witness_scope": "",
+      "dual_pillars": [],
+      "statement": "",
+      "tex": "\\begin{remark}[Notation Registry: Cartesian Cubical 2LTT Kernel]\\label{sym:cubical-2ltt}%\nThis registry exports the closed-world Chapter~9 macros for the inner fibrant universe {{sym:univ-f}}, the outer strict universe {{sym:univ-s}}, the cofibration lattice {{sym:cofib-lat}}, the Cartesian Kan operators {{sym:kan-coe}} and {{sym:kan-hcom}}, and the univalence type former {{sym:vtype}}.\n\\end{remark}\n",
+      "lean_signature": "",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
       "issue": null
     },
     {
@@ -4837,7 +4887,7 @@
       "cert_path": "",
       "cert_sha256": "",
       "verified_at_utc": "",
-      "spec_hash": "2642b280e8d7b8b5f257eeaff25ea64dfc660e1a80fdb65df999dc7a42c89df9",
+      "spec_hash": "02bf450f1c904e167feb841f573d69d8d7dc3e886fc03940744698272ecd1195",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
       "taint_status": "CLEAN",
@@ -4856,6 +4906,9 @@
       "pub": {
         "channel": "gh_pages",
         "sensitivity": "spec_and_body",
+        "published_paths": [
+          "pdfs/crm_vol2_monograph.pdf"
+        ],
         "outputs": [
           "build/tex/crm_vol2_monograph.pdf",
           "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
@@ -4883,7 +4936,7 @@
       "cert_path": "",
       "cert_sha256": "",
       "verified_at_utc": "",
-      "spec_hash": "ae5e8a8967f0c52fd2e52ffc27afdd3c6c890c8b6ca821d0ba813be262ef4850",
+      "spec_hash": "0b6eaa566942ecafdac0c7f0e4dd44a3a7df8c928e459acb0e58e55f453b3e18",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
       "taint_status": "CLEAN",
@@ -4902,11 +4955,62 @@
       "pub": {
         "channel": "gh_pages",
         "sensitivity": "spec_body_and_grounding",
+        "published_paths": [
+          "pdfs/crm_vol2_claims_ledger.pdf"
+        ],
         "outputs": [
           "build/tex/crm_vol2_claims_ledger.pdf",
           "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
         ]
       },
+      "issue": null
+    },
+    {
+      "id": "ch09:prose:ch09-tcb-r1-roadmap",
+      "kind": "prose_block",
+      "is_core": true,
+      "cohort": "Cohort IV",
+      "title": "Section 9.1 Roadmap: Cartesian Cubical 2LTT Kernel and Sapphire Stratum",
+      "chapter": "ch09",
+      "section": "9.1",
+      "seq_order": 905,
+      "axis": "2ltt_tcb",
+      "grounding_tier": "expository",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
+      "spec_hash": "ed4cda53da661dbb76533080db33042324958e394928b788fb2d6a0b37ed8329",
+      "body_hash": "5b978592e4fafa1f255b8efbdd071ea8668a15260b128c83c761ac406d579a84",
+      "grounding_hash": "717af4335c29dba1fec9bb061d47831bf16b0dd4f030d7647789cef85a87022d",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch09/prose_ch09_tcb_r1_roadmap.toml",
+      "primary_category": "Verified paraphrase container",
+      "blueprint_tier": "none",
+      "characterization_types": [
+        "Framework Definition"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "external_cite",
+          "ref": "acks2023",
+          "locator": "Sec. 1--2, pp. 688--697",
+          "purpose": "Role of two-level type theory in isolating strict vs. univalent universes"
+        }
+      ],
+      "statement": "Expository roadmap for Section 9.1 introducing Cartesian cubical 2LTT, union-find cofibration entailment, Emerald Kan composition, and Sapphire V-univalence holonomy.",
+      "tex": "Section~9.1 launches Part~IV of the monograph by upgrading the zero-\\texttt{Mathlib} 2LTT kernel \\texttt{KernelArena} from the Phase~0 boolean bootstrap ({{ref:ch01:rem:trident-mode3-2ltt-bootstrap}}) to Rung~1 (slice \\texttt{plan:tcb-rung1-cubical-kan}). Rather than adding Lean axioms, the upgraded TCB keeps \\texttt{KernelArena.Check.checkCert} completely axiom-free while deciding Cartesian cofibration lattices {{sym:cofib-lat}} by pure union-find partition refinement, checking strict equality and $\\mathsf{UIP}^s$ in {{sym:univ-s}}, verifying homogeneous Kan composition {{sym:kan-hcom}} and coercion {{sym:kan-coe}} in {{sym:univ-f}}, and enabling Voevodsky-style {{sym:vtype}}-univalence \\cite{abcfhl2021,orton_pitts2018,acks2023,voevodsky_hts2013}.\n\nConcretely, Definition~\\ref{ch09:def:cartesian-2ltt-cofibration-calculus} specifies the Rung~1 signature and regularity-safe $\\mathsf{V}$-coercion rule; Proposition~\\ref{ch09:prop:pure-kan-path-symmetry-cert} exhibits a pure Kan \\textbf{Emerald} certificate for boolean path inversion; and Theorem~\\ref{ch09:thm:bool-univalence-holonomy-cert} activates the \\textbf{Sapphire} stratum for the first time by computationally transporting $\\mathsf{false}^f$ to $\\mathsf{true}^f$ around the $\\mathbb{Z}/2\\mathbb{Z}$ univalent loop $\\mathsf{ua}(\\mathsf{not})$.\n",
+      "lean_signature": "",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
       "issue": null
     },
     {
@@ -4929,7 +5033,7 @@
       "cert_path": "",
       "cert_sha256": "",
       "verified_at_utc": "",
-      "spec_hash": "a435997d6c4c2c0a27efd5bd9a0a0fc9fa2b5aafc6b364b517fef449653b4a29",
+      "spec_hash": "8e8e953db64a677d14f9e347406098b405ae4079b4fdcacda9968c1780c6c0a4",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
       "taint_status": "CLEAN",
@@ -4948,6 +5052,7 @@
       "pub": {
         "channel": "gh_pages",
         "sensitivity": "spec_and_body",
+        "published_paths_source": "build/course_pack_manifest.json",
         "outputs": [
           "build/tex/course_pack_ch01_probe_calibration.pdf",
           "build/gh_pages/pdfs/course_pack_ch01_probe_calibration.pdf",
@@ -5049,6 +5154,191 @@
           "github:issues"
         ]
       },
+      "issue": null
+    },
+    {
+      "id": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "kind": "definition",
+      "is_core": true,
+      "cohort": "Cohort II",
+      "title": "Cartesian Cubical Two-Level Type Theory and Cofibration Calculus",
+      "chapter": "ch09",
+      "section": "9.1",
+      "seq_order": 910,
+      "axis": "2ltt_tcb",
+      "grounding_tier": "standard_def",
+      "formal_pkg": "none",
+      "stratum": "none",
+      "module": "",
+      "decl_names": [],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "",
+      "cert_sha256": "",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
+      "spec_hash": "7444c7c4b9ac18de381c19382f9c5d813c3c1f441c6aff88c2fe0a73f0e33f0f",
+      "body_hash": "098bea6832498fa96deee92915958c01fd8aed232596972ea98ff005efd0a95c",
+      "grounding_hash": "53ed7b80882a90f75d60fee7e490a19824a2e4d491ad1b85e835619fdaf7e078",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch09/def_cartesian_2ltt_cofibration_calculus.toml",
+      "primary_category": "Standard definition",
+      "blueprint_tier": "none",
+      "characterization_types": [
+        "Framework Definition"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "external_cite",
+          "ref": "abcfhl2021",
+          "locator": "Sec. 2.1--3, pp. 426--438",
+          "purpose": "Cartesian cubical syntax, Kan coe/hcom rules, and V-types"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "orton_pitts2018",
+          "locator": "Sec. 2--4, Def. 3.1",
+          "purpose": "Topos internal cofibration lattice axioms and equivalence glueing"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "acks2023",
+          "locator": "Sec. 2, Def. 2.1",
+          "purpose": "Two-level type theory signature with strict UIP outer universe and fibrant inner core"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "voevodsky_hts2013",
+          "locator": "Sec. 1--2, pp. 1--6",
+          "purpose": "Origin of HTS two-identity two-level type system"
+        }
+      ],
+      "statement": "A Rung 1 two-level type theory signature consists of: (i) a finite Cartesian dimension context Psi = (i_0, ..., i_{n-1}) and distributive cofibration lattice F(Psi) generated by Top, Bot, and atomic equalities r1 = r2 in {0, 1} union Psi with union-find decidable entailment (Psi, phi |- psi) and equational inconsistency reflection; (ii) an outer strict universe hierarchy U^s_l (l < k) supporting Bool^s, Unit^s, Sigma^s, Pi^s, strict identity Eq^s satisfying UIP^s, and one-way coercion LiftFtoS : U^f_l -> U^s_l; and (iii) an inner fibrant univalent hierarchy U^f_l (l < k) equipped with Empty^f, Unit^f, Bool^f (with dependent BoolElim^f), Sigma^f, Pi^f, heterogeneous/homogeneous Path types, Cartesian Kan operations coe and hcom, and regularity-safe V-univalence types V_r(A, B, e).",
+      "tex": "\\begin{definition}[Cartesian Cubical 2LTT and Cofibration Calculus]\\label{ch09:def:cartesian-2ltt-cofibration-calculus}%\nLet $\\Psi = (i_0,\\dots,i_{n-1})$ denote a finite Cartesian dimension context. The cofibration lattice {{sym:cofib-lat}}$(\\Psi)$ is generated by $\\top$, $\\bot$, and dimension equalities $r_1 = r_2$ over $\\{0,1\\} \\cup \\Psi$ under $\\wedge$ and $\\vee$, decided by finite partition refinement (equational closure in which $0 = 1$ triggers inconsistency). Over each $(\\Psi,\\varphi)$, the Rung~1 type theory partitions types into:\n\\begin{enumerate}[leftmargin=1.8em]\n  \\item \\textbf{Outer strict level ({{sym:univ-s}}$_\\ell$, $\\ell < k$):} strict types $2^s$, $1^s$, $\\Pi^s$, $\\Sigma^s$, and strict equality $\\mathsf{Eq}^s_A(a,b)$ with $\\mathsf{UIP}^s$, connected to inner types solely through the one-way lifting functor $\\mathrm{Lift}^{f\\to s} : {{sym:univ-f}}_\\ell \\to {{sym:univ-s}}_\\ell$.\n  \\item \\textbf{Inner fibrant level ({{sym:univ-f}}$_\\ell$, $\\ell < k$):} fibrant data ($0^f, 1^f, 2^f$, $\\Pi^f$, $\\Sigma^f$), dependent path types $\\mathsf{Path}_{i.A}(a_0, a_1)$, Cartesian Kan coercion {{sym:kan-coe}} and homogeneous composition {{sym:kan-hcom}}, and Voevodsky-style {{sym:vtype}}-types $\\mathsf{V}_r(A, B, e)$ glued along $r = 0$ via an equivalence $e : A \\simeq^f B$ \\cite{abcfhl2021,orton_pitts2018,acks2023,voevodsky_hts2013}.\n\\end{enumerate}\nCoercion across a dimension-independent {{sym:vtype}}-line evaluates via the regularity-safe bridge\n\\[\n  {{sym:kan-coe}}^{0\\to 1}_{i.\\,{{sym:vtype}}_i(A,B,f,g,s,t)}(a)\n  \\;\\leadsto\\;\n  {{sym:kan-hcom}}^{0\\to 1}_B\\bigl([],\\,{{sym:kan-coe}}^{0\\to 1}_{\\_.B}(f\\,a)\\bigr),\n\\]\nso discrete targets such as $B = 2^f$ compute straight to $f\\,a$ in finite fuel without requiring definitional regularity on general Kan fillings.\n\\end{definition}\n",
+      "lean_signature": "",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch09:prop:pure-kan-path-symmetry-cert",
+      "kind": "proposition",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Pure Kan Path Symmetry on Fibrant Booleans (KernelArena Rung 1)",
+      "chapter": "ch09",
+      "section": "9.1",
+      "seq_order": 915,
+      "axis": "2ltt_tcb",
+      "grounding_tier": "twoltt_ok",
+      "formal_pkg": "kernel_arena",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.CertChecks",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch09_prop_pure_kan_path_symmetry_cert",
+        "HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "certs/tcb_r1_path_sym_kan.2ltt.json",
+      "cert_sha256": "7497146f45293a347b329b9661492878be6725a8ee916c4657640414dc3df57a",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
+      "spec_hash": "5c019cc2943968ea852f10e5c682fbdf4c9461df28707b2be0dc2fa05d0cd5ef",
+      "body_hash": "ce39a1176812dd53b39efab78291702e4ce684a821825820ea97c1862e63ab50",
+      "grounding_hash": "0fa3d1653efc53ed147d5de57855488faf6892355c473cc342f77c75a927d79c",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch09/prop_pure_kan_path_symmetry_cert.toml",
+      "primary_category": "Proved by 2LTT certificate",
+      "blueprint_tier": "twoltt_ok",
+      "characterization_types": [
+        "Homotopy Type / Classifying Space",
+        "Framework Definition"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "twoltt_cert",
+          "ref": "certs/tcb_r1_path_sym_kan.2ltt.json",
+          "purpose": "20-node KernelArena Rung 1 DAG certificate verified by KernelArena and rfl in Emerald stratum"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "abcfhl2021",
+          "locator": "Sec. 3.2, pp. 441--444",
+          "purpose": "Standard Cartesian hcom path-inversion box construction"
+        }
+      ],
+      "statement": "In the zero-Mathlib Cartesian cubical KernelArena TCB (universe depth k = 1, all strata flags false), every inner path p : Path (_. 2^f) x y over x, y : 2^f admits an explicit Kan-constructed inverse path sym p := <j> hcom 0 1 2^f [(j=0, i. p @ i), (j=1, _. x)] x : Path (_. 2^f) y x with verified boundary checks (sym p) @ 0 === y and (sym p) @ 1 === x.",
+      "tex": "\\begin{proposition}[Pure Kan Path Symmetry Certificate on $2^f$]\\label{ch09:prop:pure-kan-path-symmetry-cert}%\nOver the Cartesian cubical kernel {{ref:ch09:def:cartesian-2ltt-cofibration-calculus}} at universe depth $k = 1$ with all univalence, coalgebra, strict-equality, and replacement flags disabled, the zero-\\texttt{Mathlib} checker verifies\n\\[\n  \\mathsf{boolF\\_path\\_sym} :\n  \\Pi^f (x\\,y : 2^f)\\,(p : \\mathsf{Path}_{\\_.2^f}(x,y)),\\; \\mathsf{Path}_{\\_.2^f}(y,x)\n\\]\nby pure homogeneous Kan composition {{sym:kan-hcom}} without {{sym:vtype}}-types \\cite{abcfhl2021}.\n\\end{proposition}\n\\begin{proof}\nConstruct the path abstraction\n\\[\n  \\mathrm{sym}(x,y,p) := \\langle j \\rangle\\,{{sym:kan-hcom}}^{0\\to 1}_{2^f}\\bigl[(j=0,\\; i.\\, p \\mathbin{@} i),\\; (j=1,\\; \\_.\\, x)\\bigr]\\,x.\n\\]\nAlong the face $j = 0$, the first tube evaluates at $i = 0$ to $x$, matching the base $x$, and evaluates at $i = 1$ to $p \\mathbin{@} 1 \\equiv y$. Along $j = 1$, the second tube is constant at $x$, matching both the base at $i = 0$ and the endpoint $x$ at $i = 1$. On the overlap $j = 0 \\wedge j = 1$, union-find cofibration entailment detects inconsistency ($0 = 1$), discharging tube agreement vacuously. Certificate \\texttt{certs/tcb\\_r1\\_path\\_sym\\_kan.2ltt.json} checks deterministically in \\texttt{KernelArena} and via kernel \\texttt{rfl} in \\texttt{HomotopyCRM.Vol2.CertChecks}.\n\\end{proof}\n",
+      "lean_signature": "KernelArena cert: certs/tcb_r1_path_sym_kan.2ltt.json\nChecked by: HomotopyCRM.Vol2.cert_ch09_prop_pure_kan_path_symmetry_cert, HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
+      "issue": null
+    },
+    {
+      "id": "ch09:thm:bool-univalence-holonomy-cert",
+      "kind": "theorem",
+      "is_core": true,
+      "cohort": "Cohort I",
+      "title": "Boolean Univalence Holonomy via Regularity-Safe V-Types (Sapphire Certificate)",
+      "chapter": "ch09",
+      "section": "9.1",
+      "seq_order": 920,
+      "axis": "2ltt_tcb",
+      "grounding_tier": "twoltt_ok",
+      "formal_pkg": "kernel_arena",
+      "stratum": "sapphire",
+      "module": "HomotopyCRM.Vol2.CertChecks",
+      "decl_names": [
+        "HomotopyCRM.Vol2.cert_ch09_thm_bool_univalence_holonomy_cert",
+        "HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert"
+      ],
+      "expected_axioms": [],
+      "actual_axioms": [],
+      "cert_path": "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json",
+      "cert_sha256": "67dddc420e5bf4563879accab9135ac9058f05208b9cf9f5874d63b6f3c1a1a5",
+      "verified_at_utc": "2026-11-27T04:52:25.478345+00:00",
+      "spec_hash": "da782c71fc6e1c3018b755f8f67685e020b81681636fafc353ce64630c7545ec",
+      "body_hash": "d8519d14b86ad3d59e0cbe47724842429f1c9ad49159a93678610f84ff94894c",
+      "grounding_hash": "c649946e809ceee4f251298d4e6dbaf7680ce2a4de9a1fb2bfda9e8e048de949",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
+      "file_path": "nodes/ch09/thm_bool_univalence_holonomy_cert.toml",
+      "primary_category": "Proved by 2LTT certificate",
+      "blueprint_tier": "twoltt_ok",
+      "characterization_types": [
+        "Homotopy Type / Classifying Space"
+      ],
+      "witness_scope": "",
+      "dual_pillars": [
+        {
+          "kind": "twoltt_cert",
+          "ref": "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json",
+          "purpose": "21-node Sapphire KernelArena Rung 1 univalence holonomy certificate (ua(not) flips false^f to true^f)"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "abcfhl2021",
+          "locator": "Sec. 4, pp. 446--456",
+          "purpose": "Cartesian V-type univalence rules and coercion computation"
+        },
+        {
+          "kind": "external_cite",
+          "ref": "acks2023",
+          "locator": "Sec. 2.3, pp. 697--703",
+          "purpose": "Inner fibrant univalence inside a two-level system"
+        }
+      ],
+      "statement": "At universe depth k = 2 inside KernelArena Rung 1 with inner_univalence_V = true (Sapphire stratum), forming the involution equivalence not : 2^f ~^f 2^f via dependent BoolElim^f and the univalent path uaNot := <i> V_i(2^f, 2^f, notEquiv) : Path (_. U^f_0) 2^f 2^f yields an explicit computational holonomy witness refl_true : Path (_. 2^f) (coe 0 1 (i. uaNot @ i) false^f) true^f.",
+      "tex": "\\begin{theorem}[Boolean Univalence Holonomy Witness]\\label{ch09:thm:bool-univalence-holonomy-cert}%\nOver {{ref:ch09:def:cartesian-2ltt-cofibration-calculus}} and building on the Kan path infrastructure {{ref:ch09:prop:pure-kan-path-symmetry-cert}} at universe depth $k = 2$, let $\\mathsf{not} : 2^f \\to 2^f$ exchange $\\mathsf{true}^f$ and $\\mathsf{false}^f$, with involution section and retraction $\\Pi^f(b : 2^f),\\,\\mathsf{Path}_{\\_.2^f}(\\mathsf{not}(\\mathsf{not}\\,b), b)$ given by dependent $\\mathsf{BoolElim}^f$. Forming the {{sym:vtype}}-path\n\\[\n  \\mathsf{uaNot} := \\langle i \\rangle\\, {{sym:vtype}}_i(2^f, 2^f, \\mathsf{not}, \\mathsf{not}, s, s)\n  : \\mathsf{Path}_{\\_.{{sym:univ-f}}_0}(2^f, 2^f),\n\\]\nits coercion on $\\mathsf{false}^f$ reduces by WHNF directly to $\\mathsf{true}^f$:\n\\[\n  \\langle j \\rangle\\,\\mathsf{true}^f :\n  \\mathsf{Path}_{\\_.2^f}\\!\\bigl({{sym:kan-coe}}^{0\\to 1}_{i.\\,\\mathsf{uaNot} \\mathbin{@} i}(\\mathsf{false}^f),\\; \\mathsf{true}^f\\bigr),\n\\]\nactivating the \\textbf{Sapphire} ($\\mathsf{V}$-univalence) TCB stratum \\cite{abcfhl2021,acks2023,voevodsky_hts2013}.\n\\end{theorem}\n\\begin{proof}\nAt boundary $i=0$, $\\mathsf{V}_0(2^f, 2^f, \\dots) \\equiv 2^f$, and at $i=1$, $\\mathsf{V}_1(2^f, 2^f, \\dots) \\equiv 2^f$, validating the endpoints of $\\mathsf{uaNot}$ in {{sym:univ-f}}$_0$. Under $\\beta$-reduction of path application, $\\mathsf{uaNot} \\mathbin{@} i \\leadsto \\mathsf{V}_i(2^f, 2^f, \\dots)$; the regularity-safe $0\\to 1$ coercion rule then unfolds to\n\\[\n  {{sym:kan-hcom}}^{0\\to 1}_{2^f}\\bigl([],\\, {{sym:kan-coe}}^{0\\to 1}_{\\_.2^f}(\\mathsf{not}\\;\\mathsf{false}^f)\\bigr),\n\\]\nwhich flat-discrete Kan reduction collapses through $\\mathsf{not}\\;\\mathsf{false}^f \\leadsto \\mathsf{true}^f$ in $3$ fuel steps. Thus the reflexivity term $\\langle j \\rangle\\,\\mathsf{true}^f$ is definitionally equal at its left endpoint to the coerced transport. Certificate \\texttt{certs/tcb\\_r1\\_univ\\_bool\\_ua\\_not\\_holonomy.2ltt.json} (21 DAG nodes, \\texttt{inner\\_univalence\\_V = true}) checks in \\texttt{KernelArena} and bridges cleanly via \\texttt{rfl} in \\texttt{HomotopyCRM.Vol2.CertChecks} with zero Lean axioms.\n\\end{proof}\n",
+      "lean_signature": "KernelArena cert: certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json\nChecked by: HomotopyCRM.Vol2.cert_ch09_thm_bool_univalence_holonomy_cert, HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert",
+      "lean_body": "",
+      "plan": null,
+      "pub": null,
       "issue": null
     }
   ],
@@ -5972,6 +6262,18 @@
       "metadata": {}
     },
     {
+      "src": "ch09:prop:pure-kan-path-symmetry-cert",
+      "dst": "pub:branch:lean-export",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:thm:bool-univalence-holonomy-cert",
+      "dst": "pub:branch:lean-export",
+      "fiber": "lean_dep",
+      "metadata": {}
+    },
+    {
       "src": "ch01:cex:p0-independent-of-p1-p5",
       "dst": "ch01:prob:two-giraud-prototopos-nerve",
       "fiber": "logical_dep",
@@ -6118,6 +6420,24 @@
     {
       "src": "ch01:prose:meta-crm-roadmap",
       "dst": "pub:web:observatory",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:rem:trident-mode3-2ltt-bootstrap",
+      "dst": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:rem:trident-mode3-2ltt-bootstrap",
+      "dst": "ch09:prop:pure-kan-path-symmetry-cert",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch01:rem:trident-mode3-2ltt-bootstrap",
+      "dst": "ch09:prose:ch09-tcb-r1-roadmap",
       "fiber": "logical_dep",
       "metadata": {}
     },
@@ -6392,6 +6712,66 @@
       "metadata": {}
     },
     {
+      "src": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "dst": "ch09:prop:pure-kan-path-symmetry-cert",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "dst": "ch09:thm:bool-univalence-holonomy-cert",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "dst": "pub:pdf:claims-ledger",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:prop:pure-kan-path-symmetry-cert",
+      "dst": "ch09:thm:bool-univalence-holonomy-cert",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:prop:pure-kan-path-symmetry-cert",
+      "dst": "pub:pdf:claims-ledger",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:prose:ch09-tcb-r1-roadmap",
+      "dst": "pub:pdf:monograph",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:prose:ch09-tcb-r1-roadmap",
+      "dst": "pub:web:observatory",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:thm:bool-univalence-holonomy-cert",
+      "dst": "pub:pdf:claims-ledger",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:thm:bool-univalence-holonomy-cert",
+      "dst": "pub:pdf:monograph",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "ch09:thm:bool-univalence-holonomy-cert",
+      "dst": "pub:web:observatory",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
       "src": "plan:ch00-bootstrap",
       "dst": "plan:ch01-p1a",
       "fiber": "logical_dep",
@@ -6512,6 +6892,18 @@
       "metadata": {}
     },
     {
+      "src": "plan:tcb-rung1-cubical-kan",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "plan:tcb-rung1-cubical-kan",
+      "dst": "pub:web:observatory",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
       "src": "plan:tcb-rung2-nu-anima",
       "dst": "plan:ch08-boffa-nu-anima",
       "fiber": "logical_dep",
@@ -6526,6 +6918,30 @@
     {
       "src": "plan:tcb-rung3-presheaf-soundness",
       "dst": "plan:ch09-cic-vs-2ltt-horizons",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "pub:pdf:claims-ledger",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "pub:pdf:course-packs",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "pub:pdf:monograph",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "logical_dep",
+      "metadata": {}
+    },
+    {
+      "src": "pub:web:observatory",
+      "dst": "pub:doc:repo-frontdoor",
       "fiber": "logical_dep",
       "metadata": {}
     },
@@ -6966,6 +7382,14 @@
       }
     },
     {
+      "src": "ch01:rem:trident-mode3-2ltt-bootstrap",
+      "dst": "ch09:prose:ch09-tcb-r1-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch01:rem:trident-mode3-2ltt-bootstrap"
+      }
+    },
+    {
       "src": "ch01:thm:flow-f1-threshold-order",
       "dst": "ch01:cex:flow-f1-frontier-nonmonotone",
       "fiber": "notation",
@@ -7230,6 +7654,30 @@
       }
     },
     {
+      "src": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "dst": "ch09:prop:pure-kan-path-symmetry-cert",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch09:def:cartesian-2ltt-cofibration-calculus"
+      }
+    },
+    {
+      "src": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "dst": "ch09:thm:bool-univalence-holonomy-cert",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch09:def:cartesian-2ltt-cofibration-calculus"
+      }
+    },
+    {
+      "src": "ch09:prop:pure-kan-path-symmetry-cert",
+      "dst": "ch09:thm:bool-univalence-holonomy-cert",
+      "fiber": "notation",
+      "metadata": {
+        "ref_id": "ch09:prop:pure-kan-path-symmetry-cert"
+      }
+    },
+    {
       "src": "sym:class-set",
       "dst": "ch02:claim:easton-hod-unsplit-card",
       "fiber": "notation",
@@ -7379,6 +7827,38 @@
       "fiber": "notation",
       "metadata": {
         "macro_key": "nbg"
+      }
+    },
+    {
+      "src": "sym:cubical-2ltt",
+      "dst": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "cofib-lat"
+      }
+    },
+    {
+      "src": "sym:cubical-2ltt",
+      "dst": "ch09:prop:pure-kan-path-symmetry-cert",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "kan-hcom"
+      }
+    },
+    {
+      "src": "sym:cubical-2ltt",
+      "dst": "ch09:prose:ch09-tcb-r1-roadmap",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "cofib-lat"
+      }
+    },
+    {
+      "src": "sym:cubical-2ltt",
+      "dst": "ch09:thm:bool-univalence-holonomy-cert",
+      "fiber": "notation",
+      "metadata": {
+        "macro_key": "vtype"
       }
     },
     {
@@ -8610,6 +9090,51 @@
       }
     },
     {
+      "src": "ch09:def:cartesian-2ltt-cofibration-calculus",
+      "dst": "ch09:prose:ch09-tcb-r1-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "7444c7c4b9ac18de381c19382f9c5d813c3c1f441c6aff88c2fe0a73f0e33f0f",
+        "scope_note": "Specifies Cartesian dimension/cofibration calculus and U^s vs. U^f partition"
+      }
+    },
+    {
+      "src": "ch09:prop:pure-kan-path-symmetry-cert",
+      "dst": "ch09:prose:ch09-tcb-r1-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "5c019cc2943968ea852f10e5c682fbdf4c9461df28707b2be0dc2fa05d0cd5ef",
+        "scope_note": "Summarizes Emerald pure-Kan boolean path inversion certificate"
+      }
+    },
+    {
+      "src": "ch09:prop:pure-kan-path-symmetry-cert",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "5c019cc2943968ea852f10e5c682fbdf4c9461df28707b2be0dc2fa05d0cd5ef",
+        "scope_note": "Front-door summary of Emerald pure-Kan boolean path symmetry certificate (KernelArena Rung 1)"
+      }
+    },
+    {
+      "src": "ch09:thm:bool-univalence-holonomy-cert",
+      "dst": "ch09:prose:ch09-tcb-r1-roadmap",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "da782c71fc6e1c3018b755f8f67685e020b81681636fafc353ce64630c7545ec",
+        "scope_note": "Summarizes Sapphire V-univalence ua(not) boolean transport theorem"
+      }
+    },
+    {
+      "src": "ch09:thm:bool-univalence-holonomy-cert",
+      "dst": "pub:doc:repo-frontdoor",
+      "fiber": "prose_paraphrase",
+      "metadata": {
+        "locked_spec_hash": "da782c71fc6e1c3018b755f8f67685e020b81681636fafc353ce64630c7545ec",
+        "scope_note": "Front-door summary of Sapphire V-univalence boolean holonomy ua(not) transport theorem"
+      }
+    },
+    {
       "src": "vol1:def:set-projection-fibration",
       "dst": "ch02:prose:part1-ch02-roadmap",
       "fiber": "prose_paraphrase",
@@ -8837,19 +9362,25 @@
       "slice_code": "TCB Rung 1",
       "target_modules": [
         "KernelArena.AST",
+        "KernelArena.Cofib",
+        "KernelArena.ShiftSubst",
+        "KernelArena.Whnf",
         "KernelArena.Check",
+        "KernelArena.Cert",
         "HomotopyCRM.Vol2.CertChecks"
       ],
       "deliverable_nodes": [
-        "tcb:tool:arena-builder-dsl",
-        "tcb:cert:cubical-coe-hcom",
-        "tcb:cert:v-univalence-ua-not"
+        "sym:cubical-2ltt",
+        "ch09:prose:ch09-tcb-r1-roadmap",
+        "ch09:def:cartesian-2ltt-cofibration-calculus",
+        "ch09:prop:pure-kan-path-symmetry-cert",
+        "ch09:thm:bool-univalence-holonomy-cert"
       ],
       "guardrails": [],
       "summary": "Implement scripts/arena_builder.py high-level DSL and extend zero-Mathlib kernel_arena/ with Cartesian interval Psi, union-find cofibrations F, Path types, coe/hcom Kan operations, and V-Univalence certificate ua(not).",
-      "status": "ACTIVE",
-      "verified_deliverables": 0,
-      "total_deliverables": 3,
+      "status": "VERIFIED",
+      "verified_deliverables": 5,
+      "total_deliverables": 5,
       "issue": {
         "number": 4,
         "title": "[TCB Rung 1] TCB Rung 1: Cubical Kan KernelArena DSL, Cofibrations, & V-Univalence ua(not)",
@@ -8883,7 +9414,7 @@
         "cumulative_hierarchy_strict_inclusion"
       ],
       "summary": "Calibrate Joyal-Moerdijk (C, S) Stratum II smallness valves across H(aleph_1), CZF Omega^X / 2^X, and Mathias's Mac subsetneq ZC separation (Guardrail 5), culminating in SchemeResiduum.lean up to Waterhouse's fpqc smallness escape.",
-      "status": "PLANNED",
+      "status": "ACTIVE",
       "verified_deliverables": 0,
       "total_deliverables": 4,
       "issue": {
@@ -9144,10 +9675,11 @@
         "ROADMAP.md",
         "CITATION.cff"
       ],
-      "cone_hash": "844ff3f148dbfc802d12eede7e5510dcb553b203283ac9f748fb042bef7db694",
-      "locked_cone_hash": "844ff3f148dbfc802d12eede7e5510dcb553b203283ac9f748fb042bef7db694",
+      "cone_hash": "a7fbb1588fd2b08e04d3006d503b1364013a8d4acd2a5a7b5771979286689816",
+      "locked_cone_hash": "a7fbb1588fd2b08e04d3006d503b1364013a8d4acd2a5a7b5771979286689816",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": []
     },
     {
       "id": "pub:web:observatory",
@@ -9161,10 +9693,14 @@
         "build/gh_pages/data/network.json",
         "build/gh_pages/.nojekyll"
       ],
-      "cone_hash": "cd1880155c8aa8bfb2b6449c66be9031f06240ad7421f14d9c2bfd2016048402",
-      "locked_cone_hash": "cd1880155c8aa8bfb2b6449c66be9031f06240ad7421f14d9c2bfd2016048402",
+      "cone_hash": "6bc66367f948a446221e396136ed0f1c9ed09e6bc8c8c68b644b4adc4d9cf008",
+      "locked_cone_hash": "6bc66367f948a446221e396136ed0f1c9ed09e6bc8c8c68b644b4adc4d9cf008",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": [
+        "index.html",
+        "data/network.json"
+      ]
     },
     {
       "id": "pub:pdf:monograph",
@@ -9175,10 +9711,13 @@
         "build/tex/crm_vol2_monograph.pdf",
         "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
       ],
-      "cone_hash": "3a155e5d627a573d980c9bf51c6f6f124ceba86ddd1f04287d565bd8932acd07",
-      "locked_cone_hash": "3a155e5d627a573d980c9bf51c6f6f124ceba86ddd1f04287d565bd8932acd07",
+      "cone_hash": "48a2ebca0c85bf895487c1f627b5f5fbe17140540b8082c1a15ec9d345a6ca0e",
+      "locked_cone_hash": "48a2ebca0c85bf895487c1f627b5f5fbe17140540b8082c1a15ec9d345a6ca0e",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": [
+        "pdfs/crm_vol2_monograph.pdf"
+      ]
     },
     {
       "id": "pub:pdf:claims-ledger",
@@ -9189,10 +9728,13 @@
         "build/tex/crm_vol2_claims_ledger.pdf",
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "cone_hash": "5daa68433a7c5255547d9d29513d15bbe3e3c339a805a3026fae7c7cab9384a2",
-      "locked_cone_hash": "5daa68433a7c5255547d9d29513d15bbe3e3c339a805a3026fae7c7cab9384a2",
+      "cone_hash": "7628bb2081dbe144f607e91a732ab36755cdb468d659cf8412e24ff21d24f7e0",
+      "locked_cone_hash": "7628bb2081dbe144f607e91a732ab36755cdb468d659cf8412e24ff21d24f7e0",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": [
+        "pdfs/crm_vol2_claims_ledger.pdf"
+      ]
     },
     {
       "id": "pub:pdf:course-packs",
@@ -9207,10 +9749,15 @@
         "build/tex/course_pack_ch03_piset_transgression.pdf",
         "build/gh_pages/pdfs/course_pack_ch03_piset_transgression.pdf"
       ],
-      "cone_hash": "16102b3bc676fbbca9add34643a37b1d3767aa4eff73058ab3e7941e24805aab",
-      "locked_cone_hash": "16102b3bc676fbbca9add34643a37b1d3767aa4eff73058ab3e7941e24805aab",
+      "cone_hash": "96c19f20067913a3403f48766c5fce67759795a097566cd95728e6ac40af4f34",
+      "locked_cone_hash": "96c19f20067913a3403f48766c5fce67759795a097566cd95728e6ac40af4f34",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": [
+        "pdfs/course_pack_ch01_probe_calibration.pdf",
+        "pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
+        "pdfs/course_pack_ch03_piset_transgression.pdf"
+      ]
     },
     {
       "id": "pub:branch:lean-export",
@@ -9221,10 +9768,11 @@
         "refs/heads/lean-export",
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
-      "cone_hash": "7ed86eb3f19be6d48125463f2c8ce569bff7a6c8a1663edb07c1eed11450adb9",
-      "locked_cone_hash": "7ed86eb3f19be6d48125463f2c8ce569bff7a6c8a1663edb07c1eed11450adb9",
+      "cone_hash": "48a3185a7fedaa31dbd048f472c72558c2fc7e9b21d86d6e858a1a12128e106a",
+      "locked_cone_hash": "48a3185a7fedaa31dbd048f472c72558c2fc7e9b21d86d6e858a1a12128e106a",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": []
     },
     {
       "id": "pub:gh:issues-board",
@@ -9235,10 +9783,11 @@
         "github:milestones",
         "github:issues"
       ],
-      "cone_hash": "40b734c5c20be9087d6562d37ed5a02c633951ef61271da3b32c07281a1740b5",
-      "locked_cone_hash": "40b734c5c20be9087d6562d37ed5a02c633951ef61271da3b32c07281a1740b5",
+      "cone_hash": "5d49b0aba7644d1fccf650f6bb04a7a6f197f0981674f3ff9aa0d4c1fd36ad52",
+      "locked_cone_hash": "5d49b0aba7644d1fccf650f6bb04a7a6f197f0981674f3ff9aa0d4c1fd36ad52",
       "pub_status": "CLEAN",
-      "pub_reason": ""
+      "pub_reason": "",
+      "published_paths": []
     }
   ],
   "decl_ownership": [
@@ -11186,6 +11735,36 @@
       "decl_or_cert": "HomotopyCRM.Vol2.two_valve_transgression_dichotomy",
       "node_id": "ch03:thm:two-valve-transgression-dichotomy",
       "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.cert_ch09_prop_pure_kan_path_symmetry_cert",
+      "node_id": "ch09:prop:pure-kan-path-symmetry-cert",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.check_ch09_prop_pure_kan_path_symmetry_cert",
+      "node_id": "ch09:prop:pure-kan-path-symmetry-cert",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "certs/tcb_r1_path_sym_kan.2ltt.json",
+      "node_id": "ch09:prop:pure-kan-path-symmetry-cert",
+      "ownership_kind": "twoltt_cert"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.cert_ch09_thm_bool_univalence_holonomy_cert",
+      "node_id": "ch09:thm:bool-univalence-holonomy-cert",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "HomotopyCRM.Vol2.check_ch09_thm_bool_univalence_holonomy_cert",
+      "node_id": "ch09:thm:bool-univalence-holonomy-cert",
+      "ownership_kind": "lean_decl"
+    },
+    {
+      "decl_or_cert": "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json",
+      "node_id": "ch09:thm:bool-univalence-holonomy-cert",
+      "ownership_kind": "twoltt_cert"
     }
   ],
   "symbols": [
@@ -11200,6 +11779,12 @@
       "symbol_node_id": "sym:piset-transgression",
       "latex_macro": "\\ensuremath{\\mathbf{Card}}",
       "description": "Skeletal category of small cardinal representatives"
+    },
+    {
+      "macro_key": "cofib-lat",
+      "symbol_node_id": "sym:cubical-2ltt",
+      "latex_macro": "\\ensuremath{\\mathbb{F}}",
+      "description": "Cartesian cofibration lattice generated by dimension equations"
     },
     {
       "macro_key": "dc-ord",
@@ -11266,6 +11851,18 @@
       "symbol_node_id": "sym:giraud-morita",
       "latex_macro": "\\ensuremath{J_{\\mathrm{ext}}}",
       "description": "Extensivity Grothendieck topology / finite-product multiplicativity regime"
+    },
+    {
+      "macro_key": "kan-coe",
+      "symbol_node_id": "sym:cubical-2ltt",
+      "latex_macro": "\\ensuremath{\\mathrm{coe}}",
+      "description": "Cartesian Kan line coercion operator"
+    },
+    {
+      "macro_key": "kan-hcom",
+      "symbol_node_id": "sym:cubical-2ltt",
+      "latex_macro": "\\ensuremath{\\mathrm{hcom}}",
+      "description": "Cartesian homogeneous Kan composition operator"
     },
     {
       "macro_key": "km",
@@ -11352,6 +11949,24 @@
       "description": "Open leakage locus in the Lindenbaum/Stone frame"
     },
     {
+      "macro_key": "univ-f",
+      "symbol_node_id": "sym:cubical-2ltt",
+      "latex_macro": "\\ensuremath{\\mathcal{U}^f}",
+      "description": "Inner fibrant univalent universe hierarchy"
+    },
+    {
+      "macro_key": "univ-s",
+      "symbol_node_id": "sym:cubical-2ltt",
+      "latex_macro": "\\ensuremath{\\mathcal{U}^s}",
+      "description": "Outer strict universe hierarchy satisfying UIP"
+    },
+    {
+      "macro_key": "vtype",
+      "symbol_node_id": "sym:cubical-2ltt",
+      "latex_macro": "\\ensuremath{\\mathsf{V}}",
+      "description": "Voevodsky-style univalence V-type glueing an equivalence along a dimension"
+    },
+    {
       "macro_key": "zfc-noreg",
       "symbol_node_id": "sym:piset-transgression",
       "latex_macro": "\\ensuremath{\\mathsf{ZFC}_{\\neg\\mathrm{Reg}}}",
@@ -11402,7 +12017,7 @@
       "label": "Royal Octavo Monograph",
       "description": "Overture + Part I (Chs. 2\u20133) monograph draft with Four-Color Stratum badges, proofs, and cross-volume guardrails.",
       "available": true,
-      "size_kb": 681.4
+      "size_kb": 729.6
     },
     {
       "filename": "crm_vol2_claims_ledger.pdf",
@@ -11410,7 +12025,7 @@
       "label": "4-Part Master Claims & Grounding Ledger",
       "description": "Complete Cohorts I\u2013IV audit ledger, paraphrase lock matrix, and disjoint declaration ownership census.",
       "available": true,
-      "size_kb": 337.7
+      "size_kb": 339.1
     },
     {
       "filename": "course_pack_ch01_probe_calibration.pdf",
