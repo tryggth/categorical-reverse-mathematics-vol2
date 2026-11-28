@@ -13,7 +13,10 @@
     "HomotopyCRM.Vol2.MoritaInterleaving",
     "HomotopyCRM.Vol2.ObstructionTrident",
     "HomotopyCRM.Vol2.PiSetTransgression",
+    "HomotopyCRM.Vol2.PointillistContinua",
     "HomotopyCRM.Vol2.ProbeSuite",
+    "HomotopyCRM.Vol2.SchemeResiduum",
+    "HomotopyCRM.Vol2.SmallnessValves",
     "HomotopyCRM.Vol2.VerticalKaleidoscope",
     "HomotopyCRM.Vol2.ZeroGiraud"
   ],
@@ -22,7 +25,7 @@
     "certs/tcb_r1_path_sym_kan.2ltt.json",
     "certs/tcb_r1_univ_bool_ua_not_holonomy.2ltt.json"
   ],
-  "formal_node_count": 35,
+  "formal_node_count": 43,
   "formal_nodes": [
     {
       "id": "ch01:def:essential-fiber-trident",
@@ -888,6 +891,184 @@
       "cert_path": null,
       "spec_hash": "081b56a7d8ac0576ca4121d16cda4cb18ff11400f842323560ecea039af74d1e",
       "body_hash": "2b34f0af515329445d9be931ebccf6bccbd9c86f30a7520e135ca54badd9f90d"
+    },
+    {
+      "id": "ch04:thm:replacement-iff-covariant-powerset",
+      "kind": "theorem",
+      "title": "Axiom VI Replacement Equivalence with Covariant Powerclasses and Family Unions",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.SmallnessValves",
+      "decl_names": [
+        "HomotopyCRM.Vol2.SmallnessAmbient",
+        "HomotopyCRM.Vol2.SmallnessAmbient.SmallSub",
+        "HomotopyCRM.Vol2.SmallnessAmbient.IsSmallMap",
+        "HomotopyCRM.Vol2.SmallnessAmbient.pullbackSub",
+        "HomotopyCRM.Vol2.SmallnessAmbient.SmallUnion",
+        "HomotopyCRM.Vol2.SmallnessAmbient.AxisVIImageDescent",
+        "HomotopyCRM.Vol2.SmallnessAmbient.CovariantPowersetClosed",
+        "HomotopyCRM.Vol2.SmallnessAmbient.SmallFamilyUnionCompression",
+        "HomotopyCRM.Vol2.pullbackSub_id_iff",
+        "HomotopyCRM.Vol2.pullbackSub_comp_iff",
+        "HomotopyCRM.Vol2.replacement_iff_covariant_powerset"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "8f64a9af3b9a3cb201c7bc650616626563ee374da20823a5b50ff06e31f07701",
+      "body_hash": "7832ac84497d3cc5abf0a6271da1d3aed3b6c441f32586601822fab65f6cafd6"
+    },
+    {
+      "id": "ch04:prop:iterated-powerset-escape-guardrail",
+      "kind": "proposition",
+      "title": "Iterated Powerset Colimit Escape Below V_{omega+omega} (Guardrail 5)",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.SmallnessValves",
+      "decl_names": [
+        "HomotopyCRM.Vol2.RankTaggedSet",
+        "HomotopyCRM.Vol2.inIterPowNat",
+        "HomotopyCRM.Vol2.inIterPowVOmega",
+        "HomotopyCRM.Vol2.IsRankBounded",
+        "HomotopyCRM.Vol2.colimIterPowNat",
+        "HomotopyCRM.Vol2.colimIterPowVOmega",
+        "HomotopyCRM.Vol2.vOmegaWitness",
+        "HomotopyCRM.Vol2.iterated_powerset_escape_guardrail"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "c3cc2f69e50d479453f7ef194134df3367bfdf78a6511e8cf053683096b2b1ed",
+      "body_hash": "fe309a95cb79a6c351ba262ba476fb5082535ea38e1d80b42956cc8dd0183ace"
+    },
+    {
+      "id": "ch04:thm:pointillist-continuum-and-czf-split",
+      "kind": "theorem",
+      "title": "Pointillist Continuum in H(aleph_1) and Constructive CZF Omega^X / 2^X Split",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.PointillistContinua",
+      "decl_names": [
+        "HomotopyCRM.Vol2.CountablyPresented",
+        "HomotopyCRM.Vol2.countablyPresented_of_surjective",
+        "HomotopyCRM.Vol2.real_subtype_countablyPresented",
+        "HomotopyCRM.Vol2.not_countablyPresented_cantor",
+        "HomotopyCRM.Vol2.classifier_postcomp_surj_iff",
+        "HomotopyCRM.Vol2.heyting3Embed",
+        "HomotopyCRM.Vol2.pointillist_continuum_and_czf_split"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "caa1ceee1a245ff1ba1a409e767199f28a91a5b05a5e953ca9d13fbee179372f",
+      "body_hash": "45f22e9a13abdb484590b62395e141fe457021a3c094f8e40a8d213a47fc5b40"
+    },
+    {
+      "id": "ch04:prop:cohesive-aristotle-cantor-adjudication",
+      "kind": "proposition",
+      "title": "Cohesive Adjudication of Aristotle-Weyl Continua vs. Cantor Point-Dust",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.PointillistContinua",
+      "decl_names": [
+        "HomotopyCRM.Vol2.ReflGraph",
+        "HomotopyCRM.Vol2.ReflGraphHom",
+        "HomotopyCRM.Vol2.discGraph",
+        "HomotopyCRM.Vol2.gammaPoints",
+        "HomotopyCRM.Vol2.codiscGraph",
+        "HomotopyCRM.Vol2.intervalGraphI1",
+        "HomotopyCRM.Vol2.IsCohesivelyConnected",
+        "HomotopyCRM.Vol2.cohesive_aristotle_cantor_witness"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "d5d1712be926c40cc8f8339dcaa9e8eb420f9c29f4bc0e6fb845b428399ff662",
+      "body_hash": "ed2a5847a584ae0584bf3b72a90df742d57f752251dcd358486ded72ca8dd575"
+    },
+    {
+      "id": "ch04:prop:zariski-radical-frame-constructive",
+      "kind": "proposition",
+      "title": "Constructive Zariski Radical Frame and Formal Nullstellensatz Non-Degeneracy",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.SchemeResiduum",
+      "decl_names": [
+        "HomotopyCRM.Vol2.IsIdealPred",
+        "HomotopyCRM.Vol2.zariskiRadPred",
+        "HomotopyCRM.Vol2.IdealPredLe",
+        "HomotopyCRM.Vol2.IdealPredEquiv",
+        "HomotopyCRM.Vol2.colonIdealPred",
+        "HomotopyCRM.Vol2.idealPred_add_pow_mem",
+        "HomotopyCRM.Vol2.zariski_radical_frame_constructive"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "25eb3495b447c73b2daebf40762908f5f9727ad390788cc9ed2852e13f81ccb8",
+      "body_hash": "4aa6cae2665cea601bf0bb6ebdf34ccd2b8a9000784a4cdb914182ab0cabb613"
+    },
+    {
+      "id": "ch04:thm:prime-spectrum-krull-choice-gate",
+      "kind": "theorem",
+      "title": "Krull Prime-Spectrum Inhabitation Crosses the Crimson Choice Gate",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "module": "HomotopyCRM.Vol2.SchemeResiduum",
+      "decl_names": [
+        "HomotopyCRM.Vol2.prime_spectrum_krull_choice_gate"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "cert_path": null,
+      "spec_hash": "c19cda53a508e8e40b1708e8fb8b71f33d5a3cf70902c0fbe5f5591ec3b12de0",
+      "body_hash": "54e0b44c7df63e67d72a6edae1012b62ec5eb076e340e0d93c372b9093ecc240"
+    },
+    {
+      "id": "ch04:prop:borger-lambda-delta-two-prime",
+      "kind": "proposition",
+      "title": "Borger Lambda/F_1 Two-Prime Frobenius Compatibility and Commutation Obstruction",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.SchemeResiduum",
+      "decl_names": [
+        "HomotopyCRM.Vol2.PureCRing",
+        "HomotopyCRM.Vol2.PureRingEnd",
+        "HomotopyCRM.Vol2.FrobLift23",
+        "HomotopyCRM.Vol2.delta2Nat",
+        "HomotopyCRM.Vol2.delta3Nat",
+        "HomotopyCRM.Vol2.delta2Nat_spec",
+        "HomotopyCRM.Vol2.delta3Nat_spec",
+        "HomotopyCRM.Vol2.zmod12CRing",
+        "HomotopyCRM.Vol2.zmod12FrobLift23",
+        "HomotopyCRM.Vol2.DualPair",
+        "HomotopyCRM.Vol2.dualPairCRing",
+        "HomotopyCRM.Vol2.dualPsi2",
+        "HomotopyCRM.Vol2.dualPsi3",
+        "HomotopyCRM.Vol2.borger_lambda_delta_two_prime"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "581506bb85dff31a95373f6d227e95772788c094b7f9a1caf11891c2ef5ac32d",
+      "body_hash": "81582f8701a4164cc5a8e8e4eb110e87fa4677d72205d7d03ef3827b9023d52a"
+    },
+    {
+      "id": "ch04:thm:waterhouse-fpqc-smallness-escape",
+      "kind": "theorem",
+      "title": "Waterhouse's fpqc Smallness Escape and Clausen-Scholze Cutoff",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "module": "HomotopyCRM.Vol2.SchemeResiduum",
+      "decl_names": [
+        "HomotopyCRM.Vol2.UnboundedCoverSystem",
+        "HomotopyCRM.Vol2.UnboundedCoverSystem.IsSmallFamily",
+        "HomotopyCRM.Vol2.UnboundedCoverSystem.IsSeparatingGenerator",
+        "HomotopyCRM.Vol2.UnboundedCoverSystem.BoundedCutoffSeparable",
+        "HomotopyCRM.Vol2.natRankCoverSystem",
+        "HomotopyCRM.Vol2.waterhouse_fpqc_smallness_escape"
+      ],
+      "expected_axioms": [],
+      "cert_path": null,
+      "spec_hash": "3ab58d389b4676acbbc0063c67a20aecc72bd69c27ca17fc7d295321f6a47fed",
+      "body_hash": "279ac3b2648e5d2e7f7b9369eb9063b03de93e41372c4463205e072a551c05f4"
     },
     {
       "id": "ch09:prop:pure-kan-path-symmetry-cert",

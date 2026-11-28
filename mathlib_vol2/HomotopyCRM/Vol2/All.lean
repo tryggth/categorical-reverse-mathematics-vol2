@@ -5,7 +5,10 @@ import HomotopyCRM.Vol2.ForcingMembrane
 import HomotopyCRM.Vol2.MoritaInterleaving
 import HomotopyCRM.Vol2.ObstructionTrident
 import HomotopyCRM.Vol2.PiSetTransgression
+import HomotopyCRM.Vol2.PointillistContinua
 import HomotopyCRM.Vol2.ProbeSuite
+import HomotopyCRM.Vol2.SchemeResiduum
+import HomotopyCRM.Vol2.SmallnessValves
 import HomotopyCRM.Vol2.VerticalKaleidoscope
 import HomotopyCRM.Vol2.ZeroGiraud
 import HomotopyCRM.Vol2.CertChecks

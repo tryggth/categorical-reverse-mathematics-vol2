@@ -804,6 +804,166 @@
       ]
     },
     {
+      "id": "ch04:prop:borger-lambda-delta-two-prime",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.PureCRing",
+        "HomotopyCRM.Vol2.PureRingEnd",
+        "HomotopyCRM.Vol2.FrobLift23",
+        "HomotopyCRM.Vol2.delta2Nat",
+        "HomotopyCRM.Vol2.delta3Nat",
+        "HomotopyCRM.Vol2.delta2Nat_spec",
+        "HomotopyCRM.Vol2.delta3Nat_spec",
+        "HomotopyCRM.Vol2.zmod12CRing",
+        "HomotopyCRM.Vol2.zmod12FrobLift23",
+        "HomotopyCRM.Vol2.DualPair",
+        "HomotopyCRM.Vol2.dualPairCRing",
+        "HomotopyCRM.Vol2.dualPsi2",
+        "HomotopyCRM.Vol2.dualPsi3",
+        "HomotopyCRM.Vol2.borger_lambda_delta_two_prime"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:prop:borger-lambda-delta-two-prime",
+        "ch04:prop:zariski-radical-frame-constructive"
+      ]
+    },
+    {
+      "id": "ch04:prop:cohesive-aristotle-cantor-adjudication",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.ReflGraph",
+        "HomotopyCRM.Vol2.ReflGraphHom",
+        "HomotopyCRM.Vol2.discGraph",
+        "HomotopyCRM.Vol2.gammaPoints",
+        "HomotopyCRM.Vol2.codiscGraph",
+        "HomotopyCRM.Vol2.intervalGraphI1",
+        "HomotopyCRM.Vol2.IsCohesivelyConnected",
+        "HomotopyCRM.Vol2.cohesive_aristotle_cantor_witness"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:prop:cohesive-aristotle-cantor-adjudication",
+        "ch04:thm:pointillist-continuum-and-czf-split"
+      ]
+    },
+    {
+      "id": "ch04:prop:iterated-powerset-escape-guardrail",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.RankTaggedSet",
+        "HomotopyCRM.Vol2.inIterPowNat",
+        "HomotopyCRM.Vol2.inIterPowVOmega",
+        "HomotopyCRM.Vol2.IsRankBounded",
+        "HomotopyCRM.Vol2.colimIterPowNat",
+        "HomotopyCRM.Vol2.colimIterPowVOmega",
+        "HomotopyCRM.Vol2.vOmegaWitness",
+        "HomotopyCRM.Vol2.iterated_powerset_escape_guardrail"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:prop:iterated-powerset-escape-guardrail",
+        "ch04:thm:replacement-iff-covariant-powerset"
+      ]
+    },
+    {
+      "id": "ch04:prop:zariski-radical-frame-constructive",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.IsIdealPred",
+        "HomotopyCRM.Vol2.zariskiRadPred",
+        "HomotopyCRM.Vol2.IdealPredLe",
+        "HomotopyCRM.Vol2.IdealPredEquiv",
+        "HomotopyCRM.Vol2.colonIdealPred",
+        "HomotopyCRM.Vol2.idealPred_add_pow_mem",
+        "HomotopyCRM.Vol2.zariski_radical_frame_constructive"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:prop:zariski-radical-frame-constructive"
+      ]
+    },
+    {
+      "id": "ch04:thm:pointillist-continuum-and-czf-split",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.CountablyPresented",
+        "HomotopyCRM.Vol2.countablyPresented_of_surjective",
+        "HomotopyCRM.Vol2.real_subtype_countablyPresented",
+        "HomotopyCRM.Vol2.not_countablyPresented_cantor",
+        "HomotopyCRM.Vol2.classifier_postcomp_surj_iff",
+        "HomotopyCRM.Vol2.heyting3Embed",
+        "HomotopyCRM.Vol2.pointillist_continuum_and_czf_split"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:thm:pointillist-continuum-and-czf-split"
+      ]
+    },
+    {
+      "id": "ch04:thm:prime-spectrum-krull-choice-gate",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "crimson",
+      "decl_names": [
+        "HomotopyCRM.Vol2.prime_spectrum_krull_choice_gate"
+      ],
+      "expected_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "allowed_ancestors": [
+        "ch04:prop:zariski-radical-frame-constructive",
+        "ch04:thm:prime-spectrum-krull-choice-gate"
+      ]
+    },
+    {
+      "id": "ch04:thm:replacement-iff-covariant-powerset",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.SmallnessAmbient",
+        "HomotopyCRM.Vol2.SmallnessAmbient.SmallSub",
+        "HomotopyCRM.Vol2.SmallnessAmbient.IsSmallMap",
+        "HomotopyCRM.Vol2.SmallnessAmbient.pullbackSub",
+        "HomotopyCRM.Vol2.SmallnessAmbient.SmallUnion",
+        "HomotopyCRM.Vol2.SmallnessAmbient.AxisVIImageDescent",
+        "HomotopyCRM.Vol2.SmallnessAmbient.CovariantPowersetClosed",
+        "HomotopyCRM.Vol2.SmallnessAmbient.SmallFamilyUnionCompression",
+        "HomotopyCRM.Vol2.pullbackSub_id_iff",
+        "HomotopyCRM.Vol2.pullbackSub_comp_iff",
+        "HomotopyCRM.Vol2.replacement_iff_covariant_powerset"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:thm:replacement-iff-covariant-powerset"
+      ]
+    },
+    {
+      "id": "ch04:thm:waterhouse-fpqc-smallness-escape",
+      "formal_pkg": "mathlib_vol2",
+      "stratum": "emerald",
+      "decl_names": [
+        "HomotopyCRM.Vol2.UnboundedCoverSystem",
+        "HomotopyCRM.Vol2.UnboundedCoverSystem.IsSmallFamily",
+        "HomotopyCRM.Vol2.UnboundedCoverSystem.IsSeparatingGenerator",
+        "HomotopyCRM.Vol2.UnboundedCoverSystem.BoundedCutoffSeparable",
+        "HomotopyCRM.Vol2.natRankCoverSystem",
+        "HomotopyCRM.Vol2.waterhouse_fpqc_smallness_escape"
+      ],
+      "expected_axioms": [],
+      "allowed_ancestors": [
+        "ch04:prop:borger-lambda-delta-two-prime",
+        "ch04:prop:zariski-radical-frame-constructive",
+        "ch04:thm:waterhouse-fpqc-smallness-escape"
+      ]
+    },
+    {
       "id": "ch09:prop:pure-kan-path-symmetry-cert",
       "formal_pkg": "kernel_arena",
       "stratum": "emerald",
