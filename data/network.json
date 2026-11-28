@@ -31,7 +31,7 @@
       "PLANNED": 6
     },
     "pub_targets_total": 7,
-    "pub_targets_clean": 0,
+    "pub_targets_clean": 7,
     "total_edges": 668,
     "edges_by_fiber": {
       "curriculum": 144,
@@ -5803,8 +5803,8 @@
       "spec_hash": "fccb83a028d798902b9bf10c894daee46757aa15e2fe4219a01a6c106e381210",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/doc_repo_frontdoor.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -5851,8 +5851,8 @@
       "spec_hash": "5bdc35b89cc296cd6fea472a6e999f0ee1212ecddcfca9b7694c59ef33fb2d8f",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/web_observatory.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -5943,8 +5943,8 @@
       "spec_hash": "02bf450f1c904e167feb841f573d69d8d7dc3e886fc03940744698272ecd1195",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/pdf_monograph.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -5992,8 +5992,8 @@
       "spec_hash": "0b6eaa566942ecafdac0c7f0e4dd44a3a7df8c928e459acb0e58e55f453b3e18",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/pdf_claims_ledger.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -6089,8 +6089,8 @@
       "spec_hash": "b963d5ffdf4e35b9ecd5194a86cc751796714d14347e2d8ce65ef6b93a63ca63",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/pdf_course_packs.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -6142,8 +6142,8 @@
       "spec_hash": "f0d529e68bbc8993330120a1a031597a03d3fd75aa94c465b7fcee27e2fd0484",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/branch_lean_export.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -6188,8 +6188,8 @@
       "spec_hash": "3dbc70fbc4b0f2fbb97e08ce88596e8802d2d759e6b298c6abc802cba298213d",
       "body_hash": "6e864faf974a4055f08aa74b00c13a74789946a33ab199716f636d718b6f6b0f",
       "grounding_hash": "0ac689f7c498f3dbee304dbd36dd54f8fa5b52560f085a74807cc568ea00a21f",
-      "taint_status": "ARTIFACT_DIRTY",
-      "taint_reason": "CONE_HASH_CHANGED",
+      "taint_status": "CLEAN",
+      "taint_reason": "",
       "file_path": "nodes/pub/gh_issues_board.toml",
       "primary_category": "",
       "blueprint_tier": "none",
@@ -11651,9 +11651,9 @@
         "CITATION.cff"
       ],
       "cone_hash": "abafe74186247f8eae78fb30dbeb88725113ebc1925c17e425add9a40e9a4ad2",
-      "locked_cone_hash": "dcbd5f26b4b708a002c81b09c9c964583027699cca65f63b118d49bdd59fba87",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "abafe74186247f8eae78fb30dbeb88725113ebc1925c17e425add9a40e9a4ad2",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": []
     },
     {
@@ -11669,9 +11669,9 @@
         "build/gh_pages/.nojekyll"
       ],
       "cone_hash": "1fe741a48ac65d6fae5f376ba7bf422f193b4392cb66d1221e8ff2be63dbe627",
-      "locked_cone_hash": "9ec9c8057fa007cf2fcc6436b168a21bcb63a54f83aa13d41584c1db9f14adbd",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "1fe741a48ac65d6fae5f376ba7bf422f193b4392cb66d1221e8ff2be63dbe627",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": [
         "index.html",
         "data/network.json"
@@ -11687,9 +11687,9 @@
         "build/gh_pages/pdfs/crm_vol2_monograph.pdf"
       ],
       "cone_hash": "7044d44031f443525437024daf22b2e19eb7144b9a8de6785324bec49994aa1d",
-      "locked_cone_hash": "48a2ebca0c85bf895487c1f627b5f5fbe17140540b8082c1a15ec9d345a6ca0e",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "7044d44031f443525437024daf22b2e19eb7144b9a8de6785324bec49994aa1d",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": [
         "pdfs/crm_vol2_monograph.pdf"
       ]
@@ -11704,9 +11704,9 @@
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
       "cone_hash": "eff316d83aaf4005e66890372a772950f13037bb0aa292e25268abcc39cef1b8",
-      "locked_cone_hash": "eb193cdb1fc6cc2baeb1eaedd655b9495edfabd6ae4607c188c30127952ae90b",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "eff316d83aaf4005e66890372a772950f13037bb0aa292e25268abcc39cef1b8",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": [
         "pdfs/crm_vol2_claims_ledger.pdf"
       ]
@@ -11727,9 +11727,9 @@
         "build/gh_pages/pdfs/course_pack_ch04_smallness_and_schemes.pdf"
       ],
       "cone_hash": "f8cc277ab5b3599a50f497b27ee455a30cad711de02a2cd5371f3a3069dc0705",
-      "locked_cone_hash": "96c19f20067913a3403f48766c5fce67759795a097566cd95728e6ac40af4f34",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "f8cc277ab5b3599a50f497b27ee455a30cad711de02a2cd5371f3a3069dc0705",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": [
         "pdfs/course_pack_ch01_probe_calibration.pdf",
         "pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
@@ -11747,9 +11747,9 @@
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
       "cone_hash": "ccffe2400d2d29f9af82413f72b3540a7899f35dfa2a73d408eafe0dd32740ac",
-      "locked_cone_hash": "48a3185a7fedaa31dbd048f472c72558c2fc7e9b21d86d6e858a1a12128e106a",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "ccffe2400d2d29f9af82413f72b3540a7899f35dfa2a73d408eafe0dd32740ac",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": []
     },
     {
@@ -11762,9 +11762,9 @@
         "github:issues"
       ],
       "cone_hash": "691374bff6b5025cc00c1f14d3ef77d5a17d5cafc53df576cc992c2d2b879c39",
-      "locked_cone_hash": "5d49b0aba7644d1fccf650f6bb04a7a6f197f0981674f3ff9aa0d4c1fd36ad52",
-      "pub_status": "ARTIFACT_DIRTY",
-      "pub_reason": "CONE_HASH_CHANGED",
+      "locked_cone_hash": "691374bff6b5025cc00c1f14d3ef77d5a17d5cafc53df576cc992c2d2b879c39",
+      "pub_status": "CLEAN",
+      "pub_reason": "",
       "published_paths": []
     }
   ],
