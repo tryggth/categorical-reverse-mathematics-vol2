@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: "Walters"
     given-names: "James F."
-date-released: "2026-11-26"
+date-released: "2026-11-27"
 license: "CC-BY-4.0"
 repository-code: "https://github.com/tryggth/categorical-reverse-mathematics-vol2"
 url: "https://tryggth.github.io/categorical-reverse-mathematics-vol2/"

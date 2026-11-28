@@ -187,6 +187,7 @@ def _pdf_link_labels(rel_path: str) -> tuple[str, str, str]:
         "course_pack_ch01_probe_calibration.pdf": ("Ch. 1 Course Pack PDF", "Standalone Ch. 1 Course Pack PDF"),
         "course_pack_ch02_class_set_kaleidoscope.pdf": ("Ch. 2 Course Pack PDF", "Standalone Ch. 2 Course Pack PDF"),
         "course_pack_ch03_piset_transgression.pdf": ("Ch. 3 Course Pack PDF", "Standalone Ch. 3 Course Pack PDF"),
+        "course_pack_ch04_smallness_and_schemes.pdf": ("Ch. 4 Course Pack PDF", "Standalone Ch. 4 Course Pack PDF"),
     }
     if fname in known:
         short_lbl, surface_lbl = known[fname]
@@ -264,7 +265,7 @@ def render_readme(ctx: dict[str, Any]) -> str:
         "flowchart LR",
         "  SRC[\"nodes/**/*.toml + certs/*.2ltt.json\"] --> DB[\"DuckDB (5 Acyclic Fibers + Two-Hash Taint Engine)\"]",
         "  DB --> TCB[\"mathlib_vol2 + KernelArena (Two-Package TCB)\"]",
-        "  DB --> PDFS[\"5 Royal Octavo PDFs (Monograph, Ledger, Ch.1–Ch.3 Course Packs)\"]",
+        "  DB --> PDFS[\"6 Royal Octavo PDFs (Monograph, Ledger, Ch.1–Ch.4 Course Packs)\"]",
         "  TCB --> PDFS",
         "  TCB --> SMAIN[\"pub:doc:* -> main (README, PROCESS, ROADMAP)\"]",
         "  PDFS --> SPAGES[\"pub:web/pdf:* -> gh-pages (Observatory + PDFs)\"]",
@@ -276,7 +277,7 @@ def render_readme(ctx: dict[str, Any]) -> str:
         "> **Branch Guide (Do Not Merge `lean-export` / `gh-pages` into `main`):**",
         "> - **`main`** — Canonical single-network source of truth (`nodes/**/*.toml`, `certs/*.2ltt.json`, `scripts/`, `manifest/`, `README.md`, `PROCESS.md`, `ROADMAP.md`). All mathematical edits and PRs target `main` only.",
         "> - **`lean-export`** — Standalone auto-generated Lean 4 + `KernelArena` projection branch (`scripts/export_lean_branch.py`, committed via `GIT_INDEX_FILE` without DuckDB or LaTeX). **Do not merge `lean-export` into `main`.**",
-        "> - **`gh-pages`** — Auto-generated static Glass-Box Observatory + 5 Royal Octavo PDFs (`scripts/emit_observatory.py`, committed via `GIT_INDEX_FILE`). **Do not merge `gh-pages` into `main`.**",
+        "> - **`gh-pages`** — Auto-generated static Glass-Box Observatory + 6 Royal Octavo PDFs (`scripts/emit_observatory.py`, committed via `GIT_INDEX_FILE`). **Do not merge `gh-pages` into `main`.**",
         "",
         "## Live Public Surfaces",
         "",

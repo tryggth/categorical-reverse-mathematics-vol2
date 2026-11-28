@@ -1,0 +1,178 @@
+id = "ch04:thm:pointillist-continuum-and-czf-split"
+kind = "theorem"
+title = "Pointillist Continuum in H(aleph_1) and Constructive CZF Omega^X / 2^X Split"
+chapter = "ch04"
+section = "4.2"
+seq_order = 425
+axis = "ast_schemes"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["aczel1978", "joyal_moerdijk1995"]
+
+[spec]
+statement = "In the constructive Emerald stratum (0 axioms): (1) Defining CountablyPresented X := exists q : Nat -> Option X, forall x, exists n, q n = some x to internalize smallness in H(aleph_1) |= ZFC^-, CountablyPresented is closed under surjective image descent and contains every individual real {n : Nat // r n = true}, yet excludes full Cantor space (Nat -> Bool) by Cantor diagonalization; and (2) For any inhabited carrier X (x0 : X) and injective classifier embedding iota : Bool -> Omega over DecidableEq Omega, post-composition (iota o -) : (X -> Bool) -> (X -> Omega) is pointwise surjective iff iota is surjective, failing explicitly on the 3-valued Heyting classifier Omega = Fin 3."
+hypotheses = [
+  "CountablyPresented predicate for hereditarily countable smallness",
+  "DecidableEq Omega for explicit Bool -> Omega preimage test without Classical.choice"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.PointillistContinua"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.CountablyPresented",
+  "HomotopyCRM.Vol2.countablyPresented_of_surjective",
+  "HomotopyCRM.Vol2.real_subtype_countablyPresented",
+  "HomotopyCRM.Vol2.not_countablyPresented_cantor",
+  "HomotopyCRM.Vol2.classifier_postcomp_surj_iff",
+  "HomotopyCRM.Vol2.heyting3Embed",
+  "HomotopyCRM.Vol2.pointillist_continuum_and_czf_split"
+]
+expected_axioms = []
+lean_signature = """
+/-- A type `X` is countably presented (`∈ H(ℵ₁)`) iff an `Option`-indexed sequence enumerates it. -/
+def CountablyPresented.{u} (X : Type u) : Prop :=
+  ∃ q : Nat → Option X, ∀ x : X, ∃ n : Nat, q n = some x
+
+/-- Axis VI surjective image descent preserves countable presentability without Choice. -/
+theorem countablyPresented_of_surjective {X Y : Type} (f : X → Y)
+    (hsurj : ∀ y : Y, ∃ x : X, f x = y) (hX : CountablyPresented X) :
+    CountablyPresented Y := by
+  obtain ⟨q, hq⟩ := hX
+  refine ⟨fun n ↦ match q n with | none => none | some x => some (f x), fun y ↦ ?_⟩
+  obtain ⟨x, rfl⟩ := hsurj y
+  obtain ⟨n, hn⟩ := hq x
+  refine ⟨n, ?_⟩
+  dsimp only
+  rw [hn]
+
+/-- Every individual real subset `r : Nat → Bool` is countably presented (`∈ H(ℵ₁)`). -/
+theorem real_subtype_countablyPresented (r : Nat → Bool) :
+    CountablyPresented { n : Nat // r n = true } := by
+  refine ⟨fun n ↦ if h : r n = true then some ⟨n, h⟩ else none, fun x ↦ ⟨x.1, ?_⟩⟩
+  exact dif_pos x.2
+
+/-- Full Cantor space `Nat → Bool` fails countable presentability via explicit diagonalization. -/
+theorem not_countablyPresented_cantor : ¬ CountablyPresented (Nat → Bool) := by
+  rintro ⟨q, hq⟩
+  let diag : Nat → Bool := fun n ↦ match q n with | none => false | some f => !(f n)
+  obtain ⟨n, hn⟩ := hq diag
+  have hSelf : diag n = !(diag n) := by
+    have hDef : diag n = match q n with | none => false | some f => !(f n) := rfl
+    rw [hn] at hDef
+    exact hDef
+  cases h : diag n <;> rw [h] at hSelf <;> exact Bool.noConfusion hSelf
+
+/-- Pointwise surjectivity of `(ι ∘ -) : (X → Bool) → (X → Ω)` holds iff `ι : Bool → Ω` is
+    already surjective (i.e. `Ω` is Boolean). -/
+theorem classifier_postcomp_surj_iff {X Ω : Type} [DecidableEq Ω] (x₀ : X) (ι : Bool → Ω)
+    (hι : ∀ a b, ι a = ι b → a = b) :
+    (∀ g : X → Ω, ∃ f : X → Bool, ∀ x, ι (f x) = g x) ↔
+      (∀ ω : Ω, ∃ b : Bool, ι b = ω) := by
+  constructor
+  · intro hpost ω
+    obtain ⟨f, hf⟩ := hpost (fun _ ↦ ω)
+    exact ⟨f x₀, hf x₀⟩
+  · intro hsurj g
+    refine ⟨fun x ↦ if ι true = g x then true else false, fun x ↦ ?_⟩
+    obtain ⟨b, hb⟩ := hsurj (g x)
+    cases b
+    · by_cases hEq : ι true = g x
+      · exact False.elim (Bool.noConfusion (hι true false (hEq.trans hb.symm)))
+      · dsimp only
+        rw [if_neg hEq]
+        exact hb
+    · dsimp only
+      rw [if_pos hb]
+      exact hb
+
+/-- Canonical 2-to-3 Heyting truth-value embedding sending `false ↦ 0` and `true ↦ 2`. -/
+def heyting3Embed (b : Bool) : Fin 3 :=
+  if b then ⟨2, by decide⟩ else ⟨0, by decide⟩
+
+/-- **Pointillist Continuum & Constructive CZF Split (Emerald, Axiom-Free):**
+    Combines Axis VI surjection preservation on `CountablyPresented`, individual-real membership
+    in `H(ℵ₁)`, Cantor exclusion of `Nat → Bool`, and the `Fin 3` `Ω^X / 2^X` failure. -/
+theorem pointillist_continuum_and_czf_split {X : Type} (x₀ : X) :
+    (∀ {A B : Type} (f : A → B), (∀ b, ∃ a, f a = b) →
+      CountablyPresented A → CountablyPresented B) ∧
+    (∀ r : Nat → Bool, CountablyPresented { n : Nat // r n = true }) ∧
+    ¬ CountablyPresented (Nat → Bool) ∧
+    (∀ (Ω : Type) [DecidableEq Ω] (ι : Bool → Ω), (∀ a b, ι a = ι b → a = b) →
+      ((∀ g : X → Ω, ∃ f : X → Bool, ∀ x, ι (f x) = g x) ↔ (∀ ω, ∃ b, ι b = ω))) ∧
+    ((∀ a b, heyting3Embed a = heyting3Embed b → a = b) ∧
+      ¬ (∀ g : X → Fin 3, ∃ f : X → Bool, ∀ x, heyting3Embed (f x) = g x)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.countablyPresented_of_surjective' does not depend on any axioms -/\n#guard_msgs in\n#print axioms countablyPresented_of_surjective",
+  "/-- info: 'HomotopyCRM.Vol2.real_subtype_countablyPresented' does not depend on any axioms -/\n#guard_msgs in\n#print axioms real_subtype_countablyPresented",
+  "/-- info: 'HomotopyCRM.Vol2.not_countablyPresented_cantor' does not depend on any axioms -/\n#guard_msgs in\n#print axioms not_countablyPresented_cantor",
+  "/-- info: 'HomotopyCRM.Vol2.classifier_postcomp_surj_iff' does not depend on any axioms -/\n#guard_msgs in\n#print axioms classifier_postcomp_surj_iff",
+  "/-- info: 'HomotopyCRM.Vol2.pointillist_continuum_and_czf_split' does not depend on any axioms -/\n#guard_msgs in\n#print axioms pointillist_continuum_and_czf_split"
+]
+
+[body]
+lean_body = """
+  have hInj3 : ∀ a b : Bool, heyting3Embed a = heyting3Embed b → a = b := by
+    intro a b h
+    cases a <;> cases b
+    · rfl
+    · exact False.elim (Nat.noConfusion (show (0 : Nat) = 2 from congrArg Fin.val h))
+    · exact False.elim (Nat.noConfusion (show (2 : Nat) = 0 from congrArg Fin.val h))
+    · rfl
+  have hNotSurj3 : ¬ (∀ ω : Fin 3, ∃ b : Bool, heyting3Embed b = ω) := by
+    intro h
+    obtain ⟨b, hb⟩ := h ⟨1, by decide⟩
+    cases b
+    · exact Nat.noConfusion (show (0 : Nat) = 1 from congrArg Fin.val hb)
+    · exact Nat.noConfusion (Nat.succ.inj (show (2 : Nat) = 1 from congrArg Fin.val hb))
+  have hFail3 : ¬ (∀ g : X → Fin 3, ∃ f : X → Bool, ∀ x, heyting3Embed (f x) = g x) :=
+    fun hpost ↦ hNotSurj3 ((classifier_postcomp_surj_iff x₀ heyting3Embed hInj3).mp hpost)
+  exact ⟨fun f hs hA ↦ countablyPresented_of_surjective f hs hA,
+    real_subtype_countablyPresented, not_countablyPresented_cantor,
+    fun Ω _ ι hι ↦ classifier_postcomp_surj_iff x₀ ι hι, ⟨hInj3, hFail3⟩⟩
+"""
+tex = """
+\\begin{theorem}[Pointillist Continuum in $H(\\aleph_1)$ and {{sym:czf}} $\\Omega^X / 2^X$ Split]\\label{ch04:thm:pointillist-continuum-and-czf-split}%
+\\uses{vol1:prop:pointillist-continuum,ch04:thm:replacement-iff-covariant-powerset}%
+Both Power-Set compression residua of Stratum~II hold constructively in the \\textbf{Emerald} stratum:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Pointillist Continuum in $H(\\aleph_1) \\models$ {{sym:zfc-minus}}:} \\texttt{CountablyPresented} is preserved along surjective image descent, contains every individual real $r : \\mathbb{N} \\to 2$, yet excludes full Cantor space $2^{\\mathbb{N}}$ via explicit diagonalization~\\cite{joyal_moerdijk1995}.
+  \\item \\textbf{Constructive {{sym:czf}} $\\Omega^X / 2^X$ Split:} For any inhabited domain $X$ and injective truth-value embedding $\\iota : 2 \\hookrightarrow \\Omega$ with decidable equality, post-composition $(\\iota \\circ -) : 2^X \\to \\Omega^X$ is surjective iff $\\iota$ itself is surjective, failing constructively on the $3$-valued Heyting classifier $\\Omega = \\mathrm{Fin}\\,3$~\\cite{aczel1978}.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+All five claims are formalized axiom-free in \\texttt{PointillistContinua.lean} (\\texttt{pointillist\\_continuum\\_and\\_czf\\_split}). Surjective image preservation maps any partial enumeration $q : \\mathbb{N} \\to \\mathrm{Option}\\,A$ along $f : A \\twoheadrightarrow B$; individual reals are enumerated via characteristic tests on $\\mathbb{N}$; Cantor's diagonal flips any $q : \\mathbb{N} \\to \\mathrm{Option}(\\mathbb{N} \\to 2)$ at step $n$; and for non-Boolean $\\Omega = \\mathrm{Fin}\\,3$ sending $\\mathrm{false} \\mapsto 0, \\mathrm{true} \\mapsto 2$, the constant map at the intermediate truth value $1$ lies outside the image of $2^X$.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Topological Separation", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.pointillist_continuum_and_czf_split"
+purpose = "Zero-axiom Lean mechanization of H(aleph_1) pointillist continuum diagonalization and Fin 3 Heyting Omega^X / 2^X split"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "aczel1978"
+locator = "pp. 55--66"
+purpose = "Martin-Lof W-type interpretation separating CZF Exponentiation 2^X from full Power Set Omega^X"
+
+[edges]
+logical_dep = [
+  "vol1:prop:pointillist-continuum",
+  "ch04:thm:replacement-iff-covariant-powerset"
+]
+lean_dep = []
+curriculum = [
+  "vol1:prop:pointillist-continuum",
+  "ch04:thm:replacement-iff-covariant-powerset"
+]
+prose_paraphrase = []

@@ -50,8 +50,13 @@ CHAPTER_HEADERS = {
         r"\chapterepigraph{Sometimes I have had the task to write reviews of articles, where set theoretic notions and theorems are used without any explanation of what kind of set theory is meant. It is a disagreeable job to write reviews in such cases. One does not know what the author really means.}{Thoralf Skolem, \emph{A Critical Remark on Foundational Research} (1955)}",
         "",
     ],
+    "ch04": [
+        r"\part{Axis VI: Algebraic Set Theory, Cofinality, and Class Proof Unwinding}\label{part:ast-cofinality}",
+        r"\chapter{Smallness Ideals, Scheme Solvents, and Pointillist Continua}\label{ch:smallness-and-schemes}",
+        "",
+    ],
     "ch09": [
-        r"\part{Two-Level Type Theory, KernelArena, and Constructive Limits}\label{part:2ltt-tcb}",
+        r"\part{Axis VII: Coalgebraic Hypersets, Univalent Multisets, and Higher Symmetry}\label{part:2ltt-tcb}",
         r"\chapter{Cartesian Cubical 2LTT, \texorpdfstring{$\mathsf{V}$}{V}-Univalence, and \texorpdfstring{\texttt{KernelArena}}{KernelArena} Rung~1}\label{ch:tcb-rung1-2ltt}",
         "",
     ],
@@ -109,6 +114,22 @@ SECTION_TITLES = {
     "3.4": (
         "The Two-Valve Base--Fiber Dichotomy, Morleyized Topoi, and Part~I Synthesis",
         "sec:two-valve-dichotomy",
+    ),
+    "4.1": (
+        r"Joyal--Moerdijk \texorpdfstring{$(\mathcal{C},\mathcal{S})$}{(C, S)} Dissection and Axis~VI Quotient Descent",
+        "sec:joyal-moerdijk-axis-vi",
+    ),
+    "4.2": (
+        r"Pointillist Continua, \texorpdfstring{$\mathsf{CZF}$}{CZF} \texorpdfstring{$\Omega^X / 2^X$}{Omega^X / 2^X}, and Cohesive Adjudication",
+        "sec:pointillist-continua-czf",
+    ),
+    "4.3": (
+        r"Grothendieck Scheme Solvents: Constructive Zariski Frames vs.\ Krull Primes",
+        "sec:zariski-krull-solvents",
+    ),
+    "4.4": (
+        r"Borger \texorpdfstring{$\Lambda/\mathbb{F}_1$}{Lambda/F\_1}-Descent, Waterhouse's \texorpdfstring{$\mathrm{fpqc}$}{fpqc} Escape, and Chapter~4 Synthesis",
+        "sec:borger-waterhouse-fpqc",
     ),
     "9.1": (
         r"Cartesian Cubical 2LTT, Univalent Transport, and \texorpdfstring{\texttt{KernelArena}}{KernelArena} Rung~1",
@@ -184,6 +205,8 @@ def tex_escape(s: str) -> str:
         "ψ": r"$\psi$",
         "κ": r"$\kappa$",
         "ℓ": r"$\ell$",
+        "ℵ": r"$\aleph$",
+        "′": r"$'$",
         "≡": r"$\equiv$",
         "₀": r"\textsubscript{0}",
         "₁": r"\textsubscript{1}",

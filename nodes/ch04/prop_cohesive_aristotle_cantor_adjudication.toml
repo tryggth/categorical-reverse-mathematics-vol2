@@ -1,0 +1,171 @@
+id = "ch04:prop:cohesive-aristotle-cantor-adjudication"
+kind = "proposition"
+title = "Cohesive Adjudication of Aristotle-Weyl Continua vs. Cantor Point-Dust"
+chapter = "ch04"
+section = "4.2"
+seq_order = 435
+axis = "ast_schemes"
+grounding_tier = "prose_proof"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["lawvere2007", "weyl1918"]
+
+[spec]
+statement = "The classical schism between Aristotle's / Weyl's (1918) cohesive non-pointwise continuum and Cantor-Dedekind's point-set continuum 2^N is reconciled categorically by Lawvere's (2007) cohesive quadruple Pi -| Disc -| Gamma -| Codisc on topological/simplicial spaces: Γ sends both a connected interval I and its discretized point set Disc(|I|) to isomorphic point-sets Γ(I) ~= Γ(Disc(|I|)), while connected components Pi(I) ~ 1 strictly separate connected cohesion from discrete point-dust Pi(Disc(|I|)). In PointillistContinua.lean, ReflGraph mechanizes Disc -| Gamma -| Codisc and the I_1 vs. Disc(Bool) separation with 0 axioms."
+hypotheses = [
+  "Lawvere 2007 axiomatic cohesion Pi -| Disc -| Gamma -| Codisc",
+  "Weyl 1918 Das Kontinuum critique of point-set reducibility"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.PointillistContinua"
+imports = []
+decl_names = [
+  "HomotopyCRM.Vol2.ReflGraph",
+  "HomotopyCRM.Vol2.ReflGraphHom",
+  "HomotopyCRM.Vol2.discGraph",
+  "HomotopyCRM.Vol2.gammaPoints",
+  "HomotopyCRM.Vol2.codiscGraph",
+  "HomotopyCRM.Vol2.intervalGraphI1",
+  "HomotopyCRM.Vol2.IsCohesivelyConnected",
+  "HomotopyCRM.Vol2.cohesive_aristotle_cantor_witness"
+]
+expected_axioms = []
+lean_signature = """
+/-- Reflexive directed graphs modeling the cohesive ambient category for continuum adjudication. -/
+structure ReflGraph : Type 1 where
+  V : Type
+  edge : V → V → Prop
+  edge_refl : ∀ x : V, edge x x
+
+/-- Edge-preserving morphisms in `ReflGraph`. -/
+structure ReflGraphHom (G H : ReflGraph) : Type where
+  toFun : G.V → H.V
+  map_edge : ∀ {x y : G.V}, G.edge x y → H.edge (toFun x) (toFun y)
+
+/-- Discrete functor `Disc : Type → ReflGraph` equipping `A` with equality edges only. -/
+def discGraph (A : Type) : ReflGraph where
+  V := A
+  edge x y := x = y
+  edge_refl _ := rfl
+
+/-- Underlying-points functor `Γ : ReflGraph → Type`. -/
+def gammaPoints (G : ReflGraph) : Type := G.V
+
+/-- Codiscrete functor `Codisc : Type → ReflGraph` equipping `A` with complete edges. -/
+def codiscGraph (A : Type) : ReflGraph where
+  V := A
+  edge _ _ := True
+  edge_refl _ := trivial
+
+/-- Connected one-edge interval graph `I₁` over two endpoints `{false, true}`. -/
+def intervalGraphI1 : ReflGraph where
+  V := Bool
+  edge _ _ := True
+  edge_refl _ := trivial
+
+/-- Cohesive connectedness: every morphism into discrete booleans `Disc(Bool)` is constant. -/
+def IsCohesivelyConnected (G : ReflGraph) : Prop :=
+  ∀ φ : ReflGraphHom G (discGraph Bool), ∀ x y : G.V, φ.toFun x = φ.toFun y
+
+/-- **Lawvere Cohesive Adjudication Witness (Emerald, Axiom-Free):**
+    Certifies `Disc ⊣ Γ ⊣ Codisc` bijections, `Γ(Disc A) = A`, equal point sets `Γ(I₁) = Bool`,
+    cohesive connectedness of `I₁`, disconnectedness of `Disc(Bool)`, and non-isomorphism. -/
+theorem cohesive_aristotle_cantor_witness :
+    (∀ (A : Type) (G : ReflGraph),
+      ∃ (toPts : ReflGraphHom (discGraph A) G → (A → gammaPoints G))
+        (ofPts : (A → gammaPoints G) → ReflGraphHom (discGraph A) G),
+        (∀ φ, ofPts (toPts φ) = φ) ∧ (∀ f, toPts (ofPts f) = f)) ∧
+    (∀ (G : ReflGraph) (A : Type),
+      ∃ (toPts : ReflGraphHom G (codiscGraph A) → (gammaPoints G → A))
+        (ofPts : (gammaPoints G → A) → ReflGraphHom G (codiscGraph A)),
+        (∀ φ, ofPts (toPts φ) = φ) ∧ (∀ f, toPts (ofPts f) = f)) ∧
+    (∀ A : Type, gammaPoints (discGraph A) = A) ∧
+    (gammaPoints intervalGraphI1 = Bool) ∧
+    IsCohesivelyConnected intervalGraphI1 ∧
+    ¬ IsCohesivelyConnected (discGraph Bool) ∧
+    ¬ (∃ (f : ReflGraphHom intervalGraphI1 (discGraph Bool))
+         (g : ReflGraphHom (discGraph Bool) intervalGraphI1),
+         ∀ x : Bool, g.toFun (f.toFun x) = x) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.cohesive_aristotle_cantor_witness' does not depend on any axioms -/\n#guard_msgs in\n#print axioms cohesive_aristotle_cantor_witness"
+]
+
+[body]
+lean_body = """
+  have hAdj1 : ∀ (A : Type) (G : ReflGraph),
+      ∃ (toPts : ReflGraphHom (discGraph A) G → (A → gammaPoints G))
+        (ofPts : (A → gammaPoints G) → ReflGraphHom (discGraph A) G),
+        (∀ φ, ofPts (toPts φ) = φ) ∧ (∀ f, toPts (ofPts f) = f) := fun _ G ↦
+    ⟨fun φ ↦ φ.toFun,
+     fun f ↦ ⟨f, fun {x y} h ↦ h ▸ G.edge_refl (f x)⟩,
+     fun _ ↦ rfl, fun _ ↦ rfl⟩
+  have hAdj2 : ∀ (G : ReflGraph) (A : Type),
+      ∃ (toPts : ReflGraphHom G (codiscGraph A) → (gammaPoints G → A))
+        (ofPts : (gammaPoints G → A) → ReflGraphHom G (codiscGraph A)),
+        (∀ φ, ofPts (toPts φ) = φ) ∧ (∀ f, toPts (ofPts f) = f) := fun _ _ ↦
+    ⟨fun φ ↦ φ.toFun,
+     fun f ↦ ⟨f, fun _ ↦ trivial⟩,
+     fun _ ↦ rfl, fun _ ↦ rfl⟩
+  have hConnI1 : IsCohesivelyConnected intervalGraphI1 :=
+    fun φ x y ↦ φ.map_edge (x := x) (y := y) trivial
+  have hNotConnDisc : ¬ IsCohesivelyConnected (discGraph Bool) := by
+    intro h
+    have hEq := h ⟨fun b ↦ b, fun hxy ↦ hxy⟩ false true
+    exact Bool.noConfusion hEq
+  have hNoIso : ¬ (∃ (f : ReflGraphHom intervalGraphI1 (discGraph Bool))
+      (g : ReflGraphHom (discGraph Bool) intervalGraphI1),
+      ∀ x : Bool, g.toFun (f.toFun x) = x) := by
+    rintro ⟨f, g, hgf⟩
+    have hfEq : f.toFun false = f.toFun true := hConnI1 f false true
+    have hfalse : false = true :=
+      (hgf false).symm.trans (congrArg g.toFun hfEq |>.trans (hgf true))
+    exact Bool.noConfusion hfalse
+  exact ⟨hAdj1, hAdj2, fun _ ↦ rfl, rfl, hConnI1, hNotConnDisc, hNoIso⟩
+"""
+tex = """
+\\begin{proposition}[Cohesive Adjudication of the Continuum Split]\\label{ch04:prop:cohesive-aristotle-cantor-adjudication}%
+\\uses{ch04:thm:pointillist-continuum-and-czf-split}%
+The tension between Aristotle's and Weyl's~\\cite{weyl1918} non-pointwise continuum and Cantor--Dedekind's discrete point-dust $2^{\\mathbb{N}}$ disappears inside Lawvere's cohesive quadruple $\\Pi \\dashv \\mathrm{Disc} \\dashv \\Gamma \\dashv \\mathrm{Codisc}$~\\cite[pp.~41--49]{lawvere2007}: the forgetful point functor $\\Gamma$ sees identical underlying point sets for a connected interval $I$ and its point-dust $\\mathrm{Disc}(\\Gamma(I))$, whereas the connected-component left adjoint $\\Pi$ distinguishes cohesive connectedness $\\Pi(I) \\simeq 1$ from discrete separation $\\Pi(\\mathrm{Disc}(\\Gamma(I))) \\simeq \\Gamma(I)$.
+\\end{proposition}
+\\begin{proof}
+In the cohesive category of reflexive graphs \\texttt{ReflGraph} (modeling the simplicial nerve level at dimension $1$), the pair $(\\mathrm{Disc}, \\Gamma)$ and $(\\Gamma, \\mathrm{Codisc})$ form exact adjoint pairs with $\\Gamma(\\mathrm{Disc}(A)) = A$. On the two-point interval graph $I_1$ (one bidirectional edge between $0$ and $1$) and discrete two-point space $\\mathrm{Disc}(2)$, the underlying point sets coincide ($\\Gamma(I_1) = 2 = \\Gamma(\\mathrm{Disc}(2))$), yet every morphism $I_1 \\to \\mathrm{Disc}(2)$ is constant whereas $\\mathrm{id}_{\\mathrm{Disc}(2)}$ separates points. Consequently, reducing the continuum solely to $\\Gamma$ obliterates cohesive homotopy invariants invisible to the point functor $\\Gamma$. Theorem~\\texttt{cohesive\\_aristotle\\_cantor\\_witness} in \\texttt{PointillistContinua.lean} verifies both adjunctions and the finite interval separation axiom-free.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "English language proof in monograph"
+blueprint_tier = "lean_witness"
+characterization_types = ["Categorical Equivalence", "Topological Separation"]
+witness_scope = "Monograph adjudicates Aristotle/Weyl vs. Cantor-Dedekind via full Lawvere cohesion Pi -| Disc -| Gamma -| Codisc on topological/cohesive spaces; Lean theorem HomotopyCRM.Vol2.cohesive_aristotle_cantor_witness verifies the axiom-free Disc -| Gamma -| Codisc adjunctions and I_1 vs. Disc(Bool) separation in ReflGraph."
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.cohesive_aristotle_cantor_witness"
+purpose = "Zero-axiom ReflGraph adjunction and connected-vs-discrete separation witness"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "lawvere2007"
+locator = "Sec. 1--3, pp. 41--49"
+purpose = "Lawvere's Axiomatic Cohesion functor quadruple Pi -| Disc -| Gamma -| Codisc"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "weyl1918"
+locator = "Ch. 1--2, pp. 1--70"
+purpose = "Weyl's predicative critique of point-set continuum reductions"
+
+[edges]
+logical_dep = [
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+lean_dep = [
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+curriculum = [
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+prose_paraphrase = []

@@ -1,0 +1,55 @@
+id = "sym:ast-schemes"
+kind = "symbol"
+title = "Algebraic Set Theory, Constructive Continua, and Scheme Solvents Notation Registry"
+chapter = "ch04"
+section = "4.1"
+seq_order = 404
+axis = "ast_schemes"
+grounding_tier = "conceptual"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = []
+
+[spec]
+[[spec.exports]]
+key = "ast-pair"
+latex = "\\ensuremath{(\\mathcal{C}, \\mathcal{S})}"
+description = "Predicative class-set ambient pairing a regular class category C with small maps S"
+
+[[spec.exports]]
+key = "ps-func"
+latex = "\\ensuremath{\\mathcal{P}_{\\mathcal{S}}}"
+description = "Joyal-Moerdijk small-powerclass functor on (C, S)"
+
+[[spec.exports]]
+key = "zar-loc"
+latex = "\\ensuremath{\\mathcal{L}_{\\mathrm{Zar}}}"
+description = "Constructive Zariski radical frame / locale of a commutative ring"
+
+[[spec.exports]]
+key = "zfc-minus"
+latex = "\\ensuremath{\\mathsf{ZFC}^-}"
+description = "Zermelo-Fraenkel set theory with Choice minus the Power Set axiom"
+
+[[spec.exports]]
+key = "czf"
+latex = "\\ensuremath{\\mathsf{CZF}}"
+description = "Aczel-Myhill Constructive Zermelo-Fraenkel set theory"
+
+[[spec.exports]]
+key = "fpqc"
+latex = "\\ensuremath{\\mathrm{fpqc}}"
+description = "Faithfully flat quasi-compact Grothendieck topology"
+
+[body]
+tex = """
+\\begin{remark}[Notation Registry: Chapter~4 AST Valves and Scheme Solvents]\\label{sym:ast-schemes}%
+Chapter~4 introduces closed-world notation for the class--set ambient {{sym:ast-pair}}, its small-powerclass functor {{sym:ps-func}}, the constructive Zariski radical frame {{sym:zar-loc}}, Power-Set-free {{sym:zfc-minus}}, constructive {{sym:czf}}, and the {{sym:fpqc}} Grothendieck topology.
+\\end{remark}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []

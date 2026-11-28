@@ -1,0 +1,55 @@
+id = "ch04:claim:blechschmidt-internal-zariski-serre-affineness"
+kind = "inline_claim"
+title = "Blechschmidt Internal Zariski Topos and Serre Cohomological Affineness Solvent"
+chapter = "ch04"
+section = "4.3"
+seq_order = 460
+axis = "ast_schemes"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["blechschmidt2017", "johnstone1982", "serre1957_affineness"]
+
+[spec]
+statement = "Inside the petit Zariski topos Sh(X_Zar) of a scheme X, Blechschmidt's (2017) internal language reduces the structure sheaf O_X to a single internal local ring, precipitating Pic(X) ~= H^1(X_Zar; O_X^x) from externalizing internal triviality (Hilbert Theorem 90), while Serre's (1957) cohomological criterion diagnoses failure of global affineness X -> Spec Gamma(X, O_X) on a qcqs scheme directly through quasi-coherent ideal sheaf cohomology H^1(X; I)."
+hypotheses = [
+  "Blechschmidt 2017 internal topos semantics on Sh(X_Zar)",
+  "Serre 1957 / EGA II cohomological affineness criterion on qcqs schemes"
+]
+
+[body]
+tex = """
+\\begin{inlineclaim}[Blechschmidt Internal Zariski Topos and Serre Affineness Criterion]\\label{ch04:claim:blechschmidt-internal-zariski-serre-affineness}%
+\\uses{ch04:prop:zariski-radical-frame-constructive,ch04:thm:prime-spectrum-krull-choice-gate}%
+Inside the petit Zariski topos $\\mathbf{Sh}(X_{\\mathrm{Zar}})$ \\cite[Chs.~3--4]{blechschmidt2017} \\cite[Ch.~V]{johnstone1982}, a scheme $X$ collapses internally to a single local ring $\\mathcal{O}_X$ without prime-spectrum Choice; externalizing internal invertibility and descent precipitates the Picard obstruction $\\mathrm{Pic}(X) \\cong H^1(X_{\\mathrm{Zar}}; \\mathcal{O}_X^{\\times})$. Dually, for a quasi-compact quasi-separated scheme $X$, Serre's criterion \\cite[Thm.~1, pp.~1--16]{serre1957_affineness} detects failure of the canonical affineness adjunction unit $X \\to \\mathrm{Spec}\\,\\Gamma(X, \\mathcal{O}_X)$ precisely through nonvanishing quasi-coherent ideal cohomology $H^1(X; \\mathcal{I}) \\neq 0$.
+\\end{inlineclaim}
+"""
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Cohomological / Spectral Obstruction", "Duality"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "blechschmidt2017"
+locator = "Ch. 3--4, Sec. 4.1"
+purpose = "Internal ring theory inside Sh(X_Zar) and cohomological externalization"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "serre1957_affineness"
+locator = "Thm. 1, pp. 1--16"
+purpose = "Cohomological obstruction H^1(X; I) governing qcqs affineness"
+
+[edges]
+logical_dep = [
+  "ch04:prop:zariski-radical-frame-constructive",
+  "ch04:thm:prime-spectrum-krull-choice-gate"
+]
+lean_dep = []
+curriculum = [
+  "ch04:thm:prime-spectrum-krull-choice-gate"
+]
+prose_paraphrase = []

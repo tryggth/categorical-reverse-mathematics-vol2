@@ -1,12 +1,12 @@
 {
   "schema": "vol2.publication_lock.v1",
-  "updated_at_utc": "2026-11-27T13:50:31.165038+00:00",
+  "updated_at_utc": "2026-11-28T04:54:43.444054+00:00",
   "github_repo": "tryggth/categorical-reverse-mathematics-vol2",
   "pages_url": "https://tryggth.github.io/categorical-reverse-mathematics-vol2/",
-  "lean_export_commit": "8575128ac4f1efda1339421d0e6ec94c7c00bcfc",
+  "lean_export_commit": "c8f4d109b56c3890d2128bc4dc61d14c30d39746",
   "pub_targets": {
     "pub:branch:lean-export": {
-      "cone_hash": "48a3185a7fedaa31dbd048f472c72558c2fc7e9b21d86d6e858a1a12128e106a",
+      "cone_hash": "ccffe2400d2d29f9af82413f72b3540a7899f35dfa2a73d408eafe0dd32740ac",
       "channel": "lean_export",
       "sensitivity": "lean_only",
       "outputs": [
@@ -14,10 +14,10 @@
         "build/lean_export_stage/EXPORT_MANIFEST.json"
       ],
       "published_paths": [],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     },
     "pub:doc:repo-frontdoor": {
-      "cone_hash": "dcbd5f26b4b708a002c81b09c9c964583027699cca65f63b118d49bdd59fba87",
+      "cone_hash": "abafe74186247f8eae78fb30dbeb88725113ebc1925c17e425add9a40e9a4ad2",
       "channel": "main_docs",
       "sensitivity": "spec_and_metrics",
       "outputs": [
@@ -27,10 +27,10 @@
         "CITATION.cff"
       ],
       "published_paths": [],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     },
     "pub:gh:issues-board": {
-      "cone_hash": "5d49b0aba7644d1fccf650f6bb04a7a6f197f0981674f3ff9aa0d4c1fd36ad52",
+      "cone_hash": "691374bff6b5025cc00c1f14d3ef77d5a17d5cafc53df576cc992c2d2b879c39",
       "channel": "gh_issues",
       "sensitivity": "plan_and_problems",
       "outputs": [
@@ -38,10 +38,10 @@
         "github:issues"
       ],
       "published_paths": [],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     },
     "pub:pdf:claims-ledger": {
-      "cone_hash": "eb193cdb1fc6cc2baeb1eaedd655b9495edfabd6ae4607c188c30127952ae90b",
+      "cone_hash": "eff316d83aaf4005e66890372a772950f13037bb0aa292e25268abcc39cef1b8",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
@@ -51,10 +51,10 @@
       "published_paths": [
         "pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     },
     "pub:pdf:course-packs": {
-      "cone_hash": "96c19f20067913a3403f48766c5fce67759795a097566cd95728e6ac40af4f34",
+      "cone_hash": "f8cc277ab5b3599a50f497b27ee455a30cad711de02a2cd5371f3a3069dc0705",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
@@ -63,17 +63,20 @@
         "build/tex/course_pack_ch02_class_set_kaleidoscope.pdf",
         "build/gh_pages/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
         "build/tex/course_pack_ch03_piset_transgression.pdf",
-        "build/gh_pages/pdfs/course_pack_ch03_piset_transgression.pdf"
+        "build/gh_pages/pdfs/course_pack_ch03_piset_transgression.pdf",
+        "build/tex/course_pack_ch04_smallness_and_schemes.pdf",
+        "build/gh_pages/pdfs/course_pack_ch04_smallness_and_schemes.pdf"
       ],
       "published_paths": [
         "pdfs/course_pack_ch01_probe_calibration.pdf",
         "pdfs/course_pack_ch02_class_set_kaleidoscope.pdf",
-        "pdfs/course_pack_ch03_piset_transgression.pdf"
+        "pdfs/course_pack_ch03_piset_transgression.pdf",
+        "pdfs/course_pack_ch04_smallness_and_schemes.pdf"
       ],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     },
     "pub:pdf:monograph": {
-      "cone_hash": "48a2ebca0c85bf895487c1f627b5f5fbe17140540b8082c1a15ec9d345a6ca0e",
+      "cone_hash": "7044d44031f443525437024daf22b2e19eb7144b9a8de6785324bec49994aa1d",
       "channel": "gh_pages",
       "sensitivity": "spec_and_body",
       "outputs": [
@@ -83,10 +86,10 @@
       "published_paths": [
         "pdfs/crm_vol2_monograph.pdf"
       ],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     },
     "pub:web:observatory": {
-      "cone_hash": "9ec9c8057fa007cf2fcc6436b168a21bcb63a54f83aa13d41584c1db9f14adbd",
+      "cone_hash": "1fe741a48ac65d6fae5f376ba7bf422f193b4392cb66d1221e8ff2be63dbe627",
       "channel": "gh_pages",
       "sensitivity": "spec_body_and_grounding",
       "outputs": [
@@ -100,7 +103,7 @@
         "index.html",
         "data/network.json"
       ],
-      "locked_at_utc": "2026-11-27T13:50:31.165038+00:00"
+      "locked_at_utc": "2026-11-28T04:54:43.444054+00:00"
     }
   },
   "milestones": {
@@ -116,16 +119,6 @@
     "TCB: KernelArena 2LTT": 10
   },
   "issues": {
-    "plan:ch04-smallness-and-schemes": {
-      "number": 5,
-      "title": "[Ch. 4] Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum",
-      "state": "OPEN",
-      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5",
-      "milestone": "Chapter 4: Smallness Valves & Scheme Residuum",
-      "labels": [
-        "slice:active"
-      ]
-    },
     "plan:ch05-borel-unraveling": {
       "number": 6,
       "title": "[Ch. 5] Ch. 5 (Part II): Arboreal Game Comonads & Martin's Borel Unraveling (Vol. I Prob. 15)",
@@ -133,7 +126,7 @@
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/6",
       "milestone": "Chapter 5: Arboreal Comonads & Borel Unraveling",
       "labels": [
-        "slice:planned"
+        "slice:active"
       ]
     },
     "plan:ch06-large-doctrines-vopenka": {
@@ -244,6 +237,16 @@
       "state": "CLOSED",
       "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/3",
       "milestone": "Chapter 3: Leray Transgression Along pi_Set",
+      "labels": [
+        "slice:verified"
+      ]
+    },
+    "plan:ch04-smallness-and-schemes": {
+      "number": 5,
+      "title": "[Ch. 4] Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum",
+      "state": "CLOSED",
+      "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5",
+      "milestone": "Chapter 4: Smallness Valves & Scheme Residuum",
       "labels": [
         "slice:verified"
       ]

@@ -1,0 +1,46 @@
+id = "vol1:def:small-map-ambient"
+kind = "vol1_external"
+title = "Predicative Class-Set Ambient (C, S) and Contravariant Powerclasses (Volume I)"
+chapter = "ch04"
+section = "4.1"
+seq_order = 401
+axis = "ast_schemes"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["joyal_moerdijk1995"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:191"
+vol1_label = "def:small-map-ambient"
+vol1_lean_symbol = "Volume I AST (C, S) Ambient Specification"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+A baseline predicative class-set ambient (C, S) consists of an ambient Boolean/Heyting regular category C of classes (generated in the two-sorted case by Godel's G1-G8) together with a stable subcategory S <= C of small maps containing isomorphisms, 0 -> 1, 1+1 -> 1, diagonals, compositions, finite disjoint sums, and arbitrary pullbacks along morphisms of C, without assuming quotient or regular-image descent. Under Powerclass Axiom (P1), P_S : C^op -> C acts contravariantly by pullback and Omega := P_S(1) classifies small subobjects.
+"""
+
+[body]
+tex = """
+\\begin{definition}[Volume~I Grounding Contract: Predicative Class--Set Ambient $(\\mathcal{C}, \\mathcal{S})$]\\label{vol1:def:small-map-ambient}%
+Pinned read-only to Volume~I (\\texttt{def:small-map-ambient}, \\texttt{docs/ch07\\_sets\\_residuum.tex:191}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite[\\S I.1]{joyal_moerdijk1995}. A baseline predicative class--set ambient $(\\mathcal{C}, \\mathcal{S})$ pairs a regular category $\\mathcal{C}$ of classes with a stable subcategory $\\mathcal{S} \\subseteq \\mathcal{C}$ of small maps closed under composition, arbitrary pullbacks, diagonals, and finite disjoint sums---without quotient or regular-image descent. Under Powerclass Axiom (P1), $\\mathcal{P}_{\\mathcal{S}} : \\mathcal{C}^{\\mathrm{op}} \\to \\mathcal{C}$ acts contravariantly via $f \\mapsto f^*$.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:small-map-ambient"
+locator = "docs/ch07_sets_residuum.tex:191"
+purpose = "Pinned read-only Volume I baseline specification of Joyal-Moerdijk (C, S) small-map ambients"

@@ -1,0 +1,54 @@
+id = "ch04:claim:aczel-czf-kp-conservativity"
+kind = "inline_claim"
+title = "Aczel-Maietti Proof-Theoretic Conservativity of CZF Over KP_omega"
+chapter = "ch04"
+section = "4.2"
+seq_order = 430
+axis = "ast_schemes"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["aczel1978", "maietti2005"]
+
+[spec]
+statement = "Via Aczel's (1978) Martin-Lof W-universe type-theoretic interpretation and Maietti's (2005) modular arithmetic-universe correspondence, Aczel-Myhill Constructive Set Theory CZF (including Subset Collection and therefore Exponentiation 2^X in S) is Pi^0_2-arithmetically conservative and equiconsistent with Kripke-Platek set theory KP_omega, whereas adjoining full impredicative Power Set (Omega^X in S, yielding IZF) jumps far past second-order arithmetic Z_2."
+hypotheses = [
+  "Aczel 1978 W-type interpretation V_CZF inside MLTT",
+  "Maietti 2005 arithmetic pretopos modular correspondence"
+]
+
+[body]
+tex = """
+\\begin{inlineclaim}[Aczel--Maietti Proof-Theoretic Conservativity of {{sym:czf}} Over $\\mathsf{KP}\\omega$]\\label{ch04:claim:aczel-czf-kp-conservativity}%
+\\uses{ch04:thm:pointillist-continuum-and-czf-split}%
+Under Aczel's Martin-L\\\"of $W$-type interpretation \\cite[pp.~55--66]{aczel1978} and Maietti's modular categorical correspondence \\cite[pp.~1089--1149]{maietti2005}, {{sym:czf}} (with Subset Collection yielding Exponentiation $2^X \\in \\mathcal{S}$) remains equiconsistent and $\\Pi^0_2$-arithmetically conservative over Kripke--Platek set theory $\\mathsf{KP}\\omega$, whereas forcing $\\Omega^X \\in \\mathcal{S}$ upgrades {{sym:czf}} to impredicative $\\mathsf{IZF}$, transcending full second-order arithmetic $\\mathsf{Z}_2$.
+\\end{inlineclaim}
+"""
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Categorical Equivalence"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "aczel1978"
+locator = "pp. 55--66"
+purpose = "Constructive interpretation of CZF in Martin-Lof type theory proving KP_omega proof-theoretic strength"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "maietti2005"
+locator = "Sec. 4--6, pp. 1089--1149"
+purpose = "Modular correspondence between dependent type theories, arithmetic universes, and pretopoi/topoi"
+
+[edges]
+logical_dep = [
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+lean_dep = []
+curriculum = [
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+prose_paraphrase = []

@@ -23,6 +23,10 @@ logical_dep = [
   "ch01:claim:kihara-ew-weihrauch-ltt-duality",
   "ch01:thm:scotoma-pareto-trichotomy",
   "ch01:rem:trident-mode3-2ltt-bootstrap",
+  "ch04:thm:replacement-iff-covariant-powerset",
+  "ch04:thm:pointillist-continuum-and-czf-split",
+  "ch04:thm:prime-spectrum-krull-choice-gate",
+  "ch04:thm:waterhouse-fpqc-smallness-escape",
   "ch09:def:cartesian-2ltt-cofibration-calculus",
   "ch09:prop:pure-kan-path-symmetry-cert",
   "ch09:thm:bool-univalence-holonomy-cert"

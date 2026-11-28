@@ -1,0 +1,87 @@
+id = "ch04:thm:prime-spectrum-krull-choice-gate"
+kind = "theorem"
+title = "Krull Prime-Spectrum Inhabitation Crosses the Crimson Choice Gate"
+chapter = "ch04"
+section = "4.3"
+seq_order = 455
+axis = "ast_schemes"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "crimson"
+cite_keys = ["johnstone1982", "blechschmidt2017"]
+
+[spec]
+statement = "Over any commutative ring R ([CommRing R]), nonemptiness of the point-set prime spectrum { P : Ideal R // P.IsPrime } is logically equivalent to nontriviality of R via Krull's theorem (Ideal.exists_le_maximal and Ideal.IsMaximal.isPrime). In contrast to the axiom-free constructive Zariski frame (ch04:prop:zariski-radical-frame-constructive), extracting a global prime point crosses into the Crimson Classical.choice stratum ([propext, Classical.choice, Quot.sound])."
+hypotheses = [
+  "R : Type u with [CommRing R]",
+  "Krull maximal ideal existence via Zorn's Lemma (Classical.choice)"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.SchemeResiduum"
+imports = ["Mathlib.RingTheory.Ideal.Maximal"]
+decl_names = [
+  "HomotopyCRM.Vol2.prime_spectrum_krull_choice_gate"
+]
+expected_axioms = ["Classical.choice", "Quot.sound", "propext"]
+lean_signature = """
+/-- **Krull Prime-Spectrum Choice Gate (Crimson):**
+    Inhabitation of the point-set prime spectrum `Spec R` is equivalent to `Nontrivial R`,
+    crossing into the Crimson `Classical.choice` stratum via Zorn/Krull maximal ideals. -/
+theorem prime_spectrum_krull_choice_gate (R : Type u) [CommRing R] :
+    Nonempty { P : Ideal R // P.IsPrime } ↔ Nontrivial R := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.prime_spectrum_krull_choice_gate' depends on axioms: [propext, Classical.choice, Quot.sound] -/\n#guard_msgs in\n#print axioms prime_spectrum_krull_choice_gate"
+]
+
+[body]
+lean_body = """
+  constructor
+  · rintro ⟨⟨P, hP⟩⟩
+    refine ⟨⟨1, 0, fun h10 ↦ hP.ne_top ?_⟩⟩
+    exact (Ideal.eq_top_iff_one P).mpr (h10 ▸ P.zero_mem)
+  · intro hnt
+    let _ := hnt
+    obtain ⟨M, hMax, _⟩ := Ideal.exists_le_maximal (⊥ : Ideal R) bot_ne_top
+    exact ⟨⟨M, Ideal.IsMaximal.isPrime hMax⟩⟩
+"""
+tex = """
+\\begin{theorem}[Krull Prime-Spectrum Inhabitation Crosses the Crimson Choice Gate]\\label{ch04:thm:prime-spectrum-krull-choice-gate}%
+\\uses{ch04:prop:zariski-radical-frame-constructive}%
+For every commutative ring $R$, nonemptiness of the point-set prime spectrum $\\mathrm{Spec}(R) = \\{ \\mathfrak{p} \\triangleleft R \\mid \\mathfrak{p} \\text{ prime} \\}$ is equivalent to $1 \\neq 0$ in $R$. Whereas the pointfree Zariski radical frame {{sym:zar-loc}} of Proposition~\\ref{ch04:prop:zariski-radical-frame-constructive} operates cleanly in the axiom-free \\textbf{Emerald} stratum, producing an actual prime point $\\mathfrak{p} \\in \\mathrm{Spec}(R)$ invokes Krull's maximal-ideal theorem and crosses into the \\textbf{Crimson} stratum (\\texttt{[propext, Classical.choice, Quot.sound]})~\\cite{johnstone1982,blechschmidt2017}.
+\\end{theorem}
+\\begin{proof}
+In \\texttt{SchemeResiduum.lean}, the forward implication uses $(1 = 0) \\implies 1 \\in \\mathfrak{p} \\implies \\mathfrak{p} = (1)$ contradicting primality. Conversely, when $R$ is nontrivial ($\\bot \\neq \\top$), applying \\texttt{Ideal.exists\\_le\\_maximal} yields a maximal ideal $\\mathfrak{m} \\subset R$, which is prime via \\texttt{Ideal.IsMaximal.isPrime}. \\texttt{AuditEnv} certifies exact dependence on \\texttt{[Classical.choice, Quot.sound, propext]}.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Choice Calibration", "Inhabitation & Finiteness"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.prime_spectrum_krull_choice_gate"
+purpose = "Crimson Lean proof calibrating Nonempty (Spec R) <-> Nontrivial R against Zorn/Krull Choice"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "johnstone1982"
+locator = "Ch. V, Sec. 3--4"
+purpose = "Contrast between constructive Zariski locales and BPI/Krull spatialization"
+
+[edges]
+logical_dep = [
+  "ch04:prop:zariski-radical-frame-constructive"
+]
+lean_dep = [
+  "ch04:prop:zariski-radical-frame-constructive"
+]
+curriculum = [
+  "ch04:prop:zariski-radical-frame-constructive"
+]
+prose_paraphrase = []

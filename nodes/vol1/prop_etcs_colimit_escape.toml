@@ -1,0 +1,46 @@
+id = "vol1:prop:etcs-colimit-escape"
+kind = "vol1_external"
+title = "Countable Colimit Escape in V_{omega+omega} Over ZC and ETCS (Volume I)"
+chapter = "ch04"
+section = "4.1"
+seq_order = 403
+axis = "ast_schemes"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["joyal_moerdijk1995", "mathias2001"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:173"
+vol1_label = "prop:etcs-colimit-escape"
+vol1_lean_symbol = "Volume I Guardrail 5 V_{omega+omega} Colimit Escape Proposition"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Zermelo's cumulative rank universe V_{omega+omega} models full ZC (and a fortiori Mac ~= ETCS), in which each finite iterate P^n(N) is first-order definable over N and small at rank omega + n, yet its colimit union_{n in N} P^n(N) subsetneq V_{omega+omega} = union_{n in N} P^n(V_omega) fails to exist as a small object (escaping through the roof of S, with V_omega in V_{omega+1} \\ union_n P^n(N) witnessing strict inclusion — Guardrail 5).
+"""
+
+[body]
+tex = """
+\\begin{proposition}[Volume~I Grounding Contract: Countable Colimit Escape in $V_{\\omega+\\omega}$]\\label{vol1:prop:etcs-colimit-escape}%
+Pinned read-only to Volume~I (\\texttt{prop:etcs-colimit-escape}, \\texttt{docs/ch07\\_sets\\_residuum.tex:173}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{joyal_moerdijk1995,mathias2001}. Over $V_{\\omega+\\omega} \\models \\mathsf{ZC}$ (and $\\mathsf{ETCS} \\simeq \\mathsf{Mac}$), each finite iterate $\\mathcal{P}^n(\\mathbb{N})$ is small, yet its countable colimit escapes $\\mathcal{S}$ with strict inclusion $\\bigcup_{n \\in \\mathbb{N}} \\mathcal{P}^n(\\mathbb{N}) \\subsetneq V_{\\omega+\\omega} = \\bigcup_{n \\in \\mathbb{N}} \\mathcal{P}^n(V_\\omega)$ (Guardrail~5).
+\\end{proposition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Topological Separation", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:etcs-colimit-escape"
+locator = "docs/ch07_sets_residuum.tex:173"
+purpose = "Pinned read-only Volume I contract anchoring Guardrail 5 strict inclusion below V_{omega+omega}"

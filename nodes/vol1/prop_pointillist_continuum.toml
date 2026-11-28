@@ -1,0 +1,46 @@
+id = "vol1:prop:pointillist-continuum"
+kind = "vol1_external"
+title = "Pointillist Continuum in H(aleph_1) and Constructive Omega^X / 2^X Split (Volume I)"
+chapter = "ch04"
+section = "4.2"
+seq_order = 421
+axis = "ast_schemes"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["aczel1978", "joyal_moerdijk1995"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:211"
+vol1_label = "prop:pointillist-continuum"
+vol1_lean_symbol = "Volume I Pointillist Continuum and CZF Omega^X / 2^X Residuum"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Inside H(aleph_1) |= ZFC^- every individual real r in P(N) is a hereditarily countable small set while P_S(N) escapes H(aleph_1) into proper classes C \\ S. Constructively over CZF (without LEM), Subset Collection guarantees Exponentiation 2^X in S while remaining Pi^0_2-conservative over KP_omega, whereas full Power Set Omega^X in S collapses all unbounded predicates into S past Z_2, precipitating the residuum Omega^X / 2^X.
+"""
+
+[body]
+tex = """
+\\begin{proposition}[Volume~I Grounding Contract: Pointillist Continuum in $H(\\aleph_1)$ and $\\Omega^X / 2^X$ Split]\\label{vol1:prop:pointillist-continuum}%
+Pinned read-only to Volume~I (\\texttt{prop:pointillist-continuum}, \\texttt{docs/ch07\\_sets\\_residuum.tex:211}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite{aczel1978,joyal_moerdijk1995}. In $\\mathsf{ZFC}^-$ over $H(\\aleph_1)$, every individual real belongs to $\\mathcal{S}$ while the full powerclass $\\mathcal{P}_{\\mathcal{S}}(\\mathbb{N})$ escapes into $\\mathcal{C} \\setminus \\mathcal{S}$; constructively in $\\mathsf{CZF}$, $2^X \\in \\mathcal{S}$ decouples from full impredicative power set $\\Omega^X \\in \\mathcal{S}$.
+\\end{proposition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Topological Separation", "Conservation / Solvency"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "prop:pointillist-continuum"
+locator = "docs/ch07_sets_residuum.tex:211"
+purpose = "Pinned read-only Volume I contract for ZFC^- H(aleph_1) and CZF Omega^X / 2^X split"

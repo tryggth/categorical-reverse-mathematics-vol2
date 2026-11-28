@@ -1,0 +1,133 @@
+id = "ch04:tab:ast-valves-and-scheme-solvents"
+kind = "summary_table"
+title = "Table 4.1: Stratum II AST Compression Valves, Pointillist Continua, and Scheme Solvents"
+chapter = "ch04"
+section = "4.4"
+seq_order = 490
+axis = "ast_schemes"
+grounding_tier = "expository"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["joyal_moerdijk1995", "aczel1978", "lawvere2007", "johnstone1982", "blechschmidt2017", "borger2011", "waterhouse1975"]
+
+[body]
+tex = """
+\\begin{table}[htbp]
+\\centering
+\\scriptsize
+\\setlength{\\tabcolsep}{2.3pt}
+\\renewcommand{\\arraystretch}{1.14}
+\\begin{tabularx}{\\textwidth}{@{}P{0.18\\textwidth}P{0.16\\textwidth}P{0.13\\textwidth}YY@{}}
+\\toprule
+\\textbf{Valve / Solvent} & \\textbf{Ambient Site} & \\textbf{Stratum} & \\textbf{Residuum / Separating Witness} & \\textbf{Volume~II Node} \\\\
+\\midrule
+Axis~VI Image Descent & {{sym:ast-pair}} + Union & Emerald & Covariant {{sym:ps-func}} $\\iff$ Family Union~\\cite{joyal_moerdijk1995} & {{ref:ch04:thm:replacement-iff-covariant-powerset}} \\\\
+Guardrail~5 Escape & $(V_{\\omega+\\omega}, \\mathrm{Def})$ & Emerald & $\\bigcup_n \\mathcal{P}^n(\\mathbb{N}) \\subsetneq \\bigcup_n \\mathcal{P}^n(V_\\omega)$ ($V_\\omega$ witness) & {{ref:ch04:prop:iterated-powerset-escape-guardrail}} \\\\
+Pointillist $H(\\aleph_1)$ & {{sym:zfc-minus}} & Emerald & Reals $\\in \\mathcal{S}$ while $2^{\\mathbb{N}} \\notin \\mathcal{S}$ (Cantor diag.) & {{ref:ch04:thm:pointillist-continuum-and-czf-split}} \\\\
+{{sym:czf}} Power Residuum & Heyting $\\Omega = \\mathrm{Fin}\\,3$ & Emerald / Ext. & $2^X \\in \\mathcal{S}$ ($\\mathsf{KP}\\omega$ cons.) vs.\\ $\\Omega^X$ past $\\mathsf{Z}_2$~\\cite{aczel1978} & {{ref:ch04:thm:pointillist-continuum-and-czf-split}}, {{ref:ch04:claim:aczel-czf-kp-conservativity}} \\\\
+Cohesive Continuum & $\\Pi \\dashv \\mathrm{Disc} \\dashv \\Gamma \\dashv \\mathrm{Codisc}$ & Emerald & Same $\\Gamma$, distinct connectedness $I_1$ vs.\\ $\\mathrm{Disc}(2)$~\\cite{lawvere2007} & {{ref:ch04:prop:cohesive-aristotle-cantor-adjudication}} \\\\
+Ultrafilter Corona & $\\mathbb{N}^* = \\beta\\mathbb{N}\\setminus\\mathbb{N}$ & External & Puritz skies ($1$ sky iff $P$-point) vs.\\ Shelah / $\\mathsf{NCF}$ & {{ref:ch04:claim:puritz-shelah-ultrafilter-sky-spectrum}} \\\\
+Zariski Locale {{sym:zar-loc}} & Commutative $R$ & Emerald & Radical nucleus $\\sqrt{P}$, $1 \\in \\sqrt{P} \\iff 1 \\in P$ (choice-free)~\\cite{johnstone1982} & {{ref:ch04:prop:zariski-radical-frame-constructive}} \\\\
+Krull Prime Spectrum & $\\mathrm{Spec}(R)$ points & Crimson & $\\mathrm{Nonempty}(\\mathrm{Spec}\\,R) \\iff \\mathrm{Nontrivial}\\,R$ crosses Choice gate & {{ref:ch04:thm:prime-spectrum-krull-choice-gate}} \\\\
+Internal Zariski / Serre & $\\mathbf{Sh}(X_{\\mathrm{Zar}})$ & External & $\\mathrm{Pic}(X) \\cong H^1(\\mathcal{O}_X^\\times)$; qcqs $H^1(X;\\mathcal{I})$~\\cite{blechschmidt2017} & {{ref:ch04:claim:blechschmidt-internal-zariski-serre-affineness}} \\\\
+Borger $\\Lambda$-Lifts & $\\mathbb{N}, \\mathbb{Z}/12\\mathbb{Z}$ vs.\\ $(\\mathbb{Z}/12\\mathbb{Z})[\\varepsilon_2,\\varepsilon_3]/\\mathfrak{m}^2$ & Emerald & Fermat $\\delta_2,\\delta_3$ on $\\mathbb{N}, \\mathbb{Z}/12\\mathbb{Z}$; $\\psi_2\\psi_3 \\neq \\psi_3\\psi_2$ on dual ring~\\cite{borger2011} & {{ref:ch04:prop:borger-lambda-delta-two-prime}} \\\\
+{{sym:fpqc}} Smallness Cutoff & Affine $J_{\\mathrm{Zar}} \\subsetneq J_{\\mathrm{fpqc}}$ & Emerald & Unbounded cover escape vs.\\ $\\kappa$-cutoff restoration~\\cite{waterhouse1975} & {{ref:ch04:thm:waterhouse-fpqc-smallness-escape}} \\\\
+\\bottomrule
+\\end{tabularx}
+\\caption{Chapter~4 synthesis across Stratum~II Algebraic Set Theory size-compression valves, pointillist continua, and Grothendieck scheme solvents.}
+\\label{ch04:tab:ast-valves-and-scheme-solvents}
+\\end{table}
+"""
+
+[grounding]
+primary_category = "Verified paraphrase container"
+blueprint_tier = "none"
+characterization_types = ["Conservation / Solvency", "Choice Calibration", "Topological Separation"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch04:thm:replacement-iff-covariant-powerset"
+purpose = "Table 4.1 row 1: Axis VI image descent equivalence"
+
+[[grounding.dual_pillars]]
+kind = "prose_paraphrase"
+ref = "ch04:thm:waterhouse-fpqc-smallness-escape"
+purpose = "Table 4.1 row 11: Waterhouse fpqc smallness escape"
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = [
+  "vol1:def:small-map-ambient",
+  "vol1:def:axis-vi-replacement",
+  "vol1:prop:etcs-colimit-escape",
+  "vol1:prop:pointillist-continuum",
+  "ch04:prose:part2-ch04-roadmap",
+  "ch04:thm:replacement-iff-covariant-powerset",
+  "ch04:prop:iterated-powerset-escape-guardrail",
+  "ch04:thm:pointillist-continuum-and-czf-split",
+  "ch04:claim:aczel-czf-kp-conservativity",
+  "ch04:prop:cohesive-aristotle-cantor-adjudication",
+  "ch04:claim:puritz-shelah-ultrafilter-sky-spectrum",
+  "ch04:prop:zariski-radical-frame-constructive",
+  "ch04:thm:prime-spectrum-krull-choice-gate",
+  "ch04:claim:blechschmidt-internal-zariski-serre-affineness",
+  "ch04:prop:borger-lambda-delta-two-prime",
+  "ch04:thm:waterhouse-fpqc-smallness-escape"
+]
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:thm:replacement-iff-covariant-powerset"
+locked_spec_hash = "8f64a9af3b9a3cb201c7bc650616626563ee374da20823a5b50ff06e31f07701"
+scope_note = "Table 4.1: Axis VI replacement equivalence"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:prop:iterated-powerset-escape-guardrail"
+locked_spec_hash = "c3cc2f69e50d479453f7ef194134df3367bfdf78a6511e8cf053683096b2b1ed"
+scope_note = "Table 4.1: Guardrail 5 V_{omega+omega} colimit escape"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:thm:pointillist-continuum-and-czf-split"
+locked_spec_hash = "caa1ceee1a245ff1ba1a409e767199f28a91a5b05a5e953ca9d13fbee179372f"
+scope_note = "Table 4.1: H(aleph_1) diagonal and CZF Fin 3 Omega^X / 2^X split"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:claim:aczel-czf-kp-conservativity"
+locked_spec_hash = "7556c9da3c4c26cf0585ec18367feea88dbff16a1042a73a57f27ca0ceb4546e"
+scope_note = "Table 4.1: Aczel-Maietti CZF KP_omega conservativity"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:prop:cohesive-aristotle-cantor-adjudication"
+locked_spec_hash = "d5d1712be926c40cc8f8339dcaa9e8eb420f9c29f4bc0e6fb845b428399ff662"
+scope_note = "Table 4.1: Lawvere cohesive interval separation"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:claim:puritz-shelah-ultrafilter-sky-spectrum"
+locked_spec_hash = "cb47e422fc567ec5987ca4c2680a2546377e5eb31d503accbd7e936fccc9c599"
+scope_note = "Table 4.1: Puritz-Shelah-Blass ultrafilter corona spectrum"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:prop:zariski-radical-frame-constructive"
+locked_spec_hash = "25eb3495b447c73b2daebf40762908f5f9727ad390788cc9ed2852e13f81ccb8"
+scope_note = "Table 4.1: Emerald Zariski radical frame without BPI"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:thm:prime-spectrum-krull-choice-gate"
+locked_spec_hash = "c19cda53a508e8e40b1708e8fb8b71f33d5a3cf70902c0fbe5f5591ec3b12de0"
+scope_note = "Table 4.1: Crimson Krull prime spectrum Choice gate"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:claim:blechschmidt-internal-zariski-serre-affineness"
+locked_spec_hash = "65d8adb718bc403049af366cac2577b8ead4d8d8e9f306cba82cde2455a0b420"
+scope_note = "Table 4.1: Blechschmidt internal localization and Serre H^1"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:prop:borger-lambda-delta-two-prime"
+locked_spec_hash = "581506bb85dff31a95373f6d227e95772788c094b7f9a1caf11891c2ef5ac32d"
+scope_note = "Table 4.1: Borger two-prime Lambda/delta obstruction"
+
+[[edges.prose_paraphrase]]
+target_id = "ch04:thm:waterhouse-fpqc-smallness-escape"
+locked_spec_hash = "3ab58d389b4676acbbc0063c67a20aecc72bd69c27ca17fc7d295321f6a47fed"
+scope_note = "Table 4.1: Waterhouse fpqc escape and Clausen-Scholze cutoff"

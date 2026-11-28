@@ -505,13 +505,14 @@ def main() -> int:
         )
         return 0 if overall_ok else 1
 
-    # Full / Publish mode: emit TeX + compile all 5 Royal Octavo PDFs
+    # Full / Publish mode: emit TeX + compile all 6 Royal Octavo PDFs
     manifest, guardrails, nodes_meta, symbols, receipts = load_context()
     emit_monograph(manifest, guardrails, nodes_meta, symbols)
     emit_claims_ledger(manifest, guardrails, nodes_meta, receipts, audit_json)
     emit_course_pack("ch01:tab:epistemic-probe-regimes")
     emit_course_pack("ch02:tab:vertical-class-spectrum")
     emit_course_pack("ch03:tab:piset-four-quadrant-ledger")
+    emit_course_pack("ch04:tab:ast-valves-and-scheme-solvents")
 
     pdfs = {
         "crm_vol2_monograph": compile_pdf("crm_vol2_monograph", "monograph.tex.map.json", run_index=True),
@@ -529,6 +530,11 @@ def main() -> int:
         "course_pack_ch03_piset_transgression": compile_pdf(
             "course_pack_ch03_piset_transgression",
             "course_pack_ch03_piset_transgression.tex.map.json",
+            run_index=False,
+        ),
+        "course_pack_ch04_smallness_and_schemes": compile_pdf(
+            "course_pack_ch04_smallness_and_schemes",
+            "course_pack_ch04_smallness_and_schemes.tex.map.json",
             run_index=False,
         ),
     }

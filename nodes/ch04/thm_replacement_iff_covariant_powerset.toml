@@ -1,0 +1,180 @@
+id = "ch04:thm:replacement-iff-covariant-powerset"
+kind = "theorem"
+title = "Axiom VI Replacement Equivalence with Covariant Powerclasses and Family Unions"
+chapter = "ch04"
+section = "4.1"
+seq_order = 410
+axis = "ast_schemes"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["joyal_moerdijk1995"]
+
+[spec]
+statement = "In any predicative Joyal-Moerdijk SmallnessAmbient A (closed under empty sets, singletons, and sub-predicates, without assuming small images), contravariant pullback powersets pullbackSub satisfy functorial membership identities (id and composition) unconditionally without Replacement. Assuming Zermelo SmallUnion, three size-compression principles are constructively equivalent in the Emerald stratum (0 axioms): (i) Axis VI Small-Image Descent (f '' s small for small s), (ii) CovariantPowersetClosed (existence of a small subobject classifying f '' s), and (iii) SmallFamilyUnionCompression (s-indexed unions of small sets remain small)."
+hypotheses = [
+  "A : SmallnessAmbient with small_empty, small_singleton, small_subset",
+  "SmallUnion A for the SmallFamilyUnionCompression direction"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.SmallnessValves"
+imports = ["Mathlib.Data.Set.Defs"]
+decl_names = [
+  "HomotopyCRM.Vol2.SmallnessAmbient",
+  "HomotopyCRM.Vol2.SmallnessAmbient.SmallSub",
+  "HomotopyCRM.Vol2.SmallnessAmbient.IsSmallMap",
+  "HomotopyCRM.Vol2.SmallnessAmbient.pullbackSub",
+  "HomotopyCRM.Vol2.SmallnessAmbient.SmallUnion",
+  "HomotopyCRM.Vol2.SmallnessAmbient.AxisVIImageDescent",
+  "HomotopyCRM.Vol2.SmallnessAmbient.CovariantPowersetClosed",
+  "HomotopyCRM.Vol2.SmallnessAmbient.SmallFamilyUnionCompression",
+  "HomotopyCRM.Vol2.pullbackSub_id_iff",
+  "HomotopyCRM.Vol2.pullbackSub_comp_iff",
+  "HomotopyCRM.Vol2.replacement_iff_covariant_powerset"
+]
+expected_axioms = []
+lean_signature = """
+/-- Baseline Joyal--Moerdijk predicative small-subset ambient without Replacement baked in. -/
+structure SmallnessAmbient : Type 1 where
+  /-- Smallness predicate on predicates `Set X`. -/
+  IsSmall : {X : Type} → Set X → Prop
+  small_empty : ∀ {X : Type}, IsSmall (fun _ : X ↦ False)
+  small_singleton : ∀ {X : Type} (x : X), IsSmall (fun y : X ↦ y = x)
+  small_subset : ∀ {X : Type} {s t : Set X}, (∀ x, x ∈ s → x ∈ t) → IsSmall t → IsSmall s
+
+namespace SmallnessAmbient
+
+/-- Bundled small subobject over `X` relative to ambient `A`. -/
+abbrev SmallSub (A : SmallnessAmbient) (X : Type) : Type :=
+  { s : Set X // A.IsSmall s }
+
+/-- A map `f : X → Y` is small (`f ∈ S`) iff pullbacks of small subobjects remain small. -/
+def IsSmallMap (A : SmallnessAmbient) {X Y : Type} (f : X → Y) : Prop :=
+  ∀ t : Set Y, A.IsSmall t → A.IsSmall (fun x : X ↦ f x ∈ t)
+
+/-- Contravariant pullback action `f^* : P_S(Y) → P_S(X)` defined along any small map `f`. -/
+def pullbackSub (A : SmallnessAmbient) {X Y : Type} (f : X → Y) (hf : A.IsSmallMap f)
+    (t : A.SmallSub Y) : A.SmallSub X :=
+  ⟨fun x : X ↦ f x ∈ t.1, hf t.1 t.2⟩
+
+/-- Zermelo union closure: small-indexed collections of small sets have small union. -/
+def SmallUnion (A : SmallnessAmbient) : Prop :=
+  ∀ {X : Type} (ℱ : Set (Set X)),
+    A.IsSmall ℱ → (∀ u, u ∈ ℱ → A.IsSmall u) → A.IsSmall { x : X | ∃ u, u ∈ ℱ ∧ x ∈ u }
+
+/-- Axis VI Small-Image Descent: direct images of small sets are small. -/
+def AxisVIImageDescent (A : SmallnessAmbient) : Prop :=
+  ∀ {X Y : Type} (f : X → Y) (s : Set X), A.IsSmall s → A.IsSmall (Set.image f s)
+
+/-- Covariant powerset closure `∃_f : P_S(X) → P_S(Y)` up to pointwise equivalence. -/
+def CovariantPowersetClosed (A : SmallnessAmbient) : Prop :=
+  ∀ {X Y : Type} (f : X → Y) (s : A.SmallSub X),
+    ∃ t : A.SmallSub Y, ∀ y, y ∈ t.1 ↔ ∃ x, x ∈ s.1 ∧ f x = y
+
+/-- Compression of small-indexed families `(G i)_{i ∈ s}` into a small union set. -/
+def SmallFamilyUnionCompression (A : SmallnessAmbient) : Prop :=
+  ∀ {I X : Type} (s : Set I) (G : I → Set X),
+    A.IsSmall s → (∀ i, i ∈ s → A.IsSmall (G i)) →
+    A.IsSmall { x : X | ∃ i, i ∈ s ∧ x ∈ G i }
+
+end SmallnessAmbient
+
+/-- Unconditional contravariant identity law (no Replacement needed). -/
+theorem pullbackSub_id_iff (A : SmallnessAmbient) {X : Type}
+    (hid : A.IsSmallMap (fun x : X ↦ x)) (s : A.SmallSub X) (x : X) :
+    x ∈ (A.pullbackSub (fun x : X ↦ x) hid s).1 ↔ x ∈ s.1 :=
+  Iff.rfl
+
+/-- Unconditional contravariant composition law (no Replacement needed). -/
+theorem pullbackSub_comp_iff (A : SmallnessAmbient) {X Y Z : Type}
+    (f : X → Y) (g : Y → Z) (hf : A.IsSmallMap f) (hg : A.IsSmallMap g)
+    (hgf : A.IsSmallMap (fun x ↦ g (f x))) (u : A.SmallSub Z) (x : X) :
+    x ∈ (A.pullbackSub (fun x ↦ g (f x)) hgf u).1 ↔
+      x ∈ (A.pullbackSub f hf (A.pullbackSub g hg u)).1 :=
+  Iff.rfl
+
+/-- **Axis VI Replacement Equivalence (Emerald, Axiom-Free):**
+    Under Zermelo `SmallUnion`, `AxisVIImageDescent`, `CovariantPowersetClosed`, and
+    `SmallFamilyUnionCompression` are mutually equivalent. -/
+theorem replacement_iff_covariant_powerset (A : SmallnessAmbient) (hU : A.SmallUnion) :
+    (A.AxisVIImageDescent ↔ A.CovariantPowersetClosed) ∧
+    (A.CovariantPowersetClosed ↔ A.SmallFamilyUnionCompression) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.pullbackSub_id_iff' does not depend on any axioms -/\n#guard_msgs in\n#print axioms pullbackSub_id_iff",
+  "/-- info: 'HomotopyCRM.Vol2.pullbackSub_comp_iff' does not depend on any axioms -/\n#guard_msgs in\n#print axioms pullbackSub_comp_iff",
+  "/-- info: 'HomotopyCRM.Vol2.replacement_iff_covariant_powerset' does not depend on any axioms -/\n#guard_msgs in\n#print axioms replacement_iff_covariant_powerset"
+]
+
+[body]
+lean_body = """
+  have h1 : A.AxisVIImageDescent → A.CovariantPowersetClosed := fun hRep {_ _} f s ↦
+    ⟨⟨Set.image f s.1, hRep f s.1 s.2⟩, fun _ ↦ Iff.rfl⟩
+  have h2 : A.CovariantPowersetClosed → A.AxisVIImageDescent := fun hCov {_ _} f s hs ↦ by
+    obtain ⟨t, ht⟩ := hCov f ⟨s, hs⟩
+    exact A.small_subset (fun y hy ↦ (ht y).mpr hy) t.2
+  have h3 : A.CovariantPowersetClosed → A.SmallFamilyUnionCompression := by
+    intro hCov I X s G hs hG
+    let ℱ : Set (Set X) := Set.image G s
+    have hℱSmall : A.IsSmall ℱ := h2 hCov G s hs
+    have hℱMem : ∀ u, u ∈ ℱ → A.IsSmall u := by
+      intro u hu
+      obtain ⟨i, hi, rfl⟩ := hu
+      exact hG i hi
+    refine A.small_subset ?_ (hU ℱ hℱSmall hℱMem)
+    intro x hx
+    obtain ⟨i, hi, hxi⟩ := hx
+    exact ⟨G i, ⟨i, hi, rfl⟩, hxi⟩
+  have h4 : A.SmallFamilyUnionCompression → A.CovariantPowersetClosed := by
+    intro hFam X Y f s
+    let G : X → Set Y := fun x y ↦ y = f x
+    have hG : ∀ x, x ∈ s.1 → A.IsSmall (G x) := fun x _ ↦ A.small_singleton (f x)
+    refine ⟨⟨{ y : Y | ∃ x, x ∈ s.1 ∧ y ∈ G x }, hFam s.1 G s.2 hG⟩, fun y ↦ ?_⟩
+    exact ⟨fun ⟨x, hx, hy⟩ ↦ ⟨x, hx, hy.symm⟩, fun ⟨x, hx, hy⟩ ↦ ⟨x, hx, hy.symm⟩⟩
+  exact ⟨⟨h1, h2⟩, ⟨h3, h4⟩⟩
+"""
+tex = """
+\\begin{theorem}[Axis~VI Replacement Equivalences Over {{sym:ast-pair}}]\\label{ch04:thm:replacement-iff-covariant-powerset}%
+\\uses{vol1:def:small-map-ambient,vol1:def:axis-vi-replacement}%
+Over any predicative Joyal--Moerdijk small-map ambient {{sym:ast-pair}} (\\texttt{SmallnessAmbient}, closed under $\\emptyset$, singletons, and subobjects, without assuming regular images), contravariant pullback $f^* : {{sym:ps-func}}(Y) \\to {{sym:ps-func}}(X)$ satisfies unconditional identity and composition laws independent of Replacement. Assuming Zermelo's \\texttt{SmallUnion}, the following three principles are axiom-free equivalent~\\cite[Ch.~I, \\S\\S 1--3]{joyal_moerdijk1995}:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item \\textbf{Axis~VI Small-Image Descent:} $s \\in \\mathcal{S} \\implies f[s] \\in \\mathcal{S}$ for all class morphisms $f$.
+  \\item \\textbf{Covariant Powerset Closure:} $\\exists_f : {{sym:ps-func}}(X) \\to {{sym:ps-func}}(Y)$ lands in small subobjects, promoting {{sym:ps-func}} to a covariant endofunctor.
+  \\item \\textbf{Small-Family Union Compression:} for every small index set $s \\in \\mathcal{S}$ and family $(G_i)_{i \\in s}$ of small subsets, $\\bigcup_{i \\in s} G_i \\in \\mathcal{S}$.
+\\end{enumerate}
+\\end{theorem}
+\\begin{proof}
+The Lean~4 formalization in \\texttt{SmallnessValves.lean} proves \\texttt{pullbackSub\\_id\\_iff} and \\texttt{pullbackSub\\_comp\\_iff} definitionally by \\texttt{Iff.rfl}. For the three-way equivalence \\texttt{replacement\\_iff\\_covariant\\_powerset}, $(1) \\iff (2)$ is direct from characterizing small subobjects representing $f[s]$; $(2) \\implies (3)$ replaces $(G_i)_{i \\in s}$ by the small collection $\\mathcal{F} := G[s] \\in {{sym:ps-func}}(Y)$ via covariant direct image and applies Zermelo \\texttt{SmallUnion}; and $(3) \\implies (2)$ recovers $f[s] = \\bigcup_{x \\in s} \\{f(x)\\}$ from small singletons $\\{f(x)\\}$. The entire proof sits in the constructive \\textbf{Emerald} stratum with zero axioms.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Categorical Equivalence", "Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.replacement_iff_covariant_powerset"
+purpose = "Constructive Emerald proof equating Axis VI small-image descent, covariant powerset closure, and small-family union compression"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "joyal_moerdijk1995"
+locator = "Ch. I, Secs. 1--3"
+purpose = "Joyal-Moerdijk equivalence between Replacement, small images, and covariant powerset functors"
+
+[edges]
+logical_dep = [
+  "vol1:def:small-map-ambient",
+  "vol1:def:axis-vi-replacement"
+]
+lean_dep = []
+curriculum = [
+  "vol1:def:small-map-ambient",
+  "vol1:def:axis-vi-replacement"
+]
+prose_paraphrase = []

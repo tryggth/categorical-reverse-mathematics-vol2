@@ -26,8 +26,11 @@ logical_dep = [
   "ch01:prose:meta-crm-roadmap",
   "ch01:tab:epistemic-probe-regimes",
   "plan:ch01-p1a",
+  "plan:ch04-smallness-and-schemes",
   "plan:tcb-rung1-cubical-kan",
   "plan:ch09-cic-vs-2ltt-horizons",
+  "ch04:prose:part2-ch04-roadmap",
+  "ch04:tab:ast-valves-and-scheme-solvents",
   "ch09:prose:ch09-tcb-r1-roadmap",
   "ch09:thm:bool-univalence-holonomy-cert"
 ]
@@ -35,6 +38,7 @@ lean_dep = []
 curriculum = [
   "ch01:tab:epistemic-probe-regimes",
   "ch02:tab:vertical-class-spectrum",
-  "ch03:tab:piset-four-quadrant-ledger"
+  "ch03:tab:piset-four-quadrant-ledger",
+  "ch04:tab:ast-valves-and-scheme-solvents"
 ]
 prose_paraphrase = []

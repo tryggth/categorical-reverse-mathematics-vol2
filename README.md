@@ -2,10 +2,10 @@
 ### *Universes, Classes, and Higher Fixed Points*
 
 > **[Live Interactive Glass-Box Observatory (GitHub Pages)](https://tryggth.github.io/categorical-reverse-mathematics-vol2/)** · **[How This Book Is Built (`PROCESS.md`)](PROCESS.md)** · **[14-Slice Project Plan (`ROADMAP.md`)](ROADMAP.md)**  
-> **Live Royal Octavo PDFs:** [Monograph PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_monograph.pdf) · [4-Part Master Claims Ledger PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_claims_ledger.pdf) · [Ch. 1 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf) · [Ch. 2 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) · [Ch. 3 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch03_piset_transgression.pdf)  
+> **Live Royal Octavo PDFs:** [Monograph PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_monograph.pdf) · [4-Part Master Claims Ledger PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/crm_vol2_claims_ledger.pdf) · [Ch. 1 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf) · [Ch. 2 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) · [Ch. 3 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch03_piset_transgression.pdf) · [Ch. 4 Course Pack PDF](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch04_smallness_and_schemes.pdf)  
 > **Synced Engineering & Open-Problem Backlog:** [GitHub Issues](https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues) · [Milestones](https://github.com/tryggth/categorical-reverse-mathematics-vol2/milestones)
 
-> **Glass-Box 5-Fiber Formalization & Monograph Network (`Phase 4`)**  
+> **Glass-Box 5-Fiber Formalization & Monograph Network (`Phase 5`)**  
 > **Author:** James F. Walters (Port Townsend, Washington) · **License:** CC BY 4.0 · **Working Title Locked:** `false`  
 > **Companion to Volume I:** `../categorical-reverse-mathematics (HEAD b849be75)` · Zenodo Concept DOI [`10.5281/zenodo.24238086`](https://doi.org/10.5281/zenodo.24238086)
 
@@ -17,7 +17,7 @@ Volume II is developed as a **single-network, machine-checked mathematical and m
 flowchart LR
   SRC["nodes/**/*.toml + certs/*.2ltt.json"] --> DB["DuckDB (5 Acyclic Fibers + Two-Hash Taint Engine)"]
   DB --> TCB["mathlib_vol2 + KernelArena (Two-Package TCB)"]
-  DB --> PDFS["5 Royal Octavo PDFs (Monograph, Ledger, Ch.1–Ch.3 Course Packs)"]
+  DB --> PDFS["6 Royal Octavo PDFs (Monograph, Ledger, Ch.1–Ch.4 Course Packs)"]
   TCB --> PDFS
   TCB --> SMAIN["pub:doc:* -> main (README, PROCESS, ROADMAP)"]
   PDFS --> SPAGES["pub:web/pdf:* -> gh-pages (Observatory + PDFs)"]
@@ -29,7 +29,7 @@ flowchart LR
 > **Branch Guide (Do Not Merge `lean-export` / `gh-pages` into `main`):**
 > - **`main`** — Canonical single-network source of truth (`nodes/**/*.toml`, `certs/*.2ltt.json`, `scripts/`, `manifest/`, `README.md`, `PROCESS.md`, `ROADMAP.md`). All mathematical edits and PRs target `main` only.
 > - **`lean-export`** — Standalone auto-generated Lean 4 + `KernelArena` projection branch (`scripts/export_lean_branch.py`, committed via `GIT_INDEX_FILE` without DuckDB or LaTeX). **Do not merge `lean-export` into `main`.**
-> - **`gh-pages`** — Auto-generated static Glass-Box Observatory + 5 Royal Octavo PDFs (`scripts/emit_observatory.py`, committed via `GIT_INDEX_FILE`). **Do not merge `gh-pages` into `main`.**
+> - **`gh-pages`** — Auto-generated static Glass-Box Observatory + 6 Royal Octavo PDFs (`scripts/emit_observatory.py`, committed via `GIT_INDEX_FILE`). **Do not merge `gh-pages` into `main`.**
 
 ## Live Public Surfaces
 
@@ -43,17 +43,18 @@ flowchart LR
 | **Standalone Ch. 1 Course Pack PDF** | Observatory PDF | [course_pack_ch01_probe_calibration.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch01_probe_calibration.pdf) |
 | **Standalone Ch. 2 Course Pack PDF** | Observatory PDF | [course_pack_ch02_class_set_kaleidoscope.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch02_class_set_kaleidoscope.pdf) |
 | **Standalone Ch. 3 Course Pack PDF** | Observatory PDF | [course_pack_ch03_piset_transgression.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch03_piset_transgression.pdf) |
+| **Standalone Ch. 4 Course Pack PDF** | Observatory PDF | [course_pack_ch04_smallness_and_schemes.pdf](https://tryggth.github.io/categorical-reverse-mathematics-vol2/pdfs/course_pack_ch04_smallness_and_schemes.pdf) |
 | **Glass-Box Methodology & Taint Engine Guide** | Repository Doc | [PROCESS.md](PROCESS.md) |
 | **14-Slice Volume II Project Plan** | Repository Doc | [ROADMAP.md](ROADMAP.md) |
 
 ## Current Verification Telemetry
 
-- **Core Mathematical, Prose, & Symbol Nodes:** `67` (`67` CLEAN, `0` TAINTED across `538` directed edges)
-- **14-Slice Blueprint (`nodes/plan/*.toml`):** `6 VERIFIED`, `1 ACTIVE`, `7 PLANNED` — active slice: `plan:ch04-smallness-and-schemes` (Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum)
+- **Core Mathematical, Prose, & Symbol Nodes:** `85` (`85` CLEAN, `0` TAINTED across `668` directed edges)
+- **14-Slice Blueprint (`nodes/plan/*.toml`):** `7 VERIFIED`, `1 ACTIVE`, `6 PLANNED` — active slice: `plan:ch05-borel-unraveling` (Ch. 5 (Part II): Arboreal Game Comonads & Martin's Borel Unraveling (Vol. I Prob. 15))
 - **Publication Sinks (`nodes/pub/*.toml`):** `7` sinks (`main_docs`, `gh_pages`, `lean_export`, `gh_issues`) with `0` edges into core/plan nodes (`pub_target -> pub_target` endpoint links allowed)
-- **Two-Package TCB (`leanprover/lean4:v4.28.0`):** `392` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `3` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)
-- **Four-Color Stratum Spectrometer:** Emerald=38, Sapphire=1, Amber=1, Crimson=3, Prose/Symbol=24
-- **Four-Part Grounding Cohorts:** Cohort I=28, Cohort II=24, Cohort III=7, Cohort IV=8
+- **Two-Package TCB (`leanprover/lean4:v4.28.0`):** `454` disjoint Lean 4 declarations (`HomotopyCRMVol2` + `AuditEnv`) + `3` zero-`Mathlib` `KernelArena` 2LTT certificates (`0` cross-package `lean_dep` edges)
+- **Four-Color Stratum Spectrometer:** Emerald=49, Sapphire=1, Amber=1, Crimson=4, Prose/Symbol=30
+- **Four-Part Grounding Cohorts:** Cohort I=36, Cohort II=29, Cohort III=10, Cohort IV=10
 
 ## Headline Verified Nodes (Locked via `prose_paraphrase`)
 
@@ -82,6 +83,10 @@ flowchart LR
 | `ch03:thm:anafunctor-vs-functorial-gc-splitting` | Choiceless Saturated Anafunctoriality vs. Functorial Global Choice Splitting | Emerald (Axiom-Free) | `lean_ok` | `a455dc71` |
 | `ch03:thm:piset-transgression-exactness` | Lindenbaum-Stone Transgression Operator d_Set and Syntactic Pullback Exactness | Emerald (Axiom-Free) | `lean_ok` | `f3f02470` |
 | `ch03:thm:two-valve-transgression-dichotomy` | Two-Valve Base-Fiber Transgression Dichotomy Across (Replacement x Foundation) | Emerald (Axiom-Free) | `lean_witness` | `081b56a7` |
+| `ch04:thm:replacement-iff-covariant-powerset` | Axiom VI Replacement Equivalence with Covariant Powerclasses and Family Unions | Emerald (Axiom-Free) | `lean_ok` | `8f64a9af` |
+| `ch04:thm:pointillist-continuum-and-czf-split` | Pointillist Continuum in H(aleph_1) and Constructive CZF Omega^X / 2^X Split | Emerald (Axiom-Free) | `lean_ok` | `caa1ceee` |
+| `ch04:thm:prime-spectrum-krull-choice-gate` | Krull Prime-Spectrum Inhabitation Crosses the Crimson Choice Gate | Crimson (`Classical.choice`) | `lean_ok` | `c19cda53` |
+| `ch04:thm:waterhouse-fpqc-smallness-escape` | Waterhouse's fpqc Smallness Escape and Clausen-Scholze Cutoff | Emerald (Axiom-Free) | `lean_witness` | `3ab58d38` |
 | `ch09:prop:pure-kan-path-symmetry-cert` | Pure Kan Path Symmetry on Fibrant Booleans (KernelArena Rung 1) | Emerald (Axiom-Free) | `twoltt_ok` | `5c019cc2` |
 | `ch09:thm:bool-univalence-holonomy-cert` | Boolean Univalence Holonomy via Regularity-Safe V-Types (Sapphire Certificate) | Sapphire (Safe 2LTT) | `twoltt_ok` | `da782c71` |
 

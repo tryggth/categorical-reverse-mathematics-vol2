@@ -1,0 +1,46 @@
+id = "vol1:def:axis-vi-replacement"
+kind = "vol1_external"
+title = "Axis VI Doctrinal Comparison Triple: Quotient-Image Descent and Cofinality (Volume I)"
+chapter = "ch04"
+section = "4.1"
+seq_order = 402
+axis = "ast_schemes"
+grounding_tier = "pinned_vol1"
+formal_pkg = "none"
+stratum = "emerald"
+cite_keys = ["joyal_moerdijk1995"]
+
+[spec]
+vol1_root = "../categorical-reverse-mathematics"
+vol1_tex_anchor = "docs/ch07_sets_residuum.tex:228"
+vol1_label = "def:axis-vi-replacement"
+vol1_lean_symbol = "Volume I Axis VI Quotient-Image Descent Comparison Triple"
+vol1_zenodo_doi = "10.5281/zenodo.24238086"
+contract = """
+Over a baseline predicative class-set ambient (C, S), Axis VI (Small-Indexed Cofinality / Replacement) compares the regular image Phi_Im(I, f) := im(f) in C of any morphism f : I -> C from a small domain I in S against the smallness reflector S -> C via kappa_Rep : im(f) in S. Equivalently, covariant direct image exists_g : P_S(C) -> P_S(D) preserves small subobjects and, combined with Small Union and coequalizer descent, compresses every small-indexed colimit into S.
+"""
+
+[body]
+tex = """
+\\begin{definition}[Volume~I Grounding Contract: Axis~VI Quotient-Image Descent]\\label{vol1:def:axis-vi-replacement}%
+Pinned read-only to Volume~I (\\texttt{def:axis-vi-replacement}, \\texttt{docs/ch07\\_sets\\_residuum.tex:228}, Zenodo DOI \\texttt{10.5281/zenodo.24238086})~\\cite[\\S\\S 1--3]{joyal_moerdijk1995}. Over $(\\mathcal{C}, \\mathcal{S})$, \\textbf{Axis~VI} asserts small-image descent $\\kappa_{\\mathrm{Rep}} : \\mathrm{im}(f) \\in \\mathcal{S}$ for every morphism $f : I \\to C$ with $I \\in \\mathcal{S}$, equivalently promoting $\\mathcal{P}_{\\mathcal{S}}$ to a covariant endofunctor via direct image $\\exists_g$ and compressing small-indexed colimits under Small Union.
+\\end{definition}
+"""
+
+[edges]
+logical_dep = []
+lean_dep = []
+curriculum = []
+prose_paraphrase = []
+
+[grounding]
+primary_category = "Pinned Volume I contract"
+blueprint_tier = "none"
+characterization_types = ["Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "vol1_contract"
+ref = "def:axis-vi-replacement"
+locator = "docs/ch07_sets_residuum.tex:228"
+purpose = "Pinned read-only Volume I contract equating Replacement with small-image descent and covariant P_S"

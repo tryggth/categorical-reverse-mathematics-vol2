@@ -15,16 +15,31 @@ milestone_num = 4
 slice_code = "Ch. 4"
 target_modules = [
   "HomotopyCRM.Vol2.SmallnessValves",
+  "HomotopyCRM.Vol2.PointillistContinua",
   "HomotopyCRM.Vol2.SchemeResiduum"
 ]
 deliverable_nodes = [
-  "ch04:def:joyal-moerdijk-cs-valve",
-  "ch04:prop:h-aleph1-czf-subobject-stratification",
-  "ch04:thm:mathias-mac-strict-zc",
-  "ch04:thm:waterhouse-fpqc-smallness-escape"
+  "vol1:def:small-map-ambient",
+  "vol1:def:axis-vi-replacement",
+  "vol1:prop:etcs-colimit-escape",
+  "vol1:prop:pointillist-continuum",
+  "sym:ast-schemes",
+  "ch04:prose:part2-ch04-roadmap",
+  "ch04:thm:replacement-iff-covariant-powerset",
+  "ch04:prop:iterated-powerset-escape-guardrail",
+  "ch04:thm:pointillist-continuum-and-czf-split",
+  "ch04:claim:aczel-czf-kp-conservativity",
+  "ch04:prop:cohesive-aristotle-cantor-adjudication",
+  "ch04:claim:puritz-shelah-ultrafilter-sky-spectrum",
+  "ch04:prop:zariski-radical-frame-constructive",
+  "ch04:thm:prime-spectrum-krull-choice-gate",
+  "ch04:claim:blechschmidt-internal-zariski-serre-affineness",
+  "ch04:prop:borger-lambda-delta-two-prime",
+  "ch04:thm:waterhouse-fpqc-smallness-escape",
+  "ch04:tab:ast-valves-and-scheme-solvents"
 ]
 guardrails = ["cumulative_hierarchy_strict_inclusion"]
-summary = "Calibrate Joyal-Moerdijk (C, S) Stratum II smallness valves across H(aleph_1), CZF Omega^X / 2^X, and Mathias's Mac subsetneq ZC separation (Guardrail 5), culminating in SchemeResiduum.lean up to Waterhouse's fpqc smallness escape."
+summary = "Calibrate Joyal-Moerdijk (C, S) Stratum II smallness valves across V_{omega+omega} (Guardrail 5), H(aleph_1), CZF Omega^X / 2^X, and Lawvere cohesion (SmallnessValves.lean, PointillistContinua.lean), culminating in SchemeResiduum.lean (Zariski frame vs. Krull Choice, Borger Lambda-lifts, and Waterhouse's fpqc escape)."
 
 [edges]
 logical_dep = ["plan:ch03-piset-transgression"]

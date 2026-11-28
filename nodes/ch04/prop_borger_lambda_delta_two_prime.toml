@@ -1,0 +1,234 @@
+id = "ch04:prop:borger-lambda-delta-two-prime"
+kind = "proposition"
+title = "Borger Lambda/F_1 Two-Prime Frobenius Compatibility and Commutation Obstruction"
+chapter = "ch04"
+section = "4.4"
+seq_order = 470
+axis = "ast_schemes"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["borger2011"]
+
+[spec]
+statement = "In Borger's (2011) F_1-descent geometry via Lambda-rings (compatible commuting Frobenius lifts psi_p across primes), formalizing the axiom-free commutative-ring interface PureCRing and FrobLift23 certifies constructively in Emerald (0 axioms): (1) N satisfies exact polynomial Fermat-quotient identities n^2 = n + 2*delta2Nat n and n^3 = n + 3*delta3Nat n; (2) Z/12Z carries a canonical commuting Frobenius-lift pair zmod12FrobLift23; and (3) over the square-zero extension (Z/12Z)[eps_2, eps_3]/(eps_2, eps_3)^2 = DualPair (Fin 12), the endomorphisms psi2(a, b, c) = (a, 2*b, 0) and psi3(a, b, c) = (a, 3*c, 0) satisfy their individual p = 2 and p = 3 Frobenius lift congruences while breaking commutativity (psi2 (psi3 (0, 0, 1)) = (0, 6, 0) != (0, 0, 0) = psi3 (psi2 (0, 0, 1)))."
+hypotheses = [
+  "PureCRing and PureRingEnd constructive ring/endomorphism records free of propext and Quot.sound",
+  "FrobLift23 bundling psi2, psi3 : PureRingEnd C, mod-2/mod-3 congruences, and commutativity",
+  "DualPair (Fin 12) square-zero extension of Z/12Z by (Z/12Z)^2 separating individual lifts from commutativity"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.SchemeResiduum"
+imports = ["Mathlib.RingTheory.Ideal.Maximal"]
+decl_names = [
+  "HomotopyCRM.Vol2.PureCRing",
+  "HomotopyCRM.Vol2.PureRingEnd",
+  "HomotopyCRM.Vol2.FrobLift23",
+  "HomotopyCRM.Vol2.delta2Nat",
+  "HomotopyCRM.Vol2.delta3Nat",
+  "HomotopyCRM.Vol2.delta2Nat_spec",
+  "HomotopyCRM.Vol2.delta3Nat_spec",
+  "HomotopyCRM.Vol2.zmod12CRing",
+  "HomotopyCRM.Vol2.zmod12FrobLift23",
+  "HomotopyCRM.Vol2.DualPair",
+  "HomotopyCRM.Vol2.dualPairCRing",
+  "HomotopyCRM.Vol2.dualPsi2",
+  "HomotopyCRM.Vol2.dualPsi3",
+  "HomotopyCRM.Vol2.borger_lambda_delta_two_prime"
+]
+expected_axioms = []
+lean_signature = """
+/-- Axiom-free commutative-ring record for two-prime Borger `Λ`-descent without `propext`. -/
+structure PureCRing (R : Type u) where
+  zero : R
+  one : R
+  add : R → R → R
+  neg : R → R
+  mul : R → R → R
+  add_assoc : ∀ a b c, add (add a b) c = add a (add b c)
+  add_comm : ∀ a b, add a b = add b a
+  zero_add : ∀ a, add zero a = a
+  neg_add : ∀ a, add (neg a) a = zero
+  mul_assoc : ∀ a b c, mul (mul a b) c = mul a (mul b c)
+  mul_comm : ∀ a b, mul a b = mul b a
+  one_mul : ∀ a, mul one a = a
+  mul_add : ∀ a b c, mul a (add b c) = add (mul a b) (mul a c)
+namespace PureCRing
+def addZero {R : Type u} (C : PureCRing R) (a : R) : C.add a C.zero = a := by rw [C.add_comm, C.zero_add]
+def addMul {R : Type u} (C : PureCRing R) (a b c : R) : C.mul (C.add a b) c = C.add (C.mul a c) (C.mul b c) := by
+  rw [C.mul_comm, C.mul_add, C.mul_comm c a, C.mul_comm c b]
+def mulZero {R : Type u} (C : PureCRing R) (a : R) : C.mul a C.zero = C.zero := by
+  have h := congrArg (C.add (C.neg (C.mul a C.zero))) (by rw [← C.mul_add, C.zero_add] : C.add (C.mul a C.zero) (C.mul a C.zero) = C.mul a C.zero)
+  rw [← C.add_assoc, C.neg_add, C.zero_add] at h; exact h
+def zeroMul {R : Type u} (C : PureCRing R) (a : R) : C.mul C.zero a = C.zero := by rw [C.mul_comm, C.mulZero]
+def sq {R : Type u} (C : PureCRing R) (x : R) : R := C.mul x x
+def cube {R : Type u} (C : PureCRing R) (x : R) : R := C.mul (C.mul x x) x
+def dbl {R : Type u} (C : PureCRing R) (x : R) : R := C.add x x
+def tpl {R : Type u} (C : PureCRing R) (x : R) : R := C.add (C.add x x) x
+def add4 {R : Type u} (C : PureCRing R) (u v w t : R) : C.add (C.add u v) (C.add w t) = C.add (C.add u w) (C.add v t) := by
+  rw [C.add_assoc, ← C.add_assoc v w t, C.add_comm v w, C.add_assoc w v t, ← C.add_assoc]
+def tplAdd {R : Type u} (C : PureCRing R) (u v : R) : C.tpl (C.add u v) = C.add (C.tpl u) (C.tpl v) := by
+  dsimp only [PureCRing.tpl]; rw [C.add4 u v u v, C.add4]
+end PureCRing
+/-- Constructive ring endomorphism on a `PureCRing`. -/
+structure PureRingEnd {R : Type u} (C : PureCRing R) where
+  toFun : R → R
+  map_zero : toFun C.zero = C.zero
+  map_one : toFun C.one = C.one
+  map_add : ∀ x y, toFun (C.add x y) = C.add (toFun x) (toFun y)
+  map_mul : ∀ x y, toFun (C.mul x y) = C.mul (toFun x) (toFun y)
+def PureRingEnd.id {R : Type u} (C : PureCRing R) : PureRingEnd C :=
+  ⟨fun x ↦ x, rfl, rfl, fun _ _ ↦ rfl, fun _ _ ↦ rfl⟩
+def PureRingEnd.comp {R : Type u} {C : PureCRing R} (f g : PureRingEnd C) : PureRingEnd C :=
+  ⟨fun x ↦ f.toFun (g.toFun x), by dsimp only; rw [g.map_zero, f.map_zero], by dsimp only; rw [g.map_one, f.map_one],
+   fun x y ↦ by dsimp only; rw [g.map_add, f.map_add], fun x y ↦ by dsimp only; rw [g.map_mul, f.map_mul]⟩
+/-- Two-prime Borger `Λ`-datum (`p = 2, 3`): commuting endomorphisms lifting Frobenius powers. -/
+structure FrobLift23 {R : Type u} (C : PureCRing R) where
+  psi2 : PureRingEnd C
+  psi3 : PureRingEnd C
+  lift2 : ∀ x : R, ∃ d : R, psi2.toFun x = C.add (C.sq x) (C.dbl d)
+  lift3 : ∀ x : R, ∃ d : R, psi3.toFun x = C.add (C.cube x) (C.tpl d)
+  comm : psi2.comp psi3 = psi3.comp psi2
+def delta2Nat : Nat → Nat | 0 => 0 | k + 1 => delta2Nat k + k
+def delta3Nat : Nat → Nat | 0 => 0 | k + 1 => delta3Nat k + k * k + k
+private lemma nat_add_mul' (a b c : Nat) : (a + b) * c = a * c + b * c := by
+  rw [Nat.mul_comm, Nat.mul_add, Nat.mul_comm c a, Nat.mul_comm c b]
+private lemma nat_add_rc (a b c : Nat) : a + b + c = a + c + b := by rw [Nat.add_assoc, Nat.add_comm b c, ← Nat.add_assoc]
+theorem delta2Nat_spec (n : Nat) : n * n = n + 2 * delta2Nat n := by
+  induction n with
+  | zero => rfl
+  | succ k ih =>
+    change (k + 1) * (k + 1) = (k + 1) + 2 * (delta2Nat k + k)
+    have h2k : 2 * k = k + k := by change (1 + 1) * k = k + k; rw [nat_add_mul', Nat.one_mul]
+    rw [nat_add_mul', Nat.mul_add, Nat.mul_one, Nat.one_mul, ih, Nat.mul_add, h2k, ← Nat.add_assoc (k + 2 * delta2Nat k + k),
+        ← Nat.add_assoc (k + 1), ← Nat.add_assoc (k + 1 + 2 * delta2Nat k), nat_add_rc k 1 (2 * delta2Nat k),
+        nat_add_rc (k + 2 * delta2Nat k) 1 k, nat_add_rc (k + 2 * delta2Nat k + k) 1 k]
+theorem delta3Nat_spec (n : Nat) : n * n * n = n + 3 * delta3Nat n := by
+  induction n with
+  | zero => rfl
+  | succ k ih =>
+    change (k + 1) * (k + 1) * (k + 1) = (k + 1) + 3 * (delta3Nat k + k * k + k)
+    have h3 : ∀ x : Nat, 3 * x = x + x + x := fun x ↦ by change (1 + 1 + 1) * x = x + x + x; rw [nat_add_mul', nat_add_mul', Nat.one_mul]
+    have hsq : (k + 1) * (k + 1) = k * k + k + k + 1 := by rw [nat_add_mul', Nat.mul_add, Nat.mul_one, Nat.one_mul, ← Nat.add_assoc]
+    rw [hsq, Nat.mul_add, Nat.mul_one, nat_add_mul', nat_add_mul', nat_add_mul', Nat.one_mul, ih, Nat.mul_add, Nat.mul_add, h3 (k * k), h3 k,
+        ← Nat.add_assoc (k + 3 * delta3Nat k + k * k + k * k + k), ← Nat.add_assoc (k + 3 * delta3Nat k + k * k + k * k + k),
+        ← Nat.add_assoc (k + 3 * delta3Nat k + k * k + k * k + k), nat_add_rc (k + 3 * delta3Nat k + k * k + k * k) k (k * k),
+        ← Nat.add_assoc (k + 1), ← Nat.add_assoc (k + 1), ← Nat.add_assoc (k + 1 + 3 * delta3Nat k), ← Nat.add_assoc (k + 1 + 3 * delta3Nat k),
+        ← Nat.add_assoc (k + 1 + 3 * delta3Nat k + k * k + k * k + k * k), ← Nat.add_assoc (k + 1 + 3 * delta3Nat k + k * k + k * k + k * k),
+        nat_add_rc k 1 (3 * delta3Nat k), nat_add_rc (k + 3 * delta3Nat k) 1 (k * k), nat_add_rc (k + 3 * delta3Nat k + k * k) 1 (k * k),
+        nat_add_rc (k + 3 * delta3Nat k + k * k + k * k) 1 (k * k), nat_add_rc (k + 3 * delta3Nat k + k * k + k * k + k * k) 1 k,
+        nat_add_rc (k + 3 * delta3Nat k + k * k + k * k + k * k + k) 1 k, nat_add_rc (k + 3 * delta3Nat k + k * k + k * k + k * k + k + k) 1 k]
+def zmod12CRing : PureCRing (Fin 12) :=
+  ⟨⟨0, by decide⟩, ⟨1, by decide⟩, fun a b ↦ ⟨(a.1 + b.1) % 12, Nat.mod_lt _ (by decide)⟩,
+   fun a ↦ ⟨(12 - a.1 % 12) % 12, Nat.mod_lt _ (by decide)⟩, fun a b ↦ ⟨(a.1 * b.1) % 12, Nat.mod_lt _ (by decide)⟩,
+   by decide, by decide, by decide, by decide, by decide, by decide, by decide, by decide⟩
+def zmod12FrobLift23 : FrobLift23 zmod12CRing :=
+  ⟨PureRingEnd.id zmod12CRing, PureRingEnd.id zmod12CRing,
+   fun x ↦ ⟨⟨(12 - delta2Nat x.1 % 12) % 12, Nat.mod_lt _ (by decide)⟩, by revert x; decide⟩,
+   fun x ↦ ⟨⟨(12 - delta3Nat x.1 % 12) % 12, Nat.mod_lt _ (by decide)⟩, by revert x; decide⟩, rfl⟩
+/-- Square-zero extension `R[ε₂, ε₃] / (ε₂, ε₃)²`. -/
+structure DualPair (R : Type u) where
+  a : R
+  b : R
+  c : R
+private lemma dualPair_eq {R : Type u} {x y : DualPair R} (ha : x.a = y.a) (hb : x.b = y.b) (hc : x.c = y.c) : x = y := by
+  cases x; cases y; subst ha; subst hb; subst hc; rfl
+def dualPairCRing {R : Type u} (C : PureCRing R) : PureCRing (DualPair R) :=
+  ⟨⟨C.zero, C.zero, C.zero⟩, ⟨C.one, C.zero, C.zero⟩,
+   fun x y ↦ ⟨C.add x.a y.a, C.add x.b y.b, C.add x.c y.c⟩, fun x ↦ ⟨C.neg x.a, C.neg x.b, C.neg x.c⟩,
+   fun x y ↦ ⟨C.mul x.a y.a, C.add (C.mul x.a y.b) (C.mul x.b y.a), C.add (C.mul x.a y.c) (C.mul x.c y.a)⟩,
+   fun _ _ _ ↦ dualPair_eq (C.add_assoc _ _ _) (C.add_assoc _ _ _) (C.add_assoc _ _ _),
+   fun _ _ ↦ dualPair_eq (C.add_comm _ _) (C.add_comm _ _) (C.add_comm _ _),
+   fun _ ↦ dualPair_eq (C.zero_add _) (C.zero_add _) (C.zero_add _),
+   fun _ ↦ dualPair_eq (C.neg_add _) (C.neg_add _) (C.neg_add _),
+   fun x y z ↦ dualPair_eq (C.mul_assoc _ _ _) (by dsimp only; rw [C.mul_add, C.addMul, C.mul_assoc, C.mul_assoc, C.mul_assoc, C.add_assoc])
+     (by dsimp only; rw [C.mul_add, C.addMul, C.mul_assoc, C.mul_assoc, C.mul_assoc, C.add_assoc]),
+   fun x y ↦ dualPair_eq (C.mul_comm _ _) (by dsimp only; rw [C.mul_comm x.a y.b, C.mul_comm x.b y.a, C.add_comm])
+     (by dsimp only; rw [C.mul_comm x.a y.c, C.mul_comm x.c y.a, C.add_comm]),
+   fun _ ↦ dualPair_eq (C.one_mul _) (by dsimp only; rw [C.one_mul, C.zeroMul, C.addZero]) (by dsimp only; rw [C.one_mul, C.zeroMul, C.addZero]),
+   fun _ _ _ ↦ dualPair_eq (C.mul_add _ _ _) (by dsimp only; rw [C.mul_add, C.mul_add, C.add4]) (by dsimp only; rw [C.mul_add, C.mul_add, C.add4])⟩
+def dualPsi2 {R : Type u} (C : PureCRing R) : PureRingEnd (dualPairCRing C) :=
+  ⟨fun x ↦ ⟨x.a, C.dbl x.b, C.zero⟩, dualPair_eq rfl (C.zero_add C.zero) rfl, dualPair_eq rfl (C.zero_add C.zero) rfl,
+   fun x y ↦ dualPair_eq rfl (by dsimp only [dualPairCRing, PureCRing.dbl]; exact C.add4 _ _ _ _) (C.zero_add C.zero).symm,
+   fun x y ↦ dualPair_eq rfl (by dsimp only [dualPairCRing, PureCRing.dbl]; rw [C.mul_add, C.addMul, C.add4])
+     (by dsimp only [dualPairCRing]; rw [C.mulZero, C.zeroMul, C.zero_add])⟩
+def dualPsi3 {R : Type u} (C : PureCRing R) : PureRingEnd (dualPairCRing C) :=
+  ⟨fun x ↦ ⟨x.a, C.tpl x.c, C.zero⟩, dualPair_eq rfl (by dsimp only [dualPairCRing, PureCRing.tpl]; rw [C.zero_add, C.zero_add]) rfl,
+   dualPair_eq rfl (by dsimp only [dualPairCRing, PureCRing.tpl]; rw [C.zero_add, C.zero_add]) rfl,
+   fun x y ↦ dualPair_eq rfl (by dsimp only [dualPairCRing]; exact C.tplAdd _ _) (C.zero_add C.zero).symm,
+   fun x y ↦ dualPair_eq rfl (by dsimp only [dualPairCRing]; rw [C.tplAdd]; dsimp only [PureCRing.tpl]; rw [C.mul_add, C.mul_add, C.addMul, C.addMul])
+     (by dsimp only [dualPairCRing]; rw [C.mulZero, C.zeroMul, C.zero_add])⟩
+/-- **Borger Two-Prime `Λ`-Compatibility Separation (Emerald, Axiom-Free):**
+    `ℕ` & `ℤ/12ℤ` satisfy commuting `δ₂, δ₃` lifts, while `(dualPsi2, dualPsi3)` satisfy individual
+    mod-2 / mod-3 Frobenius lifts yet fail `ψ₂ ∘ ψ₃ = ψ₃ ∘ ψ₂`. -/
+theorem borger_lambda_delta_two_prime :
+    (∀ n : Nat, n * n = n + 2 * delta2Nat n ∧ n * n * n = n + 3 * delta3Nat n) ∧
+    (zmod12FrobLift23.psi2.comp zmod12FrobLift23.psi3 = zmod12FrobLift23.psi3.comp zmod12FrobLift23.psi2) ∧
+    (∀ x : DualPair (Fin 12), ∃ d : DualPair (Fin 12),
+      (dualPsi2 zmod12CRing).toFun x = (dualPairCRing zmod12CRing).add ((dualPairCRing zmod12CRing).sq x) ((dualPairCRing zmod12CRing).dbl d)) ∧
+    (∀ x : DualPair (Fin 12), ∃ d : DualPair (Fin 12),
+      (dualPsi3 zmod12CRing).toFun x = (dualPairCRing zmod12CRing).add ((dualPairCRing zmod12CRing).cube x) ((dualPairCRing zmod12CRing).tpl d)) ∧
+    ¬ ((dualPsi2 zmod12CRing).comp (dualPsi3 zmod12CRing) = (dualPsi3 zmod12CRing).comp (dualPsi2 zmod12CRing)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.delta2Nat_spec' does not depend on any axioms -/\n#guard_msgs in\n#print axioms delta2Nat_spec",
+  "/-- info: 'HomotopyCRM.Vol2.delta3Nat_spec' does not depend on any axioms -/\n#guard_msgs in\n#print axioms delta3Nat_spec",
+  "/-- info: 'HomotopyCRM.Vol2.borger_lambda_delta_two_prime' does not depend on any axioms -/\n#guard_msgs in\n#print axioms borger_lambda_delta_two_prime"
+]
+
+[body]
+lean_body = """
+  have h2c : (∀ a b : Fin 12, zmod12CRing.dbl b = zmod12CRing.add (zmod12CRing.add (zmod12CRing.mul a b) (zmod12CRing.mul b a)) (zmod12CRing.dbl (zmod12CRing.add b (zmod12CRing.neg (zmod12CRing.mul a b))))) ∧
+      (∀ a c : Fin 12, zmod12CRing.zero = zmod12CRing.add (zmod12CRing.add (zmod12CRing.mul a c) (zmod12CRing.mul c a)) (zmod12CRing.dbl (zmod12CRing.neg (zmod12CRing.mul a c)))) := by decide
+  have h3c : (∀ a b c : Fin 12, zmod12CRing.tpl c = zmod12CRing.add (zmod12CRing.add (zmod12CRing.mul (zmod12CRing.mul a a) b) (zmod12CRing.mul (zmod12CRing.add (zmod12CRing.mul a b) (zmod12CRing.mul b a)) a)) (zmod12CRing.tpl (zmod12CRing.add c (zmod12CRing.neg (zmod12CRing.mul (zmod12CRing.sq a) b))))) ∧
+      (∀ a c : Fin 12, zmod12CRing.zero = zmod12CRing.add (zmod12CRing.add (zmod12CRing.mul (zmod12CRing.mul a a) c) (zmod12CRing.mul (zmod12CRing.add (zmod12CRing.mul a c) (zmod12CRing.mul c a)) a)) (zmod12CRing.tpl (zmod12CRing.neg (zmod12CRing.mul (zmod12CRing.sq a) c)))) := by decide
+  have h2 : ∀ x : DualPair (Fin 12), ∃ d : DualPair (Fin 12), (dualPsi2 zmod12CRing).toFun x = (dualPairCRing zmod12CRing).add ((dualPairCRing zmod12CRing).sq x) ((dualPairCRing zmod12CRing).dbl d) := fun ⟨a, b, c⟩ ↦
+    let ⟨da, hda⟩ := zmod12FrobLift23.lift2 a; ⟨⟨da, zmod12CRing.add b (zmod12CRing.neg (zmod12CRing.mul a b)), zmod12CRing.neg (zmod12CRing.mul a c)⟩, dualPair_eq hda (h2c.1 a b) (h2c.2 a c)⟩
+  have h3 : ∀ x : DualPair (Fin 12), ∃ d : DualPair (Fin 12), (dualPsi3 zmod12CRing).toFun x = (dualPairCRing zmod12CRing).add ((dualPairCRing zmod12CRing).cube x) ((dualPairCRing zmod12CRing).tpl d) := fun ⟨a, b, c⟩ ↦
+    let ⟨da, hda⟩ := zmod12FrobLift23.lift3 a; ⟨⟨da, zmod12CRing.add c (zmod12CRing.neg (zmod12CRing.mul (zmod12CRing.sq a) b)), zmod12CRing.neg (zmod12CRing.mul (zmod12CRing.sq a) c)⟩, dualPair_eq hda (h3c.1 a b c) (h3c.2 a c)⟩
+  exact ⟨fun n ↦ ⟨delta2Nat_spec n, delta3Nat_spec n⟩, rfl, h2, h3, fun h ↦ Nat.noConfusion (congrArg (fun f ↦ (f.toFun ⟨zmod12CRing.zero, zmod12CRing.zero, zmod12CRing.one⟩).b.1) h)⟩
+"""
+tex = """
+\\begin{proposition}[Borger Two-Prime $\\Lambda/\\delta$-Compatibility Obstruction]\\label{ch04:prop:borger-lambda-delta-two-prime}%
+\\uses{ch04:prop:zariski-radical-frame-constructive}%
+In Borger's $\\mathbb{F}_1$-descent architecture~\\cite[pp.~231--285]{borger2011}, a $\\Lambda$-ring structure requires commuting Frobenius lifts $\\psi_p$ across primes ($p = 2, 3$ already witnessing non-trivial multi-prime locking). In \\texttt{SchemeResiduum.lean} (constructive \\textbf{Emerald} stratum, zero axioms):
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item $\\mathbb{N}$ satisfies exact Fermat-quotient identities $n^2 = n + 2\\delta_2(n)$ and $n^3 = n + 3\\delta_3(n)$, equipping $\\mathbb{Z}/12\\mathbb{Z}$ with a canonical commuting $\\Lambda$-pair \\texttt{zmod12FrobLift23} over \\texttt{PureCRing}.
+  \\item Over the square-zero extension $(\\mathbb{Z}/12\\mathbb{Z})[\\varepsilon_2,\\varepsilon_3]/(\\varepsilon_2,\\varepsilon_3)^2$, the endomorphisms $\\psi_2(a + b\\varepsilon_2 + c\\varepsilon_3) = a + 2b\\varepsilon_2$ and $\\psi_3(a + b\\varepsilon_2 + c\\varepsilon_3) = a + 3c\\varepsilon_2$ satisfy their separate $p = 2$ and $p = 3$ congruence lift equations while breaking commutativity ($\\psi_2(\\psi_3(\\varepsilon_3)) = 6\\varepsilon_2 \\neq 0 = \\psi_3(\\psi_2(\\varepsilon_3))$).
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+Inductive Fermat quotients \\texttt{delta2Nat} and \\texttt{delta3Nat} certify the polynomial congruences purely in Martin-L\\\"of $\\mathbb{N}$-arithmetic without \\texttt{propext}; on \\texttt{DualPair (Fin 12)} built inside the axiom-free \\texttt{PureCRing} interface, finite exhaustive checking certifies both individual congruence lifts while evaluation at $(0, 0, 1)$ separates $\\psi_2 \\circ \\psi_3$ from $\\psi_3 \\circ \\psi_2$ with zero axioms.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Framework Definition", "Counterexample / Disproof"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.borger_lambda_delta_two_prime"
+purpose = "Zero-axiom Lean separation between individual Frobenius congruence lifts and commuting Borger Lambda structure"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "borger2011"
+locator = "Sec. 1--2, pp. 231--285"
+purpose = "Borger F_1-descent geometry via commuting Frobenius lifts and Joyal delta-rings"
+
+[edges]
+logical_dep = [
+  "ch04:prop:zariski-radical-frame-constructive"
+]
+lean_dep = [
+  "ch04:prop:zariski-radical-frame-constructive"
+]
+curriculum = [
+  "ch04:prop:zariski-radical-frame-constructive"
+]
+prose_paraphrase = []

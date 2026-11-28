@@ -28,11 +28,12 @@ PUB_LOCK_PATH = REPO_ROOT / "manifest" / "publication_lock.json"
 DRILL_PATH = REPO_ROOT / "logs" / "drill_report.json"
 
 PDF_FILES = [
-    ("crm_vol2_monograph.pdf", "Royal Octavo Monograph", "Overture + Part I (Chs. 2–3) monograph draft with Four-Color Stratum badges, proofs, and cross-volume guardrails."),
+    ("crm_vol2_monograph.pdf", "Royal Octavo Monograph", "Overture + Part I (Chs. 2–3) + Part II Ch. 4 + Part IV §9.1 monograph draft with Four-Color Stratum badges, proofs, and cross-volume guardrails."),
     ("crm_vol2_claims_ledger.pdf", "4-Part Master Claims & Grounding Ledger", "Complete Cohorts I–IV audit ledger, paraphrase lock matrix, and disjoint declaration ownership census."),
     ("course_pack_ch01_probe_calibration.pdf", "Standalone Ch. 1 Course Pack", "Curriculum-cone extract terminating at Table 1.1 (Epistemic Probe Regimes), excluding out-of-slice nodes."),
     ("course_pack_ch02_class_set_kaleidoscope.pdf", "Standalone Ch. 2 Course Pack", "Curriculum-cone extract terminating at Table 2.1 (Vertical Class Spectrum) across §§2.1–2.4."),
     ("course_pack_ch03_piset_transgression.pdf", "Standalone Ch. 3 Course Pack", "Curriculum-cone extract terminating at Table 3.1 (Four-Quadrant Transgression Ledger) across §§3.1–3.4."),
+    ("course_pack_ch04_smallness_and_schemes.pdf", "Standalone Ch. 4 Course Pack", "Curriculum-cone extract terminating at Table 4.1 (AST Valves & Scheme Solvents) across §§4.1–4.4."),
 ]
 
 
@@ -1716,7 +1717,7 @@ def render_index_html(payload: dict[str, Any]) -> str:
               <text x="22" y="72" font-size="11" fill="#166534">spec_hash (VOL2_SPEC_V1)</text>
               <text x="22" y="92" font-size="11" fill="#1d4ed8">body_hash (VOL2_BODY_V1)</text>
               <text x="22" y="112" font-size="11" fill="#b45309">grounding_hash</text>
-              <text x="22" y="135" font-size="10" fill="#475569">nodes/ch01-03, ch09, sym, plan, pub</text>
+              <text x="22" y="135" font-size="10" fill="#475569">nodes/ch01-04, ch09, sym, plan, pub</text>
 
               <line x1="175" y1="90" x2="220" y2="90" stroke="#1b365d" stroke-width="1.8" marker-end="url(#proc-arrow)"/>
 
@@ -1747,7 +1748,7 @@ def render_index_html(payload: dict[str, Any]) -> str:
               <rect x="742" y="25" width="225" height="130" rx="5" fill="#f8fafc" stroke="#1b365d" stroke-width="1.5"/>
               <text x="755" y="50" font-size="12" font-weight="700" fill="#0f172a">Publication Sinks (Out=0)</text>
               <text x="755" y="72" font-size="10.5" fill="#0f172a">• main Docs (README/PROCESS/ROADMAP)</text>
-              <text x="755" y="90" font-size="10.5" fill="#0f172a">• gh-pages Observatory + 5 PDFs</text>
+              <text x="755" y="90" font-size="10.5" fill="#0f172a">• gh-pages Observatory + 6 PDFs</text>
               <text x="755" y="108" font-size="10.5" fill="#0f172a">• lean-export standalone branch</text>
               <text x="755" y="126" font-size="10.5" fill="#0f172a">• GitHub Milestones &amp; Issues</text>
               <text x="755" y="144" font-size="10" fill="#991b1b">Hard-blocked on any TAINTED node</text>

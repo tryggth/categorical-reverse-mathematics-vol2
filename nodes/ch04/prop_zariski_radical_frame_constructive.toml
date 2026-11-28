@@ -1,0 +1,183 @@
+id = "ch04:prop:zariski-radical-frame-constructive"
+kind = "proposition"
+title = "Constructive Zariski Radical Frame and Formal Nullstellensatz Non-Degeneracy"
+chapter = "ch04"
+section = "4.3"
+seq_order = 450
+axis = "ast_schemes"
+grounding_tier = "lean_ok"
+formal_pkg = "mathlib_vol2"
+stratum = "emerald"
+cite_keys = ["johnstone1982", "blechschmidt2017"]
+
+[spec]
+statement = "Over any commutative ring R ([CommRing R]), defining ideals directly via IsIdealPred (avoiding quotient/set-extensionality axioms) and the constructive radical zariskiRadPred P x := exists n : Nat, P (x ^ n), the pure inductive colon-ideal lemma idealPred_add_pow_mem certifies with zero axioms (Emerald, []): (1) zariskiRadPred P is an ideal; (2) inflationarity, monotonicity, and idempotence; (3) binary meet compatibility sqrt(P /\\ Q) <-> sqrt(P) /\\ sqrt(Q); and (4) constructive Nullstellensatz non-degeneracy: (1 in sqrt(P) <-> 1 in P) and nontriviality preserves sqrt(0) != top without Choice or BPI."
+hypotheses = [
+  "R : Type u with [CommRing R]",
+  "Pure colon-ideal induction replacing Finset binomial sums"
+]
+
+[spec.mathlib]
+module = "HomotopyCRM.Vol2.SchemeResiduum"
+imports = ["Mathlib.RingTheory.Ideal.Maximal"]
+decl_names = [
+  "HomotopyCRM.Vol2.IsIdealPred",
+  "HomotopyCRM.Vol2.zariskiRadPred",
+  "HomotopyCRM.Vol2.IdealPredLe",
+  "HomotopyCRM.Vol2.IdealPredEquiv",
+  "HomotopyCRM.Vol2.colonIdealPred",
+  "HomotopyCRM.Vol2.idealPred_add_pow_mem",
+  "HomotopyCRM.Vol2.zariski_radical_frame_constructive"
+]
+expected_axioms = []
+lean_signature = """
+/-- Predicate-level ideal closure over a commutative ring `R`, free of `SetLike.ext` (`propext`). -/
+structure IsIdealPred {R : Type u} [CommRing R] (P : R → Prop) : Prop where
+  zero_mem : P 0
+  add_mem : ∀ {x y : R}, P x → P y → P (x + y)
+  mul_mem_left : ∀ (r : R) {x : R}, P x → P (r * x)
+
+/-- Constructive Zariski radical operator `√P := {x | ∃ n : ℕ, P (x ^ n)}`. -/
+def zariskiRadPred {R : Type u} [CommRing R] (P : R → Prop) : R → Prop :=
+  fun x ↦ ∃ n : Nat, P (x ^ n)
+
+/-- Pointwise ideal inclusion `P ≤ Q` and equivalence `P ≡ Q` without `propext`. -/
+def IdealPredLe {R : Type u} (P Q : R → Prop) : Prop := ∀ x : R, P x → Q x
+def IdealPredEquiv {R : Type u} (P Q : R → Prop) : Prop := ∀ x : R, P x ↔ Q x
+def colonIdealPred {R : Type u} [CommRing R] (P : R → Prop) (a : R) : R → Prop := fun z ↦ P (a * z)
+
+private lemma colonIdealPred_isIdeal {R : Type u} [CommRing R] {P : R → Prop}
+    (hP : IsIdealPred P) (a : R) : IsIdealPred (colonIdealPred P a) where
+  zero_mem := by change P (a * 0); rw [mul_zero]; exact hP.zero_mem
+  add_mem {x y} hx hy := by change P (a * (x + y)); rw [mul_add]; exact hP.add_mem hx hy
+  mul_mem_left r {x} hx := by
+    change P (a * (r * x)); rw [mul_left_comm]; exact hP.mul_mem_left r hx
+
+private lemma pow_succ_left {R : Type u} [CommRing R] (x : R) (n : Nat) :
+    x ^ (n + 1) = x * x ^ n := by rw [pow_succ, mul_comm]
+
+private lemma mul_pow_pure {R : Type u} [CommRing R] (r x : R) (n : Nat) :
+    (r * x) ^ n = r ^ n * x ^ n := by
+  induction n with
+  | zero => rw [pow_zero, pow_zero, pow_zero, one_mul]
+  | succ k ih =>
+    rw [pow_succ, pow_succ, pow_succ, ih, mul_assoc, mul_left_comm (x ^ k) r x, ← mul_assoc]
+
+/-- Pure colon-ideal induction proving `P (x^m) → P (y^n) → P ((x + y)^(m + n))` with 0 axioms. -/
+theorem idealPred_add_pow_mem {R : Type u} [CommRing R] :
+    ∀ (k : Nat) (P : R → Prop) (_ : IsIdealPred P) (m n : Nat),
+      m + n = k → ∀ x y : R, P (x ^ m) → P (y ^ n) → P ((x + y) ^ k) := by
+  intro k; induction k with
+  | zero =>
+    intro P _ m n hmn x _ hx _
+    have hm : m = 0 := Nat.eq_zero_of_add_eq_zero_right hmn
+    subst hm; rw [pow_zero] at hx ⊢; exact hx
+  | succ k ih =>
+    intro P hP m n hmn x y hx hy
+    cases m with
+    | zero => rw [pow_zero] at hx; have h := hP.mul_mem_left ((x + y) ^ (k + 1)) hx; rw [mul_one] at h; exact h
+    | succ m' =>
+      cases n with
+      | zero => rw [pow_zero] at hy; have h := hP.mul_mem_left ((x + y) ^ (k + 1)) hy; rw [mul_one] at h; exact h
+      | succ n' =>
+        have hsum1 : m' + (n' + 1) = k := Nat.succ.inj (by rw [← Nat.succ_add]; exact hmn)
+        have hsum2 : (m' + 1) + n' = k := Nat.succ.inj (by rw [← Nat.add_succ]; exact hmn)
+        have hx' : colonIdealPred P x (x ^ m') := by change P (x * x ^ m'); rw [← pow_succ_left]; exact hx
+        have hy' : colonIdealPred P y (y ^ n') := by change P (y * y ^ n'); rw [← pow_succ_left]; exact hy
+        have hX := ih (colonIdealPred P x) (colonIdealPred_isIdeal hP x) m' (n' + 1) hsum1 x y hx' (hP.mul_mem_left x hy)
+        have hY := ih (colonIdealPred P y) (colonIdealPred_isIdeal hP y) (m' + 1) n' hsum2 x y (hP.mul_mem_left y hx) hy'
+        rw [pow_succ_left, add_mul]; exact hP.add_mem hX hY
+
+/-- **Constructive Zariski Radical Frame & Nullstellensatz (Emerald, Axiom-Free):**
+    Verifies all Zariski radical nucleus laws and unit non-degeneracy without BPI or Choice. -/
+theorem zariski_radical_frame_constructive {R : Type u} [CommRing R] :
+    (∀ P : R → Prop, IsIdealPred P → IsIdealPred (zariskiRadPred P)) ∧
+    (∀ P : R → Prop, IdealPredLe P (zariskiRadPred P)) ∧
+    (∀ P Q : R → Prop, IdealPredLe P Q →
+      IdealPredLe (zariskiRadPred P) (zariskiRadPred Q)) ∧
+    (∀ P : R → Prop, IsIdealPred P →
+      IdealPredEquiv (zariskiRadPred (zariskiRadPred P)) (zariskiRadPred P)) ∧
+    (∀ P Q : R → Prop, IsIdealPred P → IsIdealPred Q →
+      IdealPredEquiv (zariskiRadPred (fun x ↦ P x ∧ Q x))
+        (fun x ↦ zariskiRadPred P x ∧ zariskiRadPred Q x)) ∧
+    ((∀ P : R → Prop, (zariskiRadPred P 1 ↔ P 1)) ∧
+      (Nontrivial R → ¬ zariskiRadPred (fun x : R ↦ x = 0) 1)) := by
+  {{LEAN_BODY}}
+"""
+guard_axiom_stanzas = [
+  "/-- info: 'HomotopyCRM.Vol2.idealPred_add_pow_mem' does not depend on any axioms -/\n#guard_msgs in\n#print axioms idealPred_add_pow_mem",
+  "/-- info: 'HomotopyCRM.Vol2.zariski_radical_frame_constructive' does not depend on any axioms -/\n#guard_msgs in\n#print axioms zariski_radical_frame_constructive"
+]
+
+[body]
+lean_body = """
+  have hPowUp : ∀ (P : R → Prop), IsIdealPred P →
+      ∀ (x : R) (m r : Nat), P (x ^ m) → P (x ^ (m + r)) := by
+    intro P hP x m r hx; induction r with
+    | zero => exact hx
+    | succ r ih => rw [Nat.add_succ, pow_succ_left]; exact hP.mul_mem_left x ih
+  have hIdealRad : ∀ P : R → Prop, IsIdealPred P → IsIdealPred (zariskiRadPred P) := fun P hP ↦
+    ⟨⟨1, by rw [pow_one]; exact hP.zero_mem⟩,
+     fun ⟨m, hm⟩ ⟨n, hn⟩ ↦ ⟨m + n, idealPred_add_pow_mem (m + n) P hP m n rfl _ _ hm hn⟩,
+     fun r _ ⟨n, hn⟩ ↦ ⟨n, by rw [mul_pow_pure]; exact hP.mul_mem_left (r ^ n) hn⟩⟩
+  have hInfl : ∀ P : R → Prop, IdealPredLe P (zariskiRadPred P) :=
+    fun _ _ hx ↦ ⟨1, by rw [pow_one]; exact hx⟩
+  have hMono : ∀ P Q : R → Prop, IdealPredLe P Q →
+      IdealPredLe (zariskiRadPred P) (zariskiRadPred Q) := fun _ _ hPQ _ ⟨n, hn⟩ ↦ ⟨n, hPQ _ hn⟩
+  have hIdemp : ∀ P : R → Prop, IsIdealPred P →
+      IdealPredEquiv (zariskiRadPred (zariskiRadPred P)) (zariskiRadPred P) := fun P _ x ↦
+    ⟨fun ⟨m, n, hmn⟩ ↦ ⟨m * n, by rw [← pow_mul] at hmn; exact hmn⟩, hInfl (zariskiRadPred P) x⟩
+  have hMeet : ∀ P Q : R → Prop, IsIdealPred P → IsIdealPred Q →
+      IdealPredEquiv (zariskiRadPred (fun x ↦ P x ∧ Q x))
+        (fun x ↦ zariskiRadPred P x ∧ zariskiRadPred Q x) := fun P Q hP hQ x ↦
+    ⟨fun ⟨n, h1, h2⟩ ↦ ⟨⟨n, h1⟩, ⟨n, h2⟩⟩,
+     fun ⟨⟨m, hm⟩, ⟨n, hn⟩⟩ ↦ ⟨m + n, hPowUp P hP x m n hm, by rw [Nat.add_comm]; exact hPowUp Q hQ x n m hn⟩⟩
+  have hOne : ∀ P : R → Prop, zariskiRadPred P 1 ↔ P 1 :=
+    fun P ↦ ⟨fun ⟨n, hn⟩ ↦ by rw [one_pow] at hn; exact hn, hInfl P 1⟩
+  have hZero : Nontrivial R → ¬ zariskiRadPred (fun x : R ↦ x = 0) 1 := fun hnt hRad ↦ by
+    letI : Nontrivial R := hnt
+    exact zero_ne_one ((hOne (fun x : R ↦ x = 0)).mp hRad).symm
+  exact ⟨hIdealRad, hInfl, hMono, hIdemp, hMeet, hOne, hZero⟩
+"""
+tex = """
+\\begin{proposition}[Constructive Zariski Radical Frame {{sym:zar-loc}} Without Choice]\\label{ch04:prop:zariski-radical-frame-constructive}%
+\\uses{vol1:def:small-map-ambient,ch04:thm:pointillist-continuum-and-czf-split}%
+Over any commutative ring $R$, defining ideals predicatively (\\texttt{IsIdealPred}) and the radical operator $\\sqrt{P} := \\{x \\in R \\mid \\exists n \\in \\mathbb{N},\\; x^n \\in P\\}$ avoids prime-ideal spectra and Booleans' Prime Ideal Theorem completely~\\cite[Ch.~V]{johnstone1982}. In the constructive \\textbf{Emerald} stratum (zero axioms), $\\sqrt{(-)}$ satisfies:
+\\begin{enumerate}[label=\\textup{(\\arabic*)},leftmargin=2.0em]
+  \\item ideal closure ($0 \\in \\sqrt{P}$, $+$-closure via pure colon-ideal induction on $m + n$, and $R$-scaling);
+  \\item nucleus laws ($P \\le \\sqrt{P}$, monotonicity, $\\sqrt{\\sqrt{P}} \\equiv \\sqrt{P}$, and binary meet distribution $\\sqrt{P \\cap Q} \\equiv \\sqrt{P} \\cap \\sqrt{Q}$); and
+  \\item formal Nullstellensatz non-degeneracy: $1 \\in \\sqrt{P} \\iff 1 \\in P$, hence nontrivial rings satisfy $1 \\notin \\sqrt{(0)}$ without Krull's theorem.
+\\end{enumerate}
+\\end{proposition}
+\\begin{proof}
+In \\texttt{SchemeResiduum.lean}, additive closure $x^m \\in P \\wedge y^n \\in P \\implies (x + y)^{m+n} \\in P$ is proved in \\texttt{idealPred\\_add\\_pow\\_mem} by induction on $k = m + n$ using the colon ideal $(P : a) := \\{z \\mid a z \\in P\\}$, avoiding \\texttt{Finset} quotients so \\texttt{Quot.sound} and \\texttt{propext} never enter. The remaining Zariski nucleus laws and unit non-degeneracy follow directly in \\texttt{zariski\\_radical\\_frame\\_constructive} with zero axioms~\\cite{johnstone1982,blechschmidt2017}.
+\\end{proof}
+"""
+
+[grounding]
+primary_category = "Proved by Lean code"
+blueprint_tier = "lean_ok"
+characterization_types = ["Duality", "Framework Definition"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "lean_decl"
+ref = "HomotopyCRM.Vol2.zariski_radical_frame_constructive"
+purpose = "Zero-axiom Emerald verification of the pointfree Zariski radical nucleus and Nullstellensatz non-degeneracy"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "johnstone1982"
+locator = "Ch. V, Secs. 3--4"
+purpose = "Pointfree Zariski radical locale L_Zar(R) constructed without Prime Ideal Theorem"
+
+[edges]
+logical_dep = [
+  "vol1:def:small-map-ambient",
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+lean_dep = []
+curriculum = [
+  "ch04:thm:pointillist-continuum-and-czf-split"
+]
+prose_paraphrase = []

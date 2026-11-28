@@ -35,6 +35,14 @@ lean_dep = [
   "ch03:prop:glazer-hartogs-scott-surjection",
   "ch03:thm:piset-transgression-exactness",
   "ch03:thm:two-valve-transgression-dichotomy",
+  "ch04:thm:replacement-iff-covariant-powerset",
+  "ch04:prop:iterated-powerset-escape-guardrail",
+  "ch04:thm:pointillist-continuum-and-czf-split",
+  "ch04:prop:cohesive-aristotle-cantor-adjudication",
+  "ch04:prop:zariski-radical-frame-constructive",
+  "ch04:thm:prime-spectrum-krull-choice-gate",
+  "ch04:prop:borger-lambda-delta-two-prime",
+  "ch04:thm:waterhouse-fpqc-smallness-escape",
   "ch09:prop:pure-kan-path-symmetry-cert",
   "ch09:thm:bool-univalence-holonomy-cert"
 ]

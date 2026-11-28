@@ -27,6 +27,8 @@ logical_dep = [
   "ch02:tab:vertical-class-spectrum",
   "ch03:prose:ch03-transgression-roadmap",
   "ch03:tab:piset-four-quadrant-ledger",
+  "ch04:prose:part2-ch04-roadmap",
+  "ch04:tab:ast-valves-and-scheme-solvents",
   "ch09:prose:ch09-tcb-r1-roadmap",
   "ch09:thm:bool-univalence-holonomy-cert"
 ]

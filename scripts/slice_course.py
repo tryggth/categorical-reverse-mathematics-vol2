@@ -38,6 +38,14 @@ COURSE_PACKS: dict[str, dict[str, str]] = {
         "section_title": r"Curriculum Cone and Four-Quadrant Transgression Ledger",
         "extra_note": r" (sliced directly from Table~3.1 across \S\S 3.1--3.4)",
     },
+    "ch04:tab:ast-valves-and-scheme-solvents": {
+        "stem": "course_pack_ch04_smallness_and_schemes",
+        "subtitle": r"Standalone Course Pack: Chapter~4 Smallness Ideals, Pointillist Continua, \& Scheme Solvents",
+        "chapter_title": r"Smallness Ideals, Scheme Solvents, and Pointillist Continua (Standalone Course Pack)",
+        "chapter_label": "ch:course-ch04-smallness-schemes",
+        "section_title": r"Curriculum Cone and AST/Scheme Solvents Ledger",
+        "extra_note": r" (sliced directly from Table~4.1 across \S\S 4.1--4.4)",
+    },
 }
 
 

@@ -1,0 +1,60 @@
+id = "ch04:claim:puritz-shelah-ultrafilter-sky-spectrum"
+kind = "inline_claim"
+title = "Puritz Skies, Shelah's P-Point-Free World, and Blass Near-Coherence Spectrum"
+chapter = "ch04"
+section = "4.2"
+seq_order = 440
+axis = "ast_schemes"
+grounding_tier = "external_theorem"
+formal_pkg = "none"
+stratum = "none"
+cite_keys = ["puritz1971", "shelah1982_ppoints", "blass1986_ncf"]
+
+[spec]
+statement = "On the Stone-Cech corona N* = beta N \\ N, Puritz (1971) classifies the Archimedean galaxies (skies) of nonstandard arithmetic *N_U via Rudin-Keisler / conservative projections of ultrafilter U (giving a single sky iff U is a P-point). Combined with Shelah's (1982) ZFC consistency without P-points and Blass's (1986) Near Coherence of Filters (NCF) forcing model where all free ultrafilters have coalescent finite-to-one images, the Ultrafilter Sky Spectrum stratifies Cantor's corona into independent ZFC worlds."
+hypotheses = [
+  "Puritz 1971 sky ordering over nonstandard *N_U",
+  "Shelah 1982 Proper Forcing Ch. VI and Blass 1986 NCF models"
+]
+
+[body]
+tex = """
+\\begin{inlineclaim}[Touchstone Spectrum: Puritz Skies, Shelah $P$-Points, and Blass $\\mathsf{NCF}$]\\label{ch04:claim:puritz-shelah-ultrafilter-sky-spectrum}%
+\\uses{ch04:prop:cohesive-aristotle-cantor-adjudication}%
+On the compact zero-isolated-point corona $\\mathbb{N}^* = \\beta\\mathbb{N} \\setminus \\mathbb{N}$, Puritz's~\\cite[pp.~705--733]{puritz1971} constellation--sky ordering proves that an ultrapower ${}^*\\mathbb{N}_{\\mathcal{U}}$ possesses a single non-trivial sky iff $\\mathcal{U}$ is a $P$-point. Across $\\mathsf{ZFC}$ extensions, this spectrum bifurcates strictly between $\\mathsf{CH}/\\mathsf{MA}$ (abundant $P$-points), Shelah's model with zero $P$-points~\\cite[Ch.~VI, pp.~181--203]{shelah1982_ppoints}, and Blass's Near Coherence of Filters ($\\mathsf{NCF}$)~\\cite[pp.~579--591]{blass1986_ncf}, under which all non-principal ultrafilters collapse modulo finite-to-one maps to a single minimal sky.
+\\end{inlineclaim}
+"""
+
+[grounding]
+primary_category = "External theorem"
+blueprint_tier = "none"
+characterization_types = ["Topological Separation", "Choice Calibration"]
+witness_scope = ""
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "puritz1971"
+locator = "Sec. 2--4, pp. 705--733"
+purpose = "Classification of skies in *N_U and equivalence of unique sky with P-points"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "shelah1982_ppoints"
+locator = "Ch. VI, pp. 181--203"
+purpose = "Independence of P-point non-existence in ZFC via proper forcing"
+
+[[grounding.dual_pillars]]
+kind = "external_cite"
+ref = "blass1986_ncf"
+locator = "Sec. 1--4, pp. 579--591"
+purpose = "Near Coherence of Filters collapsing finite-to-one ultrafilter sky classes"
+
+[edges]
+logical_dep = [
+  "ch04:prop:cohesive-aristotle-cantor-adjudication"
+]
+lean_dep = []
+curriculum = [
+  "ch04:prop:cohesive-aristotle-cantor-adjudication"
+]
+prose_paraphrase = []
