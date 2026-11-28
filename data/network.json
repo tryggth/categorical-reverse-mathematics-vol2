@@ -796,11 +796,11 @@
       "issue": {
         "number": 5,
         "title": "[Ch. 4] Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum",
-        "state": "OPEN",
+        "state": "CLOSED",
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5",
         "milestone": "Chapter 4: Smallness Valves & Scheme Residuum",
         "labels": [
-          "slice:active"
+          "slice:verified"
         ]
       }
     },
@@ -863,7 +863,7 @@
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/6",
         "milestone": "Chapter 5: Arboreal Comonads & Borel Unraveling",
         "labels": [
-          "slice:planned"
+          "slice:active"
         ]
       }
     },
@@ -11395,11 +11395,11 @@
       "issue": {
         "number": 5,
         "title": "[Ch. 4] Ch. 4 (Part II): Joyal-Moerdijk (C,S) Valves, Mac != ZC, & SchemeResiduum",
-        "state": "OPEN",
+        "state": "CLOSED",
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/5",
         "milestone": "Chapter 4: Smallness Valves & Scheme Residuum",
         "labels": [
-          "slice:active"
+          "slice:verified"
         ]
       }
     },
@@ -11431,7 +11431,7 @@
         "url": "https://github.com/tryggth/categorical-reverse-mathematics-vol2/issues/6",
         "milestone": "Chapter 5: Arboreal Comonads & Borel Unraveling",
         "labels": [
-          "slice:planned"
+          "slice:active"
         ]
       }
     },
@@ -11650,7 +11650,7 @@
         "ROADMAP.md",
         "CITATION.cff"
       ],
-      "cone_hash": "3f8cc5d885fe7d0cc8619523c3de479f764c018b21229a73119addcead73a005",
+      "cone_hash": "abafe74186247f8eae78fb30dbeb88725113ebc1925c17e425add9a40e9a4ad2",
       "locked_cone_hash": "dcbd5f26b4b708a002c81b09c9c964583027699cca65f63b118d49bdd59fba87",
       "pub_status": "ARTIFACT_DIRTY",
       "pub_reason": "CONE_HASH_CHANGED",
@@ -11668,7 +11668,7 @@
         "build/gh_pages/data/network.json",
         "build/gh_pages/.nojekyll"
       ],
-      "cone_hash": "7235cd823d13694b6e7df02a5317f3c4aa05d0881edc57209717513df4be538b",
+      "cone_hash": "1fe741a48ac65d6fae5f376ba7bf422f193b4392cb66d1221e8ff2be63dbe627",
       "locked_cone_hash": "9ec9c8057fa007cf2fcc6436b168a21bcb63a54f83aa13d41584c1db9f14adbd",
       "pub_status": "ARTIFACT_DIRTY",
       "pub_reason": "CONE_HASH_CHANGED",
@@ -11703,7 +11703,7 @@
         "build/tex/crm_vol2_claims_ledger.pdf",
         "build/gh_pages/pdfs/crm_vol2_claims_ledger.pdf"
       ],
-      "cone_hash": "eb08ba15c2630bb8589281c6877abc38d5e1a71f10751143027051668ae480f9",
+      "cone_hash": "eff316d83aaf4005e66890372a772950f13037bb0aa292e25268abcc39cef1b8",
       "locked_cone_hash": "eb193cdb1fc6cc2baeb1eaedd655b9495edfabd6ae4607c188c30127952ae90b",
       "pub_status": "ARTIFACT_DIRTY",
       "pub_reason": "CONE_HASH_CHANGED",
